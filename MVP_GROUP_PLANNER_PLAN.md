@@ -739,52 +739,509 @@ This comprehensive plugin system provides a secure, extensible foundation for ad
 
 **Team:** Existing team + part-time DevOps
 
-## Self-Hosting Requirements
+## Self-Hosting & Deployment Options
 
-### Minimum System Requirements
+The Group Trip Planner offers multiple deployment options to suit different technical environments and preferences. Choose the method that best fits your infrastructure and technical expertise.
+
+### System Requirements
+
+#### Minimum Requirements (Docker)
 - **CPU**: 2 cores
 - **RAM**: 4GB
-- **Storage**: 20GB
-- **OS**: Linux (Ubuntu 20.04+ recommended)
+- **Storage**: 20GB SSD
+- **OS**: Linux, Windows 10+, macOS 10.14+
 
-### Installation Process
+#### Recommended Requirements (Docker)
+- **CPU**: 4 cores
+- **RAM**: 8GB
+- **Storage**: 50GB SSD
+- **OS**: Linux (Ubuntu 22.04 LTS), Windows 11, macOS 12+
+
+#### Native Installation Requirements
+- **CPU**: 2+ cores
+- **RAM**: 8GB (for development dependencies)
+- **Storage**: 30GB
+- **OS**: Windows 10+, Linux (Ubuntu 20.04+), macOS 10.15+
+- **Node.js**: 18.x or 20.x
+- **PostgreSQL**: 13+
+- **Redis**: 6+
+
+## Deployment Methods
+
+### Option 1: Docker Registry (Recommended)
+
+The simplest deployment method using pre-built images from Docker registry.
+
+#### Quick Start
+```bash
+# Create project directory
+mkdir group-planner && cd group-planner
+
+# Download configuration files
+curl -O https://raw.githubusercontent.com/Selina744/group-planner/master/docker-compose.prod.yml
+curl -O https://raw.githubusercontent.com/Selina744/group-planner/master/.env.example
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your settings (see Environment Configuration below)
+
+# Deploy with pre-built images
+docker-compose -f docker-compose.prod.yml up -d
+
+# Initialize database
+docker-compose exec api npm run migrate
+docker-compose exec api npm run seed:admin
+```
+
+#### Docker Compose (Production)
+```yaml
+# docker-compose.prod.yml
+version: '3.8'
+
+services:
+  web:
+    image: groupplanner/web:latest
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001/api/v1
+
+  api:
+    image: groupplanner/api:latest
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - web
+      - api
+
+volumes:
+  postgres_data:
+  redis_data:
+```
+
+### Option 2: Build from Source
+
+For developers and those who want to customize the application.
+
 ```bash
 # Clone repository
-git clone <repository-url>
+git clone https://github.com/Selina744/group-planner.git
 cd group-planner
 
 # Configure environment
 cp .env.example .env
 # Edit .env with your settings
 
-# Deploy with Docker
-docker-compose up -d
+# Build and deploy
+docker-compose up --build -d
 
-# Run database migrations
+# Initialize database
 docker-compose exec api npm run migrate
-
-# Create admin user
 docker-compose exec api npm run seed:admin
 ```
 
-### Environment Configuration
+### Option 3: Native Installation
+
+Direct installation on the host operating system without Docker.
+
+#### Linux (Ubuntu/Debian)
 ```bash
-# Core settings
+# Install dependencies
+sudo apt update
+sudo apt install -y nodejs npm postgresql redis-server nginx
+
+# Install Node.js 20.x
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Clone and setup
+git clone https://github.com/Selina744/group-planner.git
+cd group-planner
+
+# Install backend dependencies
+cd backend
+npm install
+npm run build
+
+# Install frontend dependencies
+cd ../frontend
+npm install
+npm run build
+
+# Setup database
+sudo -u postgres createuser planner
+sudo -u postgres createdb group_planner
+sudo -u postgres psql -c "ALTER USER planner PASSWORD 'secure_password';"
+
+# Configure environment
+cp .env.example .env
+# Edit .env with database credentials
+
+# Run migrations
+npm run migrate
+
+# Start services
+cd ../backend
+npm start &
+
+# Setup nginx (see nginx configuration below)
+sudo cp nginx.conf /etc/nginx/sites-available/group-planner
+sudo ln -s /etc/nginx/sites-available/group-planner /etc/nginx/sites-enabled/
+sudo systemctl reload nginx
+```
+
+#### macOS
+```bash
+# Install dependencies with Homebrew
+brew install node@20 postgresql@15 redis nginx
+
+# Start services
+brew services start postgresql@15
+brew services start redis
+
+# Clone and setup (same as Linux)
+git clone https://github.com/Selina744/group-planner.git
+cd group-planner
+
+# Backend setup
+cd backend
+npm install
+npm run build
+
+# Frontend setup
+cd ../frontend
+npm install
+npm run build
+
+# Database setup
+createuser planner
+createdb group_planner
+psql -c "ALTER USER planner PASSWORD 'secure_password';"
+
+# Configure and run (same as Linux)
+cp .env.example .env
+# Edit .env with settings
+npm run migrate
+npm start
+```
+
+#### Windows
+```powershell
+# Install Node.js 20.x from https://nodejs.org/
+# Install PostgreSQL from https://www.postgresql.org/download/windows/
+# Install Redis from https://github.com/microsoftarchive/redis/releases
+
+# Clone repository
+git clone https://github.com/Selina744/group-planner.git
+cd group-planner
+
+# Backend setup
+cd backend
+npm install
+npm run build
+
+# Frontend setup
+cd ..\frontend
+npm install
+npm run build
+
+# Database setup (in PostgreSQL command line)
+CREATE USER planner WITH PASSWORD 'secure_password';
+CREATE DATABASE group_planner OWNER planner;
+
+# Configure environment
+copy .env.example .env
+# Edit .env with your settings
+
+# Run application
+cd ..\backend
+npm run migrate
+npm start
+```
+
+## Publishing to Docker Registry
+
+For organizations wanting to distribute their customized version:
+
+### Build and Push Images
+```bash
+# Build images
+docker build -t yourusername/group-planner-api:latest ./backend
+docker build -t yourusername/group-planner-web:latest ./frontend
+
+# Tag for version
+docker tag yourusername/group-planner-api:latest yourusername/group-planner-api:v1.0.0
+docker tag yourusername/group-planner-web:latest yourusername/group-planner-web:v1.0.0
+
+# Push to Docker Hub
+docker push yourusername/group-planner-api:latest
+docker push yourusername/group-planner-api:v1.0.0
+docker push yourusername/group-planner-web:latest
+docker push yourusername/group-planner-web:v1.0.0
+```
+
+### Multi-Architecture Builds
+```bash
+# Setup buildx for multi-platform builds
+docker buildx create --use --name multiarch
+
+# Build and push for multiple architectures
+docker buildx build \
+  --platform linux/amd64,linux/arm64,linux/arm/v7 \
+  -t yourusername/group-planner-api:latest \
+  --push ./backend
+
+docker buildx build \
+  --platform linux/amd64,linux/arm64,linux/arm/v7 \
+  -t yourusername/group-planner-web:latest \
+  --push ./frontend
+```
+
+### Private Registry Deployment
+```bash
+# For private registries (GitLab, AWS ECR, etc.)
+docker tag group-planner-api:latest registry.company.com/group-planner/api:latest
+docker push registry.company.com/group-planner/api:latest
+
+# Update docker-compose.prod.yml to use private registry
+# image: registry.company.com/group-planner/api:latest
+```
+
+## Environment Configuration
+
+### Core Settings
+```bash
+# Application Settings
 NODE_ENV=production
-DATABASE_URL=postgresql://user:pass@postgres:5432/planner
-JWT_SECRET=your-secure-secret
+APP_PORT=3001
+APP_URL=https://your-domain.com
+
+# Database Configuration
+DATABASE_URL=postgresql://planner:secure_password@postgres:5432/group_planner
+DB_NAME=group_planner
+DB_USER=planner
+DB_PASSWORD=secure_password
+DB_HOST=postgres
+DB_PORT=5432
+
+# Redis Configuration
 REDIS_URL=redis://redis:6379
+REDIS_HOST=redis
+REDIS_PORT=6379
 
-# Email configuration
-SMTP_HOST=smtp.example.com
+# Security
+JWT_SECRET=your-very-secure-jwt-secret-min-32-chars
+JWT_EXPIRES_IN=7d
+JWT_REFRESH_EXPIRES_IN=30d
+BCRYPT_ROUNDS=12
+
+# Email Configuration (Required for notifications)
+SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=your-email@domain.com
-SMTP_PASS=your-password
+SMTP_SECURE=false
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+SMTP_FROM=Group Trip Planner <noreply@your-domain.com>
 
-# Feature flags (for future use)
+# File Upload (if using local storage)
+UPLOAD_PATH=/uploads
+MAX_FILE_SIZE=10485760  # 10MB in bytes
+
+# Feature Flags
 FEATURE_BUDGET=false
 FEATURE_WEATHER=false
 FEATURE_PHOTOS=false
+FEATURE_ANALYTICS=false
+
+# Plugin System
+PLUGIN_DIR=/plugins
+PLUGIN_REGISTRY_URL=https://plugins.group-planner.com
+ENABLE_PLUGIN_MARKETPLACE=false
+
+# Monitoring & Logging
+LOG_LEVEL=info
+ENABLE_METRICS=true
+HEALTH_CHECK_ENDPOINT=/api/v1/health
+
+# SSL Configuration (for production)
+SSL_CERT_PATH=/etc/ssl/certs/your-domain.crt
+SSL_KEY_PATH=/etc/ssl/private/your-domain.key
+```
+
+### Nginx Configuration
+```nginx
+# nginx.conf
+server {
+    listen 80;
+    listen [::]:80;
+    server_name your-domain.com;
+
+    # Redirect HTTP to HTTPS
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name your-domain.com;
+
+    # SSL Configuration
+    ssl_certificate /etc/nginx/ssl/your-domain.crt;
+    ssl_certificate_key /etc/nginx/ssl/your-domain.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
+
+    # Frontend (React app)
+    location / {
+        proxy_pass http://web:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    # API endpoints
+    location /api/ {
+        proxy_pass http://api:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+
+    # WebSocket support for real-time features
+    location /socket.io/ {
+        proxy_pass http://api:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header Origin "";
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+    add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'; frame-ancestors 'self';" always;
+}
+```
+
+## Deployment Verification
+
+After installation, verify the deployment is working correctly:
+
+```bash
+# Check service status
+docker-compose ps  # For Docker deployments
+
+# Test API health check
+curl http://localhost:3001/api/v1/health
+
+# Check database connectivity
+docker-compose exec postgres pg_isready
+
+# View application logs
+docker-compose logs api
+docker-compose logs web
+
+# Monitor resource usage
+docker stats
+```
+
+## Maintenance & Updates
+
+### Docker Registry Updates
+```bash
+# Pull latest images
+docker-compose -f docker-compose.prod.yml pull
+
+# Update services with zero downtime
+docker-compose -f docker-compose.prod.yml up -d --no-deps web
+docker-compose -f docker-compose.prod.yml up -d --no-deps api
+
+# Clean up old images
+docker image prune
+```
+
+### Native Installation Updates
+```bash
+# Pull latest code
+git pull origin main
+
+# Update backend
+cd backend
+npm install
+npm run build
+npm run migrate  # Run new migrations if any
+
+# Update frontend
+cd ../frontend
+npm install
+npm run build
+
+# Restart services
+sudo systemctl restart group-planner  # If using systemd
 ```
 
 ## Security Considerations
