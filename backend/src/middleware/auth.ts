@@ -16,6 +16,7 @@ import {
   ForbiddenError,
   BadRequestError,
 } from '../utils/errors.js';
+import { getSecureClientIp } from '../utils/ipUtils.js';
 import type {
   AuthenticatedRequest,
   AuthMiddlewareConfig,
@@ -220,8 +221,8 @@ export class AuthMiddleware {
 
     return async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
       try {
-        // Set client IP for logging
-        req.clientIp = req.get('X-Forwarded-For') || req.get('X-Real-IP') || req.ip;
+        // Set client IP for logging (secure extraction to prevent spoofing)
+        req.clientIp = getSecureClientIp(req);
 
         // Check if path should be skipped
         if (finalConfig.skipPaths?.some(path => req.path.startsWith(path))) {

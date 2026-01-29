@@ -39,7 +39,17 @@ function createApp(): Express {
   app.use(corsUtil.preflightHandler())
   app.use(corsUtil.violationLogger())
 
-  // Basic security headers (helmet fallback for docs)
+  // HTTPS Enforcement - Redirect HTTP to HTTPS in production
+  app.use((req, res, next) => {
+    if (process.env.NODE_ENV === 'production' &&
+        req.header('x-forwarded-proto') !== 'https' &&
+        !req.secure) {
+      return res.redirect(301, `https://${req.header('host')}${req.url}`);
+    }
+    next();
+  });
+
+  // Enhanced security headers with HSTS
   app.use(helmet({
     contentSecurityPolicy: {
       directives: {
@@ -54,6 +64,11 @@ function createApp(): Express {
         frameSrc: ["'none'"],
       },
     },
+    hsts: {
+      maxAge: 31536000, // 1 year
+      includeSubDomains: true,
+      preload: true
+    },
     crossOriginEmbedderPolicy: false,
   }))
 
@@ -63,6 +78,7 @@ function createApp(): Express {
   // Body parsing middleware
   app.use(express.json({ limit: '10mb' }))
   app.use(express.urlencoded({ extended: true, limit: '10mb' }))
+  // Secure cookie configuration
   app.use(cookieParser())
 
   // General rate limiting

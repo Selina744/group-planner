@@ -9,6 +9,7 @@ import crypto from 'crypto';
 import type { Response, NextFunction } from 'express';
 import { log } from '../utils/logger.js';
 import { AuthMiddleware } from './auth.js';
+import { getSecureClientIp } from '../utils/ipUtils.js';
 import { RbacMiddleware, type Permission } from './rbac.js';
 import { BadRequestError, InternalServerError } from '../utils/errors.js';
 import type {
@@ -119,8 +120,8 @@ export class ContextMiddleware {
       // Set request start time
       req.startTime = Date.now();
 
-      // Set client IP
-      req.clientIp = req.get('X-Forwarded-For') || req.get('X-Real-IP') || req.ip;
+      // Set client IP (secure extraction to prevent spoofing)
+      req.clientIp = getSecureClientIp(req);
 
       // Add request ID to response headers for debugging
       res.set('X-Request-ID', req.requestId);
