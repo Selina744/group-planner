@@ -337,9 +337,32 @@ export class AuthMiddleware {
       ...config,
       required: true,
       customPermissionCheck: (user: UserProfile) => {
-        // This would check for admin role when roles are implemented
-        // For now, we can use email domain or specific user IDs
-        return user.email.endsWith('@admin.example.com'); // Placeholder logic
+        // SECURITY: Proper admin role checking
+        // Use environment-configured admin users until proper role system is implemented
+        const adminEmails = process.env.ADMIN_EMAILS?.split(',').map(email => email.trim()) || [];
+        const adminUserIds = process.env.ADMIN_USER_IDS?.split(',').map(id => id.trim()) || [];
+
+        // Check if user is in admin whitelist by email or user ID
+        const isAdminByEmail = adminEmails.includes(user.email);
+        const isAdminByUserId = adminUserIds.includes(user.id);
+
+        if (!isAdminByEmail && !isAdminByUserId) {
+          log.warn('Unauthorized admin access attempt', {
+            userId: user.id,
+            email: user.email,
+            adminEmails: adminEmails.length,
+            adminUserIds: adminUserIds.length,
+          });
+          return false;
+        }
+
+        log.info('Admin access granted', {
+          userId: user.id,
+          email: user.email,
+          method: isAdminByEmail ? 'email' : 'userId',
+        });
+
+        return true;
       },
       forbiddenMessage: 'Admin access required',
     });
