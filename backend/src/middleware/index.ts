@@ -68,6 +68,20 @@ export {
   CorsMetrics,
 } from './cors.js';
 
+// Enhanced validation middleware exports
+export {
+  validateRequest as enhancedValidateRequest,
+  validation as validationSchemas,
+  ValidationMetrics,
+  commonSchemas,
+  createFileUploadConfig,
+} from './validation.js';
+
+// Original validation middleware (for backward compatibility)
+export {
+  validateRequest,
+} from './validate.js';
+
 // Re-export middleware types for convenience
 export type {
   AuthenticatedRequest,
@@ -117,6 +131,7 @@ export const middlewarePresets = {
   // Auth endpoints (with strict rate limiting)
   authEndpoint: [
     middleware.context,
+    securityMiddleware.sanitization(),
     middleware.logging,
   ],
 
@@ -124,6 +139,8 @@ export const middlewarePresets = {
   login: [
     middleware.context,
     rateLimiters.login,
+    securityMiddleware.sanitization(),
+    validationSchemas.userLogin(),
     middleware.logging,
   ],
 
@@ -131,6 +148,8 @@ export const middlewarePresets = {
   register: [
     middleware.context,
     rateLimiters.register,
+    securityMiddleware.sanitization(),
+    validationSchemas.userRegistration(),
     middleware.logging,
   ],
 
@@ -138,6 +157,7 @@ export const middlewarePresets = {
   passwordReset: [
     middleware.context,
     rateLimiters.passwordReset,
+    securityMiddleware.sanitization(),
     middleware.logging,
   ],
 
@@ -145,6 +165,7 @@ export const middlewarePresets = {
   tokenRefresh: [
     middleware.context,
     rateLimiters.tokenRefresh,
+    securityMiddleware.sanitization(),
     middleware.logging,
   ],
 };
@@ -197,6 +218,27 @@ export const validation = {
   uuid: middleware.validateUuid,
   ownUserId: middleware.validateOwnUserId,
   resourceAccess: middleware.validateResourceAccess,
+
+  // Enhanced validation middleware
+  schemas: validationSchemas,
+  metrics: ValidationMetrics,
+
+  // Common validation patterns
+  userAuth: {
+    login: validationSchemas.userLogin(),
+    register: validationSchemas.userRegistration(),
+    passwordChange: validationSchemas.passwordChange(),
+  },
+
+  fileUpload: {
+    profilePicture: validationSchemas.profilePicture(),
+    documents: validationSchemas.documentUpload(),
+  },
+
+  common: {
+    pagination: validationSchemas.pagination(),
+    uuidParam: (param?: string) => validationSchemas.uuidParam(param),
+  },
 };
 
 /**
