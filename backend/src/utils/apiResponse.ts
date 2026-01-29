@@ -5,7 +5,7 @@
  * following REST API best practices and improving client-side response handling.
  */
 
-import { Response } from 'express';
+import type { Response } from 'express';
 import log from './logger.js';
 
 /**
@@ -14,9 +14,9 @@ import log from './logger.js';
 export interface ApiResponseData<T = unknown> {
   success: boolean;
   message: string;
-  data?: T;
-  meta?: ResponseMeta;
-  errors?: ValidationError[];
+  data?: T | undefined;
+  meta?: ResponseMeta | undefined;
+  errors?: ValidationError[] | undefined;
 }
 
 /**
@@ -37,7 +37,7 @@ export interface ResponseMeta {
 export interface ValidationError {
   field: string;
   message: string;
-  code?: string;
+  code?: string | undefined;
   value?: unknown;
 }
 

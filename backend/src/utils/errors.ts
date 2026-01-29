@@ -7,20 +7,26 @@
  */
 
 export abstract class AppError extends Error {
-  public readonly name: string;
   public readonly httpCode: number;
   public readonly isOperational: boolean;
-  public readonly details?: Record<string, unknown>;
+  public readonly details?: Record<string, unknown> | undefined;
 
   constructor(
     message: string,
     httpCode: number,
     isOperational = true,
-    details?: Record<string, unknown>
+    details?: Record<string, unknown> | undefined
   ) {
     super(message);
 
-    this.name = this.constructor.name;
+    // Use Object.defineProperty to set readonly name property
+    Object.defineProperty(this, 'name', {
+      value: this.constructor.name,
+      configurable: true,
+      enumerable: false,
+      writable: false
+    });
+
     this.httpCode = httpCode;
     this.isOperational = isOperational;
     this.details = details;
@@ -115,9 +121,14 @@ export class ServiceUnavailableError extends AppError {
  * Database-specific error wrapper
  */
 export class DatabaseError extends InternalServerError {
-  constructor(message = 'Database operation failed', details?: Record<string, unknown>) {
+  constructor(message = 'Database operation failed', details?: Record<string, unknown> | undefined) {
     super(message, details);
-    this.name = 'DatabaseError';
+    Object.defineProperty(this, 'name', {
+      value: 'DatabaseError',
+      configurable: true,
+      enumerable: false,
+      writable: false
+    });
   }
 }
 
@@ -130,11 +141,16 @@ export class ExternalServiceError extends ServiceUnavailableError {
   constructor(
     serviceName: string,
     message = 'External service error',
-    details?: Record<string, unknown>
+    details?: Record<string, unknown> | undefined
   ) {
     super(message, details);
     this.serviceName = serviceName;
-    this.name = 'ExternalServiceError';
+    Object.defineProperty(this, 'name', {
+      value: 'ExternalServiceError',
+      configurable: true,
+      enumerable: false,
+      writable: false
+    });
   }
 }
 
