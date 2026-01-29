@@ -249,11 +249,36 @@ export const testConfig = {
 // Database test utilities
 export class DatabaseTestUtils {
   static async setupTestDb() {
-    await prisma.$executeRaw`TRUNCATE TABLE users, trips, events CASCADE`
+    // Create savepoint for fast rollback
+    await prisma.$executeRaw`SAVEPOINT test_start`
   }
 
   static async teardownTestDb() {
     await prisma.$disconnect()
+  }
+
+  static async cleanDatabase() {
+    // Use transaction with proper foreign key ordering
+    await prisma.$transaction([
+      prisma.notification.deleteMany(),
+      prisma.notificationPreference.deleteMany(),
+      prisma.announcement.deleteMany(),
+      prisma.itemClaim.deleteMany(),
+      prisma.item.deleteMany(),
+      prisma.event.deleteMany(),
+      prisma.tripExtension.deleteMany(),
+      prisma.tripMember.deleteMany(),
+      prisma.trip.deleteMany(),
+      prisma.passwordReset.deleteMany(),
+      prisma.refreshToken.deleteMany(),
+      prisma.user.deleteMany()
+    ])
+  }
+
+  static async resetToSnapshot() {
+    // Fast database reset using savepoint rollback
+    await prisma.$executeRaw`ROLLBACK TO SAVEPOINT test_start`
+    await prisma.$executeRaw`SAVEPOINT test_start`
   }
 
   static async createTestUser(overrides = {}) {
@@ -606,6 +631,159 @@ describe('Documentation Endpoints', () => {
 })
 ```
 
+#### 5. Security Tests
+**Scope**: Authentication, authorization, and security vulnerability testing
+
+**Target Areas**:
+```typescript
+// Security Tests
+├── src/__tests__/security/
+│   ├── jwt-security.test.ts          // Token expiration, rotation, validation
+│   ├── input-validation.test.ts      // SQL injection, XSS prevention
+│   ├── rate-limiting.test.ts         // Rate limiter effectiveness
+│   ├── cors-security.test.ts         // CORS policy validation
+│   ├── rbac-security.test.ts         // Role-based access control
+│   └── csrf-protection.test.ts       // CSRF attack prevention
+```
+
+**Example Security Test**:
+```typescript
+// src/__tests__/security/jwt-security.test.ts
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { JwtService } from '../services/jwt.js'
+import { AuthService } from '../services/auth.js'
+import { DatabaseTestUtils } from './utils/database.js'
+import jwt from 'jsonwebtoken'
+
+describe('JWT Security Tests', () => {
+  let testUser: any
+
+  beforeEach(async () => {
+    testUser = await DatabaseTestUtils.createTestUser()
+  })
+
+  describe('Token Expiration', () => {
+    it('should reject expired access tokens', async () => {
+      const expiredToken = jwt.sign(
+        { userId: testUser.id },
+        process.env.JWT_SECRET!,
+        { expiresIn: '-1h' }
+      )
+
+      await expect(JwtService.verifyAccessToken(expiredToken))
+        .rejects.toThrow('Token expired')
+    })
+
+    it('should reject malformed tokens', async () => {
+      const malformedToken = 'invalid.token.format'
+
+      await expect(JwtService.verifyAccessToken(malformedToken))
+        .rejects.toThrow('Invalid token')
+    })
+  })
+
+  describe('Refresh Token Family Rotation', () => {
+    it('should invalidate entire token family on reuse', async () => {
+      const { refreshToken } = await JwtService.generateTokenPair(testUser)
+
+      // First refresh - should succeed
+      const firstRefresh = await AuthService.refreshTokens(refreshToken)
+      expect(firstRefresh.tokens.refreshToken).not.toBe(refreshToken)
+
+      // Second refresh with old token - should fail and invalidate family
+      await expect(AuthService.refreshTokens(refreshToken))
+        .rejects.toThrow('Token family compromised')
+
+      // New token should also be invalid
+      await expect(AuthService.refreshTokens(firstRefresh.tokens.refreshToken))
+        .rejects.toThrow('Token family compromised')
+    })
+  })
+
+  describe('Token Payload Security', () => {
+    it('should not expose sensitive user data in JWT payload', () => {
+      const token = jwt.sign({ userId: testUser.id }, process.env.JWT_SECRET!)
+      const decoded = jwt.decode(token) as any
+
+      expect(decoded.userId).toBe(testUser.id)
+      expect(decoded.password).toBeUndefined()
+      expect(decoded.hashedPassword).toBeUndefined()
+      expect(decoded.email).toBeUndefined()
+    })
+  })
+})
+```
+
+**Input Validation Security Tests**:
+```typescript
+// src/__tests__/security/input-validation.test.ts
+import { describe, it, expect } from 'vitest'
+import request from 'supertest'
+import { app } from '../../app.js'
+
+describe('Input Validation Security', () => {
+  describe('SQL Injection Prevention', () => {
+    it('should sanitize malicious SQL in email field', async () => {
+      const maliciousInput = {
+        email: "admin@test.com'; DROP TABLE users; --",
+        password: 'password123'
+      }
+
+      const response = await request(app)
+        .post('/api/v1/auth/login')
+        .send(maliciousInput)
+        .expect(400)
+
+      expect(response.body.success).toBe(false)
+      expect(response.body.message).toContain('Invalid email format')
+    })
+
+    it('should reject script injection in username', async () => {
+      const maliciousInput = {
+        email: 'test@example.com',
+        username: '<script>alert("xss")</script>',
+        password: 'password123'
+      }
+
+      const response = await request(app)
+        .post('/api/v1/auth/register')
+        .send(maliciousInput)
+        .expect(400)
+
+      expect(response.body.success).toBe(false)
+      expect(response.body.message).toContain('Invalid username')
+    })
+  })
+
+  describe('Rate Limiting Effectiveness', () => {
+    it('should block excessive login attempts', async () => {
+      const credentials = { email: 'test@example.com', password: 'wrong' }
+
+      // Make 6 rapid requests (limit is 5)
+      const requests = Array(6).fill(0).map(() =>
+        request(app).post('/api/v1/auth/login').send(credentials)
+      )
+
+      const responses = await Promise.all(requests)
+      const rateLimitedCount = responses.filter(r => r.status === 429).length
+
+      expect(rateLimitedCount).toBeGreaterThan(0)
+    })
+  })
+
+  describe('CSRF Protection', () => {
+    it('should require proper CORS headers for sensitive operations', async () => {
+      const response = await request(app)
+        .post('/api/v1/auth/login')
+        .set('Origin', 'https://malicious-site.com')
+        .send({ email: 'test@example.com', password: 'password123' })
+
+      expect(response.status).toBe(403)
+    })
+  })
+})
+```
+
 ### Backend Test Configuration
 
 **vitest.config.ts**:
@@ -652,12 +830,22 @@ export default defineConfig({
 **Test Setup File**:
 ```typescript
 // src/__tests__/setup.ts
-import { beforeAll, afterAll } from 'vitest'
+import { beforeAll, beforeEach, afterEach, afterAll } from 'vitest'
 import { DatabaseTestUtils } from './utils/database.js'
 
 beforeAll(async () => {
-  // Global test setup
+  // One-time global setup
   await DatabaseTestUtils.setupTestDb()
+})
+
+beforeEach(async () => {
+  // Per-test isolation - clean database before each test
+  await DatabaseTestUtils.cleanDatabase()
+})
+
+afterEach(async () => {
+  // Optional: Additional cleanup if needed
+  // Most cleanup handled by beforeEach
 })
 
 afterAll(async () => {
@@ -1030,6 +1218,214 @@ export class TestSeeder {
 }
 ```
 
+### Email Service Testing
+
+**Email Test Utilities**:
+```typescript
+// src/__tests__/utils/email.ts
+import nodemailer from 'nodemailer'
+import { vi } from 'vitest'
+
+export class EmailTestUtils {
+  static createMockTransporter() {
+    return {
+      sendMail: vi.fn().mockResolvedValue({
+        messageId: 'test-message-id',
+        response: '250 Message accepted'
+      }),
+      verify: vi.fn().mockResolvedValue(true)
+    }
+  }
+
+  static async createEtherealTestAccount() {
+    const testAccount = await nodemailer.createTestAccount()
+    return {
+      host: 'smtp.ethereal.email',
+      port: 587,
+      secure: false,
+      auth: {
+        user: testAccount.user,
+        pass: testAccount.pass
+      }
+    }
+  }
+
+  static extractEmailContent(mockCalls: any[]) {
+    return mockCalls.map(call => ({
+      to: call[0].to,
+      subject: call[0].subject,
+      html: call[0].html,
+      text: call[0].text
+    }))
+  }
+
+  static validateEmailTemplate(html: string, expectedContent: string[]) {
+    expectedContent.forEach(content => {
+      expect(html).toContain(content)
+    })
+  }
+}
+```
+
+**Example Email Service Test**:
+```typescript
+// src/services/__tests__/email.test.ts
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { EmailService } from '../email.js'
+import { EmailTestUtils } from '../__tests__/utils/email.js'
+
+vi.mock('nodemailer')
+
+describe('EmailService', () => {
+  let mockTransporter: any
+
+  beforeEach(() => {
+    mockTransporter = EmailTestUtils.createMockTransporter()
+    vi.mocked(EmailService.prototype.transporter).mockReturnValue(mockTransporter)
+  })
+
+  describe('sendVerificationEmail', () => {
+    it('should send email with correct verification link', async () => {
+      const user = { email: 'test@example.com', displayName: 'Test User' }
+      const verificationToken = 'verification-token-123'
+
+      await EmailService.sendVerificationEmail(user, verificationToken)
+
+      expect(mockTransporter.sendMail).toHaveBeenCalledWith(
+        expect.objectContaining({
+          to: user.email,
+          subject: expect.stringContaining('Verify'),
+          html: expect.stringContaining(verificationToken)
+        })
+      )
+    })
+
+    it('should include user display name in email', async () => {
+      const user = { email: 'test@example.com', displayName: 'John Doe' }
+      const verificationToken = 'token'
+
+      await EmailService.sendVerificationEmail(user, verificationToken)
+
+      const emailCalls = EmailTestUtils.extractEmailContent(mockTransporter.sendMail.mock.calls)
+      expect(emailCalls[0].html).toContain('John Doe')
+    })
+  })
+
+  describe('sendTripInviteEmail', () => {
+    it('should send trip invitation with correct details', async () => {
+      const inviteData = {
+        recipientEmail: 'friend@example.com',
+        recipientName: 'Friend',
+        trip: { name: 'Awesome Trip', destination: 'Hawaii' },
+        inviterName: 'John',
+        inviteCode: 'HAWAII2024'
+      }
+
+      await EmailService.sendTripInviteEmail(inviteData)
+
+      const emailCalls = EmailTestUtils.extractEmailContent(mockTransporter.sendMail.mock.calls)
+      EmailTestUtils.validateEmailTemplate(emailCalls[0].html, [
+        'Awesome Trip',
+        'Hawaii',
+        'John',
+        'HAWAII2024'
+      ])
+    })
+  })
+})
+```
+
+### Redis Testing Strategy
+
+**Redis Test Utilities**:
+```typescript
+// src/__tests__/utils/redis.ts
+import { createClient } from 'redis'
+import { vi } from 'vitest'
+
+export class RedisTestUtils {
+  private static testClient: any
+
+  static async setupTestRedis() {
+    this.testClient = createClient({
+      url: process.env.TEST_REDIS_URL || 'redis://localhost:6380/1'
+    })
+    await this.testClient.connect()
+  }
+
+  static async flushTestRedis() {
+    if (this.testClient) {
+      await this.testClient.flushDb()
+    }
+  }
+
+  static async teardownTestRedis() {
+    if (this.testClient) {
+      await this.testClient.disconnect()
+    }
+  }
+
+  static createMockRedisClient() {
+    return {
+      connect: vi.fn().mockResolvedValue(undefined),
+      disconnect: vi.fn().mockResolvedValue(undefined),
+      get: vi.fn(),
+      set: vi.fn(),
+      del: vi.fn(),
+      exists: vi.fn(),
+      expire: vi.fn(),
+      flushDb: vi.fn().mockResolvedValue('OK')
+    }
+  }
+
+  static mockRedisOperations(operations: Record<string, any>) {
+    const mockClient = this.createMockRedisClient()
+    Object.entries(operations).forEach(([method, returnValue]) => {
+      mockClient[method as keyof typeof mockClient].mockResolvedValue(returnValue)
+    })
+    return mockClient
+  }
+}
+```
+
+**Example Redis Integration Test**:
+```typescript
+// src/__tests__/integration/redis-session.test.ts
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { RedisTestUtils } from '../utils/redis.js'
+import { SessionManager } from '../../lib/session.js'
+
+describe('Redis Session Integration', () => {
+  beforeEach(async () => {
+    await RedisTestUtils.setupTestRedis()
+    await RedisTestUtils.flushTestRedis()
+  })
+
+  afterEach(async () => {
+    await RedisTestUtils.teardownTestRedis()
+  })
+
+  it('should store and retrieve session data', async () => {
+    const sessionData = { userId: '123', role: 'USER' }
+    const sessionId = await SessionManager.createSession(sessionData)
+
+    const retrievedData = await SessionManager.getSession(sessionId)
+    expect(retrievedData).toEqual(sessionData)
+  })
+
+  it('should handle session expiration', async () => {
+    const sessionData = { userId: '123' }
+    const sessionId = await SessionManager.createSession(sessionData, 1) // 1 second TTL
+
+    // Wait for expiration
+    await new Promise(resolve => setTimeout(resolve, 1100))
+
+    const retrievedData = await SessionManager.getSession(sessionId)
+    expect(retrievedData).toBeNull()
+  })
+})
+```
+
 ---
 
 ## Testing Standards
@@ -1092,22 +1488,32 @@ expect(() => methodThatThrows()).toThrow('Email is required')
 
 ## Implementation Plan
 
-### Phase 1: Foundation (Week 1)
-**Backend Setup**:
-- [ ] Configure Vitest in backend workspace
-- [ ] Set up test database with Docker
-- [ ] Create test utilities and factories
-- [ ] Implement basic service unit tests
-- [ ] Set up CI/CD test pipeline
+### Phase 1: Core Foundation Testing (Week 1) - **IMMEDIATE PRIORITY**
 
-**Frontend Setup**:
-- [ ] Add testing dependencies to frontend
-- [ ] Configure Vitest with jsdom
-- [ ] Set up MSW for API mocking
-- [ ] Create component testing utilities
-- [ ] Implement basic component tests
+**Critical Infrastructure Setup** (Days 1-2):
+- [ ] Configure Vitest in backend workspace with proper TypeScript support
+- [ ] Set up test database with Docker (separate test DB on port 5433)
+- [ ] Create enhanced DatabaseTestUtils with improved isolation strategy
+- [ ] Configure test environment variables and .env.test file
+- [ ] Set up Redis test utilities for session/caching tests
 
-### Phase 2: Core Testing (Week 2-3)
+**Security & Authentication Testing** (Days 3-5):
+- [ ] Implement AuthService unit tests (register, login, password validation)
+- [ ] Create JwtService unit tests (token generation, validation, expiration)
+- [ ] Add security testing suite (JWT security, input validation, rate limiting)
+- [ ] Test middleware stack (auth, RBAC, validation, security headers)
+- [ ] Implement refresh token rotation and family invalidation tests
+
+**API Endpoint Testing** (Days 6-7):
+- [ ] Create API test utilities with Supertest
+- [ ] Test authentication endpoints (/auth/register, /auth/login, /auth/refresh)
+- [ ] Test health monitoring endpoints (/health, /health/detailed)
+- [ ] Test documentation endpoints (/docs, /docs/openapi.json)
+- [ ] Achieve 80% coverage on core authentication flows
+
+**Why This Focus**: Start with authentication since it's the foundation for all other features and has the highest security risk.
+
+### Phase 2: Feature Testing (Week 2) - **AFTER CORE FEATURES IMPLEMENTED**
 **Backend Implementation**:
 - [ ] Complete auth service tests (AuthService, JwtService)
 - [ ] Add middleware testing (auth, RBAC, validation, security)
