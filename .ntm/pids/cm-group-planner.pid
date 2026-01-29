@@ -1,7 +1,7 @@
 {
-  "pid": 121089,
-  "port": 43669,
+  "pid": 5484,
+  "port": 8200,
   "owner_id": "group-planner",
   "command": "cm",
-  "started_at": "2026-01-28T05:29:30.813638862Z"
+  "started_at": "2026-01-29T05:20:24.055275974Z"
 }

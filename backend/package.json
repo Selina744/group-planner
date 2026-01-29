@@ -17,6 +17,7 @@
     "test:watch": "vitest --watch",
     "lint": "echo 'Lint check passed - using TypeScript for static analysis'",
     "clean": "rm -rf dist",
+    "seed": "bun prisma/seed.ts",
     "health": "curl -f http://localhost:3000/api/v1/health || exit 1",
     "health:comprehensive": "curl -f http://localhost:3000/api/v1/health/comprehensive || exit 1"
   },
@@ -54,7 +55,11 @@
     "typescript": "^5.3.3",
     "vitest": "^1.0.0"
   },
+  "prisma": {
+    "seed": "bun prisma/seed.ts"
+  },
   "engines": {
     "node": ">=20"
   }
+
 }

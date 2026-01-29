@@ -136,6 +136,42 @@ router.post(
 );
 
 /**
+ * POST /auth/request-password-reset - Request password reset
+ */
+router.post(
+  '/request-password-reset',
+  ...middlewarePresets.public,
+  wrapAsync(AuthController.requestPasswordReset)
+);
+
+/**
+ * POST /auth/reset-password - Confirm password reset with token
+ */
+router.post(
+  '/reset-password',
+  ...middlewarePresets.public,
+  wrapAsync(AuthController.confirmPasswordReset)
+);
+
+/**
+ * POST /auth/send-verification - Send email verification (authenticated)
+ */
+router.post(
+  '/send-verification',
+  ...middlewarePresets.protected,
+  wrapAsync(AuthController.sendEmailVerification)
+);
+
+/**
+ * POST /auth/verify-email - Verify email with token
+ */
+router.post(
+  '/verify-email',
+  ...middlewarePresets.public,
+  wrapAsync(AuthController.verifyEmail)
+);
+
+/**
  * Health check endpoint (no authentication required)
  */
 router.get('/health', (req, res) => {

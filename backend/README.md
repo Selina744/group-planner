@@ -64,3 +64,9 @@ See `.env.example` for all available configuration options.
 - Hot reload is enabled for development
 - TypeScript checking happens during build
 - Structured error handling with custom ApiError class
+
+## Seeding demo data
+
+1. Make sure `.env` contains a valid `DATABASE_URL` (the same variables listed above) and that the Postgres container/service is running.
+2. From `backend/`, run `bun prisma db push` to materialize the latest Prisma schema.
+3. Run `bun run seed` to create the host/co-host/member trio, the sample trip, five events, eight items (four recommended plus four shared with claims), notifications, and an announcement. All demo accounts share the password `GroupPlanner!2026`.

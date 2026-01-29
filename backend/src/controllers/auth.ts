@@ -23,6 +23,9 @@ import type {
   ChangePasswordRequest,
   UpdateProfileRequest,
   UserProfile,
+  PasswordResetRequest,
+  PasswordResetConfirm,
+  EmailVerificationRequest,
 } from '../types/auth.js';
 import type {
   TokenRefreshRequest,
@@ -570,6 +573,143 @@ export class AuthController {
       });
 
       throw new BadRequestError('Username validation failed');
+    }
+  }
+
+  /**
+   * POST /auth/request-password-reset - Request password reset
+   */
+  static async requestPasswordReset(req: AuthenticatedRequest, res: Response): Promise<void> {
+    const { email }: PasswordResetRequest = req.body;
+
+    if (!email) {
+      throw new BadRequestError('Email is required');
+    }
+
+    if (typeof email !== 'string') {
+      throw new BadRequestError('Invalid email format');
+    }
+
+    try {
+      await AuthService.requestPasswordReset({ email });
+
+      log.auth('Password reset requested', {
+        email,
+        requestId: req.requestId,
+        ip: req.clientIp || req.ip,
+      });
+
+      // Always return success to prevent email enumeration
+      apiResponse.ok(res, null, 'If this email is registered, a reset link has been sent');
+    } catch (error) {
+      log.error('Password reset request failed', error, {
+        email,
+        requestId: req.requestId,
+      });
+
+      // Still return success to prevent enumeration
+      apiResponse.ok(res, null, 'If this email is registered, a reset link has been sent');
+    }
+  }
+
+  /**
+   * POST /auth/reset-password - Confirm password reset with token
+   */
+  static async confirmPasswordReset(req: AuthenticatedRequest, res: Response): Promise<void> {
+    const { token, newPassword }: PasswordResetConfirm = req.body;
+
+    if (!token || !newPassword) {
+      throw new BadRequestError('Reset token and new password are required');
+    }
+
+    if (typeof token !== 'string' || typeof newPassword !== 'string') {
+      throw new BadRequestError('Invalid token or password format');
+    }
+
+    try {
+      await AuthService.confirmPasswordReset({ token, newPassword });
+
+      log.auth('Password reset completed', {
+        requestId: req.requestId,
+        ip: req.clientIp || req.ip,
+      });
+
+      apiResponse.ok(res, null, 'Password has been reset successfully');
+    } catch (error) {
+      if (error instanceof UnauthorizedError || error instanceof BadRequestError) {
+        throw error;
+      }
+
+      log.error('Password reset confirmation failed', error, {
+        requestId: req.requestId,
+      });
+
+      throw new BadRequestError('Failed to reset password');
+    }
+  }
+
+  /**
+   * POST /auth/send-verification - Send email verification
+   */
+  static async sendEmailVerification(req: AuthenticatedRequest, res: Response): Promise<void> {
+    const user = AuthContext.requireUser(req);
+
+    try {
+      await AuthService.sendEmailVerification(user.id);
+
+      log.auth('Email verification sent', {
+        userId: user.id,
+        requestId: req.requestId,
+      });
+
+      apiResponse.ok(res, null, 'Verification email has been sent');
+    } catch (error) {
+      if (error instanceof BadRequestError || error instanceof NotFoundError) {
+        throw error;
+      }
+
+      log.error('Failed to send email verification', error, {
+        userId: user.id,
+        requestId: req.requestId,
+      });
+
+      throw new BadRequestError('Failed to send verification email');
+    }
+  }
+
+  /**
+   * POST /auth/verify-email - Verify email with token
+   */
+  static async verifyEmail(req: AuthenticatedRequest, res: Response): Promise<void> {
+    const { token }: EmailVerificationRequest = req.body;
+
+    if (!token) {
+      throw new BadRequestError('Verification token is required');
+    }
+
+    if (typeof token !== 'string') {
+      throw new BadRequestError('Invalid token format');
+    }
+
+    try {
+      await AuthService.verifyEmail({ token });
+
+      log.auth('Email verification completed', {
+        requestId: req.requestId,
+        ip: req.clientIp || req.ip,
+      });
+
+      apiResponse.ok(res, null, 'Email has been verified successfully');
+    } catch (error) {
+      if (error instanceof UnauthorizedError || error instanceof BadRequestError || error instanceof NotFoundError) {
+        throw error;
+      }
+
+      log.error('Email verification failed', error, {
+        requestId: req.requestId,
+      });
+
+      throw new BadRequestError('Failed to verify email');
     }
   }
 }
