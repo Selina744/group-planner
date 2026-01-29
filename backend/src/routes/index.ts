@@ -20,6 +20,9 @@ export { default as tripRoutes } from './trip.js';
 // Event routes
 export { default as eventRoutes } from './event.js';
 
+// Item routes
+export { default as itemRoutes } from './item.js';
+
 /**
  * Route configuration for the application
  * This will be used to mount routes in the main app
@@ -44,6 +47,10 @@ export const routeConfig = {
   events: {
     path: '/events',
     router: 'eventRoutes',
+  },
+  items: {
+    path: '/items',
+    router: 'itemRoutes',
   },
   // Future routes will be added here
   // users: {

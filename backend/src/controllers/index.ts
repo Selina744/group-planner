@@ -17,6 +17,9 @@ export { TripController } from './trip.js';
 // Event controller exports
 export { EventController } from './event.js';
 
+// Item controller exports
+export { ItemController } from './item.js';
+
 // Re-export types for convenience
 export type {
   AuthenticatedRequest,
@@ -61,3 +64,21 @@ export type {
   EventCategory,
   EventLocation,
 } from '../types/event.js';
+
+export type {
+  Item,
+  CreateItemRequest,
+  UpdateItemRequest,
+  ClaimItemRequest,
+  UpdateClaimRequest,
+  ItemListQuery,
+  ItemListResponse,
+  CreateItemResponse,
+  CreateClaimResponse,
+  ItemSummary,
+  ItemClaim,
+  ItemType,
+  ItemCategory,
+  ClaimStatus,
+  TripItemStats,
+} from '../types/item.js';

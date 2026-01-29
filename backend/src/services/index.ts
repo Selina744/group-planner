@@ -33,6 +33,11 @@ export {
   EventService,
 } from './event.js';
 
+// Item service exports
+export {
+  ItemService,
+} from './item.js';
+
 // Health service exports
 export {
   HealthService,
@@ -117,3 +122,31 @@ export type {
   EventConflict,
   EventValidation,
 } from '../types/event.js';
+
+// Re-export Item types for convenience
+export type {
+  Item,
+  ItemSummary,
+  ItemClaim,
+  CreateItemRequest,
+  UpdateItemRequest,
+  ClaimItemRequest,
+  UpdateClaimRequest,
+  ItemListFilters,
+  ItemListQuery,
+  ItemListResponse,
+  CreateItemResponse,
+  CreateClaimResponse,
+  ItemType,
+  ItemCategory,
+  ClaimStatus,
+  DatabaseItem,
+  DatabaseItemWithRelations,
+  DatabaseItemClaim,
+  DatabaseItemClaimWithRelations,
+  ItemError,
+  ItemServiceResult,
+  TripItemStats,
+  UserClaimStats,
+  ItemValidation,
+} from '../types/item.js';
