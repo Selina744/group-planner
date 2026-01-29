@@ -14,6 +14,15 @@ export {
   AUTH_CONFIG,
 } from './auth.js';
 
+// JWT service exports
+export {
+  JwtService,
+} from './jwt.js';
+
+export {
+  NotificationService,
+} from './notification.js';
+
 // Re-export auth types for convenience
 export type {
   RegisterRequest,
@@ -34,3 +43,21 @@ export type {
   AuthConfig,
   DatabaseUser,
 } from '../types/auth.js';
+
+// Re-export JWT types for convenience
+export type {
+  JwtConfig,
+  BaseJwtPayload,
+  AccessTokenPayload,
+  RefreshTokenPayload,
+  JwtTokenPair,
+  TokenVerificationResult,
+  TokenGenerationOptions,
+  RefreshTokenRecord,
+  TokenRefreshRequest,
+  TokenRefreshResponse,
+  TokenRevocationOptions,
+  TokenValidationContext,
+  JwtError,
+  JwtOperationResult,
+} from '../types/jwt.js';

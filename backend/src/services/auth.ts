@@ -8,6 +8,7 @@
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { prisma, safePrismaOperation } from '../lib/prisma.js';
+import { JwtService } from './jwt.js';
 import { log } from '../utils/logger.js';
 import {
   ConflictError,
@@ -263,11 +264,10 @@ export class AuthService {
         });
       }, 'User registration');
 
-      // Generate tokens (placeholder - will be implemented in JWT service)
-      const accessToken = 'placeholder-access-token';
-      const refreshToken = 'placeholder-refresh-token';
-
       const userProfile = UserTransforms.toUserProfile(user as DatabaseUser);
+
+      // Generate JWT tokens
+      const tokens = await JwtService.generateTokenPair(userProfile);
 
       log.auth('User registered successfully', {
         userId: user.id,
@@ -277,8 +277,8 @@ export class AuthService {
 
       return {
         user: userProfile,
-        accessToken,
-        refreshToken,
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
       };
     } catch (error) {
       if (error instanceof ConflictError || error instanceof ValidationError) {
@@ -337,11 +337,10 @@ export class AuthService {
         throw new UnauthorizedError('Invalid credentials');
       }
 
-      // Generate tokens (placeholder - will be implemented in JWT service)
-      const accessToken = 'placeholder-access-token';
-      const refreshToken = 'placeholder-refresh-token';
-
       const userProfile = UserTransforms.toUserProfile(user as DatabaseUser);
+
+      // Generate JWT tokens
+      const tokens = await JwtService.generateTokenPair(userProfile);
 
       log.auth('User logged in successfully', {
         userId: user.id,
@@ -351,8 +350,8 @@ export class AuthService {
 
       return {
         user: userProfile,
-        accessToken,
-        refreshToken,
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
       };
     } catch (error) {
       if (error instanceof UnauthorizedError || error instanceof BadRequestError) {
@@ -544,6 +543,86 @@ export class AuthService {
     } catch (error) {
       log.error('Failed to check username existence', error, { username: sanitizedUsername });
       return false;
+    }
+  }
+
+  /**
+   * Logout user and revoke refresh token
+   */
+  static async logout(refreshToken: string, revokeAllTokens = false): Promise<void> {
+    try {
+      // Verify the refresh token to get the token payload
+      const verification = await JwtService.verifyRefreshToken(refreshToken, {
+        checkRevocation: true,
+      });
+
+      if (!verification.valid || !verification.payload) {
+        throw new UnauthorizedError('Invalid refresh token');
+      }
+
+      if (revokeAllTokens) {
+        // Revoke all user tokens
+        await JwtService.revokeUserTokens(verification.payload.sub, {
+          reason: 'User logout (all devices)',
+        });
+      } else {
+        // Revoke only this specific token
+        await JwtService.revokeRefreshToken(verification.payload.tokenId, {
+          reason: 'User logout',
+        });
+      }
+
+      log.auth('User logged out successfully', {
+        userId: verification.payload.sub,
+        tokenId: verification.payload.tokenId,
+        revokeAllTokens,
+      });
+    } catch (error) {
+      if (error instanceof UnauthorizedError) {
+        throw error;
+      }
+
+      log.error('Logout failed', error);
+      throw new Error('Failed to logout');
+    }
+  }
+
+  /**
+   * Refresh authentication tokens
+   */
+  static async refreshTokens(
+    refreshToken: string,
+    context?: {
+      userAgent?: string | undefined;
+      ipAddress?: string | undefined;
+    }
+  ): Promise<LoginResponse> {
+    try {
+      const result = await JwtService.refreshTokens({
+        refreshToken,
+        userAgent: context?.userAgent,
+        ipAddress: context?.ipAddress,
+      });
+
+      // Get full user profile
+      const userProfile = await this.getUserById(result.user.id);
+
+      log.auth('Tokens refreshed successfully', {
+        userId: result.user.id,
+      });
+
+      return {
+        user: userProfile,
+        accessToken: result.tokens.accessToken,
+        refreshToken: result.tokens.refreshToken,
+      };
+    } catch (error) {
+      if (error instanceof UnauthorizedError || error instanceof NotFoundError) {
+        throw error;
+      }
+
+      log.error('Token refresh failed', error);
+      throw new Error('Failed to refresh tokens');
     }
   }
 }
