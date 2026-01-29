@@ -5,7 +5,7 @@
  * by automatically catching and forwarding errors to Express error middleware.
  */
 
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import log from './logger.js';
 
 /**
@@ -105,8 +105,13 @@ export function wrapAsyncMiddleware(fn: AsyncMiddleware) {
  * @example
  * ```typescript
  * const [authHandler, getUserHandler] = wrapAsyncHandlers([
- *   async (req, res, next) => { /* auth logic */ next(); },
- *   async (req, res) => { /* get user logic */ }
+ *   async (req, res, next) => {
+ *     // auth logic
+ *     next();
+ *   },
+ *   async (req, res) => {
+ *     // get user logic
+ *   }
  * ]);
  * ```
  */
