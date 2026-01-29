@@ -322,20 +322,26 @@ export class AuthService {
         });
       }, 'User login lookup');
 
-      if (!user) {
-        log.auth('Login attempt failed - user not found', {
-          identifier: sanitizedIdentifier,
-        });
-        throw new UnauthorizedError('Invalid credentials');
-      }
+      // TIMING ATTACK PROTECTION: Always perform password hashing to ensure consistent timing
+      // Use a dummy hash if user doesn't exist to prevent timing-based username enumeration
+      const hashToVerify = user?.passwordHash || '$2b$10$dummyHashToPreventTimingAttack12345678901234567890123456';
+      const isValidPassword = await PasswordUtils.verifyPassword(password, hashToVerify);
 
-      // Verify password
-      const isValidPassword = await PasswordUtils.verifyPassword(password, user.passwordHash);
-      if (!isValidPassword) {
-        log.auth('Login attempt failed - invalid password', {
-          userId: user.id,
-          identifier: sanitizedIdentifier,
-        });
+      // Check both user existence and password validity
+      if (!user || !isValidPassword) {
+        // Log the specific failure reason for security monitoring, but return generic message
+        if (!user) {
+          log.auth('Login attempt failed - user not found', {
+            identifier: sanitizedIdentifier,
+          });
+        } else {
+          log.auth('Login attempt failed - invalid password', {
+            userId: user.id,
+            identifier: sanitizedIdentifier,
+          });
+        }
+
+        // Always return the same generic error message regardless of failure reason
         throw new UnauthorizedError('Invalid credentials');
       }
 
