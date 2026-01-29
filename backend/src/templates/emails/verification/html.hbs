@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your {{appName}} Account</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 40px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+        .message {
+            margin-bottom: 30px;
+            line-height: 1.7;
+            color: #666;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+        }
+        .token-info {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .token-code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+            font-size: 14px;
+            color: #e83e8c;
+            background: #f1f3f4;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+        }
+        .footer p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .expiry-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #856404;
+        }
+        @media (max-width: 600px) {
+            .container { margin: 10px; }
+            .header, .content, .footer { padding: 20px; }
+            .header h1 { font-size: 24px; }
+            .greeting { font-size: 16px; }
+            .button { padding: 12px 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{appName}}</h1>
+        </div>
+
+        <div class="content">
+            <div class="greeting">
+                Hello {{recipientName}}! 👋
+            </div>
+
+            <div class="message">
+                Welcome to {{appName}}! We're excited to have you join our community of trip planners.
+                To get started, please verify your email address by clicking the button below.
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{verificationLink}}" class="button">
+                    Verify My Email Address
+                </a>
+            </div>
+
+            <div class="expiry-warning">
+                ⏰ <strong>Important:</strong> This verification link expires in {{expiryHours}} hours for security reasons.
+            </div>
+
+            <div class="token-info">
+                <strong>Alternative verification method:</strong><br>
+                If the button doesn't work, you can copy and paste this verification code:
+                <div class="token-code">{{verificationToken}}</div>
+                Or visit this link directly:<br>
+                <a href="{{verificationLink}}" style="color: #667eea; word-break: break-all;">{{verificationLink}}</a>
+            </div>
+
+            <div class="message">
+                Once verified, you'll be able to:
+                <ul style="color: #666; margin: 15px 0;">
+                    <li>Create and join trip plans</li>
+                    <li>Collaborate with friends on events and items</li>
+                    <li>Receive notifications about trip updates</li>
+                    <li>Access all {{appName}} features</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                If you didn't create an account with {{appName}}, you can safely ignore this email.
+            </p>
+            <p style="margin-top: 10px;">
+                Need help? Contact us at <a href="mailto:{{supportEmail}}" style="color: #667eea;">{{supportEmail}}</a>
+            </p>
+            <p style="margin-top: 15px; color: #999;">
+                © {{year}} {{companyName}}. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

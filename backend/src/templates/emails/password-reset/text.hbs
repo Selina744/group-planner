@@ -1,0 +1,34 @@
+{{appName}} - Password Reset Request
+
+Hi {{recipientName}},
+
+We received a request to reset your {{appName}} account password.
+
+If you requested this, visit this link to create a new password:
+{{resetLink}}
+
+SECURITY NOTICE: This reset link expires in {{expiryHours}} hour(s) for your account security.
+
+{{#if ipAddress}}
+Security Details:
+- Request made from IP: {{ipAddress}}
+{{#if userAgent}}
+- Browser: {{userAgent}}
+{{/if}}
+- Time: Just now
+{{/if}}
+
+DIDN'T REQUEST A PASSWORD RESET?
+If you didn't make this request, you can safely ignore this email. Your password will remain unchanged. However, if you're concerned about your account security, please contact us immediately.
+
+After clicking the reset link, you'll be able to:
+• Create a new secure password
+• Regain full access to your account
+• Continue planning trips with your groups
+
+For security reasons, this link can only be used once and expires in {{expiryHours}} hour(s).
+
+Need help? Contact us at {{supportEmail}}
+
+---
+© {{year}} {{companyName}}. All rights reserved.

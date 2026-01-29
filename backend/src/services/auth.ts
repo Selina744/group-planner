@@ -683,8 +683,13 @@ export class AuthService {
         });
       }, 'Create password reset token');
 
-      // TODO: Send password reset email (requires email service implementation)
-      // EmailService.sendPasswordResetEmail(user.email, resetToken, user.displayName);
+      // Send password reset email
+      const { EmailService } = await import('./email.js');
+      await EmailService.sendPasswordResetEmail(
+        user.email,
+        resetToken,
+        user.displayName || undefined
+      );
 
       log.auth('Password reset token created', {
         userId: user.id,
@@ -826,8 +831,13 @@ export class AuthService {
       // Generate verification token
       const verificationToken = this.generateEmailVerificationToken(user.id, user.email);
 
-      // TODO: Send verification email (requires email service implementation)
-      // EmailService.sendVerificationEmail(user.email, verificationToken, user.displayName);
+      // Send verification email
+      const { EmailService } = await import('./email.js');
+      await EmailService.sendVerificationEmail(
+        user.email,
+        verificationToken,
+        user.displayName || undefined
+      );
 
       log.auth('Email verification token generated', {
         userId: user.id,
