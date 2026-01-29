@@ -1,0 +1,90 @@
+# Group Planner - Development Tools Extension
+#
+# This extends the main docker-compose.yml with additional development tools.
+# Use with: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+#
+# Additional services:
+# - pgAdmin for database management
+# - MailHog for email testing
+# - Redis Commander for Redis management
+
+version: "3.9"
+
+services:
+  # pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: group-planner-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@groupplanner.dev
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    restart: unless-stopped
+
+  # MailHog for email testing
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: group-planner-mailhog
+    ports:
+      - "1025:1025"  # SMTP server port
+      - "8025:8025"  # Web UI
+    restart: unless-stopped
+
+  # Redis Commander for Redis management
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: group-planner-redis-commander
+    environment:
+      REDIS_HOSTS: "local:redis:6379"
+      HTTP_USER: admin
+      HTTP_PASSWORD: admin123
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  # MinIO for S3-compatible object storage (for file uploads testing)
+  minio:
+    image: minio/minio:latest
+    container_name: group-planner-minio
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123456
+    ports:
+      - "9000:9000"   # API port
+      - "9001:9001"   # Console port
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+
+volumes:
+  pgadmin_data:
+    name: group-planner-pgadmin-data
+  minio_data:
+    name: group-planner-minio-data
+
+# Usage:
+#
+# Start main services + development tools:
+#   docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+#
+# Access development tools:
+#   - pgAdmin:         http://localhost:5050 (admin@groupplanner.dev / admin123)
+#   - MailHog:         http://localhost:8025
+#   - Redis Commander: http://localhost:8081 (admin / admin123)
+#   - MinIO Console:   http://localhost:9001 (admin / admin123456)
+#
+# Start only specific dev tools:
+#   docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d postgres redis pgadmin
+#
+# View logs for dev tools:
+#   docker-compose -f docker-compose.yml -f docker-compose.dev.yml logs -f pgadmin
