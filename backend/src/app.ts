@@ -15,6 +15,7 @@ import {
   authRoutes,
   docsRoutes,
   healthRoutes,
+  tripRoutes,
   getApiPath,
 } from './routes/index.js'
 import type { ApiResponse } from './types/api.js'
@@ -98,6 +99,7 @@ const app = createApp()
 // API routes with versioning
 app.use(getApiPath('/auth'), authRoutes)
 app.use(getApiPath('/health'), healthRoutes)
+app.use(getApiPath('/trips'), tripRoutes)
 app.use('/docs', docsRoutes)
 
 // Root endpoints
@@ -114,6 +116,7 @@ app.get('/', (req, res) => {
       endpoints: {
         auth: getApiPath('/auth'),
         health: getApiPath('/health'),
+        trips: getApiPath('/trips'),
         docs: '/docs',
       },
     },
@@ -144,6 +147,7 @@ app.get('/api', (req, res) => {
       endpoints: {
         auth: getApiPath('/auth'),
         health: getApiPath('/health'),
+        trips: getApiPath('/trips'),
         docs: '/docs',
       },
     },

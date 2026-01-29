@@ -11,6 +11,9 @@ export { AuthController } from './auth.js';
 // Health controller exports
 export { HealthController } from './health.js';
 
+// Trip controller exports
+export { TripController } from './trip.js';
+
 // Re-export types for convenience
 export type {
   AuthenticatedRequest,
@@ -29,3 +32,16 @@ export type {
   TokenRefreshRequest,
   RefreshTokenRecord,
 } from '../types/jwt.js';
+
+export type {
+  Trip,
+  CreateTripRequest,
+  UpdateTripRequest,
+  TripListQuery,
+  TripListResponse,
+  CreateTripResponse,
+  TripMember,
+  TripStatus,
+  MemberRole,
+  MemberStatus,
+} from '../types/trip.js';
