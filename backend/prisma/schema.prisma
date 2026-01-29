@@ -1,0 +1,77 @@
+// Group Planner - Prisma Schema
+// This file defines the database schema using Prisma ORM
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// User model with authentication and profile information
+model User {
+  // Primary key
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Authentication fields
+  email        String  @unique
+  username     String? @unique
+  passwordHash String
+
+  // Profile information
+  displayName String?
+  timezone    String? @default("UTC")
+
+  // Account verification
+  emailVerified Boolean @default(false)
+
+  // User preferences stored as JSON
+  preferences Json @default("{}")
+
+  // Relationships
+  refreshTokens  RefreshToken[]
+  passwordResets PasswordReset[]
+
+  @@map("users")
+}
+
+// Refresh token model for JWT authentication
+model RefreshToken {
+  // Primary key
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Token data
+  tokenHash String   @unique
+  expiresAt DateTime
+
+  // User relationship
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+// Password reset token model
+model PasswordReset {
+  // Primary key
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Token data
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+
+  // User relationship
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_resets")
+}
