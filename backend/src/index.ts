@@ -18,7 +18,7 @@ const requiredEnvVars = [
   'JWT_SECRET',
 ];
 
-const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName] || process.env[varName]?.trim() === '');
 
 if (missingEnvVars.length > 0) {
   log.error('Missing required environment variables', {

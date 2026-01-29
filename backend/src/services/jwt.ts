@@ -166,7 +166,7 @@ export class JwtService {
       try {
         const dbRecord = await safePrismaOperation(async () => {
           return await prisma.refreshToken.findUnique({
-            where: { tokenId: jwtResult.payload!.tokenId },
+            where: { tokenId: jwtResult.payload.tokenId },
           });
         }, 'Verify refresh token database');
 

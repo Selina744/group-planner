@@ -417,7 +417,11 @@ export class AuthService {
           }
         }
 
-        const updateData: any = {};
+        const updateData: {
+          displayName?: string | null;
+          timezone?: string;
+          username?: string | null;
+        } = {};
         if (displayName !== undefined) {
           updateData.displayName = displayName || null;
         }

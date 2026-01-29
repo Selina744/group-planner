@@ -68,6 +68,7 @@ export class ProcessManager {
   private config: ProcessManagerConfig;
   private startTime: Date;
   private healthCheckTimer: NodeJS.Timeout | null = null;
+  private memoryPressureTimer: NodeJS.Timeout | null = null;
   private metrics: ProcessMetrics[] = [];
   private restartCount = 0;
   private lastCpuUsage: NodeJS.CpuUsage | null = null;
@@ -117,7 +118,7 @@ export class ProcessManager {
 
     // Monitor memory pressure (if available)
     if (process.memoryUsage().rss) {
-      setInterval(() => {
+      this.memoryPressureTimer = setInterval(() => {
         this.checkMemoryPressure();
       }, 60000); // Check every minute
     }
@@ -360,6 +361,11 @@ export class ProcessManager {
     if (this.healthCheckTimer) {
       clearInterval(this.healthCheckTimer);
       this.healthCheckTimer = null;
+    }
+
+    if (this.memoryPressureTimer) {
+      clearInterval(this.memoryPressureTimer);
+      this.memoryPressureTimer = null;
     }
 
     log.info('Process manager cleaned up');
