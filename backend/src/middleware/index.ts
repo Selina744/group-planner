@@ -49,6 +49,25 @@ export {
   rateLimitStore,
 } from './rateLimit.js';
 
+// Error handling middleware exports
+export {
+  errorHandler,
+  notFoundHandler,
+  setupGlobalErrorHandlers,
+} from './errorHandler.js';
+
+// Security middleware exports
+export {
+  security as securityMiddleware,
+  SecurityMetrics,
+} from './security.js';
+
+// CORS middleware exports
+export {
+  corsUtil,
+  CorsMetrics,
+} from './cors.js';
+
 // Re-export middleware types for convenience
 export type {
   AuthenticatedRequest,
@@ -187,6 +206,8 @@ export const security = {
   // Basic security for public endpoints
   basic: [
     middleware.context,
+    securityMiddleware.headers(),
+    securityMiddleware.sanitization(),
     rateLimiters.general,
     middleware.logging,
   ],
@@ -194,6 +215,9 @@ export const security = {
   // Enhanced security for sensitive operations
   enhanced: [
     middleware.context,
+    securityMiddleware.headers(),
+    securityMiddleware.sanitization(),
+    securityMiddleware.logging(),
     rateLimiters.sensitive,
     middleware.logging,
     requireAuth,
@@ -202,9 +226,23 @@ export const security = {
   // Maximum security for admin operations
   maximum: [
     middleware.context,
+    securityMiddleware.headers(),
+    securityMiddleware.sanitization(),
+    securityMiddleware.logging(),
+    securityMiddleware.contentSecurity(),
+    ...securityMiddleware.ddosProtection(),
     rateLimiters.strict,
     middleware.logging,
     requireAuth,
     requireAdmin,
   ],
+
+  // CORS configurations
+  cors: {
+    enhanced: corsUtil.enhanced(),
+    strict: (origins: string[]) => corsUtil.strict(origins),
+    preflight: corsUtil.preflightHandler(),
+    logging: corsUtil.violationLogger(),
+    headers: corsUtil.responseHeaders(),
+  },
 };
