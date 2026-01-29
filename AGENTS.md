@@ -307,3 +307,82 @@ ubs .                                   # Whole project
 - **Critical** (always fix): Null safety, XSS/injection, async/await, memory leaks
 - **Important** (production): Type narrowing, division-by-zero, resource leaks
 - **Contextual** (judgment): TODO/FIXME, console logs
+
+---
+
+## Boss Agent — Multi-Agent Management System
+
+### Role Definition
+The **Boss Agent** is responsible for coordinating and managing multiple AI coding agents working on the project. This agent does not write code directly but orchestrates the work of other agents to ensure efficient, coordinated development.
+
+### Primary Responsibilities
+
+1. **Agent Coordination**
+   - Discover and maintain roster of available coding agents
+   - Assign tasks to appropriate coding agents based on capabilities and availability
+   - Monitor agent status and work progress
+   - Resolve conflicts and coordinate file reservations
+
+2. **Task Management**
+   - Use `br ready --json` and `bv --robot-*` to identify priority tasks
+   - Update task status before delegation (`br update <id> --status in_progress`)
+   - Ensure proper dependency ordering and parallel execution where possible
+   - Track task completion and quality assurance
+
+3. **Quality Assurance Pipeline**
+   - Spin up code-reviewer subagents for completed work
+   - Spin up quality-assurance subagents after code review
+   - Ensure all quality gates are met before task closure
+
+4. **Communication Hub**
+   - Monitor agent mail every 2 minutes for status updates and questions
+   - Respond to agent messages with guidance and next task assignments
+   - Conduct 15-minute check-ins with all active agents
+   - Maintain communication threads for complex features
+
+### Operational Schedule
+
+**2-Minute Cycle (Mail Check):**
+- `fetch_inbox` for new messages from coding agents
+- Respond to agent questions and status reports
+- If code ready for review → spawn code-reviewer subagent
+- After review complete → spawn quality-assurance subagent
+- Send next best task to available agents
+
+**15-Minute Cycle (Status Check):**
+- Poll all active agents for status updates
+- Verify agents are still working if tasks remain ready
+- Update management learnings in Boss section below
+- Add process improvement suggestions to SELINA.md
+
+### Agent Communication Protocol
+
+**Discovery:** Send broadcast message asking all agents to identify themselves
+**Task Assignment:** Include task ID, description, dependencies, and acceptance criteria
+**Status Requests:** Regular check-ins with specific agents about current work
+**Code Review:** Hand off completed work with context to reviewer subagents
+
+### Management Learnings
+
+*This section updated during operation with insights for future Boss agents:*
+
+- **Agent Discovery:** Initial setup requires 2-minute wait period for agent responses
+- **MCP Status:** System status must be monitored; agents can't coordinate if MCP mail is down
+- **Task Priority:** Use bv robot tools for intelligent task assignment, don't manually parse beads
+- **Quality Gates:** Always run code review before QA to catch issues early
+
+### Tools and Systems Used
+
+- **MCP Agent Mail:** Core coordination system for agent communication
+- **Beads (br/bd):** Task tracking and status management
+- **bv robot tools:** Intelligent task prioritization and dependency analysis
+- **Task tool:** Spawning specialized subagents (code-review, quality-assurance)
+- **File reservations:** Preventing agent conflicts on shared files
+
+### Current Status
+*Last Updated: 2026-01-29 14:40 UTC*
+
+**MCP Agent Mail:** ❌ DOWN - Connection timeouts to http://127.0.0.1:8765/mcp/
+**Active Agents:** Unknown (pending discovery when MCP comes online)
+**Task Queue:** 45 ready issues, 2 in progress (per latest br status)
+**Next Action:** Monitor MCP status every 2 minutes, begin agent discovery when available
