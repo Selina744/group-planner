@@ -21,10 +21,40 @@ import type {
 } from '../types/jwt.js';
 
 /**
+ * Validate JWT secret on startup
+ */
+function validateJwtSecret(): string {
+  const secret = process.env.JWT_SECRET;
+
+  if (!secret) {
+    throw new Error(
+      'JWT_SECRET environment variable is required. Please set a secure random secret of at least 32 characters.'
+    );
+  }
+
+  if (secret.length < 32) {
+    throw new Error(
+      'JWT_SECRET must be at least 32 characters long for security. Current length: ' + secret.length
+    );
+  }
+
+  if (secret === 'fallback-secret-key-for-development-only' ||
+      secret === 'your-super-secret-jwt-key-change-in-production' ||
+      secret === 'change-me' ||
+      secret === 'secret') {
+    throw new Error(
+      'JWT_SECRET cannot use a default/example value. Please generate a secure random secret.'
+    );
+  }
+
+  return secret;
+}
+
+/**
  * JWT service configuration
  */
 const JWT_CONFIG: JwtConfig = {
-  secret: process.env.JWT_SECRET || 'fallback-secret-key-for-development-only',
+  secret: validateJwtSecret(),
   accessTokenExpiryMinutes: 15,
   refreshTokenExpiryDays: 30,
   algorithm: 'HS256',
@@ -338,13 +368,7 @@ export class JwtUtils {
   static validateConfig(): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    if (!JWT_CONFIG.secret || JWT_CONFIG.secret.length < 32) {
-      errors.push('JWT secret must be at least 32 characters long');
-    }
-
-    if (JWT_CONFIG.secret === 'fallback-secret-key-for-development-only') {
-      errors.push('Using fallback JWT secret - set JWT_SECRET environment variable');
-    }
+    // JWT secret validation is now done at startup in validateJwtSecret()
 
     if (JWT_CONFIG.accessTokenExpiryMinutes < 1) {
       errors.push('Access token expiry must be at least 1 minute');
