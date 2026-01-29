@@ -58,6 +58,33 @@ router.get(
 );
 
 /**
+ * GET /health/process - Process health and metrics
+ */
+router.get(
+  '/process',
+  middleware.context,
+  wrapAsync(HealthController.getProcessHealth)
+);
+
+/**
+ * GET /health/metrics - Process metrics only
+ */
+router.get(
+  '/metrics',
+  middleware.context,
+  HealthController.getProcessMetrics
+);
+
+/**
+ * GET /health/comprehensive - Complete health status
+ */
+router.get(
+  '/comprehensive',
+  middleware.context,
+  wrapAsync(HealthController.getComprehensiveHealth)
+);
+
+/**
  * GET /ping - Simple ping endpoint
  */
 router.get('/ping', middleware.context, HealthController.ping);

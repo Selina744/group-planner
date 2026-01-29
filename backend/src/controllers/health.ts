@@ -7,6 +7,7 @@
 
 import type { Response } from 'express';
 import { HealthService } from '../services/health.js';
+import { ProcessManager } from '../utils/processManager.js';
 import { apiResponse } from '../utils/apiResponse.js';
 import { log } from '../utils/logger.js';
 import type { AuthenticatedRequest } from '../types/middleware.js';
@@ -165,6 +166,125 @@ export class HealthController {
       });
 
       apiResponse.error(res, 'Version information unavailable', 500);
+    }
+  }
+
+  /**
+   * GET /health/process - Process health and metrics
+   */
+  static async getProcessHealth(req: AuthenticatedRequest, res: Response): Promise<void> {
+    try {
+      const processInfo = ProcessManager.getProcessInfo();
+      const statusCode = processInfo.health.status === 'healthy' ? 200 :
+                        processInfo.health.status === 'degraded' ? 207 : 503;
+
+      res.status(statusCode).json({
+        success: processInfo.health.status !== 'unhealthy',
+        message: `Process is ${processInfo.health.status}`,
+        data: {
+          health: processInfo.health,
+          metrics: processInfo.metrics,
+          uptime: processInfo.uptime,
+          restartCount: processInfo.restartCount,
+          environment: processInfo.environment,
+        },
+        requestId: req.requestId,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error) {
+      log.error('Process health check failed', error, {
+        requestId: req.requestId,
+      });
+
+      apiResponse.error(res, 'Process health check failed', 500);
+    }
+  }
+
+  /**
+   * GET /health/metrics - Process metrics only
+   */
+  static getProcessMetrics(req: AuthenticatedRequest, res: Response): void {
+    try {
+      const metrics = ProcessManager.getMetrics();
+      const historicalMetrics = ProcessManager.getHistoricalMetrics();
+
+      apiResponse.ok(res, {
+        current: metrics,
+        historical: historicalMetrics.slice(-10), // Last 10 entries
+        summary: {
+          averageMemory: historicalMetrics.length > 0
+            ? historicalMetrics.reduce((sum, m) => sum + m.memoryUsage.rss, 0) / historicalMetrics.length / 1024 / 1024
+            : 0,
+          peakMemory: historicalMetrics.length > 0
+            ? Math.max(...historicalMetrics.map(m => m.memoryUsage.rss)) / 1024 / 1024
+            : 0,
+          uptimeSeconds: metrics.uptime,
+        },
+      }, 'Process metrics retrieved');
+    } catch (error) {
+      log.error('Process metrics endpoint failed', error, {
+        requestId: req.requestId,
+      });
+
+      apiResponse.error(res, 'Process metrics unavailable', 500);
+    }
+  }
+
+  /**
+   * GET /health/comprehensive - Complete health status including process and services
+   */
+  static async getComprehensiveHealth(req: AuthenticatedRequest, res: Response): Promise<void> {
+    try {
+      // Get all health information
+      const [healthResult, processInfo, databaseHealth] = await Promise.all([
+        HealthService.performHealthCheck(req),
+        Promise.resolve(ProcessManager.getProcessInfo()),
+        HealthService.checkDatabase(),
+      ]);
+
+      // Determine overall health status
+      const statuses = [
+        healthResult.status,
+        processInfo.health.status,
+        databaseHealth.status,
+      ];
+
+      let overallStatus: 'healthy' | 'degraded' | 'unhealthy' = 'healthy';
+      if (statuses.includes('unhealthy')) {
+        overallStatus = 'unhealthy';
+      } else if (statuses.includes('degraded')) {
+        overallStatus = 'degraded';
+      }
+
+      const statusCode = overallStatus === 'healthy' ? 200 :
+                        overallStatus === 'degraded' ? 207 : 503;
+
+      res.status(statusCode).json({
+        success: overallStatus !== 'unhealthy',
+        message: `Service is ${overallStatus}`,
+        data: {
+          overall: {
+            status: overallStatus,
+            timestamp: new Date().toISOString(),
+          },
+          application: healthResult,
+          process: {
+            health: processInfo.health,
+            metrics: processInfo.metrics,
+            uptime: processInfo.uptime,
+          },
+          database: databaseHealth,
+          environment: processInfo.environment,
+        },
+        requestId: req.requestId,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error) {
+      log.error('Comprehensive health check failed', error, {
+        requestId: req.requestId,
+      });
+
+      apiResponse.error(res, 'Comprehensive health check failed', 503);
     }
   }
 
