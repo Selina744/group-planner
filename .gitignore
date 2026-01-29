@@ -89,3 +89,7 @@ temp/
 
 # bv (beads viewer) local config and caches
 .bv/
+
+# ntm (process management) runtime files
+.ntm/pids/
+.ntm/logs/
