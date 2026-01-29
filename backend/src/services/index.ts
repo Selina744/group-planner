@@ -23,6 +23,11 @@ export {
   NotificationService,
 } from './notification.js';
 
+// Health service exports
+export {
+  HealthService,
+} from './health.js';
+
 // Re-export auth types for convenience
 export type {
   RegisterRequest,

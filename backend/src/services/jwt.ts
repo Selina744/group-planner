@@ -90,8 +90,8 @@ export class JwtService {
             tokenHash: refreshTokenHash,
             family,
             expiresAt: new Date(refreshTokenExpiresAt * 1000),
-            userAgent: context?.userAgent,
-            ipAddress: context?.ipAddress,
+            userAgent: context?.userAgent ?? null,
+            ipAddress: context?.ipAddress ?? null,
             revoked: false,
           },
         });
