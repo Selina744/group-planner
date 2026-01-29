@@ -128,7 +128,16 @@ export class AuthController {
 
     try {
       // Login user with context
-      const result = await AuthService.login({ identifier, password });
+      const context: { ipAddress: string; userAgent?: string } = {
+        ipAddress: req.clientIp || req.ip || 'unknown',
+      };
+
+      const userAgent = req.get('User-Agent');
+      if (userAgent) {
+        context.userAgent = userAgent;
+      }
+
+      const result = await AuthService.login({ identifier, password }, context);
 
       log.auth('User login completed', {
         userId: result.user.id,

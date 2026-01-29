@@ -299,8 +299,10 @@ export class AuthService {
   /**
    * Login user with email or username
    */
-  static async login(data: LoginRequest): Promise<LoginResponse> {
+  static async login(data: LoginRequest, context?: { ipAddress?: string; userAgent?: string }): Promise<LoginResponse> {
     const { identifier, password } = data;
+    const ipAddress = context?.ipAddress || 'unknown';
+    const userAgent = context?.userAgent;
 
     // Sanitize identifier
     const sanitizedIdentifier = UserValidation.sanitizeInput(identifier.toLowerCase());
@@ -310,6 +312,9 @@ export class AuthService {
     }
 
     try {
+      // Check for account lockout before attempting login
+      await this.checkAccountLockout(sanitizedIdentifier, ipAddress);
+
       // Find user by email or username
       const user = await safePrismaOperation(async () => {
         return await prisma.user.findFirst({
@@ -329,21 +334,43 @@ export class AuthService {
 
       // Check both user existence and password validity
       if (!user || !isValidPassword) {
+        // Record failed login attempt
+        const failureReason = !user ? 'user_not_found' : 'invalid_password';
+        await this.recordLoginAttempt({
+          identifier: sanitizedIdentifier,
+          ipAddress,
+          userAgent,
+          success: false,
+          userId: user?.id,
+          failureReason,
+        });
+
         // Log the specific failure reason for security monitoring, but return generic message
         if (!user) {
           log.auth('Login attempt failed - user not found', {
             identifier: sanitizedIdentifier,
+            ipAddress,
           });
         } else {
           log.auth('Login attempt failed - invalid password', {
             userId: user.id,
             identifier: sanitizedIdentifier,
+            ipAddress,
           });
         }
 
         // Always return the same generic error message regardless of failure reason
         throw new UnauthorizedError('Invalid credentials');
       }
+
+      // Record successful login attempt
+      await this.recordLoginAttempt({
+        identifier: sanitizedIdentifier,
+        ipAddress,
+        userAgent,
+        success: true,
+        userId: user.id,
+      });
 
       const userProfile = UserTransforms.toUserProfile(user as DatabaseUser);
 
@@ -354,6 +381,7 @@ export class AuthService {
         userId: user.id,
         email: user.email,
         username: user.username,
+        ipAddress,
       });
 
       return {
@@ -927,6 +955,116 @@ export class AuthService {
 
       log.error('Email verification failed', error);
       throw new BadRequestError('Failed to verify email');
+    }
+  }
+
+  /**
+   * Check for account lockout before login attempt
+   */
+  private static async checkAccountLockout(identifier: string, ipAddress: string): Promise<void> {
+    const now = new Date();
+    const lookbackMinutes = 30; // Check last 30 minutes
+    const lookbackTime = new Date(now.getTime() - lookbackMinutes * 60 * 1000);
+
+    // Count recent failed attempts for this identifier
+    const recentFailures = await safePrismaOperation(async () => {
+      return await prisma.loginAttempt.count({
+        where: {
+          identifier,
+          success: false,
+          createdAt: { gte: lookbackTime },
+        },
+      });
+    }, 'Check account lockout');
+
+    // Progressive lockout policy
+    if (recentFailures >= 10) {
+      // 10+ failures = 1 hour lockout
+      const lockoutUntil = new Date(now.getTime() + 60 * 60 * 1000);
+      log.auth('Account locked due to excessive failed attempts', {
+        identifier,
+        ipAddress,
+        recentFailures,
+        lockoutUntil,
+      });
+      throw new UnauthorizedError('Account temporarily locked due to too many failed login attempts. Please try again in 1 hour.');
+    } else if (recentFailures >= 5) {
+      // 5-9 failures = 30 minutes lockout
+      const lockoutUntil = new Date(now.getTime() + 30 * 60 * 1000);
+      log.auth('Account locked due to multiple failed attempts', {
+        identifier,
+        ipAddress,
+        recentFailures,
+        lockoutUntil,
+      });
+      throw new UnauthorizedError('Account temporarily locked due to multiple failed login attempts. Please try again in 30 minutes.');
+    }
+
+    // Also check IP-based lockout to prevent distributed attacks
+    const ipFailures = await safePrismaOperation(async () => {
+      return await prisma.loginAttempt.count({
+        where: {
+          ipAddress,
+          success: false,
+          createdAt: { gte: lookbackTime },
+        },
+      });
+    }, 'Check IP lockout');
+
+    if (ipFailures >= 20) {
+      log.auth('IP address temporarily blocked due to excessive failed attempts', {
+        ipAddress,
+        ipFailures,
+      });
+      throw new UnauthorizedError('Too many failed login attempts from your location. Please try again later.');
+    }
+  }
+
+  /**
+   * Record login attempt for security monitoring and lockout protection
+   */
+  private static async recordLoginAttempt(data: {
+    identifier: string;
+    ipAddress: string;
+    userAgent?: string;
+    success: boolean;
+    userId?: string;
+    failureReason?: string;
+  }): Promise<void> {
+    try {
+      await safePrismaOperation(async () => {
+        await prisma.loginAttempt.create({
+          data: {
+            identifier: data.identifier,
+            ipAddress: data.ipAddress,
+            userAgent: data.userAgent,
+            success: data.success,
+            userId: data.userId,
+            failureReason: data.failureReason,
+          },
+        });
+      }, 'Record login attempt');
+
+      // Clean up old login attempts periodically (keep last 7 days)
+      if (Math.random() < 0.1) { // 10% chance to run cleanup
+        const cleanupDate = new Date();
+        cleanupDate.setDate(cleanupDate.getDate() - 7);
+
+        await safePrismaOperation(async () => {
+          const deleted = await prisma.loginAttempt.deleteMany({
+            where: {
+              createdAt: { lt: cleanupDate },
+            },
+          });
+
+          if (deleted.count > 0) {
+            log.debug('Cleaned up old login attempts', { deletedCount: deleted.count });
+          }
+        }, 'Cleanup old login attempts');
+      }
+    } catch (error) {
+      // Don't fail login if we can't record the attempt
+      log.error('Failed to record login attempt', error, data);
     }
   }
 }
