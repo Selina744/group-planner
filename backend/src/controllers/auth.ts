@@ -531,8 +531,7 @@ export class AuthController {
 
       apiResponse.ok(res, {
         email,
-        available: !exists,
-        exists
+        available: !exists
       }, 'Email validation completed');
     } catch (error) {
       log.error('Email validation failed', error, {
@@ -563,8 +562,7 @@ export class AuthController {
 
       apiResponse.ok(res, {
         username,
-        available: !exists,
-        exists
+        available: !exists
       }, 'Username validation completed');
     } catch (error) {
       log.error('Username validation failed', error, {
