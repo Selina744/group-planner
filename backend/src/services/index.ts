@@ -28,6 +28,11 @@ export {
   TripService,
 } from './trip.js';
 
+// Event service exports
+export {
+  EventService,
+} from './event.js';
+
 // Health service exports
 export {
   HealthService,
@@ -91,3 +96,24 @@ export type {
   TripError,
   TripServiceResult,
 } from '../types/trip.js';
+
+// Re-export Event types for convenience
+export type {
+  Event,
+  CreateEventRequest,
+  UpdateEventRequest,
+  ApprovalRequest,
+  EventListQuery,
+  EventListResponse,
+  CreateEventResponse,
+  EventLocation,
+  EventStatus,
+  EventCategory,
+  EventParticipant,
+  DatabaseEvent,
+  DatabaseEventWithRelations,
+  EventError,
+  EventServiceResult,
+  EventConflict,
+  EventValidation,
+} from '../types/event.js';

@@ -14,6 +14,9 @@ export { HealthController } from './health.js';
 // Trip controller exports
 export { TripController } from './trip.js';
 
+// Event controller exports
+export { EventController } from './event.js';
+
 // Re-export types for convenience
 export type {
   AuthenticatedRequest,
@@ -45,3 +48,16 @@ export type {
   MemberRole,
   MemberStatus,
 } from '../types/trip.js';
+
+export type {
+  Event,
+  CreateEventRequest,
+  UpdateEventRequest,
+  ApprovalRequest,
+  EventListQuery,
+  EventListResponse,
+  CreateEventResponse,
+  EventStatus,
+  EventCategory,
+  EventLocation,
+} from '../types/event.js';

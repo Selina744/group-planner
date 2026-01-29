@@ -17,6 +17,9 @@ export { default as healthRoutes } from './health.js';
 // Trip routes
 export { default as tripRoutes } from './trip.js';
 
+// Event routes
+export { default as eventRoutes } from './event.js';
+
 /**
  * Route configuration for the application
  * This will be used to mount routes in the main app
@@ -37,6 +40,10 @@ export const routeConfig = {
   trips: {
     path: '/trips',
     router: 'tripRoutes',
+  },
+  events: {
+    path: '/events',
+    router: 'eventRoutes',
   },
   // Future routes will be added here
   // users: {
