@@ -1,53 +1,34 @@
 import type { Request, Response, NextFunction, ErrorRequestHandler } from 'express'
 import { ZodError } from 'zod'
-import type { ApiResponse, ApiError } from '../types/api.js'
+import { ApiResponse, formatZodErrors } from '../utils/apiResponse.js'
+import { log } from '../utils/logger.js'
+import type { ApiError, ApiResponse as ApiResponseShape } from '../types/api.js'
 
 export const errorHandler: ErrorRequestHandler = (
   error: ApiError,
   req: Request,
-  res: Response<ApiResponse>,
+  res: Response<ApiResponseShape>,
   next: NextFunction
 ) => {
-  console.error('Error:', {
-    message: error.message,
-    stack: error.stack,
+  log.error('Unhandled error in middleware', error, {
     url: req.url,
     method: req.method,
     body: req.body,
   })
 
-  // Zod validation errors
   if (error instanceof ZodError) {
-    const errors: Record<string, string[]> = {}
-    error.errors.forEach((err) => {
-      const path = err.path.join('.')
-      if (!errors[path]) {
-        errors[path] = []
-      }
-      errors[path].push(err.message)
-    })
-
-    return res.status(400).json({
-      success: false,
-      error: 'Validation failed',
-      errors,
-    })
+    return ApiResponse.validationError(res, 'Validation failed', formatZodErrors(error))
   }
 
-  // Custom API errors
   if (error.statusCode) {
-    return res.status(error.statusCode).json({
-      success: false,
-      error: error.message,
-      ...(error.details && { details: error.details }),
-    })
+    const validationErrors =
+      Array.isArray(error.details?.errors) ? error.details.errors : undefined
+    return ApiResponse.error(res, error.message, error.statusCode, validationErrors)
   }
 
-  // Default server error
-  return res.status(500).json({
-    success: false,
-    error: process.env.NODE_ENV === 'production'
-      ? 'Internal server error'
-      : error.message,
-  })
+  return ApiResponse.error(
+    res,
+    process.env.NODE_ENV === 'production' ? 'Internal server error' : error.message,
+    500
+  )
 }
