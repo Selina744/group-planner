@@ -38,6 +38,41 @@ export type Trip = $Result.DefaultSelection<Prisma.$TripPayload>
  * 
  */
 export type TripMember = $Result.DefaultSelection<Prisma.$TripMemberPayload>
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
+ * Model NotificationPreference
+ * 
+ */
+export type NotificationPreference = $Result.DefaultSelection<Prisma.$NotificationPreferencePayload>
+/**
+ * Model Event
+ * 
+ */
+export type Event = $Result.DefaultSelection<Prisma.$EventPayload>
+/**
+ * Model Item
+ * 
+ */
+export type Item = $Result.DefaultSelection<Prisma.$ItemPayload>
+/**
+ * Model ItemClaim
+ * 
+ */
+export type ItemClaim = $Result.DefaultSelection<Prisma.$ItemClaimPayload>
+/**
+ * Model Announcement
+ * 
+ */
+export type Announcement = $Result.DefaultSelection<Prisma.$AnnouncementPayload>
+/**
+ * Model TripExtension
+ * 
+ */
+export type TripExtension = $Result.DefaultSelection<Prisma.$TripExtensionPayload>
 
 /**
  * Enums
@@ -70,6 +105,41 @@ export const MemberStatus: {
 
 export type MemberStatus = (typeof MemberStatus)[keyof typeof MemberStatus]
 
+
+export const EventStatus: {
+  PROPOSED: 'PROPOSED',
+  APPROVED: 'APPROVED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type EventStatus = (typeof EventStatus)[keyof typeof EventStatus]
+
+
+export const ItemType: {
+  RECOMMENDED: 'RECOMMENDED',
+  SHARED: 'SHARED'
+};
+
+export type ItemType = (typeof ItemType)[keyof typeof ItemType]
+
+
+export const ClaimStatus: {
+  CLAIMED: 'CLAIMED',
+  BROUGHT: 'BROUGHT',
+  CANCELLED: 'CANCELLED'
+};
+
+export type ClaimStatus = (typeof ClaimStatus)[keyof typeof ClaimStatus]
+
+
+export const DigestFrequency: {
+  NONE: 'NONE',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY'
+};
+
+export type DigestFrequency = (typeof DigestFrequency)[keyof typeof DigestFrequency]
+
 }
 
 export type TripStatus = $Enums.TripStatus
@@ -83,6 +153,22 @@ export const MemberRole: typeof $Enums.MemberRole
 export type MemberStatus = $Enums.MemberStatus
 
 export const MemberStatus: typeof $Enums.MemberStatus
+
+export type EventStatus = $Enums.EventStatus
+
+export const EventStatus: typeof $Enums.EventStatus
+
+export type ItemType = $Enums.ItemType
+
+export const ItemType: typeof $Enums.ItemType
+
+export type ClaimStatus = $Enums.ClaimStatus
+
+export const ClaimStatus: typeof $Enums.ClaimStatus
+
+export type DigestFrequency = $Enums.DigestFrequency
+
+export const DigestFrequency: typeof $Enums.DigestFrequency
 
 /**
  * ##  Prisma Client ʲˢ
@@ -250,6 +336,76 @@ export class PrismaClient<
     * ```
     */
   get tripMember(): Prisma.TripMemberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Notifications
+    * const notifications = await prisma.notification.findMany()
+    * ```
+    */
+  get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.notificationPreference`: Exposes CRUD operations for the **NotificationPreference** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NotificationPreferences
+    * const notificationPreferences = await prisma.notificationPreference.findMany()
+    * ```
+    */
+  get notificationPreference(): Prisma.NotificationPreferenceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.event`: Exposes CRUD operations for the **Event** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Events
+    * const events = await prisma.event.findMany()
+    * ```
+    */
+  get event(): Prisma.EventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.item`: Exposes CRUD operations for the **Item** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Items
+    * const items = await prisma.item.findMany()
+    * ```
+    */
+  get item(): Prisma.ItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.itemClaim`: Exposes CRUD operations for the **ItemClaim** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ItemClaims
+    * const itemClaims = await prisma.itemClaim.findMany()
+    * ```
+    */
+  get itemClaim(): Prisma.ItemClaimDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.announcement`: Exposes CRUD operations for the **Announcement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Announcements
+    * const announcements = await prisma.announcement.findMany()
+    * ```
+    */
+  get announcement(): Prisma.AnnouncementDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tripExtension`: Exposes CRUD operations for the **TripExtension** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TripExtensions
+    * const tripExtensions = await prisma.tripExtension.findMany()
+    * ```
+    */
+  get tripExtension(): Prisma.TripExtensionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -688,7 +844,14 @@ export namespace Prisma {
     RefreshToken: 'RefreshToken',
     PasswordReset: 'PasswordReset',
     Trip: 'Trip',
-    TripMember: 'TripMember'
+    TripMember: 'TripMember',
+    Notification: 'Notification',
+    NotificationPreference: 'NotificationPreference',
+    Event: 'Event',
+    Item: 'Item',
+    ItemClaim: 'ItemClaim',
+    Announcement: 'Announcement',
+    TripExtension: 'TripExtension'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -704,7 +867,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "refreshToken" | "passwordReset" | "trip" | "tripMember"
+      modelProps: "user" | "refreshToken" | "passwordReset" | "trip" | "tripMember" | "notification" | "notificationPreference" | "event" | "item" | "itemClaim" | "announcement" | "tripExtension"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1078,6 +1241,524 @@ export namespace Prisma {
           }
         }
       }
+      Notification: {
+        payload: Prisma.$NotificationPayload<ExtArgs>
+        fields: Prisma.NotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.NotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findMany: {
+            args: Prisma.NotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          create: {
+            args: Prisma.NotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          createMany: {
+            args: Prisma.NotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.NotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          update: {
+            args: Prisma.NotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.NotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.NotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNotification>
+          }
+          groupBy: {
+            args: Prisma.NotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<NotificationCountAggregateOutputType> | number
+          }
+        }
+      }
+      NotificationPreference: {
+        payload: Prisma.$NotificationPreferencePayload<ExtArgs>
+        fields: Prisma.NotificationPreferenceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NotificationPreferenceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NotificationPreferenceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload>
+          }
+          findFirst: {
+            args: Prisma.NotificationPreferenceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NotificationPreferenceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload>
+          }
+          findMany: {
+            args: Prisma.NotificationPreferenceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload>[]
+          }
+          create: {
+            args: Prisma.NotificationPreferenceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload>
+          }
+          createMany: {
+            args: Prisma.NotificationPreferenceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NotificationPreferenceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload>[]
+          }
+          delete: {
+            args: Prisma.NotificationPreferenceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload>
+          }
+          update: {
+            args: Prisma.NotificationPreferenceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload>
+          }
+          deleteMany: {
+            args: Prisma.NotificationPreferenceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NotificationPreferenceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NotificationPreferenceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload>[]
+          }
+          upsert: {
+            args: Prisma.NotificationPreferenceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPreferencePayload>
+          }
+          aggregate: {
+            args: Prisma.NotificationPreferenceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNotificationPreference>
+          }
+          groupBy: {
+            args: Prisma.NotificationPreferenceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotificationPreferenceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NotificationPreferenceCountArgs<ExtArgs>
+            result: $Utils.Optional<NotificationPreferenceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Event: {
+        payload: Prisma.$EventPayload<ExtArgs>
+        fields: Prisma.EventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          findFirst: {
+            args: Prisma.EventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          findMany: {
+            args: Prisma.EventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
+          }
+          create: {
+            args: Prisma.EventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          createMany: {
+            args: Prisma.EventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
+          }
+          delete: {
+            args: Prisma.EventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          update: {
+            args: Prisma.EventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          deleteMany: {
+            args: Prisma.EventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
+          }
+          upsert: {
+            args: Prisma.EventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          aggregate: {
+            args: Prisma.EventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEvent>
+          }
+          groupBy: {
+            args: Prisma.EventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EventCountArgs<ExtArgs>
+            result: $Utils.Optional<EventCountAggregateOutputType> | number
+          }
+        }
+      }
+      Item: {
+        payload: Prisma.$ItemPayload<ExtArgs>
+        fields: Prisma.ItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload>
+          }
+          findFirst: {
+            args: Prisma.ItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload>
+          }
+          findMany: {
+            args: Prisma.ItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload>[]
+          }
+          create: {
+            args: Prisma.ItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload>
+          }
+          createMany: {
+            args: Prisma.ItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload>[]
+          }
+          delete: {
+            args: Prisma.ItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload>
+          }
+          update: {
+            args: Prisma.ItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.ItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.ItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemPayload>
+          }
+          aggregate: {
+            args: Prisma.ItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateItem>
+          }
+          groupBy: {
+            args: Prisma.ItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ItemCountArgs<ExtArgs>
+            result: $Utils.Optional<ItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      ItemClaim: {
+        payload: Prisma.$ItemClaimPayload<ExtArgs>
+        fields: Prisma.ItemClaimFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ItemClaimFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ItemClaimFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload>
+          }
+          findFirst: {
+            args: Prisma.ItemClaimFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ItemClaimFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload>
+          }
+          findMany: {
+            args: Prisma.ItemClaimFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload>[]
+          }
+          create: {
+            args: Prisma.ItemClaimCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload>
+          }
+          createMany: {
+            args: Prisma.ItemClaimCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ItemClaimCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload>[]
+          }
+          delete: {
+            args: Prisma.ItemClaimDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload>
+          }
+          update: {
+            args: Prisma.ItemClaimUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload>
+          }
+          deleteMany: {
+            args: Prisma.ItemClaimDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ItemClaimUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ItemClaimUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload>[]
+          }
+          upsert: {
+            args: Prisma.ItemClaimUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ItemClaimPayload>
+          }
+          aggregate: {
+            args: Prisma.ItemClaimAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateItemClaim>
+          }
+          groupBy: {
+            args: Prisma.ItemClaimGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ItemClaimGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ItemClaimCountArgs<ExtArgs>
+            result: $Utils.Optional<ItemClaimCountAggregateOutputType> | number
+          }
+        }
+      }
+      Announcement: {
+        payload: Prisma.$AnnouncementPayload<ExtArgs>
+        fields: Prisma.AnnouncementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AnnouncementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AnnouncementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          findFirst: {
+            args: Prisma.AnnouncementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AnnouncementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          findMany: {
+            args: Prisma.AnnouncementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+          }
+          create: {
+            args: Prisma.AnnouncementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          createMany: {
+            args: Prisma.AnnouncementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AnnouncementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+          }
+          delete: {
+            args: Prisma.AnnouncementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          update: {
+            args: Prisma.AnnouncementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          deleteMany: {
+            args: Prisma.AnnouncementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AnnouncementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AnnouncementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>[]
+          }
+          upsert: {
+            args: Prisma.AnnouncementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AnnouncementPayload>
+          }
+          aggregate: {
+            args: Prisma.AnnouncementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAnnouncement>
+          }
+          groupBy: {
+            args: Prisma.AnnouncementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AnnouncementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AnnouncementCountArgs<ExtArgs>
+            result: $Utils.Optional<AnnouncementCountAggregateOutputType> | number
+          }
+        }
+      }
+      TripExtension: {
+        payload: Prisma.$TripExtensionPayload<ExtArgs>
+        fields: Prisma.TripExtensionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TripExtensionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TripExtensionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload>
+          }
+          findFirst: {
+            args: Prisma.TripExtensionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TripExtensionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload>
+          }
+          findMany: {
+            args: Prisma.TripExtensionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload>[]
+          }
+          create: {
+            args: Prisma.TripExtensionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload>
+          }
+          createMany: {
+            args: Prisma.TripExtensionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TripExtensionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload>[]
+          }
+          delete: {
+            args: Prisma.TripExtensionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload>
+          }
+          update: {
+            args: Prisma.TripExtensionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload>
+          }
+          deleteMany: {
+            args: Prisma.TripExtensionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TripExtensionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TripExtensionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload>[]
+          }
+          upsert: {
+            args: Prisma.TripExtensionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripExtensionPayload>
+          }
+          aggregate: {
+            args: Prisma.TripExtensionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTripExtension>
+          }
+          groupBy: {
+            args: Prisma.TripExtensionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TripExtensionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TripExtensionCountArgs<ExtArgs>
+            result: $Utils.Optional<TripExtensionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1191,6 +1872,13 @@ export namespace Prisma {
     passwordReset?: PasswordResetOmit
     trip?: TripOmit
     tripMember?: TripMemberOmit
+    notification?: NotificationOmit
+    notificationPreference?: NotificationPreferenceOmit
+    event?: EventOmit
+    item?: ItemOmit
+    itemClaim?: ItemClaimOmit
+    announcement?: AnnouncementOmit
+    tripExtension?: TripExtensionOmit
   }
 
   /* Types for Logging */
@@ -1274,12 +1962,26 @@ export namespace Prisma {
     refreshTokens: number
     passwordResets: number
     tripMembers: number
+    suggestedEvents: number
+    approvedEvents: number
+    createdItems: number
+    itemClaims: number
+    notifications: number
+    notificationPrefs: number
+    announcements: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
     passwordResets?: boolean | UserCountOutputTypeCountPasswordResetsArgs
     tripMembers?: boolean | UserCountOutputTypeCountTripMembersArgs
+    suggestedEvents?: boolean | UserCountOutputTypeCountSuggestedEventsArgs
+    approvedEvents?: boolean | UserCountOutputTypeCountApprovedEventsArgs
+    createdItems?: boolean | UserCountOutputTypeCountCreatedItemsArgs
+    itemClaims?: boolean | UserCountOutputTypeCountItemClaimsArgs
+    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    notificationPrefs?: boolean | UserCountOutputTypeCountNotificationPrefsArgs
+    announcements?: boolean | UserCountOutputTypeCountAnnouncementsArgs
   }
 
   // Custom InputTypes
@@ -1314,6 +2016,55 @@ export namespace Prisma {
     where?: TripMemberWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSuggestedEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountApprovedEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCreatedItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountItemClaimsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemClaimWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountNotificationPrefsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationPreferenceWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAnnouncementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnnouncementWhereInput
+  }
+
 
   /**
    * Count Type TripCountOutputType
@@ -1321,10 +2072,22 @@ export namespace Prisma {
 
   export type TripCountOutputType = {
     members: number
+    events: number
+    items: number
+    notifications: number
+    notificationPrefs: number
+    announcements: number
+    extensions: number
   }
 
   export type TripCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | TripCountOutputTypeCountMembersArgs
+    events?: boolean | TripCountOutputTypeCountEventsArgs
+    items?: boolean | TripCountOutputTypeCountItemsArgs
+    notifications?: boolean | TripCountOutputTypeCountNotificationsArgs
+    notificationPrefs?: boolean | TripCountOutputTypeCountNotificationPrefsArgs
+    announcements?: boolean | TripCountOutputTypeCountAnnouncementsArgs
+    extensions?: boolean | TripCountOutputTypeCountExtensionsArgs
   }
 
   // Custom InputTypes
@@ -1343,6 +2106,79 @@ export namespace Prisma {
    */
   export type TripCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TripMemberWhereInput
+  }
+
+  /**
+   * TripCountOutputType without action
+   */
+  export type TripCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventWhereInput
+  }
+
+  /**
+   * TripCountOutputType without action
+   */
+  export type TripCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemWhereInput
+  }
+
+  /**
+   * TripCountOutputType without action
+   */
+  export type TripCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+  }
+
+  /**
+   * TripCountOutputType without action
+   */
+  export type TripCountOutputTypeCountNotificationPrefsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationPreferenceWhereInput
+  }
+
+  /**
+   * TripCountOutputType without action
+   */
+  export type TripCountOutputTypeCountAnnouncementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnnouncementWhereInput
+  }
+
+  /**
+   * TripCountOutputType without action
+   */
+  export type TripCountOutputTypeCountExtensionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TripExtensionWhereInput
+  }
+
+
+  /**
+   * Count Type ItemCountOutputType
+   */
+
+  export type ItemCountOutputType = {
+    claims: number
+  }
+
+  export type ItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    claims?: boolean | ItemCountOutputTypeCountClaimsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ItemCountOutputType without action
+   */
+  export type ItemCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemCountOutputType
+     */
+    select?: ItemCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ItemCountOutputType without action
+   */
+  export type ItemCountOutputTypeCountClaimsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemClaimWhereInput
   }
 
 
@@ -1553,6 +2389,13 @@ export namespace Prisma {
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     passwordResets?: boolean | User$passwordResetsArgs<ExtArgs>
     tripMembers?: boolean | User$tripMembersArgs<ExtArgs>
+    suggestedEvents?: boolean | User$suggestedEventsArgs<ExtArgs>
+    approvedEvents?: boolean | User$approvedEventsArgs<ExtArgs>
+    createdItems?: boolean | User$createdItemsArgs<ExtArgs>
+    itemClaims?: boolean | User$itemClaimsArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    notificationPrefs?: boolean | User$notificationPrefsArgs<ExtArgs>
+    announcements?: boolean | User$announcementsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1600,6 +2443,13 @@ export namespace Prisma {
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     passwordResets?: boolean | User$passwordResetsArgs<ExtArgs>
     tripMembers?: boolean | User$tripMembersArgs<ExtArgs>
+    suggestedEvents?: boolean | User$suggestedEventsArgs<ExtArgs>
+    approvedEvents?: boolean | User$approvedEventsArgs<ExtArgs>
+    createdItems?: boolean | User$createdItemsArgs<ExtArgs>
+    itemClaims?: boolean | User$itemClaimsArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    notificationPrefs?: boolean | User$notificationPrefsArgs<ExtArgs>
+    announcements?: boolean | User$announcementsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1611,6 +2461,13 @@ export namespace Prisma {
       refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
       passwordResets: Prisma.$PasswordResetPayload<ExtArgs>[]
       tripMembers: Prisma.$TripMemberPayload<ExtArgs>[]
+      suggestedEvents: Prisma.$EventPayload<ExtArgs>[]
+      approvedEvents: Prisma.$EventPayload<ExtArgs>[]
+      createdItems: Prisma.$ItemPayload<ExtArgs>[]
+      itemClaims: Prisma.$ItemClaimPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      notificationPrefs: Prisma.$NotificationPreferencePayload<ExtArgs>[]
+      announcements: Prisma.$AnnouncementPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2020,6 +2877,13 @@ export namespace Prisma {
     refreshTokens<T extends User$refreshTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordResets<T extends User$passwordResetsArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordResetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tripMembers<T extends User$tripMembersArgs<ExtArgs> = {}>(args?: Subset<T, User$tripMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    suggestedEvents<T extends User$suggestedEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$suggestedEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    approvedEvents<T extends User$approvedEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$approvedEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdItems<T extends User$createdItemsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    itemClaims<T extends User$itemClaimsArgs<ExtArgs> = {}>(args?: Subset<T, User$itemClaimsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notificationPrefs<T extends User$notificationPrefsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationPrefsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    announcements<T extends User$announcementsArgs<ExtArgs> = {}>(args?: Subset<T, User$announcementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2519,6 +3383,174 @@ export namespace Prisma {
   }
 
   /**
+   * User.suggestedEvents
+   */
+  export type User$suggestedEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    where?: EventWhereInput
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    cursor?: EventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * User.approvedEvents
+   */
+  export type User$approvedEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    where?: EventWhereInput
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    cursor?: EventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * User.createdItems
+   */
+  export type User$createdItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    where?: ItemWhereInput
+    orderBy?: ItemOrderByWithRelationInput | ItemOrderByWithRelationInput[]
+    cursor?: ItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemScalarFieldEnum | ItemScalarFieldEnum[]
+  }
+
+  /**
+   * User.itemClaims
+   */
+  export type User$itemClaimsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    where?: ItemClaimWhereInput
+    orderBy?: ItemClaimOrderByWithRelationInput | ItemClaimOrderByWithRelationInput[]
+    cursor?: ItemClaimWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemClaimScalarFieldEnum | ItemClaimScalarFieldEnum[]
+  }
+
+  /**
+   * User.notifications
+   */
+  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.notificationPrefs
+   */
+  export type User$notificationPrefsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    where?: NotificationPreferenceWhereInput
+    orderBy?: NotificationPreferenceOrderByWithRelationInput | NotificationPreferenceOrderByWithRelationInput[]
+    cursor?: NotificationPreferenceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationPreferenceScalarFieldEnum | NotificationPreferenceScalarFieldEnum[]
+  }
+
+  /**
+   * User.announcements
+   */
+  export type User$announcementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    where?: AnnouncementWhereInput
+    orderBy?: AnnouncementOrderByWithRelationInput | AnnouncementOrderByWithRelationInput[]
+    cursor?: AnnouncementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnnouncementScalarFieldEnum | AnnouncementScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2551,8 +3583,15 @@ export namespace Prisma {
     id: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    tokenId: string | null
     tokenHash: string | null
     expiresAt: Date | null
+    family: string | null
+    revoked: boolean | null
+    revokedAt: Date | null
+    revokeReason: string | null
+    userAgent: string | null
+    ipAddress: string | null
     userId: string | null
   }
 
@@ -2560,8 +3599,15 @@ export namespace Prisma {
     id: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    tokenId: string | null
     tokenHash: string | null
     expiresAt: Date | null
+    family: string | null
+    revoked: boolean | null
+    revokedAt: Date | null
+    revokeReason: string | null
+    userAgent: string | null
+    ipAddress: string | null
     userId: string | null
   }
 
@@ -2569,8 +3615,15 @@ export namespace Prisma {
     id: number
     createdAt: number
     updatedAt: number
+    tokenId: number
     tokenHash: number
     expiresAt: number
+    family: number
+    revoked: number
+    revokedAt: number
+    revokeReason: number
+    userAgent: number
+    ipAddress: number
     userId: number
     _all: number
   }
@@ -2580,8 +3633,15 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    tokenId?: true
     tokenHash?: true
     expiresAt?: true
+    family?: true
+    revoked?: true
+    revokedAt?: true
+    revokeReason?: true
+    userAgent?: true
+    ipAddress?: true
     userId?: true
   }
 
@@ -2589,8 +3649,15 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    tokenId?: true
     tokenHash?: true
     expiresAt?: true
+    family?: true
+    revoked?: true
+    revokedAt?: true
+    revokeReason?: true
+    userAgent?: true
+    ipAddress?: true
     userId?: true
   }
 
@@ -2598,8 +3665,15 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    tokenId?: true
     tokenHash?: true
     expiresAt?: true
+    family?: true
+    revoked?: true
+    revokedAt?: true
+    revokeReason?: true
+    userAgent?: true
+    ipAddress?: true
     userId?: true
     _all?: true
   }
@@ -2680,8 +3754,15 @@ export namespace Prisma {
     id: string
     createdAt: Date
     updatedAt: Date
+    tokenId: string
     tokenHash: string
     expiresAt: Date
+    family: string | null
+    revoked: boolean
+    revokedAt: Date | null
+    revokeReason: string | null
+    userAgent: string | null
+    ipAddress: string | null
     userId: string
     _count: RefreshTokenCountAggregateOutputType | null
     _min: RefreshTokenMinAggregateOutputType | null
@@ -2706,8 +3787,15 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tokenId?: boolean
     tokenHash?: boolean
     expiresAt?: boolean
+    family?: boolean
+    revoked?: boolean
+    revokedAt?: boolean
+    revokeReason?: boolean
+    userAgent?: boolean
+    ipAddress?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["refreshToken"]>
@@ -2716,8 +3804,15 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tokenId?: boolean
     tokenHash?: boolean
     expiresAt?: boolean
+    family?: boolean
+    revoked?: boolean
+    revokedAt?: boolean
+    revokeReason?: boolean
+    userAgent?: boolean
+    ipAddress?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["refreshToken"]>
@@ -2726,8 +3821,15 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tokenId?: boolean
     tokenHash?: boolean
     expiresAt?: boolean
+    family?: boolean
+    revoked?: boolean
+    revokedAt?: boolean
+    revokeReason?: boolean
+    userAgent?: boolean
+    ipAddress?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["refreshToken"]>
@@ -2736,12 +3838,19 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tokenId?: boolean
     tokenHash?: boolean
     expiresAt?: boolean
+    family?: boolean
+    revoked?: boolean
+    revokedAt?: boolean
+    revokeReason?: boolean
+    userAgent?: boolean
+    ipAddress?: boolean
     userId?: boolean
   }
 
-  export type RefreshTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "tokenHash" | "expiresAt" | "userId", ExtArgs["result"]["refreshToken"]>
+  export type RefreshTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "tokenId" | "tokenHash" | "expiresAt" | "family" | "revoked" | "revokedAt" | "revokeReason" | "userAgent" | "ipAddress" | "userId", ExtArgs["result"]["refreshToken"]>
   export type RefreshTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -2761,8 +3870,15 @@ export namespace Prisma {
       id: string
       createdAt: Date
       updatedAt: Date
+      tokenId: string
       tokenHash: string
       expiresAt: Date
+      family: string | null
+      revoked: boolean
+      revokedAt: Date | null
+      revokeReason: string | null
+      userAgent: string | null
+      ipAddress: string | null
       userId: string
     }, ExtArgs["result"]["refreshToken"]>
     composites: {}
@@ -3191,8 +4307,15 @@ export namespace Prisma {
     readonly id: FieldRef<"RefreshToken", 'String'>
     readonly createdAt: FieldRef<"RefreshToken", 'DateTime'>
     readonly updatedAt: FieldRef<"RefreshToken", 'DateTime'>
+    readonly tokenId: FieldRef<"RefreshToken", 'String'>
     readonly tokenHash: FieldRef<"RefreshToken", 'String'>
     readonly expiresAt: FieldRef<"RefreshToken", 'DateTime'>
+    readonly family: FieldRef<"RefreshToken", 'String'>
+    readonly revoked: FieldRef<"RefreshToken", 'Boolean'>
+    readonly revokedAt: FieldRef<"RefreshToken", 'DateTime'>
+    readonly revokeReason: FieldRef<"RefreshToken", 'String'>
+    readonly userAgent: FieldRef<"RefreshToken", 'String'>
+    readonly ipAddress: FieldRef<"RefreshToken", 'String'>
     readonly userId: FieldRef<"RefreshToken", 'String'>
   }
     
@@ -4897,6 +6020,12 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     members?: boolean | Trip$membersArgs<ExtArgs>
+    events?: boolean | Trip$eventsArgs<ExtArgs>
+    items?: boolean | Trip$itemsArgs<ExtArgs>
+    notifications?: boolean | Trip$notificationsArgs<ExtArgs>
+    notificationPrefs?: boolean | Trip$notificationPrefsArgs<ExtArgs>
+    announcements?: boolean | Trip$announcementsArgs<ExtArgs>
+    extensions?: boolean | Trip$extensionsArgs<ExtArgs>
     _count?: boolean | TripCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["trip"]>
 
@@ -4945,6 +6074,12 @@ export namespace Prisma {
   export type TripOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "title" | "description" | "status" | "location" | "inviteCode" | "metadata" | "startDate" | "endDate", ExtArgs["result"]["trip"]>
   export type TripInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | Trip$membersArgs<ExtArgs>
+    events?: boolean | Trip$eventsArgs<ExtArgs>
+    items?: boolean | Trip$itemsArgs<ExtArgs>
+    notifications?: boolean | Trip$notificationsArgs<ExtArgs>
+    notificationPrefs?: boolean | Trip$notificationPrefsArgs<ExtArgs>
+    announcements?: boolean | Trip$announcementsArgs<ExtArgs>
+    extensions?: boolean | Trip$extensionsArgs<ExtArgs>
     _count?: boolean | TripCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TripIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4954,6 +6089,12 @@ export namespace Prisma {
     name: "Trip"
     objects: {
       members: Prisma.$TripMemberPayload<ExtArgs>[]
+      events: Prisma.$EventPayload<ExtArgs>[]
+      items: Prisma.$ItemPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      notificationPrefs: Prisma.$NotificationPreferencePayload<ExtArgs>[]
+      announcements: Prisma.$AnnouncementPayload<ExtArgs>[]
+      extensions: Prisma.$TripExtensionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5362,6 +6503,12 @@ export namespace Prisma {
   export interface Prisma__TripClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     members<T extends Trip$membersArgs<ExtArgs> = {}>(args?: Subset<T, Trip$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    events<T extends Trip$eventsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    items<T extends Trip$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends Trip$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notificationPrefs<T extends Trip$notificationPrefsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$notificationPrefsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    announcements<T extends Trip$announcementsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$announcementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    extensions<T extends Trip$extensionsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$extensionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5811,6 +6958,150 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TripMemberScalarFieldEnum | TripMemberScalarFieldEnum[]
+  }
+
+  /**
+   * Trip.events
+   */
+  export type Trip$eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    where?: EventWhereInput
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    cursor?: EventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Trip.items
+   */
+  export type Trip$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    where?: ItemWhereInput
+    orderBy?: ItemOrderByWithRelationInput | ItemOrderByWithRelationInput[]
+    cursor?: ItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemScalarFieldEnum | ItemScalarFieldEnum[]
+  }
+
+  /**
+   * Trip.notifications
+   */
+  export type Trip$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Trip.notificationPrefs
+   */
+  export type Trip$notificationPrefsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    where?: NotificationPreferenceWhereInput
+    orderBy?: NotificationPreferenceOrderByWithRelationInput | NotificationPreferenceOrderByWithRelationInput[]
+    cursor?: NotificationPreferenceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationPreferenceScalarFieldEnum | NotificationPreferenceScalarFieldEnum[]
+  }
+
+  /**
+   * Trip.announcements
+   */
+  export type Trip$announcementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    where?: AnnouncementWhereInput
+    orderBy?: AnnouncementOrderByWithRelationInput | AnnouncementOrderByWithRelationInput[]
+    cursor?: AnnouncementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AnnouncementScalarFieldEnum | AnnouncementScalarFieldEnum[]
+  }
+
+  /**
+   * Trip.extensions
+   */
+  export type Trip$extensionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+    where?: TripExtensionWhereInput
+    orderBy?: TripExtensionOrderByWithRelationInput | TripExtensionOrderByWithRelationInput[]
+    cursor?: TripExtensionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TripExtensionScalarFieldEnum | TripExtensionScalarFieldEnum[]
   }
 
   /**
@@ -6938,6 +8229,8118 @@ export namespace Prisma {
 
 
   /**
+   * Model Notification
+   */
+
+  export type AggregateNotification = {
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  export type NotificationMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    userId: string | null
+    tripId: string | null
+    type: string | null
+    title: string | null
+    body: string | null
+    read: boolean | null
+    readAt: Date | null
+  }
+
+  export type NotificationMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    userId: string | null
+    tripId: string | null
+    type: string | null
+    title: string | null
+    body: string | null
+    read: boolean | null
+    readAt: Date | null
+  }
+
+  export type NotificationCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    userId: number
+    tripId: number
+    type: number
+    title: number
+    body: number
+    payload: number
+    read: number
+    readAt: number
+    _all: number
+  }
+
+
+  export type NotificationMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    userId?: true
+    tripId?: true
+    type?: true
+    title?: true
+    body?: true
+    read?: true
+    readAt?: true
+  }
+
+  export type NotificationMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    userId?: true
+    tripId?: true
+    type?: true
+    title?: true
+    body?: true
+    read?: true
+    readAt?: true
+  }
+
+  export type NotificationCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    userId?: true
+    tripId?: true
+    type?: true
+    title?: true
+    body?: true
+    payload?: true
+    read?: true
+    readAt?: true
+    _all?: true
+  }
+
+  export type NotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notification to aggregate.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Notifications
+    **/
+    _count?: true | NotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type GetNotificationAggregateType<T extends NotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotification[P]>
+      : GetScalarType<T[P], AggregateNotification[P]>
+  }
+
+
+
+
+  export type NotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithAggregationInput | NotificationOrderByWithAggregationInput[]
+    by: NotificationScalarFieldEnum[] | NotificationScalarFieldEnum
+    having?: NotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificationCountAggregateInputType | true
+    _min?: NotificationMinAggregateInputType
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type NotificationGroupByOutputType = {
+    id: string
+    createdAt: Date
+    userId: string
+    tripId: string | null
+    type: string
+    title: string
+    body: string | null
+    payload: JsonValue
+    read: boolean
+    readAt: Date | null
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  type GetNotificationGroupByPayload<T extends NotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    tripId?: boolean
+    type?: boolean
+    title?: boolean
+    body?: boolean
+    payload?: boolean
+    read?: boolean
+    readAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | Notification$tripArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    tripId?: boolean
+    type?: boolean
+    title?: boolean
+    body?: boolean
+    payload?: boolean
+    read?: boolean
+    readAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | Notification$tripArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    tripId?: boolean
+    type?: boolean
+    title?: boolean
+    body?: boolean
+    payload?: boolean
+    read?: boolean
+    readAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | Notification$tripArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    tripId?: boolean
+    type?: boolean
+    title?: boolean
+    body?: boolean
+    payload?: boolean
+    read?: boolean
+    readAt?: boolean
+  }
+
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "userId" | "tripId" | "type" | "title" | "body" | "payload" | "read" | "readAt", ExtArgs["result"]["notification"]>
+  export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | Notification$tripArgs<ExtArgs>
+  }
+  export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | Notification$tripArgs<ExtArgs>
+  }
+  export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | Notification$tripArgs<ExtArgs>
+  }
+
+  export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Notification"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      trip: Prisma.$TripPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      userId: string
+      tripId: string | null
+      type: string
+      title: string
+      body: string | null
+      payload: Prisma.JsonValue
+      read: boolean
+      readAt: Date | null
+    }, ExtArgs["result"]["notification"]>
+    composites: {}
+  }
+
+  type NotificationGetPayload<S extends boolean | null | undefined | NotificationDefaultArgs> = $Result.GetResult<Prisma.$NotificationPayload, S>
+
+  type NotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificationCountAggregateInputType | true
+    }
+
+  export interface NotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notification'], meta: { name: 'Notification' } }
+    /**
+     * Find zero or one Notification that matches the filter.
+     * @param {NotificationFindUniqueArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NotificationFindUniqueArgs>(args: SelectSubset<T, NotificationFindUniqueArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Notification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NotificationFindUniqueOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NotificationFindFirstArgs>(args?: SelectSubset<T, NotificationFindFirstArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Notifications
+     * const notifications = await prisma.notification.findMany()
+     * 
+     * // Get first 10 Notifications
+     * const notifications = await prisma.notification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificationWithIdOnly = await prisma.notification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NotificationFindManyArgs>(args?: SelectSubset<T, NotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Notification.
+     * @param {NotificationCreateArgs} args - Arguments to create a Notification.
+     * @example
+     * // Create one Notification
+     * const Notification = await prisma.notification.create({
+     *   data: {
+     *     // ... data to create a Notification
+     *   }
+     * })
+     * 
+     */
+    create<T extends NotificationCreateArgs>(args: SelectSubset<T, NotificationCreateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Notifications.
+     * @param {NotificationCreateManyArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NotificationCreateManyArgs>(args?: SelectSubset<T, NotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Notifications and returns the data saved in the database.
+     * @param {NotificationCreateManyAndReturnArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Notification.
+     * @param {NotificationDeleteArgs} args - Arguments to delete one Notification.
+     * @example
+     * // Delete one Notification
+     * const Notification = await prisma.notification.delete({
+     *   where: {
+     *     // ... filter to delete one Notification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NotificationDeleteArgs>(args: SelectSubset<T, NotificationDeleteArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Notification.
+     * @param {NotificationUpdateArgs} args - Arguments to update one Notification.
+     * @example
+     * // Update one Notification
+     * const notification = await prisma.notification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NotificationUpdateArgs>(args: SelectSubset<T, NotificationUpdateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Notifications.
+     * @param {NotificationDeleteManyArgs} args - Arguments to filter Notifications to delete.
+     * @example
+     * // Delete a few Notifications
+     * const { count } = await prisma.notification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NotificationDeleteManyArgs>(args?: SelectSubset<T, NotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NotificationUpdateManyArgs>(args: SelectSubset<T, NotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications and returns the data updated in the database.
+     * @param {NotificationUpdateManyAndReturnArgs} args - Arguments to update many Notifications.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Notification.
+     * @param {NotificationUpsertArgs} args - Arguments to update or create a Notification.
+     * @example
+     * // Update or create a Notification
+     * const notification = await prisma.notification.upsert({
+     *   create: {
+     *     // ... data to create a Notification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Notification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NotificationUpsertArgs>(args: SelectSubset<T, NotificationUpsertArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationCountArgs} args - Arguments to filter Notifications to count.
+     * @example
+     * // Count the number of Notifications
+     * const count = await prisma.notification.count({
+     *   where: {
+     *     // ... the filter for the Notifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends NotificationCountArgs>(
+      args?: Subset<T, NotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificationAggregateArgs>(args: Subset<T, NotificationAggregateArgs>): Prisma.PrismaPromise<GetNotificationAggregateType<T>>
+
+    /**
+     * Group by Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NotificationGroupByArgs['orderBy'] }
+        : { orderBy?: NotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Notification model
+   */
+  readonly fields: NotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Notification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    trip<T extends Notification$tripArgs<ExtArgs> = {}>(args?: Subset<T, Notification$tripArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Notification model
+   */
+  interface NotificationFieldRefs {
+    readonly id: FieldRef<"Notification", 'String'>
+    readonly createdAt: FieldRef<"Notification", 'DateTime'>
+    readonly userId: FieldRef<"Notification", 'String'>
+    readonly tripId: FieldRef<"Notification", 'String'>
+    readonly type: FieldRef<"Notification", 'String'>
+    readonly title: FieldRef<"Notification", 'String'>
+    readonly body: FieldRef<"Notification", 'String'>
+    readonly payload: FieldRef<"Notification", 'Json'>
+    readonly read: FieldRef<"Notification", 'Boolean'>
+    readonly readAt: FieldRef<"Notification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Notification findUnique
+   */
+  export type NotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findUniqueOrThrow
+   */
+  export type NotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findFirst
+   */
+  export type NotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findFirstOrThrow
+   */
+  export type NotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findMany
+   */
+  export type NotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification create
+   */
+  export type NotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Notification.
+     */
+    data: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+  }
+
+  /**
+   * Notification createMany
+   */
+  export type NotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Notification createManyAndReturn
+   */
+  export type NotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification update
+   */
+  export type NotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Notification.
+     */
+    data: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+    /**
+     * Choose, which Notification to update.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification updateMany
+   */
+  export type NotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification updateManyAndReturn
+   */
+  export type NotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification upsert
+   */
+  export type NotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Notification to update in case it exists.
+     */
+    where: NotificationWhereUniqueInput
+    /**
+     * In case the Notification found by the `where` argument doesn't exist, create a new Notification with this data.
+     */
+    create: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+    /**
+     * In case the Notification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * Notification delete
+   */
+  export type NotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter which Notification to delete.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification deleteMany
+   */
+  export type NotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notifications to delete
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification.trip
+   */
+  export type Notification$tripArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trip
+     */
+    select?: TripSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trip
+     */
+    omit?: TripOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripInclude<ExtArgs> | null
+    where?: TripWhereInput
+  }
+
+  /**
+   * Notification without action
+   */
+  export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model NotificationPreference
+   */
+
+  export type AggregateNotificationPreference = {
+    _count: NotificationPreferenceCountAggregateOutputType | null
+    _min: NotificationPreferenceMinAggregateOutputType | null
+    _max: NotificationPreferenceMaxAggregateOutputType | null
+  }
+
+  export type NotificationPreferenceMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+    tripId: string | null
+    emailEnabled: boolean | null
+    pushEnabled: boolean | null
+    scheduleChanges: boolean | null
+    itemUpdates: boolean | null
+    announcements: boolean | null
+    digestFrequency: $Enums.DigestFrequency | null
+  }
+
+  export type NotificationPreferenceMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+    tripId: string | null
+    emailEnabled: boolean | null
+    pushEnabled: boolean | null
+    scheduleChanges: boolean | null
+    itemUpdates: boolean | null
+    announcements: boolean | null
+    digestFrequency: $Enums.DigestFrequency | null
+  }
+
+  export type NotificationPreferenceCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    updatedAt: number
+    userId: number
+    tripId: number
+    emailEnabled: number
+    pushEnabled: number
+    scheduleChanges: number
+    itemUpdates: number
+    announcements: number
+    digestFrequency: number
+    _all: number
+  }
+
+
+  export type NotificationPreferenceMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    tripId?: true
+    emailEnabled?: true
+    pushEnabled?: true
+    scheduleChanges?: true
+    itemUpdates?: true
+    announcements?: true
+    digestFrequency?: true
+  }
+
+  export type NotificationPreferenceMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    tripId?: true
+    emailEnabled?: true
+    pushEnabled?: true
+    scheduleChanges?: true
+    itemUpdates?: true
+    announcements?: true
+    digestFrequency?: true
+  }
+
+  export type NotificationPreferenceCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    tripId?: true
+    emailEnabled?: true
+    pushEnabled?: true
+    scheduleChanges?: true
+    itemUpdates?: true
+    announcements?: true
+    digestFrequency?: true
+    _all?: true
+  }
+
+  export type NotificationPreferenceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NotificationPreference to aggregate.
+     */
+    where?: NotificationPreferenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NotificationPreferences to fetch.
+     */
+    orderBy?: NotificationPreferenceOrderByWithRelationInput | NotificationPreferenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NotificationPreferenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NotificationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NotificationPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NotificationPreferences
+    **/
+    _count?: true | NotificationPreferenceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificationPreferenceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificationPreferenceMaxAggregateInputType
+  }
+
+  export type GetNotificationPreferenceAggregateType<T extends NotificationPreferenceAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotificationPreference]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotificationPreference[P]>
+      : GetScalarType<T[P], AggregateNotificationPreference[P]>
+  }
+
+
+
+
+  export type NotificationPreferenceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationPreferenceWhereInput
+    orderBy?: NotificationPreferenceOrderByWithAggregationInput | NotificationPreferenceOrderByWithAggregationInput[]
+    by: NotificationPreferenceScalarFieldEnum[] | NotificationPreferenceScalarFieldEnum
+    having?: NotificationPreferenceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificationPreferenceCountAggregateInputType | true
+    _min?: NotificationPreferenceMinAggregateInputType
+    _max?: NotificationPreferenceMaxAggregateInputType
+  }
+
+  export type NotificationPreferenceGroupByOutputType = {
+    id: string
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    tripId: string | null
+    emailEnabled: boolean
+    pushEnabled: boolean
+    scheduleChanges: boolean
+    itemUpdates: boolean
+    announcements: boolean
+    digestFrequency: $Enums.DigestFrequency
+    _count: NotificationPreferenceCountAggregateOutputType | null
+    _min: NotificationPreferenceMinAggregateOutputType | null
+    _max: NotificationPreferenceMaxAggregateOutputType | null
+  }
+
+  type GetNotificationPreferenceGroupByPayload<T extends NotificationPreferenceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificationPreferenceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificationPreferenceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificationPreferenceGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificationPreferenceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NotificationPreferenceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    tripId?: boolean
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | NotificationPreference$tripArgs<ExtArgs>
+  }, ExtArgs["result"]["notificationPreference"]>
+
+  export type NotificationPreferenceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    tripId?: boolean
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | NotificationPreference$tripArgs<ExtArgs>
+  }, ExtArgs["result"]["notificationPreference"]>
+
+  export type NotificationPreferenceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    tripId?: boolean
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | NotificationPreference$tripArgs<ExtArgs>
+  }, ExtArgs["result"]["notificationPreference"]>
+
+  export type NotificationPreferenceSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    tripId?: boolean
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: boolean
+  }
+
+  export type NotificationPreferenceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "userId" | "tripId" | "emailEnabled" | "pushEnabled" | "scheduleChanges" | "itemUpdates" | "announcements" | "digestFrequency", ExtArgs["result"]["notificationPreference"]>
+  export type NotificationPreferenceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | NotificationPreference$tripArgs<ExtArgs>
+  }
+  export type NotificationPreferenceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | NotificationPreference$tripArgs<ExtArgs>
+  }
+  export type NotificationPreferenceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | NotificationPreference$tripArgs<ExtArgs>
+  }
+
+  export type $NotificationPreferencePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NotificationPreference"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      trip: Prisma.$TripPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      userId: string
+      tripId: string | null
+      emailEnabled: boolean
+      pushEnabled: boolean
+      scheduleChanges: boolean
+      itemUpdates: boolean
+      announcements: boolean
+      digestFrequency: $Enums.DigestFrequency
+    }, ExtArgs["result"]["notificationPreference"]>
+    composites: {}
+  }
+
+  type NotificationPreferenceGetPayload<S extends boolean | null | undefined | NotificationPreferenceDefaultArgs> = $Result.GetResult<Prisma.$NotificationPreferencePayload, S>
+
+  type NotificationPreferenceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NotificationPreferenceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificationPreferenceCountAggregateInputType | true
+    }
+
+  export interface NotificationPreferenceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NotificationPreference'], meta: { name: 'NotificationPreference' } }
+    /**
+     * Find zero or one NotificationPreference that matches the filter.
+     * @param {NotificationPreferenceFindUniqueArgs} args - Arguments to find a NotificationPreference
+     * @example
+     * // Get one NotificationPreference
+     * const notificationPreference = await prisma.notificationPreference.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NotificationPreferenceFindUniqueArgs>(args: SelectSubset<T, NotificationPreferenceFindUniqueArgs<ExtArgs>>): Prisma__NotificationPreferenceClient<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NotificationPreference that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NotificationPreferenceFindUniqueOrThrowArgs} args - Arguments to find a NotificationPreference
+     * @example
+     * // Get one NotificationPreference
+     * const notificationPreference = await prisma.notificationPreference.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NotificationPreferenceFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationPreferenceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationPreferenceClient<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NotificationPreference that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationPreferenceFindFirstArgs} args - Arguments to find a NotificationPreference
+     * @example
+     * // Get one NotificationPreference
+     * const notificationPreference = await prisma.notificationPreference.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NotificationPreferenceFindFirstArgs>(args?: SelectSubset<T, NotificationPreferenceFindFirstArgs<ExtArgs>>): Prisma__NotificationPreferenceClient<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NotificationPreference that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationPreferenceFindFirstOrThrowArgs} args - Arguments to find a NotificationPreference
+     * @example
+     * // Get one NotificationPreference
+     * const notificationPreference = await prisma.notificationPreference.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NotificationPreferenceFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationPreferenceFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationPreferenceClient<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NotificationPreferences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationPreferenceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NotificationPreferences
+     * const notificationPreferences = await prisma.notificationPreference.findMany()
+     * 
+     * // Get first 10 NotificationPreferences
+     * const notificationPreferences = await prisma.notificationPreference.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificationPreferenceWithIdOnly = await prisma.notificationPreference.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NotificationPreferenceFindManyArgs>(args?: SelectSubset<T, NotificationPreferenceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NotificationPreference.
+     * @param {NotificationPreferenceCreateArgs} args - Arguments to create a NotificationPreference.
+     * @example
+     * // Create one NotificationPreference
+     * const NotificationPreference = await prisma.notificationPreference.create({
+     *   data: {
+     *     // ... data to create a NotificationPreference
+     *   }
+     * })
+     * 
+     */
+    create<T extends NotificationPreferenceCreateArgs>(args: SelectSubset<T, NotificationPreferenceCreateArgs<ExtArgs>>): Prisma__NotificationPreferenceClient<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NotificationPreferences.
+     * @param {NotificationPreferenceCreateManyArgs} args - Arguments to create many NotificationPreferences.
+     * @example
+     * // Create many NotificationPreferences
+     * const notificationPreference = await prisma.notificationPreference.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NotificationPreferenceCreateManyArgs>(args?: SelectSubset<T, NotificationPreferenceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NotificationPreferences and returns the data saved in the database.
+     * @param {NotificationPreferenceCreateManyAndReturnArgs} args - Arguments to create many NotificationPreferences.
+     * @example
+     * // Create many NotificationPreferences
+     * const notificationPreference = await prisma.notificationPreference.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NotificationPreferences and only return the `id`
+     * const notificationPreferenceWithIdOnly = await prisma.notificationPreference.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NotificationPreferenceCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationPreferenceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NotificationPreference.
+     * @param {NotificationPreferenceDeleteArgs} args - Arguments to delete one NotificationPreference.
+     * @example
+     * // Delete one NotificationPreference
+     * const NotificationPreference = await prisma.notificationPreference.delete({
+     *   where: {
+     *     // ... filter to delete one NotificationPreference
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NotificationPreferenceDeleteArgs>(args: SelectSubset<T, NotificationPreferenceDeleteArgs<ExtArgs>>): Prisma__NotificationPreferenceClient<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NotificationPreference.
+     * @param {NotificationPreferenceUpdateArgs} args - Arguments to update one NotificationPreference.
+     * @example
+     * // Update one NotificationPreference
+     * const notificationPreference = await prisma.notificationPreference.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NotificationPreferenceUpdateArgs>(args: SelectSubset<T, NotificationPreferenceUpdateArgs<ExtArgs>>): Prisma__NotificationPreferenceClient<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NotificationPreferences.
+     * @param {NotificationPreferenceDeleteManyArgs} args - Arguments to filter NotificationPreferences to delete.
+     * @example
+     * // Delete a few NotificationPreferences
+     * const { count } = await prisma.notificationPreference.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NotificationPreferenceDeleteManyArgs>(args?: SelectSubset<T, NotificationPreferenceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NotificationPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationPreferenceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NotificationPreferences
+     * const notificationPreference = await prisma.notificationPreference.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NotificationPreferenceUpdateManyArgs>(args: SelectSubset<T, NotificationPreferenceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NotificationPreferences and returns the data updated in the database.
+     * @param {NotificationPreferenceUpdateManyAndReturnArgs} args - Arguments to update many NotificationPreferences.
+     * @example
+     * // Update many NotificationPreferences
+     * const notificationPreference = await prisma.notificationPreference.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NotificationPreferences and only return the `id`
+     * const notificationPreferenceWithIdOnly = await prisma.notificationPreference.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NotificationPreferenceUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationPreferenceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NotificationPreference.
+     * @param {NotificationPreferenceUpsertArgs} args - Arguments to update or create a NotificationPreference.
+     * @example
+     * // Update or create a NotificationPreference
+     * const notificationPreference = await prisma.notificationPreference.upsert({
+     *   create: {
+     *     // ... data to create a NotificationPreference
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NotificationPreference we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NotificationPreferenceUpsertArgs>(args: SelectSubset<T, NotificationPreferenceUpsertArgs<ExtArgs>>): Prisma__NotificationPreferenceClient<$Result.GetResult<Prisma.$NotificationPreferencePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NotificationPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationPreferenceCountArgs} args - Arguments to filter NotificationPreferences to count.
+     * @example
+     * // Count the number of NotificationPreferences
+     * const count = await prisma.notificationPreference.count({
+     *   where: {
+     *     // ... the filter for the NotificationPreferences we want to count
+     *   }
+     * })
+    **/
+    count<T extends NotificationPreferenceCountArgs>(
+      args?: Subset<T, NotificationPreferenceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificationPreferenceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NotificationPreference.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationPreferenceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificationPreferenceAggregateArgs>(args: Subset<T, NotificationPreferenceAggregateArgs>): Prisma.PrismaPromise<GetNotificationPreferenceAggregateType<T>>
+
+    /**
+     * Group by NotificationPreference.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationPreferenceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NotificationPreferenceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NotificationPreferenceGroupByArgs['orderBy'] }
+        : { orderBy?: NotificationPreferenceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NotificationPreferenceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationPreferenceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NotificationPreference model
+   */
+  readonly fields: NotificationPreferenceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NotificationPreference.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NotificationPreferenceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    trip<T extends NotificationPreference$tripArgs<ExtArgs> = {}>(args?: Subset<T, NotificationPreference$tripArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NotificationPreference model
+   */
+  interface NotificationPreferenceFieldRefs {
+    readonly id: FieldRef<"NotificationPreference", 'String'>
+    readonly createdAt: FieldRef<"NotificationPreference", 'DateTime'>
+    readonly updatedAt: FieldRef<"NotificationPreference", 'DateTime'>
+    readonly userId: FieldRef<"NotificationPreference", 'String'>
+    readonly tripId: FieldRef<"NotificationPreference", 'String'>
+    readonly emailEnabled: FieldRef<"NotificationPreference", 'Boolean'>
+    readonly pushEnabled: FieldRef<"NotificationPreference", 'Boolean'>
+    readonly scheduleChanges: FieldRef<"NotificationPreference", 'Boolean'>
+    readonly itemUpdates: FieldRef<"NotificationPreference", 'Boolean'>
+    readonly announcements: FieldRef<"NotificationPreference", 'Boolean'>
+    readonly digestFrequency: FieldRef<"NotificationPreference", 'DigestFrequency'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NotificationPreference findUnique
+   */
+  export type NotificationPreferenceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter, which NotificationPreference to fetch.
+     */
+    where: NotificationPreferenceWhereUniqueInput
+  }
+
+  /**
+   * NotificationPreference findUniqueOrThrow
+   */
+  export type NotificationPreferenceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter, which NotificationPreference to fetch.
+     */
+    where: NotificationPreferenceWhereUniqueInput
+  }
+
+  /**
+   * NotificationPreference findFirst
+   */
+  export type NotificationPreferenceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter, which NotificationPreference to fetch.
+     */
+    where?: NotificationPreferenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NotificationPreferences to fetch.
+     */
+    orderBy?: NotificationPreferenceOrderByWithRelationInput | NotificationPreferenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NotificationPreferences.
+     */
+    cursor?: NotificationPreferenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NotificationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NotificationPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NotificationPreferences.
+     */
+    distinct?: NotificationPreferenceScalarFieldEnum | NotificationPreferenceScalarFieldEnum[]
+  }
+
+  /**
+   * NotificationPreference findFirstOrThrow
+   */
+  export type NotificationPreferenceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter, which NotificationPreference to fetch.
+     */
+    where?: NotificationPreferenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NotificationPreferences to fetch.
+     */
+    orderBy?: NotificationPreferenceOrderByWithRelationInput | NotificationPreferenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NotificationPreferences.
+     */
+    cursor?: NotificationPreferenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NotificationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NotificationPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NotificationPreferences.
+     */
+    distinct?: NotificationPreferenceScalarFieldEnum | NotificationPreferenceScalarFieldEnum[]
+  }
+
+  /**
+   * NotificationPreference findMany
+   */
+  export type NotificationPreferenceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter, which NotificationPreferences to fetch.
+     */
+    where?: NotificationPreferenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NotificationPreferences to fetch.
+     */
+    orderBy?: NotificationPreferenceOrderByWithRelationInput | NotificationPreferenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NotificationPreferences.
+     */
+    cursor?: NotificationPreferenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NotificationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NotificationPreferences.
+     */
+    skip?: number
+    distinct?: NotificationPreferenceScalarFieldEnum | NotificationPreferenceScalarFieldEnum[]
+  }
+
+  /**
+   * NotificationPreference create
+   */
+  export type NotificationPreferenceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a NotificationPreference.
+     */
+    data: XOR<NotificationPreferenceCreateInput, NotificationPreferenceUncheckedCreateInput>
+  }
+
+  /**
+   * NotificationPreference createMany
+   */
+  export type NotificationPreferenceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NotificationPreferences.
+     */
+    data: NotificationPreferenceCreateManyInput | NotificationPreferenceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * NotificationPreference createManyAndReturn
+   */
+  export type NotificationPreferenceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * The data used to create many NotificationPreferences.
+     */
+    data: NotificationPreferenceCreateManyInput | NotificationPreferenceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NotificationPreference update
+   */
+  export type NotificationPreferenceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a NotificationPreference.
+     */
+    data: XOR<NotificationPreferenceUpdateInput, NotificationPreferenceUncheckedUpdateInput>
+    /**
+     * Choose, which NotificationPreference to update.
+     */
+    where: NotificationPreferenceWhereUniqueInput
+  }
+
+  /**
+   * NotificationPreference updateMany
+   */
+  export type NotificationPreferenceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NotificationPreferences.
+     */
+    data: XOR<NotificationPreferenceUpdateManyMutationInput, NotificationPreferenceUncheckedUpdateManyInput>
+    /**
+     * Filter which NotificationPreferences to update
+     */
+    where?: NotificationPreferenceWhereInput
+    /**
+     * Limit how many NotificationPreferences to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NotificationPreference updateManyAndReturn
+   */
+  export type NotificationPreferenceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * The data used to update NotificationPreferences.
+     */
+    data: XOR<NotificationPreferenceUpdateManyMutationInput, NotificationPreferenceUncheckedUpdateManyInput>
+    /**
+     * Filter which NotificationPreferences to update
+     */
+    where?: NotificationPreferenceWhereInput
+    /**
+     * Limit how many NotificationPreferences to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NotificationPreference upsert
+   */
+  export type NotificationPreferenceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the NotificationPreference to update in case it exists.
+     */
+    where: NotificationPreferenceWhereUniqueInput
+    /**
+     * In case the NotificationPreference found by the `where` argument doesn't exist, create a new NotificationPreference with this data.
+     */
+    create: XOR<NotificationPreferenceCreateInput, NotificationPreferenceUncheckedCreateInput>
+    /**
+     * In case the NotificationPreference was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NotificationPreferenceUpdateInput, NotificationPreferenceUncheckedUpdateInput>
+  }
+
+  /**
+   * NotificationPreference delete
+   */
+  export type NotificationPreferenceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter which NotificationPreference to delete.
+     */
+    where: NotificationPreferenceWhereUniqueInput
+  }
+
+  /**
+   * NotificationPreference deleteMany
+   */
+  export type NotificationPreferenceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NotificationPreferences to delete
+     */
+    where?: NotificationPreferenceWhereInput
+    /**
+     * Limit how many NotificationPreferences to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NotificationPreference.trip
+   */
+  export type NotificationPreference$tripArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trip
+     */
+    select?: TripSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trip
+     */
+    omit?: TripOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripInclude<ExtArgs> | null
+    where?: TripWhereInput
+  }
+
+  /**
+   * NotificationPreference without action
+   */
+  export type NotificationPreferenceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NotificationPreference
+     */
+    select?: NotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NotificationPreference
+     */
+    omit?: NotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationPreferenceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Event
+   */
+
+  export type AggregateEvent = {
+    _count: EventCountAggregateOutputType | null
+    _avg: EventAvgAggregateOutputType | null
+    _sum: EventSumAggregateOutputType | null
+    _min: EventMinAggregateOutputType | null
+    _max: EventMaxAggregateOutputType | null
+  }
+
+  export type EventAvgAggregateOutputType = {
+    estimatedCost: Decimal | null
+  }
+
+  export type EventSumAggregateOutputType = {
+    estimatedCost: Decimal | null
+  }
+
+  export type EventMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    tripId: string | null
+    title: string | null
+    description: string | null
+    startTime: Date | null
+    endTime: Date | null
+    isAllDay: boolean | null
+    status: $Enums.EventStatus | null
+    category: string | null
+    estimatedCost: Decimal | null
+    currency: string | null
+    suggestedById: string | null
+    approvedById: string | null
+  }
+
+  export type EventMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    tripId: string | null
+    title: string | null
+    description: string | null
+    startTime: Date | null
+    endTime: Date | null
+    isAllDay: boolean | null
+    status: $Enums.EventStatus | null
+    category: string | null
+    estimatedCost: Decimal | null
+    currency: string | null
+    suggestedById: string | null
+    approvedById: string | null
+  }
+
+  export type EventCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    updatedAt: number
+    tripId: number
+    title: number
+    description: number
+    location: number
+    startTime: number
+    endTime: number
+    isAllDay: number
+    status: number
+    category: number
+    estimatedCost: number
+    currency: number
+    suggestedById: number
+    approvedById: number
+    metadata: number
+    _all: number
+  }
+
+
+  export type EventAvgAggregateInputType = {
+    estimatedCost?: true
+  }
+
+  export type EventSumAggregateInputType = {
+    estimatedCost?: true
+  }
+
+  export type EventMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    tripId?: true
+    title?: true
+    description?: true
+    startTime?: true
+    endTime?: true
+    isAllDay?: true
+    status?: true
+    category?: true
+    estimatedCost?: true
+    currency?: true
+    suggestedById?: true
+    approvedById?: true
+  }
+
+  export type EventMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    tripId?: true
+    title?: true
+    description?: true
+    startTime?: true
+    endTime?: true
+    isAllDay?: true
+    status?: true
+    category?: true
+    estimatedCost?: true
+    currency?: true
+    suggestedById?: true
+    approvedById?: true
+  }
+
+  export type EventCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    tripId?: true
+    title?: true
+    description?: true
+    location?: true
+    startTime?: true
+    endTime?: true
+    isAllDay?: true
+    status?: true
+    category?: true
+    estimatedCost?: true
+    currency?: true
+    suggestedById?: true
+    approvedById?: true
+    metadata?: true
+    _all?: true
+  }
+
+  export type EventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Event to aggregate.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Events
+    **/
+    _count?: true | EventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: EventAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EventSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EventMaxAggregateInputType
+  }
+
+  export type GetEventAggregateType<T extends EventAggregateArgs> = {
+        [P in keyof T & keyof AggregateEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEvent[P]>
+      : GetScalarType<T[P], AggregateEvent[P]>
+  }
+
+
+
+
+  export type EventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventWhereInput
+    orderBy?: EventOrderByWithAggregationInput | EventOrderByWithAggregationInput[]
+    by: EventScalarFieldEnum[] | EventScalarFieldEnum
+    having?: EventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EventCountAggregateInputType | true
+    _avg?: EventAvgAggregateInputType
+    _sum?: EventSumAggregateInputType
+    _min?: EventMinAggregateInputType
+    _max?: EventMaxAggregateInputType
+  }
+
+  export type EventGroupByOutputType = {
+    id: string
+    createdAt: Date
+    updatedAt: Date
+    tripId: string
+    title: string
+    description: string | null
+    location: JsonValue | null
+    startTime: Date | null
+    endTime: Date | null
+    isAllDay: boolean
+    status: $Enums.EventStatus
+    category: string | null
+    estimatedCost: Decimal | null
+    currency: string
+    suggestedById: string
+    approvedById: string | null
+    metadata: JsonValue
+    _count: EventCountAggregateOutputType | null
+    _avg: EventAvgAggregateOutputType | null
+    _sum: EventSumAggregateOutputType | null
+    _min: EventMinAggregateOutputType | null
+    _max: EventMaxAggregateOutputType | null
+  }
+
+  type GetEventGroupByPayload<T extends EventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EventGroupByOutputType[P]>
+            : GetScalarType<T[P], EventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    title?: boolean
+    description?: boolean
+    location?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isAllDay?: boolean
+    status?: boolean
+    category?: boolean
+    estimatedCost?: boolean
+    currency?: boolean
+    suggestedById?: boolean
+    approvedById?: boolean
+    metadata?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    suggestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    approvedBy?: boolean | Event$approvedByArgs<ExtArgs>
+  }, ExtArgs["result"]["event"]>
+
+  export type EventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    title?: boolean
+    description?: boolean
+    location?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isAllDay?: boolean
+    status?: boolean
+    category?: boolean
+    estimatedCost?: boolean
+    currency?: boolean
+    suggestedById?: boolean
+    approvedById?: boolean
+    metadata?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    suggestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    approvedBy?: boolean | Event$approvedByArgs<ExtArgs>
+  }, ExtArgs["result"]["event"]>
+
+  export type EventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    title?: boolean
+    description?: boolean
+    location?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isAllDay?: boolean
+    status?: boolean
+    category?: boolean
+    estimatedCost?: boolean
+    currency?: boolean
+    suggestedById?: boolean
+    approvedById?: boolean
+    metadata?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    suggestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    approvedBy?: boolean | Event$approvedByArgs<ExtArgs>
+  }, ExtArgs["result"]["event"]>
+
+  export type EventSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    title?: boolean
+    description?: boolean
+    location?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isAllDay?: boolean
+    status?: boolean
+    category?: boolean
+    estimatedCost?: boolean
+    currency?: boolean
+    suggestedById?: boolean
+    approvedById?: boolean
+    metadata?: boolean
+  }
+
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "tripId" | "title" | "description" | "location" | "startTime" | "endTime" | "isAllDay" | "status" | "category" | "estimatedCost" | "currency" | "suggestedById" | "approvedById" | "metadata", ExtArgs["result"]["event"]>
+  export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    suggestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    approvedBy?: boolean | Event$approvedByArgs<ExtArgs>
+  }
+  export type EventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    suggestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    approvedBy?: boolean | Event$approvedByArgs<ExtArgs>
+  }
+  export type EventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    suggestedBy?: boolean | UserDefaultArgs<ExtArgs>
+    approvedBy?: boolean | Event$approvedByArgs<ExtArgs>
+  }
+
+  export type $EventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Event"
+    objects: {
+      trip: Prisma.$TripPayload<ExtArgs>
+      suggestedBy: Prisma.$UserPayload<ExtArgs>
+      approvedBy: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      tripId: string
+      title: string
+      description: string | null
+      location: Prisma.JsonValue | null
+      startTime: Date | null
+      endTime: Date | null
+      isAllDay: boolean
+      status: $Enums.EventStatus
+      category: string | null
+      estimatedCost: Prisma.Decimal | null
+      currency: string
+      suggestedById: string
+      approvedById: string | null
+      metadata: Prisma.JsonValue
+    }, ExtArgs["result"]["event"]>
+    composites: {}
+  }
+
+  type EventGetPayload<S extends boolean | null | undefined | EventDefaultArgs> = $Result.GetResult<Prisma.$EventPayload, S>
+
+  type EventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EventCountAggregateInputType | true
+    }
+
+  export interface EventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Event'], meta: { name: 'Event' } }
+    /**
+     * Find zero or one Event that matches the filter.
+     * @param {EventFindUniqueArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EventFindUniqueArgs>(args: SelectSubset<T, EventFindUniqueArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Event that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EventFindUniqueOrThrowArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EventFindUniqueOrThrowArgs>(args: SelectSubset<T, EventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Event that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventFindFirstArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EventFindFirstArgs>(args?: SelectSubset<T, EventFindFirstArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Event that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventFindFirstOrThrowArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EventFindFirstOrThrowArgs>(args?: SelectSubset<T, EventFindFirstOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Events that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Events
+     * const events = await prisma.event.findMany()
+     * 
+     * // Get first 10 Events
+     * const events = await prisma.event.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const eventWithIdOnly = await prisma.event.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EventFindManyArgs>(args?: SelectSubset<T, EventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Event.
+     * @param {EventCreateArgs} args - Arguments to create a Event.
+     * @example
+     * // Create one Event
+     * const Event = await prisma.event.create({
+     *   data: {
+     *     // ... data to create a Event
+     *   }
+     * })
+     * 
+     */
+    create<T extends EventCreateArgs>(args: SelectSubset<T, EventCreateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Events.
+     * @param {EventCreateManyArgs} args - Arguments to create many Events.
+     * @example
+     * // Create many Events
+     * const event = await prisma.event.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EventCreateManyArgs>(args?: SelectSubset<T, EventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Events and returns the data saved in the database.
+     * @param {EventCreateManyAndReturnArgs} args - Arguments to create many Events.
+     * @example
+     * // Create many Events
+     * const event = await prisma.event.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Events and only return the `id`
+     * const eventWithIdOnly = await prisma.event.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EventCreateManyAndReturnArgs>(args?: SelectSubset<T, EventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Event.
+     * @param {EventDeleteArgs} args - Arguments to delete one Event.
+     * @example
+     * // Delete one Event
+     * const Event = await prisma.event.delete({
+     *   where: {
+     *     // ... filter to delete one Event
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EventDeleteArgs>(args: SelectSubset<T, EventDeleteArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Event.
+     * @param {EventUpdateArgs} args - Arguments to update one Event.
+     * @example
+     * // Update one Event
+     * const event = await prisma.event.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EventUpdateArgs>(args: SelectSubset<T, EventUpdateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Events.
+     * @param {EventDeleteManyArgs} args - Arguments to filter Events to delete.
+     * @example
+     * // Delete a few Events
+     * const { count } = await prisma.event.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EventDeleteManyArgs>(args?: SelectSubset<T, EventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Events.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Events
+     * const event = await prisma.event.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EventUpdateManyArgs>(args: SelectSubset<T, EventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Events and returns the data updated in the database.
+     * @param {EventUpdateManyAndReturnArgs} args - Arguments to update many Events.
+     * @example
+     * // Update many Events
+     * const event = await prisma.event.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Events and only return the `id`
+     * const eventWithIdOnly = await prisma.event.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EventUpdateManyAndReturnArgs>(args: SelectSubset<T, EventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Event.
+     * @param {EventUpsertArgs} args - Arguments to update or create a Event.
+     * @example
+     * // Update or create a Event
+     * const event = await prisma.event.upsert({
+     *   create: {
+     *     // ... data to create a Event
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Event we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EventUpsertArgs>(args: SelectSubset<T, EventUpsertArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Events.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventCountArgs} args - Arguments to filter Events to count.
+     * @example
+     * // Count the number of Events
+     * const count = await prisma.event.count({
+     *   where: {
+     *     // ... the filter for the Events we want to count
+     *   }
+     * })
+    **/
+    count<T extends EventCountArgs>(
+      args?: Subset<T, EventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Event.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EventAggregateArgs>(args: Subset<T, EventAggregateArgs>): Prisma.PrismaPromise<GetEventAggregateType<T>>
+
+    /**
+     * Group by Event.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EventGroupByArgs['orderBy'] }
+        : { orderBy?: EventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Event model
+   */
+  readonly fields: EventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Event.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    trip<T extends TripDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TripDefaultArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    suggestedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    approvedBy<T extends Event$approvedByArgs<ExtArgs> = {}>(args?: Subset<T, Event$approvedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Event model
+   */
+  interface EventFieldRefs {
+    readonly id: FieldRef<"Event", 'String'>
+    readonly createdAt: FieldRef<"Event", 'DateTime'>
+    readonly updatedAt: FieldRef<"Event", 'DateTime'>
+    readonly tripId: FieldRef<"Event", 'String'>
+    readonly title: FieldRef<"Event", 'String'>
+    readonly description: FieldRef<"Event", 'String'>
+    readonly location: FieldRef<"Event", 'Json'>
+    readonly startTime: FieldRef<"Event", 'DateTime'>
+    readonly endTime: FieldRef<"Event", 'DateTime'>
+    readonly isAllDay: FieldRef<"Event", 'Boolean'>
+    readonly status: FieldRef<"Event", 'EventStatus'>
+    readonly category: FieldRef<"Event", 'String'>
+    readonly estimatedCost: FieldRef<"Event", 'Decimal'>
+    readonly currency: FieldRef<"Event", 'String'>
+    readonly suggestedById: FieldRef<"Event", 'String'>
+    readonly approvedById: FieldRef<"Event", 'String'>
+    readonly metadata: FieldRef<"Event", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Event findUnique
+   */
+  export type EventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event findUniqueOrThrow
+   */
+  export type EventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event findFirst
+   */
+  export type EventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Events.
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Events.
+     */
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Event findFirstOrThrow
+   */
+  export type EventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Events.
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Events.
+     */
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Event findMany
+   */
+  export type EventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
+     * Filter, which Events to fetch.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Events.
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Event create
+   */
+  export type EventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Event.
+     */
+    data: XOR<EventCreateInput, EventUncheckedCreateInput>
+  }
+
+  /**
+   * Event createMany
+   */
+  export type EventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Events.
+     */
+    data: EventCreateManyInput | EventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Event createManyAndReturn
+   */
+  export type EventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * The data used to create many Events.
+     */
+    data: EventCreateManyInput | EventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Event update
+   */
+  export type EventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Event.
+     */
+    data: XOR<EventUpdateInput, EventUncheckedUpdateInput>
+    /**
+     * Choose, which Event to update.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event updateMany
+   */
+  export type EventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Events.
+     */
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyInput>
+    /**
+     * Filter which Events to update
+     */
+    where?: EventWhereInput
+    /**
+     * Limit how many Events to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Event updateManyAndReturn
+   */
+  export type EventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * The data used to update Events.
+     */
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyInput>
+    /**
+     * Filter which Events to update
+     */
+    where?: EventWhereInput
+    /**
+     * Limit how many Events to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Event upsert
+   */
+  export type EventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Event to update in case it exists.
+     */
+    where: EventWhereUniqueInput
+    /**
+     * In case the Event found by the `where` argument doesn't exist, create a new Event with this data.
+     */
+    create: XOR<EventCreateInput, EventUncheckedCreateInput>
+    /**
+     * In case the Event was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EventUpdateInput, EventUncheckedUpdateInput>
+  }
+
+  /**
+   * Event delete
+   */
+  export type EventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+    /**
+     * Filter which Event to delete.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event deleteMany
+   */
+  export type EventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Events to delete
+     */
+    where?: EventWhereInput
+    /**
+     * Limit how many Events to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Event.approvedBy
+   */
+  export type Event$approvedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Event without action
+   */
+  export type EventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Event
+     */
+    omit?: EventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EventInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Item
+   */
+
+  export type AggregateItem = {
+    _count: ItemCountAggregateOutputType | null
+    _avg: ItemAvgAggregateOutputType | null
+    _sum: ItemSumAggregateOutputType | null
+    _min: ItemMinAggregateOutputType | null
+    _max: ItemMaxAggregateOutputType | null
+  }
+
+  export type ItemAvgAggregateOutputType = {
+    quantityNeeded: number | null
+  }
+
+  export type ItemSumAggregateOutputType = {
+    quantityNeeded: number | null
+  }
+
+  export type ItemMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    tripId: string | null
+    name: string | null
+    description: string | null
+    category: string | null
+    type: $Enums.ItemType | null
+    quantityNeeded: number | null
+    isEssential: boolean | null
+    createdById: string | null
+  }
+
+  export type ItemMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    tripId: string | null
+    name: string | null
+    description: string | null
+    category: string | null
+    type: $Enums.ItemType | null
+    quantityNeeded: number | null
+    isEssential: boolean | null
+    createdById: string | null
+  }
+
+  export type ItemCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    updatedAt: number
+    tripId: number
+    name: number
+    description: number
+    category: number
+    type: number
+    quantityNeeded: number
+    isEssential: number
+    createdById: number
+    metadata: number
+    _all: number
+  }
+
+
+  export type ItemAvgAggregateInputType = {
+    quantityNeeded?: true
+  }
+
+  export type ItemSumAggregateInputType = {
+    quantityNeeded?: true
+  }
+
+  export type ItemMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    tripId?: true
+    name?: true
+    description?: true
+    category?: true
+    type?: true
+    quantityNeeded?: true
+    isEssential?: true
+    createdById?: true
+  }
+
+  export type ItemMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    tripId?: true
+    name?: true
+    description?: true
+    category?: true
+    type?: true
+    quantityNeeded?: true
+    isEssential?: true
+    createdById?: true
+  }
+
+  export type ItemCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    tripId?: true
+    name?: true
+    description?: true
+    category?: true
+    type?: true
+    quantityNeeded?: true
+    isEssential?: true
+    createdById?: true
+    metadata?: true
+    _all?: true
+  }
+
+  export type ItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Item to aggregate.
+     */
+    where?: ItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Items to fetch.
+     */
+    orderBy?: ItemOrderByWithRelationInput | ItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Items from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Items.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Items
+    **/
+    _count?: true | ItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ItemMaxAggregateInputType
+  }
+
+  export type GetItemAggregateType<T extends ItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateItem[P]>
+      : GetScalarType<T[P], AggregateItem[P]>
+  }
+
+
+
+
+  export type ItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemWhereInput
+    orderBy?: ItemOrderByWithAggregationInput | ItemOrderByWithAggregationInput[]
+    by: ItemScalarFieldEnum[] | ItemScalarFieldEnum
+    having?: ItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ItemCountAggregateInputType | true
+    _avg?: ItemAvgAggregateInputType
+    _sum?: ItemSumAggregateInputType
+    _min?: ItemMinAggregateInputType
+    _max?: ItemMaxAggregateInputType
+  }
+
+  export type ItemGroupByOutputType = {
+    id: string
+    createdAt: Date
+    updatedAt: Date
+    tripId: string
+    name: string
+    description: string | null
+    category: string | null
+    type: $Enums.ItemType
+    quantityNeeded: number
+    isEssential: boolean
+    createdById: string
+    metadata: JsonValue
+    _count: ItemCountAggregateOutputType | null
+    _avg: ItemAvgAggregateOutputType | null
+    _sum: ItemSumAggregateOutputType | null
+    _min: ItemMinAggregateOutputType | null
+    _max: ItemMaxAggregateOutputType | null
+  }
+
+  type GetItemGroupByPayload<T extends ItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ItemGroupByOutputType[P]>
+            : GetScalarType<T[P], ItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    name?: boolean
+    description?: boolean
+    category?: boolean
+    type?: boolean
+    quantityNeeded?: boolean
+    isEssential?: boolean
+    createdById?: boolean
+    metadata?: boolean
+    claims?: boolean | Item$claimsArgs<ExtArgs>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["item"]>
+
+  export type ItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    name?: boolean
+    description?: boolean
+    category?: boolean
+    type?: boolean
+    quantityNeeded?: boolean
+    isEssential?: boolean
+    createdById?: boolean
+    metadata?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    createdBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["item"]>
+
+  export type ItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    name?: boolean
+    description?: boolean
+    category?: boolean
+    type?: boolean
+    quantityNeeded?: boolean
+    isEssential?: boolean
+    createdById?: boolean
+    metadata?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    createdBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["item"]>
+
+  export type ItemSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tripId?: boolean
+    name?: boolean
+    description?: boolean
+    category?: boolean
+    type?: boolean
+    quantityNeeded?: boolean
+    isEssential?: boolean
+    createdById?: boolean
+    metadata?: boolean
+  }
+
+  export type ItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "tripId" | "name" | "description" | "category" | "type" | "quantityNeeded" | "isEssential" | "createdById" | "metadata", ExtArgs["result"]["item"]>
+  export type ItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    claims?: boolean | Item$claimsArgs<ExtArgs>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    createdBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    createdBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Item"
+    objects: {
+      claims: Prisma.$ItemClaimPayload<ExtArgs>[]
+      trip: Prisma.$TripPayload<ExtArgs>
+      createdBy: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      tripId: string
+      name: string
+      description: string | null
+      category: string | null
+      type: $Enums.ItemType
+      quantityNeeded: number
+      isEssential: boolean
+      createdById: string
+      metadata: Prisma.JsonValue
+    }, ExtArgs["result"]["item"]>
+    composites: {}
+  }
+
+  type ItemGetPayload<S extends boolean | null | undefined | ItemDefaultArgs> = $Result.GetResult<Prisma.$ItemPayload, S>
+
+  type ItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ItemCountAggregateInputType | true
+    }
+
+  export interface ItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Item'], meta: { name: 'Item' } }
+    /**
+     * Find zero or one Item that matches the filter.
+     * @param {ItemFindUniqueArgs} args - Arguments to find a Item
+     * @example
+     * // Get one Item
+     * const item = await prisma.item.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ItemFindUniqueArgs>(args: SelectSubset<T, ItemFindUniqueArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Item that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ItemFindUniqueOrThrowArgs} args - Arguments to find a Item
+     * @example
+     * // Get one Item
+     * const item = await prisma.item.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ItemFindUniqueOrThrowArgs>(args: SelectSubset<T, ItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Item that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemFindFirstArgs} args - Arguments to find a Item
+     * @example
+     * // Get one Item
+     * const item = await prisma.item.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ItemFindFirstArgs>(args?: SelectSubset<T, ItemFindFirstArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Item that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemFindFirstOrThrowArgs} args - Arguments to find a Item
+     * @example
+     * // Get one Item
+     * const item = await prisma.item.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ItemFindFirstOrThrowArgs>(args?: SelectSubset<T, ItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Items that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Items
+     * const items = await prisma.item.findMany()
+     * 
+     * // Get first 10 Items
+     * const items = await prisma.item.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const itemWithIdOnly = await prisma.item.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ItemFindManyArgs>(args?: SelectSubset<T, ItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Item.
+     * @param {ItemCreateArgs} args - Arguments to create a Item.
+     * @example
+     * // Create one Item
+     * const Item = await prisma.item.create({
+     *   data: {
+     *     // ... data to create a Item
+     *   }
+     * })
+     * 
+     */
+    create<T extends ItemCreateArgs>(args: SelectSubset<T, ItemCreateArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Items.
+     * @param {ItemCreateManyArgs} args - Arguments to create many Items.
+     * @example
+     * // Create many Items
+     * const item = await prisma.item.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ItemCreateManyArgs>(args?: SelectSubset<T, ItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Items and returns the data saved in the database.
+     * @param {ItemCreateManyAndReturnArgs} args - Arguments to create many Items.
+     * @example
+     * // Create many Items
+     * const item = await prisma.item.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Items and only return the `id`
+     * const itemWithIdOnly = await prisma.item.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ItemCreateManyAndReturnArgs>(args?: SelectSubset<T, ItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Item.
+     * @param {ItemDeleteArgs} args - Arguments to delete one Item.
+     * @example
+     * // Delete one Item
+     * const Item = await prisma.item.delete({
+     *   where: {
+     *     // ... filter to delete one Item
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ItemDeleteArgs>(args: SelectSubset<T, ItemDeleteArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Item.
+     * @param {ItemUpdateArgs} args - Arguments to update one Item.
+     * @example
+     * // Update one Item
+     * const item = await prisma.item.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ItemUpdateArgs>(args: SelectSubset<T, ItemUpdateArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Items.
+     * @param {ItemDeleteManyArgs} args - Arguments to filter Items to delete.
+     * @example
+     * // Delete a few Items
+     * const { count } = await prisma.item.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ItemDeleteManyArgs>(args?: SelectSubset<T, ItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Items.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Items
+     * const item = await prisma.item.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ItemUpdateManyArgs>(args: SelectSubset<T, ItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Items and returns the data updated in the database.
+     * @param {ItemUpdateManyAndReturnArgs} args - Arguments to update many Items.
+     * @example
+     * // Update many Items
+     * const item = await prisma.item.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Items and only return the `id`
+     * const itemWithIdOnly = await prisma.item.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ItemUpdateManyAndReturnArgs>(args: SelectSubset<T, ItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Item.
+     * @param {ItemUpsertArgs} args - Arguments to update or create a Item.
+     * @example
+     * // Update or create a Item
+     * const item = await prisma.item.upsert({
+     *   create: {
+     *     // ... data to create a Item
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Item we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ItemUpsertArgs>(args: SelectSubset<T, ItemUpsertArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Items.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemCountArgs} args - Arguments to filter Items to count.
+     * @example
+     * // Count the number of Items
+     * const count = await prisma.item.count({
+     *   where: {
+     *     // ... the filter for the Items we want to count
+     *   }
+     * })
+    **/
+    count<T extends ItemCountArgs>(
+      args?: Subset<T, ItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Item.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ItemAggregateArgs>(args: Subset<T, ItemAggregateArgs>): Prisma.PrismaPromise<GetItemAggregateType<T>>
+
+    /**
+     * Group by Item.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ItemGroupByArgs['orderBy'] }
+        : { orderBy?: ItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Item model
+   */
+  readonly fields: ItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Item.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    claims<T extends Item$claimsArgs<ExtArgs> = {}>(args?: Subset<T, Item$claimsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    trip<T extends TripDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TripDefaultArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    createdBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Item model
+   */
+  interface ItemFieldRefs {
+    readonly id: FieldRef<"Item", 'String'>
+    readonly createdAt: FieldRef<"Item", 'DateTime'>
+    readonly updatedAt: FieldRef<"Item", 'DateTime'>
+    readonly tripId: FieldRef<"Item", 'String'>
+    readonly name: FieldRef<"Item", 'String'>
+    readonly description: FieldRef<"Item", 'String'>
+    readonly category: FieldRef<"Item", 'String'>
+    readonly type: FieldRef<"Item", 'ItemType'>
+    readonly quantityNeeded: FieldRef<"Item", 'Int'>
+    readonly isEssential: FieldRef<"Item", 'Boolean'>
+    readonly createdById: FieldRef<"Item", 'String'>
+    readonly metadata: FieldRef<"Item", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Item findUnique
+   */
+  export type ItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    /**
+     * Filter, which Item to fetch.
+     */
+    where: ItemWhereUniqueInput
+  }
+
+  /**
+   * Item findUniqueOrThrow
+   */
+  export type ItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    /**
+     * Filter, which Item to fetch.
+     */
+    where: ItemWhereUniqueInput
+  }
+
+  /**
+   * Item findFirst
+   */
+  export type ItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    /**
+     * Filter, which Item to fetch.
+     */
+    where?: ItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Items to fetch.
+     */
+    orderBy?: ItemOrderByWithRelationInput | ItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Items.
+     */
+    cursor?: ItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Items from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Items.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Items.
+     */
+    distinct?: ItemScalarFieldEnum | ItemScalarFieldEnum[]
+  }
+
+  /**
+   * Item findFirstOrThrow
+   */
+  export type ItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    /**
+     * Filter, which Item to fetch.
+     */
+    where?: ItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Items to fetch.
+     */
+    orderBy?: ItemOrderByWithRelationInput | ItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Items.
+     */
+    cursor?: ItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Items from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Items.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Items.
+     */
+    distinct?: ItemScalarFieldEnum | ItemScalarFieldEnum[]
+  }
+
+  /**
+   * Item findMany
+   */
+  export type ItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    /**
+     * Filter, which Items to fetch.
+     */
+    where?: ItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Items to fetch.
+     */
+    orderBy?: ItemOrderByWithRelationInput | ItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Items.
+     */
+    cursor?: ItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Items from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Items.
+     */
+    skip?: number
+    distinct?: ItemScalarFieldEnum | ItemScalarFieldEnum[]
+  }
+
+  /**
+   * Item create
+   */
+  export type ItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Item.
+     */
+    data: XOR<ItemCreateInput, ItemUncheckedCreateInput>
+  }
+
+  /**
+   * Item createMany
+   */
+  export type ItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Items.
+     */
+    data: ItemCreateManyInput | ItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Item createManyAndReturn
+   */
+  export type ItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many Items.
+     */
+    data: ItemCreateManyInput | ItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Item update
+   */
+  export type ItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Item.
+     */
+    data: XOR<ItemUpdateInput, ItemUncheckedUpdateInput>
+    /**
+     * Choose, which Item to update.
+     */
+    where: ItemWhereUniqueInput
+  }
+
+  /**
+   * Item updateMany
+   */
+  export type ItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Items.
+     */
+    data: XOR<ItemUpdateManyMutationInput, ItemUncheckedUpdateManyInput>
+    /**
+     * Filter which Items to update
+     */
+    where?: ItemWhereInput
+    /**
+     * Limit how many Items to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Item updateManyAndReturn
+   */
+  export type ItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * The data used to update Items.
+     */
+    data: XOR<ItemUpdateManyMutationInput, ItemUncheckedUpdateManyInput>
+    /**
+     * Filter which Items to update
+     */
+    where?: ItemWhereInput
+    /**
+     * Limit how many Items to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Item upsert
+   */
+  export type ItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Item to update in case it exists.
+     */
+    where: ItemWhereUniqueInput
+    /**
+     * In case the Item found by the `where` argument doesn't exist, create a new Item with this data.
+     */
+    create: XOR<ItemCreateInput, ItemUncheckedCreateInput>
+    /**
+     * In case the Item was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ItemUpdateInput, ItemUncheckedUpdateInput>
+  }
+
+  /**
+   * Item delete
+   */
+  export type ItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+    /**
+     * Filter which Item to delete.
+     */
+    where: ItemWhereUniqueInput
+  }
+
+  /**
+   * Item deleteMany
+   */
+  export type ItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Items to delete
+     */
+    where?: ItemWhereInput
+    /**
+     * Limit how many Items to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Item.claims
+   */
+  export type Item$claimsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    where?: ItemClaimWhereInput
+    orderBy?: ItemClaimOrderByWithRelationInput | ItemClaimOrderByWithRelationInput[]
+    cursor?: ItemClaimWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemClaimScalarFieldEnum | ItemClaimScalarFieldEnum[]
+  }
+
+  /**
+   * Item without action
+   */
+  export type ItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Item
+     */
+    select?: ItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Item
+     */
+    omit?: ItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ItemClaim
+   */
+
+  export type AggregateItemClaim = {
+    _count: ItemClaimCountAggregateOutputType | null
+    _avg: ItemClaimAvgAggregateOutputType | null
+    _sum: ItemClaimSumAggregateOutputType | null
+    _min: ItemClaimMinAggregateOutputType | null
+    _max: ItemClaimMaxAggregateOutputType | null
+  }
+
+  export type ItemClaimAvgAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type ItemClaimSumAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type ItemClaimMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    itemId: string | null
+    userId: string | null
+    quantity: number | null
+    status: $Enums.ClaimStatus | null
+    notes: string | null
+  }
+
+  export type ItemClaimMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    itemId: string | null
+    userId: string | null
+    quantity: number | null
+    status: $Enums.ClaimStatus | null
+    notes: string | null
+  }
+
+  export type ItemClaimCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    updatedAt: number
+    itemId: number
+    userId: number
+    quantity: number
+    status: number
+    notes: number
+    _all: number
+  }
+
+
+  export type ItemClaimAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type ItemClaimSumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type ItemClaimMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    itemId?: true
+    userId?: true
+    quantity?: true
+    status?: true
+    notes?: true
+  }
+
+  export type ItemClaimMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    itemId?: true
+    userId?: true
+    quantity?: true
+    status?: true
+    notes?: true
+  }
+
+  export type ItemClaimCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    itemId?: true
+    userId?: true
+    quantity?: true
+    status?: true
+    notes?: true
+    _all?: true
+  }
+
+  export type ItemClaimAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ItemClaim to aggregate.
+     */
+    where?: ItemClaimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemClaims to fetch.
+     */
+    orderBy?: ItemClaimOrderByWithRelationInput | ItemClaimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ItemClaimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemClaims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemClaims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ItemClaims
+    **/
+    _count?: true | ItemClaimCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ItemClaimAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ItemClaimSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ItemClaimMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ItemClaimMaxAggregateInputType
+  }
+
+  export type GetItemClaimAggregateType<T extends ItemClaimAggregateArgs> = {
+        [P in keyof T & keyof AggregateItemClaim]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateItemClaim[P]>
+      : GetScalarType<T[P], AggregateItemClaim[P]>
+  }
+
+
+
+
+  export type ItemClaimGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemClaimWhereInput
+    orderBy?: ItemClaimOrderByWithAggregationInput | ItemClaimOrderByWithAggregationInput[]
+    by: ItemClaimScalarFieldEnum[] | ItemClaimScalarFieldEnum
+    having?: ItemClaimScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ItemClaimCountAggregateInputType | true
+    _avg?: ItemClaimAvgAggregateInputType
+    _sum?: ItemClaimSumAggregateInputType
+    _min?: ItemClaimMinAggregateInputType
+    _max?: ItemClaimMaxAggregateInputType
+  }
+
+  export type ItemClaimGroupByOutputType = {
+    id: string
+    createdAt: Date
+    updatedAt: Date
+    itemId: string
+    userId: string
+    quantity: number
+    status: $Enums.ClaimStatus
+    notes: string | null
+    _count: ItemClaimCountAggregateOutputType | null
+    _avg: ItemClaimAvgAggregateOutputType | null
+    _sum: ItemClaimSumAggregateOutputType | null
+    _min: ItemClaimMinAggregateOutputType | null
+    _max: ItemClaimMaxAggregateOutputType | null
+  }
+
+  type GetItemClaimGroupByPayload<T extends ItemClaimGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ItemClaimGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ItemClaimGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ItemClaimGroupByOutputType[P]>
+            : GetScalarType<T[P], ItemClaimGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ItemClaimSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    itemId?: boolean
+    userId?: boolean
+    quantity?: boolean
+    status?: boolean
+    notes?: boolean
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["itemClaim"]>
+
+  export type ItemClaimSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    itemId?: boolean
+    userId?: boolean
+    quantity?: boolean
+    status?: boolean
+    notes?: boolean
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["itemClaim"]>
+
+  export type ItemClaimSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    itemId?: boolean
+    userId?: boolean
+    quantity?: boolean
+    status?: boolean
+    notes?: boolean
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["itemClaim"]>
+
+  export type ItemClaimSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    itemId?: boolean
+    userId?: boolean
+    quantity?: boolean
+    status?: boolean
+    notes?: boolean
+  }
+
+  export type ItemClaimOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "itemId" | "userId" | "quantity" | "status" | "notes", ExtArgs["result"]["itemClaim"]>
+  export type ItemClaimInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ItemClaimIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ItemClaimIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ItemClaimPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ItemClaim"
+    objects: {
+      item: Prisma.$ItemPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      itemId: string
+      userId: string
+      quantity: number
+      status: $Enums.ClaimStatus
+      notes: string | null
+    }, ExtArgs["result"]["itemClaim"]>
+    composites: {}
+  }
+
+  type ItemClaimGetPayload<S extends boolean | null | undefined | ItemClaimDefaultArgs> = $Result.GetResult<Prisma.$ItemClaimPayload, S>
+
+  type ItemClaimCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ItemClaimFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ItemClaimCountAggregateInputType | true
+    }
+
+  export interface ItemClaimDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ItemClaim'], meta: { name: 'ItemClaim' } }
+    /**
+     * Find zero or one ItemClaim that matches the filter.
+     * @param {ItemClaimFindUniqueArgs} args - Arguments to find a ItemClaim
+     * @example
+     * // Get one ItemClaim
+     * const itemClaim = await prisma.itemClaim.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ItemClaimFindUniqueArgs>(args: SelectSubset<T, ItemClaimFindUniqueArgs<ExtArgs>>): Prisma__ItemClaimClient<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ItemClaim that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ItemClaimFindUniqueOrThrowArgs} args - Arguments to find a ItemClaim
+     * @example
+     * // Get one ItemClaim
+     * const itemClaim = await prisma.itemClaim.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ItemClaimFindUniqueOrThrowArgs>(args: SelectSubset<T, ItemClaimFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ItemClaimClient<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ItemClaim that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemClaimFindFirstArgs} args - Arguments to find a ItemClaim
+     * @example
+     * // Get one ItemClaim
+     * const itemClaim = await prisma.itemClaim.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ItemClaimFindFirstArgs>(args?: SelectSubset<T, ItemClaimFindFirstArgs<ExtArgs>>): Prisma__ItemClaimClient<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ItemClaim that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemClaimFindFirstOrThrowArgs} args - Arguments to find a ItemClaim
+     * @example
+     * // Get one ItemClaim
+     * const itemClaim = await prisma.itemClaim.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ItemClaimFindFirstOrThrowArgs>(args?: SelectSubset<T, ItemClaimFindFirstOrThrowArgs<ExtArgs>>): Prisma__ItemClaimClient<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ItemClaims that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemClaimFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ItemClaims
+     * const itemClaims = await prisma.itemClaim.findMany()
+     * 
+     * // Get first 10 ItemClaims
+     * const itemClaims = await prisma.itemClaim.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const itemClaimWithIdOnly = await prisma.itemClaim.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ItemClaimFindManyArgs>(args?: SelectSubset<T, ItemClaimFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ItemClaim.
+     * @param {ItemClaimCreateArgs} args - Arguments to create a ItemClaim.
+     * @example
+     * // Create one ItemClaim
+     * const ItemClaim = await prisma.itemClaim.create({
+     *   data: {
+     *     // ... data to create a ItemClaim
+     *   }
+     * })
+     * 
+     */
+    create<T extends ItemClaimCreateArgs>(args: SelectSubset<T, ItemClaimCreateArgs<ExtArgs>>): Prisma__ItemClaimClient<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ItemClaims.
+     * @param {ItemClaimCreateManyArgs} args - Arguments to create many ItemClaims.
+     * @example
+     * // Create many ItemClaims
+     * const itemClaim = await prisma.itemClaim.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ItemClaimCreateManyArgs>(args?: SelectSubset<T, ItemClaimCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ItemClaims and returns the data saved in the database.
+     * @param {ItemClaimCreateManyAndReturnArgs} args - Arguments to create many ItemClaims.
+     * @example
+     * // Create many ItemClaims
+     * const itemClaim = await prisma.itemClaim.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ItemClaims and only return the `id`
+     * const itemClaimWithIdOnly = await prisma.itemClaim.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ItemClaimCreateManyAndReturnArgs>(args?: SelectSubset<T, ItemClaimCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ItemClaim.
+     * @param {ItemClaimDeleteArgs} args - Arguments to delete one ItemClaim.
+     * @example
+     * // Delete one ItemClaim
+     * const ItemClaim = await prisma.itemClaim.delete({
+     *   where: {
+     *     // ... filter to delete one ItemClaim
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ItemClaimDeleteArgs>(args: SelectSubset<T, ItemClaimDeleteArgs<ExtArgs>>): Prisma__ItemClaimClient<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ItemClaim.
+     * @param {ItemClaimUpdateArgs} args - Arguments to update one ItemClaim.
+     * @example
+     * // Update one ItemClaim
+     * const itemClaim = await prisma.itemClaim.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ItemClaimUpdateArgs>(args: SelectSubset<T, ItemClaimUpdateArgs<ExtArgs>>): Prisma__ItemClaimClient<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ItemClaims.
+     * @param {ItemClaimDeleteManyArgs} args - Arguments to filter ItemClaims to delete.
+     * @example
+     * // Delete a few ItemClaims
+     * const { count } = await prisma.itemClaim.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ItemClaimDeleteManyArgs>(args?: SelectSubset<T, ItemClaimDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ItemClaims.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemClaimUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ItemClaims
+     * const itemClaim = await prisma.itemClaim.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ItemClaimUpdateManyArgs>(args: SelectSubset<T, ItemClaimUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ItemClaims and returns the data updated in the database.
+     * @param {ItemClaimUpdateManyAndReturnArgs} args - Arguments to update many ItemClaims.
+     * @example
+     * // Update many ItemClaims
+     * const itemClaim = await prisma.itemClaim.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ItemClaims and only return the `id`
+     * const itemClaimWithIdOnly = await prisma.itemClaim.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ItemClaimUpdateManyAndReturnArgs>(args: SelectSubset<T, ItemClaimUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ItemClaim.
+     * @param {ItemClaimUpsertArgs} args - Arguments to update or create a ItemClaim.
+     * @example
+     * // Update or create a ItemClaim
+     * const itemClaim = await prisma.itemClaim.upsert({
+     *   create: {
+     *     // ... data to create a ItemClaim
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ItemClaim we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ItemClaimUpsertArgs>(args: SelectSubset<T, ItemClaimUpsertArgs<ExtArgs>>): Prisma__ItemClaimClient<$Result.GetResult<Prisma.$ItemClaimPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ItemClaims.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemClaimCountArgs} args - Arguments to filter ItemClaims to count.
+     * @example
+     * // Count the number of ItemClaims
+     * const count = await prisma.itemClaim.count({
+     *   where: {
+     *     // ... the filter for the ItemClaims we want to count
+     *   }
+     * })
+    **/
+    count<T extends ItemClaimCountArgs>(
+      args?: Subset<T, ItemClaimCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ItemClaimCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ItemClaim.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemClaimAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ItemClaimAggregateArgs>(args: Subset<T, ItemClaimAggregateArgs>): Prisma.PrismaPromise<GetItemClaimAggregateType<T>>
+
+    /**
+     * Group by ItemClaim.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ItemClaimGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ItemClaimGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ItemClaimGroupByArgs['orderBy'] }
+        : { orderBy?: ItemClaimGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ItemClaimGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetItemClaimGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ItemClaim model
+   */
+  readonly fields: ItemClaimFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ItemClaim.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ItemClaimClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    item<T extends ItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ItemDefaultArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ItemClaim model
+   */
+  interface ItemClaimFieldRefs {
+    readonly id: FieldRef<"ItemClaim", 'String'>
+    readonly createdAt: FieldRef<"ItemClaim", 'DateTime'>
+    readonly updatedAt: FieldRef<"ItemClaim", 'DateTime'>
+    readonly itemId: FieldRef<"ItemClaim", 'String'>
+    readonly userId: FieldRef<"ItemClaim", 'String'>
+    readonly quantity: FieldRef<"ItemClaim", 'Int'>
+    readonly status: FieldRef<"ItemClaim", 'ClaimStatus'>
+    readonly notes: FieldRef<"ItemClaim", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ItemClaim findUnique
+   */
+  export type ItemClaimFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemClaim to fetch.
+     */
+    where: ItemClaimWhereUniqueInput
+  }
+
+  /**
+   * ItemClaim findUniqueOrThrow
+   */
+  export type ItemClaimFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemClaim to fetch.
+     */
+    where: ItemClaimWhereUniqueInput
+  }
+
+  /**
+   * ItemClaim findFirst
+   */
+  export type ItemClaimFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemClaim to fetch.
+     */
+    where?: ItemClaimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemClaims to fetch.
+     */
+    orderBy?: ItemClaimOrderByWithRelationInput | ItemClaimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ItemClaims.
+     */
+    cursor?: ItemClaimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemClaims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemClaims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemClaims.
+     */
+    distinct?: ItemClaimScalarFieldEnum | ItemClaimScalarFieldEnum[]
+  }
+
+  /**
+   * ItemClaim findFirstOrThrow
+   */
+  export type ItemClaimFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemClaim to fetch.
+     */
+    where?: ItemClaimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemClaims to fetch.
+     */
+    orderBy?: ItemClaimOrderByWithRelationInput | ItemClaimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ItemClaims.
+     */
+    cursor?: ItemClaimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemClaims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemClaims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ItemClaims.
+     */
+    distinct?: ItemClaimScalarFieldEnum | ItemClaimScalarFieldEnum[]
+  }
+
+  /**
+   * ItemClaim findMany
+   */
+  export type ItemClaimFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    /**
+     * Filter, which ItemClaims to fetch.
+     */
+    where?: ItemClaimWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ItemClaims to fetch.
+     */
+    orderBy?: ItemClaimOrderByWithRelationInput | ItemClaimOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ItemClaims.
+     */
+    cursor?: ItemClaimWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ItemClaims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ItemClaims.
+     */
+    skip?: number
+    distinct?: ItemClaimScalarFieldEnum | ItemClaimScalarFieldEnum[]
+  }
+
+  /**
+   * ItemClaim create
+   */
+  export type ItemClaimCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ItemClaim.
+     */
+    data: XOR<ItemClaimCreateInput, ItemClaimUncheckedCreateInput>
+  }
+
+  /**
+   * ItemClaim createMany
+   */
+  export type ItemClaimCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ItemClaims.
+     */
+    data: ItemClaimCreateManyInput | ItemClaimCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ItemClaim createManyAndReturn
+   */
+  export type ItemClaimCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * The data used to create many ItemClaims.
+     */
+    data: ItemClaimCreateManyInput | ItemClaimCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ItemClaim update
+   */
+  export type ItemClaimUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ItemClaim.
+     */
+    data: XOR<ItemClaimUpdateInput, ItemClaimUncheckedUpdateInput>
+    /**
+     * Choose, which ItemClaim to update.
+     */
+    where: ItemClaimWhereUniqueInput
+  }
+
+  /**
+   * ItemClaim updateMany
+   */
+  export type ItemClaimUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ItemClaims.
+     */
+    data: XOR<ItemClaimUpdateManyMutationInput, ItemClaimUncheckedUpdateManyInput>
+    /**
+     * Filter which ItemClaims to update
+     */
+    where?: ItemClaimWhereInput
+    /**
+     * Limit how many ItemClaims to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ItemClaim updateManyAndReturn
+   */
+  export type ItemClaimUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * The data used to update ItemClaims.
+     */
+    data: XOR<ItemClaimUpdateManyMutationInput, ItemClaimUncheckedUpdateManyInput>
+    /**
+     * Filter which ItemClaims to update
+     */
+    where?: ItemClaimWhereInput
+    /**
+     * Limit how many ItemClaims to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ItemClaim upsert
+   */
+  export type ItemClaimUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ItemClaim to update in case it exists.
+     */
+    where: ItemClaimWhereUniqueInput
+    /**
+     * In case the ItemClaim found by the `where` argument doesn't exist, create a new ItemClaim with this data.
+     */
+    create: XOR<ItemClaimCreateInput, ItemClaimUncheckedCreateInput>
+    /**
+     * In case the ItemClaim was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ItemClaimUpdateInput, ItemClaimUncheckedUpdateInput>
+  }
+
+  /**
+   * ItemClaim delete
+   */
+  export type ItemClaimDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+    /**
+     * Filter which ItemClaim to delete.
+     */
+    where: ItemClaimWhereUniqueInput
+  }
+
+  /**
+   * ItemClaim deleteMany
+   */
+  export type ItemClaimDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ItemClaims to delete
+     */
+    where?: ItemClaimWhereInput
+    /**
+     * Limit how many ItemClaims to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ItemClaim without action
+   */
+  export type ItemClaimDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemClaim
+     */
+    select?: ItemClaimSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemClaim
+     */
+    omit?: ItemClaimOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemClaimInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Announcement
+   */
+
+  export type AggregateAnnouncement = {
+    _count: AnnouncementCountAggregateOutputType | null
+    _min: AnnouncementMinAggregateOutputType | null
+    _max: AnnouncementMaxAggregateOutputType | null
+  }
+
+  export type AnnouncementMinAggregateOutputType = {
+    id: string | null
+    tripId: string | null
+    authorId: string | null
+    title: string | null
+    body: string | null
+    pinned: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AnnouncementMaxAggregateOutputType = {
+    id: string | null
+    tripId: string | null
+    authorId: string | null
+    title: string | null
+    body: string | null
+    pinned: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AnnouncementCountAggregateOutputType = {
+    id: number
+    tripId: number
+    authorId: number
+    title: number
+    body: number
+    pinned: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AnnouncementMinAggregateInputType = {
+    id?: true
+    tripId?: true
+    authorId?: true
+    title?: true
+    body?: true
+    pinned?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AnnouncementMaxAggregateInputType = {
+    id?: true
+    tripId?: true
+    authorId?: true
+    title?: true
+    body?: true
+    pinned?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AnnouncementCountAggregateInputType = {
+    id?: true
+    tripId?: true
+    authorId?: true
+    title?: true
+    body?: true
+    pinned?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AnnouncementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Announcement to aggregate.
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Announcements to fetch.
+     */
+    orderBy?: AnnouncementOrderByWithRelationInput | AnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Announcements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Announcements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Announcements
+    **/
+    _count?: true | AnnouncementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AnnouncementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AnnouncementMaxAggregateInputType
+  }
+
+  export type GetAnnouncementAggregateType<T extends AnnouncementAggregateArgs> = {
+        [P in keyof T & keyof AggregateAnnouncement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAnnouncement[P]>
+      : GetScalarType<T[P], AggregateAnnouncement[P]>
+  }
+
+
+
+
+  export type AnnouncementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AnnouncementWhereInput
+    orderBy?: AnnouncementOrderByWithAggregationInput | AnnouncementOrderByWithAggregationInput[]
+    by: AnnouncementScalarFieldEnum[] | AnnouncementScalarFieldEnum
+    having?: AnnouncementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AnnouncementCountAggregateInputType | true
+    _min?: AnnouncementMinAggregateInputType
+    _max?: AnnouncementMaxAggregateInputType
+  }
+
+  export type AnnouncementGroupByOutputType = {
+    id: string
+    tripId: string
+    authorId: string
+    title: string
+    body: string
+    pinned: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: AnnouncementCountAggregateOutputType | null
+    _min: AnnouncementMinAggregateOutputType | null
+    _max: AnnouncementMaxAggregateOutputType | null
+  }
+
+  type GetAnnouncementGroupByPayload<T extends AnnouncementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AnnouncementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AnnouncementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AnnouncementGroupByOutputType[P]>
+            : GetScalarType<T[P], AnnouncementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AnnouncementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tripId?: boolean
+    authorId?: boolean
+    title?: boolean
+    body?: boolean
+    pinned?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["announcement"]>
+
+  export type AnnouncementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tripId?: boolean
+    authorId?: boolean
+    title?: boolean
+    body?: boolean
+    pinned?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["announcement"]>
+
+  export type AnnouncementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tripId?: boolean
+    authorId?: boolean
+    title?: boolean
+    body?: boolean
+    pinned?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["announcement"]>
+
+  export type AnnouncementSelectScalar = {
+    id?: boolean
+    tripId?: boolean
+    authorId?: boolean
+    title?: boolean
+    body?: boolean
+    pinned?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AnnouncementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tripId" | "authorId" | "title" | "body" | "pinned" | "createdAt" | "updatedAt", ExtArgs["result"]["announcement"]>
+  export type AnnouncementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AnnouncementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AnnouncementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AnnouncementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Announcement"
+    objects: {
+      trip: Prisma.$TripPayload<ExtArgs>
+      author: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tripId: string
+      authorId: string
+      title: string
+      body: string
+      pinned: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["announcement"]>
+    composites: {}
+  }
+
+  type AnnouncementGetPayload<S extends boolean | null | undefined | AnnouncementDefaultArgs> = $Result.GetResult<Prisma.$AnnouncementPayload, S>
+
+  type AnnouncementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AnnouncementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AnnouncementCountAggregateInputType | true
+    }
+
+  export interface AnnouncementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Announcement'], meta: { name: 'Announcement' } }
+    /**
+     * Find zero or one Announcement that matches the filter.
+     * @param {AnnouncementFindUniqueArgs} args - Arguments to find a Announcement
+     * @example
+     * // Get one Announcement
+     * const announcement = await prisma.announcement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AnnouncementFindUniqueArgs>(args: SelectSubset<T, AnnouncementFindUniqueArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Announcement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AnnouncementFindUniqueOrThrowArgs} args - Arguments to find a Announcement
+     * @example
+     * // Get one Announcement
+     * const announcement = await prisma.announcement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AnnouncementFindUniqueOrThrowArgs>(args: SelectSubset<T, AnnouncementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Announcement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementFindFirstArgs} args - Arguments to find a Announcement
+     * @example
+     * // Get one Announcement
+     * const announcement = await prisma.announcement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AnnouncementFindFirstArgs>(args?: SelectSubset<T, AnnouncementFindFirstArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Announcement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementFindFirstOrThrowArgs} args - Arguments to find a Announcement
+     * @example
+     * // Get one Announcement
+     * const announcement = await prisma.announcement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AnnouncementFindFirstOrThrowArgs>(args?: SelectSubset<T, AnnouncementFindFirstOrThrowArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Announcements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Announcements
+     * const announcements = await prisma.announcement.findMany()
+     * 
+     * // Get first 10 Announcements
+     * const announcements = await prisma.announcement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const announcementWithIdOnly = await prisma.announcement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AnnouncementFindManyArgs>(args?: SelectSubset<T, AnnouncementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Announcement.
+     * @param {AnnouncementCreateArgs} args - Arguments to create a Announcement.
+     * @example
+     * // Create one Announcement
+     * const Announcement = await prisma.announcement.create({
+     *   data: {
+     *     // ... data to create a Announcement
+     *   }
+     * })
+     * 
+     */
+    create<T extends AnnouncementCreateArgs>(args: SelectSubset<T, AnnouncementCreateArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Announcements.
+     * @param {AnnouncementCreateManyArgs} args - Arguments to create many Announcements.
+     * @example
+     * // Create many Announcements
+     * const announcement = await prisma.announcement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AnnouncementCreateManyArgs>(args?: SelectSubset<T, AnnouncementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Announcements and returns the data saved in the database.
+     * @param {AnnouncementCreateManyAndReturnArgs} args - Arguments to create many Announcements.
+     * @example
+     * // Create many Announcements
+     * const announcement = await prisma.announcement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Announcements and only return the `id`
+     * const announcementWithIdOnly = await prisma.announcement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AnnouncementCreateManyAndReturnArgs>(args?: SelectSubset<T, AnnouncementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Announcement.
+     * @param {AnnouncementDeleteArgs} args - Arguments to delete one Announcement.
+     * @example
+     * // Delete one Announcement
+     * const Announcement = await prisma.announcement.delete({
+     *   where: {
+     *     // ... filter to delete one Announcement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AnnouncementDeleteArgs>(args: SelectSubset<T, AnnouncementDeleteArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Announcement.
+     * @param {AnnouncementUpdateArgs} args - Arguments to update one Announcement.
+     * @example
+     * // Update one Announcement
+     * const announcement = await prisma.announcement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AnnouncementUpdateArgs>(args: SelectSubset<T, AnnouncementUpdateArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Announcements.
+     * @param {AnnouncementDeleteManyArgs} args - Arguments to filter Announcements to delete.
+     * @example
+     * // Delete a few Announcements
+     * const { count } = await prisma.announcement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AnnouncementDeleteManyArgs>(args?: SelectSubset<T, AnnouncementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Announcements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Announcements
+     * const announcement = await prisma.announcement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AnnouncementUpdateManyArgs>(args: SelectSubset<T, AnnouncementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Announcements and returns the data updated in the database.
+     * @param {AnnouncementUpdateManyAndReturnArgs} args - Arguments to update many Announcements.
+     * @example
+     * // Update many Announcements
+     * const announcement = await prisma.announcement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Announcements and only return the `id`
+     * const announcementWithIdOnly = await prisma.announcement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AnnouncementUpdateManyAndReturnArgs>(args: SelectSubset<T, AnnouncementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Announcement.
+     * @param {AnnouncementUpsertArgs} args - Arguments to update or create a Announcement.
+     * @example
+     * // Update or create a Announcement
+     * const announcement = await prisma.announcement.upsert({
+     *   create: {
+     *     // ... data to create a Announcement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Announcement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AnnouncementUpsertArgs>(args: SelectSubset<T, AnnouncementUpsertArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Announcements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementCountArgs} args - Arguments to filter Announcements to count.
+     * @example
+     * // Count the number of Announcements
+     * const count = await prisma.announcement.count({
+     *   where: {
+     *     // ... the filter for the Announcements we want to count
+     *   }
+     * })
+    **/
+    count<T extends AnnouncementCountArgs>(
+      args?: Subset<T, AnnouncementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AnnouncementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Announcement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AnnouncementAggregateArgs>(args: Subset<T, AnnouncementAggregateArgs>): Prisma.PrismaPromise<GetAnnouncementAggregateType<T>>
+
+    /**
+     * Group by Announcement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AnnouncementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AnnouncementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AnnouncementGroupByArgs['orderBy'] }
+        : { orderBy?: AnnouncementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AnnouncementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAnnouncementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Announcement model
+   */
+  readonly fields: AnnouncementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Announcement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AnnouncementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    trip<T extends TripDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TripDefaultArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Announcement model
+   */
+  interface AnnouncementFieldRefs {
+    readonly id: FieldRef<"Announcement", 'String'>
+    readonly tripId: FieldRef<"Announcement", 'String'>
+    readonly authorId: FieldRef<"Announcement", 'String'>
+    readonly title: FieldRef<"Announcement", 'String'>
+    readonly body: FieldRef<"Announcement", 'String'>
+    readonly pinned: FieldRef<"Announcement", 'Boolean'>
+    readonly createdAt: FieldRef<"Announcement", 'DateTime'>
+    readonly updatedAt: FieldRef<"Announcement", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Announcement findUnique
+   */
+  export type AnnouncementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter, which Announcement to fetch.
+     */
+    where: AnnouncementWhereUniqueInput
+  }
+
+  /**
+   * Announcement findUniqueOrThrow
+   */
+  export type AnnouncementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter, which Announcement to fetch.
+     */
+    where: AnnouncementWhereUniqueInput
+  }
+
+  /**
+   * Announcement findFirst
+   */
+  export type AnnouncementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter, which Announcement to fetch.
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Announcements to fetch.
+     */
+    orderBy?: AnnouncementOrderByWithRelationInput | AnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Announcements.
+     */
+    cursor?: AnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Announcements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Announcements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Announcements.
+     */
+    distinct?: AnnouncementScalarFieldEnum | AnnouncementScalarFieldEnum[]
+  }
+
+  /**
+   * Announcement findFirstOrThrow
+   */
+  export type AnnouncementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter, which Announcement to fetch.
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Announcements to fetch.
+     */
+    orderBy?: AnnouncementOrderByWithRelationInput | AnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Announcements.
+     */
+    cursor?: AnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Announcements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Announcements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Announcements.
+     */
+    distinct?: AnnouncementScalarFieldEnum | AnnouncementScalarFieldEnum[]
+  }
+
+  /**
+   * Announcement findMany
+   */
+  export type AnnouncementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter, which Announcements to fetch.
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Announcements to fetch.
+     */
+    orderBy?: AnnouncementOrderByWithRelationInput | AnnouncementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Announcements.
+     */
+    cursor?: AnnouncementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Announcements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Announcements.
+     */
+    skip?: number
+    distinct?: AnnouncementScalarFieldEnum | AnnouncementScalarFieldEnum[]
+  }
+
+  /**
+   * Announcement create
+   */
+  export type AnnouncementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Announcement.
+     */
+    data: XOR<AnnouncementCreateInput, AnnouncementUncheckedCreateInput>
+  }
+
+  /**
+   * Announcement createMany
+   */
+  export type AnnouncementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Announcements.
+     */
+    data: AnnouncementCreateManyInput | AnnouncementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Announcement createManyAndReturn
+   */
+  export type AnnouncementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * The data used to create many Announcements.
+     */
+    data: AnnouncementCreateManyInput | AnnouncementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Announcement update
+   */
+  export type AnnouncementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Announcement.
+     */
+    data: XOR<AnnouncementUpdateInput, AnnouncementUncheckedUpdateInput>
+    /**
+     * Choose, which Announcement to update.
+     */
+    where: AnnouncementWhereUniqueInput
+  }
+
+  /**
+   * Announcement updateMany
+   */
+  export type AnnouncementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Announcements.
+     */
+    data: XOR<AnnouncementUpdateManyMutationInput, AnnouncementUncheckedUpdateManyInput>
+    /**
+     * Filter which Announcements to update
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * Limit how many Announcements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Announcement updateManyAndReturn
+   */
+  export type AnnouncementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * The data used to update Announcements.
+     */
+    data: XOR<AnnouncementUpdateManyMutationInput, AnnouncementUncheckedUpdateManyInput>
+    /**
+     * Filter which Announcements to update
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * Limit how many Announcements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Announcement upsert
+   */
+  export type AnnouncementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Announcement to update in case it exists.
+     */
+    where: AnnouncementWhereUniqueInput
+    /**
+     * In case the Announcement found by the `where` argument doesn't exist, create a new Announcement with this data.
+     */
+    create: XOR<AnnouncementCreateInput, AnnouncementUncheckedCreateInput>
+    /**
+     * In case the Announcement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AnnouncementUpdateInput, AnnouncementUncheckedUpdateInput>
+  }
+
+  /**
+   * Announcement delete
+   */
+  export type AnnouncementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    /**
+     * Filter which Announcement to delete.
+     */
+    where: AnnouncementWhereUniqueInput
+  }
+
+  /**
+   * Announcement deleteMany
+   */
+  export type AnnouncementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Announcements to delete
+     */
+    where?: AnnouncementWhereInput
+    /**
+     * Limit how many Announcements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Announcement without action
+   */
+  export type AnnouncementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TripExtension
+   */
+
+  export type AggregateTripExtension = {
+    _count: TripExtensionCountAggregateOutputType | null
+    _min: TripExtensionMinAggregateOutputType | null
+    _max: TripExtensionMaxAggregateOutputType | null
+  }
+
+  export type TripExtensionMinAggregateOutputType = {
+    id: string | null
+    tripId: string | null
+    extensionType: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TripExtensionMaxAggregateOutputType = {
+    id: string | null
+    tripId: string | null
+    extensionType: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TripExtensionCountAggregateOutputType = {
+    id: number
+    tripId: number
+    extensionType: number
+    data: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TripExtensionMinAggregateInputType = {
+    id?: true
+    tripId?: true
+    extensionType?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TripExtensionMaxAggregateInputType = {
+    id?: true
+    tripId?: true
+    extensionType?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TripExtensionCountAggregateInputType = {
+    id?: true
+    tripId?: true
+    extensionType?: true
+    data?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TripExtensionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TripExtension to aggregate.
+     */
+    where?: TripExtensionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TripExtensions to fetch.
+     */
+    orderBy?: TripExtensionOrderByWithRelationInput | TripExtensionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TripExtensionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TripExtensions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TripExtensions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TripExtensions
+    **/
+    _count?: true | TripExtensionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TripExtensionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TripExtensionMaxAggregateInputType
+  }
+
+  export type GetTripExtensionAggregateType<T extends TripExtensionAggregateArgs> = {
+        [P in keyof T & keyof AggregateTripExtension]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTripExtension[P]>
+      : GetScalarType<T[P], AggregateTripExtension[P]>
+  }
+
+
+
+
+  export type TripExtensionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TripExtensionWhereInput
+    orderBy?: TripExtensionOrderByWithAggregationInput | TripExtensionOrderByWithAggregationInput[]
+    by: TripExtensionScalarFieldEnum[] | TripExtensionScalarFieldEnum
+    having?: TripExtensionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TripExtensionCountAggregateInputType | true
+    _min?: TripExtensionMinAggregateInputType
+    _max?: TripExtensionMaxAggregateInputType
+  }
+
+  export type TripExtensionGroupByOutputType = {
+    id: string
+    tripId: string
+    extensionType: string
+    data: JsonValue
+    createdAt: Date
+    updatedAt: Date
+    _count: TripExtensionCountAggregateOutputType | null
+    _min: TripExtensionMinAggregateOutputType | null
+    _max: TripExtensionMaxAggregateOutputType | null
+  }
+
+  type GetTripExtensionGroupByPayload<T extends TripExtensionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TripExtensionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TripExtensionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TripExtensionGroupByOutputType[P]>
+            : GetScalarType<T[P], TripExtensionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TripExtensionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tripId?: boolean
+    extensionType?: boolean
+    data?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tripExtension"]>
+
+  export type TripExtensionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tripId?: boolean
+    extensionType?: boolean
+    data?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tripExtension"]>
+
+  export type TripExtensionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tripId?: boolean
+    extensionType?: boolean
+    data?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tripExtension"]>
+
+  export type TripExtensionSelectScalar = {
+    id?: boolean
+    tripId?: boolean
+    extensionType?: boolean
+    data?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TripExtensionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tripId" | "extensionType" | "data" | "createdAt" | "updatedAt", ExtArgs["result"]["tripExtension"]>
+  export type TripExtensionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+  }
+  export type TripExtensionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+  }
+  export type TripExtensionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+  }
+
+  export type $TripExtensionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TripExtension"
+    objects: {
+      trip: Prisma.$TripPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tripId: string
+      extensionType: string
+      data: Prisma.JsonValue
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tripExtension"]>
+    composites: {}
+  }
+
+  type TripExtensionGetPayload<S extends boolean | null | undefined | TripExtensionDefaultArgs> = $Result.GetResult<Prisma.$TripExtensionPayload, S>
+
+  type TripExtensionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TripExtensionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TripExtensionCountAggregateInputType | true
+    }
+
+  export interface TripExtensionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TripExtension'], meta: { name: 'TripExtension' } }
+    /**
+     * Find zero or one TripExtension that matches the filter.
+     * @param {TripExtensionFindUniqueArgs} args - Arguments to find a TripExtension
+     * @example
+     * // Get one TripExtension
+     * const tripExtension = await prisma.tripExtension.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TripExtensionFindUniqueArgs>(args: SelectSubset<T, TripExtensionFindUniqueArgs<ExtArgs>>): Prisma__TripExtensionClient<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TripExtension that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TripExtensionFindUniqueOrThrowArgs} args - Arguments to find a TripExtension
+     * @example
+     * // Get one TripExtension
+     * const tripExtension = await prisma.tripExtension.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TripExtensionFindUniqueOrThrowArgs>(args: SelectSubset<T, TripExtensionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TripExtensionClient<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TripExtension that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TripExtensionFindFirstArgs} args - Arguments to find a TripExtension
+     * @example
+     * // Get one TripExtension
+     * const tripExtension = await prisma.tripExtension.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TripExtensionFindFirstArgs>(args?: SelectSubset<T, TripExtensionFindFirstArgs<ExtArgs>>): Prisma__TripExtensionClient<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TripExtension that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TripExtensionFindFirstOrThrowArgs} args - Arguments to find a TripExtension
+     * @example
+     * // Get one TripExtension
+     * const tripExtension = await prisma.tripExtension.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TripExtensionFindFirstOrThrowArgs>(args?: SelectSubset<T, TripExtensionFindFirstOrThrowArgs<ExtArgs>>): Prisma__TripExtensionClient<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TripExtensions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TripExtensionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TripExtensions
+     * const tripExtensions = await prisma.tripExtension.findMany()
+     * 
+     * // Get first 10 TripExtensions
+     * const tripExtensions = await prisma.tripExtension.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tripExtensionWithIdOnly = await prisma.tripExtension.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TripExtensionFindManyArgs>(args?: SelectSubset<T, TripExtensionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TripExtension.
+     * @param {TripExtensionCreateArgs} args - Arguments to create a TripExtension.
+     * @example
+     * // Create one TripExtension
+     * const TripExtension = await prisma.tripExtension.create({
+     *   data: {
+     *     // ... data to create a TripExtension
+     *   }
+     * })
+     * 
+     */
+    create<T extends TripExtensionCreateArgs>(args: SelectSubset<T, TripExtensionCreateArgs<ExtArgs>>): Prisma__TripExtensionClient<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TripExtensions.
+     * @param {TripExtensionCreateManyArgs} args - Arguments to create many TripExtensions.
+     * @example
+     * // Create many TripExtensions
+     * const tripExtension = await prisma.tripExtension.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TripExtensionCreateManyArgs>(args?: SelectSubset<T, TripExtensionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TripExtensions and returns the data saved in the database.
+     * @param {TripExtensionCreateManyAndReturnArgs} args - Arguments to create many TripExtensions.
+     * @example
+     * // Create many TripExtensions
+     * const tripExtension = await prisma.tripExtension.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TripExtensions and only return the `id`
+     * const tripExtensionWithIdOnly = await prisma.tripExtension.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TripExtensionCreateManyAndReturnArgs>(args?: SelectSubset<T, TripExtensionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TripExtension.
+     * @param {TripExtensionDeleteArgs} args - Arguments to delete one TripExtension.
+     * @example
+     * // Delete one TripExtension
+     * const TripExtension = await prisma.tripExtension.delete({
+     *   where: {
+     *     // ... filter to delete one TripExtension
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TripExtensionDeleteArgs>(args: SelectSubset<T, TripExtensionDeleteArgs<ExtArgs>>): Prisma__TripExtensionClient<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TripExtension.
+     * @param {TripExtensionUpdateArgs} args - Arguments to update one TripExtension.
+     * @example
+     * // Update one TripExtension
+     * const tripExtension = await prisma.tripExtension.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TripExtensionUpdateArgs>(args: SelectSubset<T, TripExtensionUpdateArgs<ExtArgs>>): Prisma__TripExtensionClient<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TripExtensions.
+     * @param {TripExtensionDeleteManyArgs} args - Arguments to filter TripExtensions to delete.
+     * @example
+     * // Delete a few TripExtensions
+     * const { count } = await prisma.tripExtension.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TripExtensionDeleteManyArgs>(args?: SelectSubset<T, TripExtensionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TripExtensions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TripExtensionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TripExtensions
+     * const tripExtension = await prisma.tripExtension.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TripExtensionUpdateManyArgs>(args: SelectSubset<T, TripExtensionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TripExtensions and returns the data updated in the database.
+     * @param {TripExtensionUpdateManyAndReturnArgs} args - Arguments to update many TripExtensions.
+     * @example
+     * // Update many TripExtensions
+     * const tripExtension = await prisma.tripExtension.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TripExtensions and only return the `id`
+     * const tripExtensionWithIdOnly = await prisma.tripExtension.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TripExtensionUpdateManyAndReturnArgs>(args: SelectSubset<T, TripExtensionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TripExtension.
+     * @param {TripExtensionUpsertArgs} args - Arguments to update or create a TripExtension.
+     * @example
+     * // Update or create a TripExtension
+     * const tripExtension = await prisma.tripExtension.upsert({
+     *   create: {
+     *     // ... data to create a TripExtension
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TripExtension we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TripExtensionUpsertArgs>(args: SelectSubset<T, TripExtensionUpsertArgs<ExtArgs>>): Prisma__TripExtensionClient<$Result.GetResult<Prisma.$TripExtensionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TripExtensions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TripExtensionCountArgs} args - Arguments to filter TripExtensions to count.
+     * @example
+     * // Count the number of TripExtensions
+     * const count = await prisma.tripExtension.count({
+     *   where: {
+     *     // ... the filter for the TripExtensions we want to count
+     *   }
+     * })
+    **/
+    count<T extends TripExtensionCountArgs>(
+      args?: Subset<T, TripExtensionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TripExtensionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TripExtension.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TripExtensionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TripExtensionAggregateArgs>(args: Subset<T, TripExtensionAggregateArgs>): Prisma.PrismaPromise<GetTripExtensionAggregateType<T>>
+
+    /**
+     * Group by TripExtension.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TripExtensionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TripExtensionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TripExtensionGroupByArgs['orderBy'] }
+        : { orderBy?: TripExtensionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TripExtensionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTripExtensionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TripExtension model
+   */
+  readonly fields: TripExtensionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TripExtension.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TripExtensionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    trip<T extends TripDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TripDefaultArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TripExtension model
+   */
+  interface TripExtensionFieldRefs {
+    readonly id: FieldRef<"TripExtension", 'String'>
+    readonly tripId: FieldRef<"TripExtension", 'String'>
+    readonly extensionType: FieldRef<"TripExtension", 'String'>
+    readonly data: FieldRef<"TripExtension", 'Json'>
+    readonly createdAt: FieldRef<"TripExtension", 'DateTime'>
+    readonly updatedAt: FieldRef<"TripExtension", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TripExtension findUnique
+   */
+  export type TripExtensionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+    /**
+     * Filter, which TripExtension to fetch.
+     */
+    where: TripExtensionWhereUniqueInput
+  }
+
+  /**
+   * TripExtension findUniqueOrThrow
+   */
+  export type TripExtensionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+    /**
+     * Filter, which TripExtension to fetch.
+     */
+    where: TripExtensionWhereUniqueInput
+  }
+
+  /**
+   * TripExtension findFirst
+   */
+  export type TripExtensionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+    /**
+     * Filter, which TripExtension to fetch.
+     */
+    where?: TripExtensionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TripExtensions to fetch.
+     */
+    orderBy?: TripExtensionOrderByWithRelationInput | TripExtensionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TripExtensions.
+     */
+    cursor?: TripExtensionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TripExtensions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TripExtensions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TripExtensions.
+     */
+    distinct?: TripExtensionScalarFieldEnum | TripExtensionScalarFieldEnum[]
+  }
+
+  /**
+   * TripExtension findFirstOrThrow
+   */
+  export type TripExtensionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+    /**
+     * Filter, which TripExtension to fetch.
+     */
+    where?: TripExtensionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TripExtensions to fetch.
+     */
+    orderBy?: TripExtensionOrderByWithRelationInput | TripExtensionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TripExtensions.
+     */
+    cursor?: TripExtensionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TripExtensions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TripExtensions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TripExtensions.
+     */
+    distinct?: TripExtensionScalarFieldEnum | TripExtensionScalarFieldEnum[]
+  }
+
+  /**
+   * TripExtension findMany
+   */
+  export type TripExtensionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+    /**
+     * Filter, which TripExtensions to fetch.
+     */
+    where?: TripExtensionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TripExtensions to fetch.
+     */
+    orderBy?: TripExtensionOrderByWithRelationInput | TripExtensionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TripExtensions.
+     */
+    cursor?: TripExtensionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TripExtensions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TripExtensions.
+     */
+    skip?: number
+    distinct?: TripExtensionScalarFieldEnum | TripExtensionScalarFieldEnum[]
+  }
+
+  /**
+   * TripExtension create
+   */
+  export type TripExtensionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TripExtension.
+     */
+    data: XOR<TripExtensionCreateInput, TripExtensionUncheckedCreateInput>
+  }
+
+  /**
+   * TripExtension createMany
+   */
+  export type TripExtensionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TripExtensions.
+     */
+    data: TripExtensionCreateManyInput | TripExtensionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TripExtension createManyAndReturn
+   */
+  export type TripExtensionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * The data used to create many TripExtensions.
+     */
+    data: TripExtensionCreateManyInput | TripExtensionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TripExtension update
+   */
+  export type TripExtensionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TripExtension.
+     */
+    data: XOR<TripExtensionUpdateInput, TripExtensionUncheckedUpdateInput>
+    /**
+     * Choose, which TripExtension to update.
+     */
+    where: TripExtensionWhereUniqueInput
+  }
+
+  /**
+   * TripExtension updateMany
+   */
+  export type TripExtensionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TripExtensions.
+     */
+    data: XOR<TripExtensionUpdateManyMutationInput, TripExtensionUncheckedUpdateManyInput>
+    /**
+     * Filter which TripExtensions to update
+     */
+    where?: TripExtensionWhereInput
+    /**
+     * Limit how many TripExtensions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TripExtension updateManyAndReturn
+   */
+  export type TripExtensionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * The data used to update TripExtensions.
+     */
+    data: XOR<TripExtensionUpdateManyMutationInput, TripExtensionUncheckedUpdateManyInput>
+    /**
+     * Filter which TripExtensions to update
+     */
+    where?: TripExtensionWhereInput
+    /**
+     * Limit how many TripExtensions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TripExtension upsert
+   */
+  export type TripExtensionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TripExtension to update in case it exists.
+     */
+    where: TripExtensionWhereUniqueInput
+    /**
+     * In case the TripExtension found by the `where` argument doesn't exist, create a new TripExtension with this data.
+     */
+    create: XOR<TripExtensionCreateInput, TripExtensionUncheckedCreateInput>
+    /**
+     * In case the TripExtension was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TripExtensionUpdateInput, TripExtensionUncheckedUpdateInput>
+  }
+
+  /**
+   * TripExtension delete
+   */
+  export type TripExtensionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+    /**
+     * Filter which TripExtension to delete.
+     */
+    where: TripExtensionWhereUniqueInput
+  }
+
+  /**
+   * TripExtension deleteMany
+   */
+  export type TripExtensionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TripExtensions to delete
+     */
+    where?: TripExtensionWhereInput
+    /**
+     * Limit how many TripExtensions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TripExtension without action
+   */
+  export type TripExtensionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripExtension
+     */
+    select?: TripExtensionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TripExtension
+     */
+    omit?: TripExtensionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripExtensionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -6971,8 +16374,15 @@ export namespace Prisma {
     id: 'id',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    tokenId: 'tokenId',
     tokenHash: 'tokenHash',
     expiresAt: 'expiresAt',
+    family: 'family',
+    revoked: 'revoked',
+    revokedAt: 'revokedAt',
+    revokeReason: 'revokeReason',
+    userAgent: 'userAgent',
+    ipAddress: 'ipAddress',
     userId: 'userId'
   };
 
@@ -7021,6 +16431,120 @@ export namespace Prisma {
   };
 
   export type TripMemberScalarFieldEnum = (typeof TripMemberScalarFieldEnum)[keyof typeof TripMemberScalarFieldEnum]
+
+
+  export const NotificationScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    userId: 'userId',
+    tripId: 'tripId',
+    type: 'type',
+    title: 'title',
+    body: 'body',
+    payload: 'payload',
+    read: 'read',
+    readAt: 'readAt'
+  };
+
+  export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+  export const NotificationPreferenceScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userId: 'userId',
+    tripId: 'tripId',
+    emailEnabled: 'emailEnabled',
+    pushEnabled: 'pushEnabled',
+    scheduleChanges: 'scheduleChanges',
+    itemUpdates: 'itemUpdates',
+    announcements: 'announcements',
+    digestFrequency: 'digestFrequency'
+  };
+
+  export type NotificationPreferenceScalarFieldEnum = (typeof NotificationPreferenceScalarFieldEnum)[keyof typeof NotificationPreferenceScalarFieldEnum]
+
+
+  export const EventScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    tripId: 'tripId',
+    title: 'title',
+    description: 'description',
+    location: 'location',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    isAllDay: 'isAllDay',
+    status: 'status',
+    category: 'category',
+    estimatedCost: 'estimatedCost',
+    currency: 'currency',
+    suggestedById: 'suggestedById',
+    approvedById: 'approvedById',
+    metadata: 'metadata'
+  };
+
+  export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+  export const ItemScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    tripId: 'tripId',
+    name: 'name',
+    description: 'description',
+    category: 'category',
+    type: 'type',
+    quantityNeeded: 'quantityNeeded',
+    isEssential: 'isEssential',
+    createdById: 'createdById',
+    metadata: 'metadata'
+  };
+
+  export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
+
+
+  export const ItemClaimScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    itemId: 'itemId',
+    userId: 'userId',
+    quantity: 'quantity',
+    status: 'status',
+    notes: 'notes'
+  };
+
+  export type ItemClaimScalarFieldEnum = (typeof ItemClaimScalarFieldEnum)[keyof typeof ItemClaimScalarFieldEnum]
+
+
+  export const AnnouncementScalarFieldEnum: {
+    id: 'id',
+    tripId: 'tripId',
+    authorId: 'authorId',
+    title: 'title',
+    body: 'body',
+    pinned: 'pinned',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
+
+
+  export const TripExtensionScalarFieldEnum: {
+    id: 'id',
+    tripId: 'tripId',
+    extensionType: 'extensionType',
+    data: 'data',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TripExtensionScalarFieldEnum = (typeof TripExtensionScalarFieldEnum)[keyof typeof TripExtensionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7168,6 +16692,62 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DigestFrequency'
+   */
+  export type EnumDigestFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DigestFrequency'>
+    
+
+
+  /**
+   * Reference to a field of type 'DigestFrequency[]'
+   */
+  export type ListEnumDigestFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DigestFrequency[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'EventStatus'
+   */
+  export type EnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'EventStatus[]'
+   */
+  export type ListEnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ItemType'
+   */
+  export type EnumItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ItemType[]'
+   */
+  export type ListEnumItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -7178,6 +16758,34 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ClaimStatus'
+   */
+  export type EnumClaimStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClaimStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ClaimStatus[]'
+   */
+  export type ListEnumClaimStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClaimStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -7201,6 +16809,13 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenListRelationFilter
     passwordResets?: PasswordResetListRelationFilter
     tripMembers?: TripMemberListRelationFilter
+    suggestedEvents?: EventListRelationFilter
+    approvedEvents?: EventListRelationFilter
+    createdItems?: ItemListRelationFilter
+    itemClaims?: ItemClaimListRelationFilter
+    notifications?: NotificationListRelationFilter
+    notificationPrefs?: NotificationPreferenceListRelationFilter
+    announcements?: AnnouncementListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7217,6 +16832,13 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
     passwordResets?: PasswordResetOrderByRelationAggregateInput
     tripMembers?: TripMemberOrderByRelationAggregateInput
+    suggestedEvents?: EventOrderByRelationAggregateInput
+    approvedEvents?: EventOrderByRelationAggregateInput
+    createdItems?: ItemOrderByRelationAggregateInput
+    itemClaims?: ItemClaimOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
+    notificationPrefs?: NotificationPreferenceOrderByRelationAggregateInput
+    announcements?: AnnouncementOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7236,6 +16858,13 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenListRelationFilter
     passwordResets?: PasswordResetListRelationFilter
     tripMembers?: TripMemberListRelationFilter
+    suggestedEvents?: EventListRelationFilter
+    approvedEvents?: EventListRelationFilter
+    createdItems?: ItemListRelationFilter
+    itemClaims?: ItemClaimListRelationFilter
+    notifications?: NotificationListRelationFilter
+    notificationPrefs?: NotificationPreferenceListRelationFilter
+    announcements?: AnnouncementListRelationFilter
   }, "id" | "email" | "username">
 
   export type UserOrderByWithAggregationInput = {
@@ -7277,8 +16906,15 @@ export namespace Prisma {
     id?: StringFilter<"RefreshToken"> | string
     createdAt?: DateTimeFilter<"RefreshToken"> | Date | string
     updatedAt?: DateTimeFilter<"RefreshToken"> | Date | string
+    tokenId?: StringFilter<"RefreshToken"> | string
     tokenHash?: StringFilter<"RefreshToken"> | string
     expiresAt?: DateTimeFilter<"RefreshToken"> | Date | string
+    family?: StringNullableFilter<"RefreshToken"> | string | null
+    revoked?: BoolFilter<"RefreshToken"> | boolean
+    revokedAt?: DateTimeNullableFilter<"RefreshToken"> | Date | string | null
+    revokeReason?: StringNullableFilter<"RefreshToken"> | string | null
+    userAgent?: StringNullableFilter<"RefreshToken"> | string | null
+    ipAddress?: StringNullableFilter<"RefreshToken"> | string | null
     userId?: StringFilter<"RefreshToken"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -7287,14 +16923,22 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    tokenId?: SortOrder
     tokenHash?: SortOrder
     expiresAt?: SortOrder
+    family?: SortOrderInput | SortOrder
+    revoked?: SortOrder
+    revokedAt?: SortOrderInput | SortOrder
+    revokeReason?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    ipAddress?: SortOrderInput | SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
   export type RefreshTokenWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    tokenId?: string
     tokenHash?: string
     AND?: RefreshTokenWhereInput | RefreshTokenWhereInput[]
     OR?: RefreshTokenWhereInput[]
@@ -7302,16 +16946,29 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"RefreshToken"> | Date | string
     updatedAt?: DateTimeFilter<"RefreshToken"> | Date | string
     expiresAt?: DateTimeFilter<"RefreshToken"> | Date | string
+    family?: StringNullableFilter<"RefreshToken"> | string | null
+    revoked?: BoolFilter<"RefreshToken"> | boolean
+    revokedAt?: DateTimeNullableFilter<"RefreshToken"> | Date | string | null
+    revokeReason?: StringNullableFilter<"RefreshToken"> | string | null
+    userAgent?: StringNullableFilter<"RefreshToken"> | string | null
+    ipAddress?: StringNullableFilter<"RefreshToken"> | string | null
     userId?: StringFilter<"RefreshToken"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "tokenHash">
+  }, "id" | "tokenId" | "tokenHash">
 
   export type RefreshTokenOrderByWithAggregationInput = {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    tokenId?: SortOrder
     tokenHash?: SortOrder
     expiresAt?: SortOrder
+    family?: SortOrderInput | SortOrder
+    revoked?: SortOrder
+    revokedAt?: SortOrderInput | SortOrder
+    revokeReason?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    ipAddress?: SortOrderInput | SortOrder
     userId?: SortOrder
     _count?: RefreshTokenCountOrderByAggregateInput
     _max?: RefreshTokenMaxOrderByAggregateInput
@@ -7325,8 +16982,15 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"RefreshToken"> | string
     createdAt?: DateTimeWithAggregatesFilter<"RefreshToken"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"RefreshToken"> | Date | string
+    tokenId?: StringWithAggregatesFilter<"RefreshToken"> | string
     tokenHash?: StringWithAggregatesFilter<"RefreshToken"> | string
     expiresAt?: DateTimeWithAggregatesFilter<"RefreshToken"> | Date | string
+    family?: StringNullableWithAggregatesFilter<"RefreshToken"> | string | null
+    revoked?: BoolWithAggregatesFilter<"RefreshToken"> | boolean
+    revokedAt?: DateTimeNullableWithAggregatesFilter<"RefreshToken"> | Date | string | null
+    revokeReason?: StringNullableWithAggregatesFilter<"RefreshToken"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"RefreshToken"> | string | null
+    ipAddress?: StringNullableWithAggregatesFilter<"RefreshToken"> | string | null
     userId?: StringWithAggregatesFilter<"RefreshToken"> | string
   }
 
@@ -7411,6 +17075,12 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"Trip"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Trip"> | Date | string | null
     members?: TripMemberListRelationFilter
+    events?: EventListRelationFilter
+    items?: ItemListRelationFilter
+    notifications?: NotificationListRelationFilter
+    notificationPrefs?: NotificationPreferenceListRelationFilter
+    announcements?: AnnouncementListRelationFilter
+    extensions?: TripExtensionListRelationFilter
   }
 
   export type TripOrderByWithRelationInput = {
@@ -7426,6 +17096,12 @@ export namespace Prisma {
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     members?: TripMemberOrderByRelationAggregateInput
+    events?: EventOrderByRelationAggregateInput
+    items?: ItemOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
+    notificationPrefs?: NotificationPreferenceOrderByRelationAggregateInput
+    announcements?: AnnouncementOrderByRelationAggregateInput
+    extensions?: TripExtensionOrderByRelationAggregateInput
   }
 
   export type TripWhereUniqueInput = Prisma.AtLeast<{
@@ -7444,6 +17120,12 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"Trip"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Trip"> | Date | string | null
     members?: TripMemberListRelationFilter
+    events?: EventListRelationFilter
+    items?: ItemListRelationFilter
+    notifications?: NotificationListRelationFilter
+    notificationPrefs?: NotificationPreferenceListRelationFilter
+    announcements?: AnnouncementListRelationFilter
+    extensions?: TripExtensionListRelationFilter
   }, "id" | "inviteCode">
 
   export type TripOrderByWithAggregationInput = {
@@ -7554,6 +17236,609 @@ export namespace Prisma {
     canInvite?: BoolWithAggregatesFilter<"TripMember"> | boolean
   }
 
+  export type NotificationWhereInput = {
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    userId?: StringFilter<"Notification"> | string
+    tripId?: StringNullableFilter<"Notification"> | string | null
+    type?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    body?: StringNullableFilter<"Notification"> | string | null
+    payload?: JsonFilter<"Notification">
+    read?: BoolFilter<"Notification"> | boolean
+    readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    trip?: XOR<TripNullableScalarRelationFilter, TripWhereInput> | null
+  }
+
+  export type NotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrderInput | SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    body?: SortOrderInput | SortOrder
+    payload?: SortOrder
+    read?: SortOrder
+    readAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    trip?: TripOrderByWithRelationInput
+  }
+
+  export type NotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    userId?: StringFilter<"Notification"> | string
+    tripId?: StringNullableFilter<"Notification"> | string | null
+    type?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    body?: StringNullableFilter<"Notification"> | string | null
+    payload?: JsonFilter<"Notification">
+    read?: BoolFilter<"Notification"> | boolean
+    readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    trip?: XOR<TripNullableScalarRelationFilter, TripWhereInput> | null
+  }, "id">
+
+  export type NotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrderInput | SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    body?: SortOrderInput | SortOrder
+    payload?: SortOrder
+    read?: SortOrder
+    readAt?: SortOrderInput | SortOrder
+    _count?: NotificationCountOrderByAggregateInput
+    _max?: NotificationMaxOrderByAggregateInput
+    _min?: NotificationMinOrderByAggregateInput
+  }
+
+  export type NotificationScalarWhereWithAggregatesInput = {
+    AND?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    OR?: NotificationScalarWhereWithAggregatesInput[]
+    NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Notification"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
+    userId?: StringWithAggregatesFilter<"Notification"> | string
+    tripId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    type?: StringWithAggregatesFilter<"Notification"> | string
+    title?: StringWithAggregatesFilter<"Notification"> | string
+    body?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    payload?: JsonWithAggregatesFilter<"Notification">
+    read?: BoolWithAggregatesFilter<"Notification"> | boolean
+    readAt?: DateTimeNullableWithAggregatesFilter<"Notification"> | Date | string | null
+  }
+
+  export type NotificationPreferenceWhereInput = {
+    AND?: NotificationPreferenceWhereInput | NotificationPreferenceWhereInput[]
+    OR?: NotificationPreferenceWhereInput[]
+    NOT?: NotificationPreferenceWhereInput | NotificationPreferenceWhereInput[]
+    id?: StringFilter<"NotificationPreference"> | string
+    createdAt?: DateTimeFilter<"NotificationPreference"> | Date | string
+    updatedAt?: DateTimeFilter<"NotificationPreference"> | Date | string
+    userId?: StringFilter<"NotificationPreference"> | string
+    tripId?: StringNullableFilter<"NotificationPreference"> | string | null
+    emailEnabled?: BoolFilter<"NotificationPreference"> | boolean
+    pushEnabled?: BoolFilter<"NotificationPreference"> | boolean
+    scheduleChanges?: BoolFilter<"NotificationPreference"> | boolean
+    itemUpdates?: BoolFilter<"NotificationPreference"> | boolean
+    announcements?: BoolFilter<"NotificationPreference"> | boolean
+    digestFrequency?: EnumDigestFrequencyFilter<"NotificationPreference"> | $Enums.DigestFrequency
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    trip?: XOR<TripNullableScalarRelationFilter, TripWhereInput> | null
+  }
+
+  export type NotificationPreferenceOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrderInput | SortOrder
+    emailEnabled?: SortOrder
+    pushEnabled?: SortOrder
+    scheduleChanges?: SortOrder
+    itemUpdates?: SortOrder
+    announcements?: SortOrder
+    digestFrequency?: SortOrder
+    user?: UserOrderByWithRelationInput
+    trip?: TripOrderByWithRelationInput
+  }
+
+  export type NotificationPreferenceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_tripId?: NotificationPreferenceUserIdTripIdCompoundUniqueInput
+    AND?: NotificationPreferenceWhereInput | NotificationPreferenceWhereInput[]
+    OR?: NotificationPreferenceWhereInput[]
+    NOT?: NotificationPreferenceWhereInput | NotificationPreferenceWhereInput[]
+    createdAt?: DateTimeFilter<"NotificationPreference"> | Date | string
+    updatedAt?: DateTimeFilter<"NotificationPreference"> | Date | string
+    userId?: StringFilter<"NotificationPreference"> | string
+    tripId?: StringNullableFilter<"NotificationPreference"> | string | null
+    emailEnabled?: BoolFilter<"NotificationPreference"> | boolean
+    pushEnabled?: BoolFilter<"NotificationPreference"> | boolean
+    scheduleChanges?: BoolFilter<"NotificationPreference"> | boolean
+    itemUpdates?: BoolFilter<"NotificationPreference"> | boolean
+    announcements?: BoolFilter<"NotificationPreference"> | boolean
+    digestFrequency?: EnumDigestFrequencyFilter<"NotificationPreference"> | $Enums.DigestFrequency
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    trip?: XOR<TripNullableScalarRelationFilter, TripWhereInput> | null
+  }, "id" | "userId_tripId">
+
+  export type NotificationPreferenceOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrderInput | SortOrder
+    emailEnabled?: SortOrder
+    pushEnabled?: SortOrder
+    scheduleChanges?: SortOrder
+    itemUpdates?: SortOrder
+    announcements?: SortOrder
+    digestFrequency?: SortOrder
+    _count?: NotificationPreferenceCountOrderByAggregateInput
+    _max?: NotificationPreferenceMaxOrderByAggregateInput
+    _min?: NotificationPreferenceMinOrderByAggregateInput
+  }
+
+  export type NotificationPreferenceScalarWhereWithAggregatesInput = {
+    AND?: NotificationPreferenceScalarWhereWithAggregatesInput | NotificationPreferenceScalarWhereWithAggregatesInput[]
+    OR?: NotificationPreferenceScalarWhereWithAggregatesInput[]
+    NOT?: NotificationPreferenceScalarWhereWithAggregatesInput | NotificationPreferenceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"NotificationPreference"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"NotificationPreference"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"NotificationPreference"> | Date | string
+    userId?: StringWithAggregatesFilter<"NotificationPreference"> | string
+    tripId?: StringNullableWithAggregatesFilter<"NotificationPreference"> | string | null
+    emailEnabled?: BoolWithAggregatesFilter<"NotificationPreference"> | boolean
+    pushEnabled?: BoolWithAggregatesFilter<"NotificationPreference"> | boolean
+    scheduleChanges?: BoolWithAggregatesFilter<"NotificationPreference"> | boolean
+    itemUpdates?: BoolWithAggregatesFilter<"NotificationPreference"> | boolean
+    announcements?: BoolWithAggregatesFilter<"NotificationPreference"> | boolean
+    digestFrequency?: EnumDigestFrequencyWithAggregatesFilter<"NotificationPreference"> | $Enums.DigestFrequency
+  }
+
+  export type EventWhereInput = {
+    AND?: EventWhereInput | EventWhereInput[]
+    OR?: EventWhereInput[]
+    NOT?: EventWhereInput | EventWhereInput[]
+    id?: StringFilter<"Event"> | string
+    createdAt?: DateTimeFilter<"Event"> | Date | string
+    updatedAt?: DateTimeFilter<"Event"> | Date | string
+    tripId?: StringFilter<"Event"> | string
+    title?: StringFilter<"Event"> | string
+    description?: StringNullableFilter<"Event"> | string | null
+    location?: JsonNullableFilter<"Event">
+    startTime?: DateTimeNullableFilter<"Event"> | Date | string | null
+    endTime?: DateTimeNullableFilter<"Event"> | Date | string | null
+    isAllDay?: BoolFilter<"Event"> | boolean
+    status?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+    category?: StringNullableFilter<"Event"> | string | null
+    estimatedCost?: DecimalNullableFilter<"Event"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFilter<"Event"> | string
+    suggestedById?: StringFilter<"Event"> | string
+    approvedById?: StringNullableFilter<"Event"> | string | null
+    metadata?: JsonFilter<"Event">
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    suggestedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    approvedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type EventOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    startTime?: SortOrderInput | SortOrder
+    endTime?: SortOrderInput | SortOrder
+    isAllDay?: SortOrder
+    status?: SortOrder
+    category?: SortOrderInput | SortOrder
+    estimatedCost?: SortOrderInput | SortOrder
+    currency?: SortOrder
+    suggestedById?: SortOrder
+    approvedById?: SortOrderInput | SortOrder
+    metadata?: SortOrder
+    trip?: TripOrderByWithRelationInput
+    suggestedBy?: UserOrderByWithRelationInput
+    approvedBy?: UserOrderByWithRelationInput
+  }
+
+  export type EventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: EventWhereInput | EventWhereInput[]
+    OR?: EventWhereInput[]
+    NOT?: EventWhereInput | EventWhereInput[]
+    createdAt?: DateTimeFilter<"Event"> | Date | string
+    updatedAt?: DateTimeFilter<"Event"> | Date | string
+    tripId?: StringFilter<"Event"> | string
+    title?: StringFilter<"Event"> | string
+    description?: StringNullableFilter<"Event"> | string | null
+    location?: JsonNullableFilter<"Event">
+    startTime?: DateTimeNullableFilter<"Event"> | Date | string | null
+    endTime?: DateTimeNullableFilter<"Event"> | Date | string | null
+    isAllDay?: BoolFilter<"Event"> | boolean
+    status?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+    category?: StringNullableFilter<"Event"> | string | null
+    estimatedCost?: DecimalNullableFilter<"Event"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFilter<"Event"> | string
+    suggestedById?: StringFilter<"Event"> | string
+    approvedById?: StringNullableFilter<"Event"> | string | null
+    metadata?: JsonFilter<"Event">
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    suggestedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    approvedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type EventOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    startTime?: SortOrderInput | SortOrder
+    endTime?: SortOrderInput | SortOrder
+    isAllDay?: SortOrder
+    status?: SortOrder
+    category?: SortOrderInput | SortOrder
+    estimatedCost?: SortOrderInput | SortOrder
+    currency?: SortOrder
+    suggestedById?: SortOrder
+    approvedById?: SortOrderInput | SortOrder
+    metadata?: SortOrder
+    _count?: EventCountOrderByAggregateInput
+    _avg?: EventAvgOrderByAggregateInput
+    _max?: EventMaxOrderByAggregateInput
+    _min?: EventMinOrderByAggregateInput
+    _sum?: EventSumOrderByAggregateInput
+  }
+
+  export type EventScalarWhereWithAggregatesInput = {
+    AND?: EventScalarWhereWithAggregatesInput | EventScalarWhereWithAggregatesInput[]
+    OR?: EventScalarWhereWithAggregatesInput[]
+    NOT?: EventScalarWhereWithAggregatesInput | EventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Event"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    tripId?: StringWithAggregatesFilter<"Event"> | string
+    title?: StringWithAggregatesFilter<"Event"> | string
+    description?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    location?: JsonNullableWithAggregatesFilter<"Event">
+    startTime?: DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
+    endTime?: DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
+    isAllDay?: BoolWithAggregatesFilter<"Event"> | boolean
+    status?: EnumEventStatusWithAggregatesFilter<"Event"> | $Enums.EventStatus
+    category?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    estimatedCost?: DecimalNullableWithAggregatesFilter<"Event"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringWithAggregatesFilter<"Event"> | string
+    suggestedById?: StringWithAggregatesFilter<"Event"> | string
+    approvedById?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    metadata?: JsonWithAggregatesFilter<"Event">
+  }
+
+  export type ItemWhereInput = {
+    AND?: ItemWhereInput | ItemWhereInput[]
+    OR?: ItemWhereInput[]
+    NOT?: ItemWhereInput | ItemWhereInput[]
+    id?: StringFilter<"Item"> | string
+    createdAt?: DateTimeFilter<"Item"> | Date | string
+    updatedAt?: DateTimeFilter<"Item"> | Date | string
+    tripId?: StringFilter<"Item"> | string
+    name?: StringFilter<"Item"> | string
+    description?: StringNullableFilter<"Item"> | string | null
+    category?: StringNullableFilter<"Item"> | string | null
+    type?: EnumItemTypeFilter<"Item"> | $Enums.ItemType
+    quantityNeeded?: IntFilter<"Item"> | number
+    isEssential?: BoolFilter<"Item"> | boolean
+    createdById?: StringFilter<"Item"> | string
+    metadata?: JsonFilter<"Item">
+    claims?: ItemClaimListRelationFilter
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ItemOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    type?: SortOrder
+    quantityNeeded?: SortOrder
+    isEssential?: SortOrder
+    createdById?: SortOrder
+    metadata?: SortOrder
+    claims?: ItemClaimOrderByRelationAggregateInput
+    trip?: TripOrderByWithRelationInput
+    createdBy?: UserOrderByWithRelationInput
+  }
+
+  export type ItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ItemWhereInput | ItemWhereInput[]
+    OR?: ItemWhereInput[]
+    NOT?: ItemWhereInput | ItemWhereInput[]
+    createdAt?: DateTimeFilter<"Item"> | Date | string
+    updatedAt?: DateTimeFilter<"Item"> | Date | string
+    tripId?: StringFilter<"Item"> | string
+    name?: StringFilter<"Item"> | string
+    description?: StringNullableFilter<"Item"> | string | null
+    category?: StringNullableFilter<"Item"> | string | null
+    type?: EnumItemTypeFilter<"Item"> | $Enums.ItemType
+    quantityNeeded?: IntFilter<"Item"> | number
+    isEssential?: BoolFilter<"Item"> | boolean
+    createdById?: StringFilter<"Item"> | string
+    metadata?: JsonFilter<"Item">
+    claims?: ItemClaimListRelationFilter
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    type?: SortOrder
+    quantityNeeded?: SortOrder
+    isEssential?: SortOrder
+    createdById?: SortOrder
+    metadata?: SortOrder
+    _count?: ItemCountOrderByAggregateInput
+    _avg?: ItemAvgOrderByAggregateInput
+    _max?: ItemMaxOrderByAggregateInput
+    _min?: ItemMinOrderByAggregateInput
+    _sum?: ItemSumOrderByAggregateInput
+  }
+
+  export type ItemScalarWhereWithAggregatesInput = {
+    AND?: ItemScalarWhereWithAggregatesInput | ItemScalarWhereWithAggregatesInput[]
+    OR?: ItemScalarWhereWithAggregatesInput[]
+    NOT?: ItemScalarWhereWithAggregatesInput | ItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Item"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Item"> | Date | string
+    tripId?: StringWithAggregatesFilter<"Item"> | string
+    name?: StringWithAggregatesFilter<"Item"> | string
+    description?: StringNullableWithAggregatesFilter<"Item"> | string | null
+    category?: StringNullableWithAggregatesFilter<"Item"> | string | null
+    type?: EnumItemTypeWithAggregatesFilter<"Item"> | $Enums.ItemType
+    quantityNeeded?: IntWithAggregatesFilter<"Item"> | number
+    isEssential?: BoolWithAggregatesFilter<"Item"> | boolean
+    createdById?: StringWithAggregatesFilter<"Item"> | string
+    metadata?: JsonWithAggregatesFilter<"Item">
+  }
+
+  export type ItemClaimWhereInput = {
+    AND?: ItemClaimWhereInput | ItemClaimWhereInput[]
+    OR?: ItemClaimWhereInput[]
+    NOT?: ItemClaimWhereInput | ItemClaimWhereInput[]
+    id?: StringFilter<"ItemClaim"> | string
+    createdAt?: DateTimeFilter<"ItemClaim"> | Date | string
+    updatedAt?: DateTimeFilter<"ItemClaim"> | Date | string
+    itemId?: StringFilter<"ItemClaim"> | string
+    userId?: StringFilter<"ItemClaim"> | string
+    quantity?: IntFilter<"ItemClaim"> | number
+    status?: EnumClaimStatusFilter<"ItemClaim"> | $Enums.ClaimStatus
+    notes?: StringNullableFilter<"ItemClaim"> | string | null
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ItemClaimOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    itemId?: SortOrder
+    userId?: SortOrder
+    quantity?: SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    item?: ItemOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ItemClaimWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    itemId_userId?: ItemClaimItemIdUserIdCompoundUniqueInput
+    AND?: ItemClaimWhereInput | ItemClaimWhereInput[]
+    OR?: ItemClaimWhereInput[]
+    NOT?: ItemClaimWhereInput | ItemClaimWhereInput[]
+    createdAt?: DateTimeFilter<"ItemClaim"> | Date | string
+    updatedAt?: DateTimeFilter<"ItemClaim"> | Date | string
+    itemId?: StringFilter<"ItemClaim"> | string
+    userId?: StringFilter<"ItemClaim"> | string
+    quantity?: IntFilter<"ItemClaim"> | number
+    status?: EnumClaimStatusFilter<"ItemClaim"> | $Enums.ClaimStatus
+    notes?: StringNullableFilter<"ItemClaim"> | string | null
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "itemId_userId">
+
+  export type ItemClaimOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    itemId?: SortOrder
+    userId?: SortOrder
+    quantity?: SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    _count?: ItemClaimCountOrderByAggregateInput
+    _avg?: ItemClaimAvgOrderByAggregateInput
+    _max?: ItemClaimMaxOrderByAggregateInput
+    _min?: ItemClaimMinOrderByAggregateInput
+    _sum?: ItemClaimSumOrderByAggregateInput
+  }
+
+  export type ItemClaimScalarWhereWithAggregatesInput = {
+    AND?: ItemClaimScalarWhereWithAggregatesInput | ItemClaimScalarWhereWithAggregatesInput[]
+    OR?: ItemClaimScalarWhereWithAggregatesInput[]
+    NOT?: ItemClaimScalarWhereWithAggregatesInput | ItemClaimScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ItemClaim"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ItemClaim"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ItemClaim"> | Date | string
+    itemId?: StringWithAggregatesFilter<"ItemClaim"> | string
+    userId?: StringWithAggregatesFilter<"ItemClaim"> | string
+    quantity?: IntWithAggregatesFilter<"ItemClaim"> | number
+    status?: EnumClaimStatusWithAggregatesFilter<"ItemClaim"> | $Enums.ClaimStatus
+    notes?: StringNullableWithAggregatesFilter<"ItemClaim"> | string | null
+  }
+
+  export type AnnouncementWhereInput = {
+    AND?: AnnouncementWhereInput | AnnouncementWhereInput[]
+    OR?: AnnouncementWhereInput[]
+    NOT?: AnnouncementWhereInput | AnnouncementWhereInput[]
+    id?: StringFilter<"Announcement"> | string
+    tripId?: StringFilter<"Announcement"> | string
+    authorId?: StringFilter<"Announcement"> | string
+    title?: StringFilter<"Announcement"> | string
+    body?: StringFilter<"Announcement"> | string
+    pinned?: BoolFilter<"Announcement"> | boolean
+    createdAt?: DateTimeFilter<"Announcement"> | Date | string
+    updatedAt?: DateTimeFilter<"Announcement"> | Date | string
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AnnouncementOrderByWithRelationInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    authorId?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    pinned?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    trip?: TripOrderByWithRelationInput
+    author?: UserOrderByWithRelationInput
+  }
+
+  export type AnnouncementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AnnouncementWhereInput | AnnouncementWhereInput[]
+    OR?: AnnouncementWhereInput[]
+    NOT?: AnnouncementWhereInput | AnnouncementWhereInput[]
+    tripId?: StringFilter<"Announcement"> | string
+    authorId?: StringFilter<"Announcement"> | string
+    title?: StringFilter<"Announcement"> | string
+    body?: StringFilter<"Announcement"> | string
+    pinned?: BoolFilter<"Announcement"> | boolean
+    createdAt?: DateTimeFilter<"Announcement"> | Date | string
+    updatedAt?: DateTimeFilter<"Announcement"> | Date | string
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AnnouncementOrderByWithAggregationInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    authorId?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    pinned?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AnnouncementCountOrderByAggregateInput
+    _max?: AnnouncementMaxOrderByAggregateInput
+    _min?: AnnouncementMinOrderByAggregateInput
+  }
+
+  export type AnnouncementScalarWhereWithAggregatesInput = {
+    AND?: AnnouncementScalarWhereWithAggregatesInput | AnnouncementScalarWhereWithAggregatesInput[]
+    OR?: AnnouncementScalarWhereWithAggregatesInput[]
+    NOT?: AnnouncementScalarWhereWithAggregatesInput | AnnouncementScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Announcement"> | string
+    tripId?: StringWithAggregatesFilter<"Announcement"> | string
+    authorId?: StringWithAggregatesFilter<"Announcement"> | string
+    title?: StringWithAggregatesFilter<"Announcement"> | string
+    body?: StringWithAggregatesFilter<"Announcement"> | string
+    pinned?: BoolWithAggregatesFilter<"Announcement"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Announcement"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Announcement"> | Date | string
+  }
+
+  export type TripExtensionWhereInput = {
+    AND?: TripExtensionWhereInput | TripExtensionWhereInput[]
+    OR?: TripExtensionWhereInput[]
+    NOT?: TripExtensionWhereInput | TripExtensionWhereInput[]
+    id?: StringFilter<"TripExtension"> | string
+    tripId?: StringFilter<"TripExtension"> | string
+    extensionType?: StringFilter<"TripExtension"> | string
+    data?: JsonFilter<"TripExtension">
+    createdAt?: DateTimeFilter<"TripExtension"> | Date | string
+    updatedAt?: DateTimeFilter<"TripExtension"> | Date | string
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+  }
+
+  export type TripExtensionOrderByWithRelationInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    extensionType?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    trip?: TripOrderByWithRelationInput
+  }
+
+  export type TripExtensionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tripId_extensionType?: TripExtensionTripIdExtensionTypeCompoundUniqueInput
+    AND?: TripExtensionWhereInput | TripExtensionWhereInput[]
+    OR?: TripExtensionWhereInput[]
+    NOT?: TripExtensionWhereInput | TripExtensionWhereInput[]
+    tripId?: StringFilter<"TripExtension"> | string
+    extensionType?: StringFilter<"TripExtension"> | string
+    data?: JsonFilter<"TripExtension">
+    createdAt?: DateTimeFilter<"TripExtension"> | Date | string
+    updatedAt?: DateTimeFilter<"TripExtension"> | Date | string
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+  }, "id" | "tripId_extensionType">
+
+  export type TripExtensionOrderByWithAggregationInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    extensionType?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TripExtensionCountOrderByAggregateInput
+    _max?: TripExtensionMaxOrderByAggregateInput
+    _min?: TripExtensionMinOrderByAggregateInput
+  }
+
+  export type TripExtensionScalarWhereWithAggregatesInput = {
+    AND?: TripExtensionScalarWhereWithAggregatesInput | TripExtensionScalarWhereWithAggregatesInput[]
+    OR?: TripExtensionScalarWhereWithAggregatesInput[]
+    NOT?: TripExtensionScalarWhereWithAggregatesInput | TripExtensionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TripExtension"> | string
+    tripId?: StringWithAggregatesFilter<"TripExtension"> | string
+    extensionType?: StringWithAggregatesFilter<"TripExtension"> | string
+    data?: JsonWithAggregatesFilter<"TripExtension">
+    createdAt?: DateTimeWithAggregatesFilter<"TripExtension"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TripExtension"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     createdAt?: Date | string
@@ -7568,6 +17853,13 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
     tripMembers?: TripMemberCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7584,6 +17876,13 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
     tripMembers?: TripMemberUncheckedCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventUncheckedCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventUncheckedCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemUncheckedCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUpdateInput = {
@@ -7600,6 +17899,13 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
     tripMembers?: TripMemberUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7616,6 +17922,13 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
     tripMembers?: TripMemberUncheckedUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUncheckedUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -7661,8 +17974,15 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    tokenId: string
     tokenHash: string
     expiresAt: Date | string
+    family?: string | null
+    revoked?: boolean
+    revokedAt?: Date | string | null
+    revokeReason?: string | null
+    userAgent?: string | null
+    ipAddress?: string | null
     user: UserCreateNestedOneWithoutRefreshTokensInput
   }
 
@@ -7670,8 +17990,15 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    tokenId: string
     tokenHash: string
     expiresAt: Date | string
+    family?: string | null
+    revoked?: boolean
+    revokedAt?: Date | string | null
+    revokeReason?: string | null
+    userAgent?: string | null
+    ipAddress?: string | null
     userId: string
   }
 
@@ -7679,8 +18006,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenId?: StringFieldUpdateOperationsInput | string
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    family?: NullableStringFieldUpdateOperationsInput | string | null
+    revoked?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutRefreshTokensNestedInput
   }
 
@@ -7688,8 +18022,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenId?: StringFieldUpdateOperationsInput | string
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    family?: NullableStringFieldUpdateOperationsInput | string | null
+    revoked?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -7697,8 +18038,15 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    tokenId: string
     tokenHash: string
     expiresAt: Date | string
+    family?: string | null
+    revoked?: boolean
+    revokedAt?: Date | string | null
+    revokeReason?: string | null
+    userAgent?: string | null
+    ipAddress?: string | null
     userId: string
   }
 
@@ -7706,16 +18054,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenId?: StringFieldUpdateOperationsInput | string
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    family?: NullableStringFieldUpdateOperationsInput | string | null
+    revoked?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RefreshTokenUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenId?: StringFieldUpdateOperationsInput | string
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    family?: NullableStringFieldUpdateOperationsInput | string | null
+    revoked?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -7801,6 +18163,12 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     members?: TripMemberCreateNestedManyWithoutTripInput
+    events?: EventCreateNestedManyWithoutTripInput
+    items?: ItemCreateNestedManyWithoutTripInput
+    notifications?: NotificationCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionCreateNestedManyWithoutTripInput
   }
 
   export type TripUncheckedCreateInput = {
@@ -7816,6 +18184,12 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     members?: TripMemberUncheckedCreateNestedManyWithoutTripInput
+    events?: EventUncheckedCreateNestedManyWithoutTripInput
+    items?: ItemUncheckedCreateNestedManyWithoutTripInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionUncheckedCreateNestedManyWithoutTripInput
   }
 
   export type TripUpdateInput = {
@@ -7831,6 +18205,12 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: TripMemberUpdateManyWithoutTripNestedInput
+    events?: EventUpdateManyWithoutTripNestedInput
+    items?: ItemUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUpdateManyWithoutTripNestedInput
   }
 
   export type TripUncheckedUpdateInput = {
@@ -7846,6 +18226,12 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: TripMemberUncheckedUpdateManyWithoutTripNestedInput
+    events?: EventUncheckedUpdateManyWithoutTripNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUncheckedUpdateManyWithoutTripNestedInput
   }
 
   export type TripCreateManyInput = {
@@ -7965,6 +18351,647 @@ export namespace Prisma {
     canInvite?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type NotificationCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    type: string
+    title: string
+    body?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: boolean
+    readAt?: Date | string | null
+    user: UserCreateNestedOneWithoutNotificationsInput
+    trip?: TripCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    userId: string
+    tripId?: string | null
+    type: string
+    title: string
+    body?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: boolean
+    readAt?: Date | string | null
+  }
+
+  export type NotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
+    trip?: TripUpdateOneWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tripId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificationCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    userId: string
+    tripId?: string | null
+    type: string
+    title: string
+    body?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: boolean
+    readAt?: Date | string | null
+  }
+
+  export type NotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tripId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificationPreferenceCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: $Enums.DigestFrequency
+    user: UserCreateNestedOneWithoutNotificationPrefsInput
+    trip?: TripCreateNestedOneWithoutNotificationPrefsInput
+  }
+
+  export type NotificationPreferenceUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    tripId?: string | null
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: $Enums.DigestFrequency
+  }
+
+  export type NotificationPreferenceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailEnabled?: BoolFieldUpdateOperationsInput | boolean
+    pushEnabled?: BoolFieldUpdateOperationsInput | boolean
+    scheduleChanges?: BoolFieldUpdateOperationsInput | boolean
+    itemUpdates?: BoolFieldUpdateOperationsInput | boolean
+    announcements?: BoolFieldUpdateOperationsInput | boolean
+    digestFrequency?: EnumDigestFrequencyFieldUpdateOperationsInput | $Enums.DigestFrequency
+    user?: UserUpdateOneRequiredWithoutNotificationPrefsNestedInput
+    trip?: TripUpdateOneWithoutNotificationPrefsNestedInput
+  }
+
+  export type NotificationPreferenceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tripId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailEnabled?: BoolFieldUpdateOperationsInput | boolean
+    pushEnabled?: BoolFieldUpdateOperationsInput | boolean
+    scheduleChanges?: BoolFieldUpdateOperationsInput | boolean
+    itemUpdates?: BoolFieldUpdateOperationsInput | boolean
+    announcements?: BoolFieldUpdateOperationsInput | boolean
+    digestFrequency?: EnumDigestFrequencyFieldUpdateOperationsInput | $Enums.DigestFrequency
+  }
+
+  export type NotificationPreferenceCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    tripId?: string | null
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: $Enums.DigestFrequency
+  }
+
+  export type NotificationPreferenceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailEnabled?: BoolFieldUpdateOperationsInput | boolean
+    pushEnabled?: BoolFieldUpdateOperationsInput | boolean
+    scheduleChanges?: BoolFieldUpdateOperationsInput | boolean
+    itemUpdates?: BoolFieldUpdateOperationsInput | boolean
+    announcements?: BoolFieldUpdateOperationsInput | boolean
+    digestFrequency?: EnumDigestFrequencyFieldUpdateOperationsInput | $Enums.DigestFrequency
+  }
+
+  export type NotificationPreferenceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tripId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailEnabled?: BoolFieldUpdateOperationsInput | boolean
+    pushEnabled?: BoolFieldUpdateOperationsInput | boolean
+    scheduleChanges?: BoolFieldUpdateOperationsInput | boolean
+    itemUpdates?: BoolFieldUpdateOperationsInput | boolean
+    announcements?: BoolFieldUpdateOperationsInput | boolean
+    digestFrequency?: EnumDigestFrequencyFieldUpdateOperationsInput | $Enums.DigestFrequency
+  }
+
+  export type EventCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    trip: TripCreateNestedOneWithoutEventsInput
+    suggestedBy: UserCreateNestedOneWithoutSuggestedEventsInput
+    approvedBy?: UserCreateNestedOneWithoutApprovedEventsInput
+  }
+
+  export type EventUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    suggestedById: string
+    approvedById?: string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    trip?: TripUpdateOneRequiredWithoutEventsNestedInput
+    suggestedBy?: UserUpdateOneRequiredWithoutSuggestedEventsNestedInput
+    approvedBy?: UserUpdateOneWithoutApprovedEventsNestedInput
+  }
+
+  export type EventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    suggestedById?: StringFieldUpdateOperationsInput | string
+    approvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    suggestedById: string
+    approvedById?: string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    suggestedById?: StringFieldUpdateOperationsInput | string
+    approvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimCreateNestedManyWithoutItemInput
+    trip: TripCreateNestedOneWithoutItemsInput
+    createdBy: UserCreateNestedOneWithoutCreatedItemsInput
+  }
+
+  export type ItemUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    createdById: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimUncheckedCreateNestedManyWithoutItemInput
+  }
+
+  export type ItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimUpdateManyWithoutItemNestedInput
+    trip?: TripUpdateOneRequiredWithoutItemsNestedInput
+    createdBy?: UserUpdateOneRequiredWithoutCreatedItemsNestedInput
+  }
+
+  export type ItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimUncheckedUpdateManyWithoutItemNestedInput
+  }
+
+  export type ItemCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    createdById: string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemClaimCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quantity?: number
+    status?: $Enums.ClaimStatus
+    notes?: string | null
+    item: ItemCreateNestedOneWithoutClaimsInput
+    user: UserCreateNestedOneWithoutItemClaimsInput
+  }
+
+  export type ItemClaimUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    itemId: string
+    userId: string
+    quantity?: number
+    status?: $Enums.ClaimStatus
+    notes?: string | null
+  }
+
+  export type ItemClaimUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    status?: EnumClaimStatusFieldUpdateOperationsInput | $Enums.ClaimStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    item?: ItemUpdateOneRequiredWithoutClaimsNestedInput
+    user?: UserUpdateOneRequiredWithoutItemClaimsNestedInput
+  }
+
+  export type ItemClaimUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    status?: EnumClaimStatusFieldUpdateOperationsInput | $Enums.ClaimStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ItemClaimCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    itemId: string
+    userId: string
+    quantity?: number
+    status?: $Enums.ClaimStatus
+    notes?: string | null
+  }
+
+  export type ItemClaimUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    status?: EnumClaimStatusFieldUpdateOperationsInput | $Enums.ClaimStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ItemClaimUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    status?: EnumClaimStatusFieldUpdateOperationsInput | $Enums.ClaimStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AnnouncementCreateInput = {
+    id?: string
+    title: string
+    body: string
+    pinned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    trip: TripCreateNestedOneWithoutAnnouncementsInput
+    author: UserCreateNestedOneWithoutAnnouncementsInput
+  }
+
+  export type AnnouncementUncheckedCreateInput = {
+    id?: string
+    tripId: string
+    authorId: string
+    title: string
+    body: string
+    pinned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnnouncementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    pinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trip?: TripUpdateOneRequiredWithoutAnnouncementsNestedInput
+    author?: UserUpdateOneRequiredWithoutAnnouncementsNestedInput
+  }
+
+  export type AnnouncementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    pinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnnouncementCreateManyInput = {
+    id?: string
+    tripId: string
+    authorId: string
+    title: string
+    body: string
+    pinned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnnouncementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    pinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnnouncementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    pinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TripExtensionCreateInput = {
+    id?: string
+    extensionType: string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    trip: TripCreateNestedOneWithoutExtensionsInput
+  }
+
+  export type TripExtensionUncheckedCreateInput = {
+    id?: string
+    tripId: string
+    extensionType: string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TripExtensionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    extensionType?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trip?: TripUpdateOneRequiredWithoutExtensionsNestedInput
+  }
+
+  export type TripExtensionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    extensionType?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TripExtensionCreateManyInput = {
+    id?: string
+    tripId: string
+    extensionType: string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TripExtensionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    extensionType?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TripExtensionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    extensionType?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -8052,6 +19079,42 @@ export namespace Prisma {
     none?: TripMemberWhereInput
   }
 
+  export type EventListRelationFilter = {
+    every?: EventWhereInput
+    some?: EventWhereInput
+    none?: EventWhereInput
+  }
+
+  export type ItemListRelationFilter = {
+    every?: ItemWhereInput
+    some?: ItemWhereInput
+    none?: ItemWhereInput
+  }
+
+  export type ItemClaimListRelationFilter = {
+    every?: ItemClaimWhereInput
+    some?: ItemClaimWhereInput
+    none?: ItemClaimWhereInput
+  }
+
+  export type NotificationListRelationFilter = {
+    every?: NotificationWhereInput
+    some?: NotificationWhereInput
+    none?: NotificationWhereInput
+  }
+
+  export type NotificationPreferenceListRelationFilter = {
+    every?: NotificationPreferenceWhereInput
+    some?: NotificationPreferenceWhereInput
+    none?: NotificationPreferenceWhereInput
+  }
+
+  export type AnnouncementListRelationFilter = {
+    every?: AnnouncementWhereInput
+    some?: AnnouncementWhereInput
+    none?: AnnouncementWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -8066,6 +19129,30 @@ export namespace Prisma {
   }
 
   export type TripMemberOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ItemClaimOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NotificationPreferenceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AnnouncementOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8190,38 +19277,6 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
-  }
-
-  export type RefreshTokenCountOrderByAggregateInput = {
-    id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    tokenHash?: SortOrder
-    expiresAt?: SortOrder
-    userId?: SortOrder
-  }
-
-  export type RefreshTokenMaxOrderByAggregateInput = {
-    id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    tokenHash?: SortOrder
-    expiresAt?: SortOrder
-    userId?: SortOrder
-  }
-
-  export type RefreshTokenMinOrderByAggregateInput = {
-    id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    tokenHash?: SortOrder
-    expiresAt?: SortOrder
-    userId?: SortOrder
-  }
-
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -8231,6 +19286,73 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type RefreshTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tokenId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    family?: SortOrder
+    revoked?: SortOrder
+    revokedAt?: SortOrder
+    revokeReason?: SortOrder
+    userAgent?: SortOrder
+    ipAddress?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type RefreshTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tokenId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    family?: SortOrder
+    revoked?: SortOrder
+    revokedAt?: SortOrder
+    revokeReason?: SortOrder
+    userAgent?: SortOrder
+    ipAddress?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type RefreshTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tokenId?: SortOrder
+    tokenHash?: SortOrder
+    expiresAt?: SortOrder
+    family?: SortOrder
+    revoked?: SortOrder
+    revokedAt?: SortOrder
+    revokeReason?: SortOrder
+    userAgent?: SortOrder
+    ipAddress?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type PasswordResetCountOrderByAggregateInput = {
@@ -8263,20 +19385,6 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type EnumTripStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TripStatus | EnumTripStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TripStatus[] | ListEnumTripStatusFieldRefInput<$PrismaModel>
@@ -8305,6 +19413,16 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type TripExtensionListRelationFilter = {
+    every?: TripExtensionWhereInput
+    some?: TripExtensionWhereInput
+    none?: TripExtensionWhereInput
+  }
+
+  export type TripExtensionOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type TripCountOrderByAggregateInput = {
@@ -8458,6 +19576,451 @@ export namespace Prisma {
     _max?: NestedEnumMemberStatusFilter<$PrismaModel>
   }
 
+  export type TripNullableScalarRelationFilter = {
+    is?: TripWhereInput | null
+    isNot?: TripWhereInput | null
+  }
+
+  export type NotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    payload?: SortOrder
+    read?: SortOrder
+    readAt?: SortOrder
+  }
+
+  export type NotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    read?: SortOrder
+    readAt?: SortOrder
+  }
+
+  export type NotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    read?: SortOrder
+    readAt?: SortOrder
+  }
+
+  export type EnumDigestFrequencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.DigestFrequency | EnumDigestFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.DigestFrequency[] | ListEnumDigestFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DigestFrequency[] | ListEnumDigestFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumDigestFrequencyFilter<$PrismaModel> | $Enums.DigestFrequency
+  }
+
+  export type NotificationPreferenceUserIdTripIdCompoundUniqueInput = {
+    userId: string
+    tripId: string
+  }
+
+  export type NotificationPreferenceCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrder
+    emailEnabled?: SortOrder
+    pushEnabled?: SortOrder
+    scheduleChanges?: SortOrder
+    itemUpdates?: SortOrder
+    announcements?: SortOrder
+    digestFrequency?: SortOrder
+  }
+
+  export type NotificationPreferenceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrder
+    emailEnabled?: SortOrder
+    pushEnabled?: SortOrder
+    scheduleChanges?: SortOrder
+    itemUpdates?: SortOrder
+    announcements?: SortOrder
+    digestFrequency?: SortOrder
+  }
+
+  export type NotificationPreferenceMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrder
+    emailEnabled?: SortOrder
+    pushEnabled?: SortOrder
+    scheduleChanges?: SortOrder
+    itemUpdates?: SortOrder
+    announcements?: SortOrder
+    digestFrequency?: SortOrder
+  }
+
+  export type EnumDigestFrequencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DigestFrequency | EnumDigestFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.DigestFrequency[] | ListEnumDigestFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DigestFrequency[] | ListEnumDigestFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumDigestFrequencyWithAggregatesFilter<$PrismaModel> | $Enums.DigestFrequency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDigestFrequencyFilter<$PrismaModel>
+    _max?: NestedEnumDigestFrequencyFilter<$PrismaModel>
+  }
+
+  export type EnumEventStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventStatus | EnumEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventStatusFilter<$PrismaModel> | $Enums.EventStatus
+  }
+
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type EventCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    location?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isAllDay?: SortOrder
+    status?: SortOrder
+    category?: SortOrder
+    estimatedCost?: SortOrder
+    currency?: SortOrder
+    suggestedById?: SortOrder
+    approvedById?: SortOrder
+    metadata?: SortOrder
+  }
+
+  export type EventAvgOrderByAggregateInput = {
+    estimatedCost?: SortOrder
+  }
+
+  export type EventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isAllDay?: SortOrder
+    status?: SortOrder
+    category?: SortOrder
+    estimatedCost?: SortOrder
+    currency?: SortOrder
+    suggestedById?: SortOrder
+    approvedById?: SortOrder
+  }
+
+  export type EventMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isAllDay?: SortOrder
+    status?: SortOrder
+    category?: SortOrder
+    estimatedCost?: SortOrder
+    currency?: SortOrder
+    suggestedById?: SortOrder
+    approvedById?: SortOrder
+  }
+
+  export type EventSumOrderByAggregateInput = {
+    estimatedCost?: SortOrder
+  }
+
+  export type EnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventStatus | EnumEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventStatusWithAggregatesFilter<$PrismaModel> | $Enums.EventStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEventStatusFilter<$PrismaModel>
+    _max?: NestedEnumEventStatusFilter<$PrismaModel>
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type EnumItemTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumItemTypeFilter<$PrismaModel> | $Enums.ItemType
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type ItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
+    quantityNeeded?: SortOrder
+    isEssential?: SortOrder
+    createdById?: SortOrder
+    metadata?: SortOrder
+  }
+
+  export type ItemAvgOrderByAggregateInput = {
+    quantityNeeded?: SortOrder
+  }
+
+  export type ItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
+    quantityNeeded?: SortOrder
+    isEssential?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type ItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tripId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    category?: SortOrder
+    type?: SortOrder
+    quantityNeeded?: SortOrder
+    isEssential?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type ItemSumOrderByAggregateInput = {
+    quantityNeeded?: SortOrder
+  }
+
+  export type EnumItemTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumItemTypeWithAggregatesFilter<$PrismaModel> | $Enums.ItemType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumItemTypeFilter<$PrismaModel>
+    _max?: NestedEnumItemTypeFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumClaimStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClaimStatus | EnumClaimStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ClaimStatus[] | ListEnumClaimStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClaimStatus[] | ListEnumClaimStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumClaimStatusFilter<$PrismaModel> | $Enums.ClaimStatus
+  }
+
+  export type ItemScalarRelationFilter = {
+    is?: ItemWhereInput
+    isNot?: ItemWhereInput
+  }
+
+  export type ItemClaimItemIdUserIdCompoundUniqueInput = {
+    itemId: string
+    userId: string
+  }
+
+  export type ItemClaimCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    itemId?: SortOrder
+    userId?: SortOrder
+    quantity?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+  }
+
+  export type ItemClaimAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type ItemClaimMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    itemId?: SortOrder
+    userId?: SortOrder
+    quantity?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+  }
+
+  export type ItemClaimMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    itemId?: SortOrder
+    userId?: SortOrder
+    quantity?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+  }
+
+  export type ItemClaimSumOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type EnumClaimStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClaimStatus | EnumClaimStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ClaimStatus[] | ListEnumClaimStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClaimStatus[] | ListEnumClaimStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumClaimStatusWithAggregatesFilter<$PrismaModel> | $Enums.ClaimStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumClaimStatusFilter<$PrismaModel>
+    _max?: NestedEnumClaimStatusFilter<$PrismaModel>
+  }
+
+  export type AnnouncementCountOrderByAggregateInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    authorId?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    pinned?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnnouncementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    authorId?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    pinned?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AnnouncementMinOrderByAggregateInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    authorId?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    pinned?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TripExtensionTripIdExtensionTypeCompoundUniqueInput = {
+    tripId: string
+    extensionType: string
+  }
+
+  export type TripExtensionCountOrderByAggregateInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    extensionType?: SortOrder
+    data?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TripExtensionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    extensionType?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TripExtensionMinOrderByAggregateInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    extensionType?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type RefreshTokenCreateNestedManyWithoutUserInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
@@ -8479,6 +20042,55 @@ export namespace Prisma {
     connect?: TripMemberWhereUniqueInput | TripMemberWhereUniqueInput[]
   }
 
+  export type EventCreateNestedManyWithoutSuggestedByInput = {
+    create?: XOR<EventCreateWithoutSuggestedByInput, EventUncheckedCreateWithoutSuggestedByInput> | EventCreateWithoutSuggestedByInput[] | EventUncheckedCreateWithoutSuggestedByInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutSuggestedByInput | EventCreateOrConnectWithoutSuggestedByInput[]
+    createMany?: EventCreateManySuggestedByInputEnvelope
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+  }
+
+  export type EventCreateNestedManyWithoutApprovedByInput = {
+    create?: XOR<EventCreateWithoutApprovedByInput, EventUncheckedCreateWithoutApprovedByInput> | EventCreateWithoutApprovedByInput[] | EventUncheckedCreateWithoutApprovedByInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutApprovedByInput | EventCreateOrConnectWithoutApprovedByInput[]
+    createMany?: EventCreateManyApprovedByInputEnvelope
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+  }
+
+  export type ItemCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<ItemCreateWithoutCreatedByInput, ItemUncheckedCreateWithoutCreatedByInput> | ItemCreateWithoutCreatedByInput[] | ItemUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: ItemCreateOrConnectWithoutCreatedByInput | ItemCreateOrConnectWithoutCreatedByInput[]
+    createMany?: ItemCreateManyCreatedByInputEnvelope
+    connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+  }
+
+  export type ItemClaimCreateNestedManyWithoutUserInput = {
+    create?: XOR<ItemClaimCreateWithoutUserInput, ItemClaimUncheckedCreateWithoutUserInput> | ItemClaimCreateWithoutUserInput[] | ItemClaimUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ItemClaimCreateOrConnectWithoutUserInput | ItemClaimCreateOrConnectWithoutUserInput[]
+    createMany?: ItemClaimCreateManyUserInputEnvelope
+    connect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type NotificationPreferenceCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationPreferenceCreateWithoutUserInput, NotificationPreferenceUncheckedCreateWithoutUserInput> | NotificationPreferenceCreateWithoutUserInput[] | NotificationPreferenceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationPreferenceCreateOrConnectWithoutUserInput | NotificationPreferenceCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationPreferenceCreateManyUserInputEnvelope
+    connect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+  }
+
+  export type AnnouncementCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<AnnouncementCreateWithoutAuthorInput, AnnouncementUncheckedCreateWithoutAuthorInput> | AnnouncementCreateWithoutAuthorInput[] | AnnouncementUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: AnnouncementCreateOrConnectWithoutAuthorInput | AnnouncementCreateOrConnectWithoutAuthorInput[]
+    createMany?: AnnouncementCreateManyAuthorInputEnvelope
+    connect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+  }
+
   export type RefreshTokenUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
@@ -8498,6 +20110,55 @@ export namespace Prisma {
     connectOrCreate?: TripMemberCreateOrConnectWithoutUserInput | TripMemberCreateOrConnectWithoutUserInput[]
     createMany?: TripMemberCreateManyUserInputEnvelope
     connect?: TripMemberWhereUniqueInput | TripMemberWhereUniqueInput[]
+  }
+
+  export type EventUncheckedCreateNestedManyWithoutSuggestedByInput = {
+    create?: XOR<EventCreateWithoutSuggestedByInput, EventUncheckedCreateWithoutSuggestedByInput> | EventCreateWithoutSuggestedByInput[] | EventUncheckedCreateWithoutSuggestedByInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutSuggestedByInput | EventCreateOrConnectWithoutSuggestedByInput[]
+    createMany?: EventCreateManySuggestedByInputEnvelope
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+  }
+
+  export type EventUncheckedCreateNestedManyWithoutApprovedByInput = {
+    create?: XOR<EventCreateWithoutApprovedByInput, EventUncheckedCreateWithoutApprovedByInput> | EventCreateWithoutApprovedByInput[] | EventUncheckedCreateWithoutApprovedByInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutApprovedByInput | EventCreateOrConnectWithoutApprovedByInput[]
+    createMany?: EventCreateManyApprovedByInputEnvelope
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+  }
+
+  export type ItemUncheckedCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<ItemCreateWithoutCreatedByInput, ItemUncheckedCreateWithoutCreatedByInput> | ItemCreateWithoutCreatedByInput[] | ItemUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: ItemCreateOrConnectWithoutCreatedByInput | ItemCreateOrConnectWithoutCreatedByInput[]
+    createMany?: ItemCreateManyCreatedByInputEnvelope
+    connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+  }
+
+  export type ItemClaimUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ItemClaimCreateWithoutUserInput, ItemClaimUncheckedCreateWithoutUserInput> | ItemClaimCreateWithoutUserInput[] | ItemClaimUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ItemClaimCreateOrConnectWithoutUserInput | ItemClaimCreateOrConnectWithoutUserInput[]
+    createMany?: ItemClaimCreateManyUserInputEnvelope
+    connect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationPreferenceCreateWithoutUserInput, NotificationPreferenceUncheckedCreateWithoutUserInput> | NotificationPreferenceCreateWithoutUserInput[] | NotificationPreferenceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationPreferenceCreateOrConnectWithoutUserInput | NotificationPreferenceCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationPreferenceCreateManyUserInputEnvelope
+    connect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+  }
+
+  export type AnnouncementUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<AnnouncementCreateWithoutAuthorInput, AnnouncementUncheckedCreateWithoutAuthorInput> | AnnouncementCreateWithoutAuthorInput[] | AnnouncementUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: AnnouncementCreateOrConnectWithoutAuthorInput | AnnouncementCreateOrConnectWithoutAuthorInput[]
+    createMany?: AnnouncementCreateManyAuthorInputEnvelope
+    connect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -8558,6 +20219,104 @@ export namespace Prisma {
     deleteMany?: TripMemberScalarWhereInput | TripMemberScalarWhereInput[]
   }
 
+  export type EventUpdateManyWithoutSuggestedByNestedInput = {
+    create?: XOR<EventCreateWithoutSuggestedByInput, EventUncheckedCreateWithoutSuggestedByInput> | EventCreateWithoutSuggestedByInput[] | EventUncheckedCreateWithoutSuggestedByInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutSuggestedByInput | EventCreateOrConnectWithoutSuggestedByInput[]
+    upsert?: EventUpsertWithWhereUniqueWithoutSuggestedByInput | EventUpsertWithWhereUniqueWithoutSuggestedByInput[]
+    createMany?: EventCreateManySuggestedByInputEnvelope
+    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    update?: EventUpdateWithWhereUniqueWithoutSuggestedByInput | EventUpdateWithWhereUniqueWithoutSuggestedByInput[]
+    updateMany?: EventUpdateManyWithWhereWithoutSuggestedByInput | EventUpdateManyWithWhereWithoutSuggestedByInput[]
+    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
+  }
+
+  export type EventUpdateManyWithoutApprovedByNestedInput = {
+    create?: XOR<EventCreateWithoutApprovedByInput, EventUncheckedCreateWithoutApprovedByInput> | EventCreateWithoutApprovedByInput[] | EventUncheckedCreateWithoutApprovedByInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutApprovedByInput | EventCreateOrConnectWithoutApprovedByInput[]
+    upsert?: EventUpsertWithWhereUniqueWithoutApprovedByInput | EventUpsertWithWhereUniqueWithoutApprovedByInput[]
+    createMany?: EventCreateManyApprovedByInputEnvelope
+    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    update?: EventUpdateWithWhereUniqueWithoutApprovedByInput | EventUpdateWithWhereUniqueWithoutApprovedByInput[]
+    updateMany?: EventUpdateManyWithWhereWithoutApprovedByInput | EventUpdateManyWithWhereWithoutApprovedByInput[]
+    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
+  }
+
+  export type ItemUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<ItemCreateWithoutCreatedByInput, ItemUncheckedCreateWithoutCreatedByInput> | ItemCreateWithoutCreatedByInput[] | ItemUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: ItemCreateOrConnectWithoutCreatedByInput | ItemCreateOrConnectWithoutCreatedByInput[]
+    upsert?: ItemUpsertWithWhereUniqueWithoutCreatedByInput | ItemUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: ItemCreateManyCreatedByInputEnvelope
+    set?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    disconnect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    delete?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    update?: ItemUpdateWithWhereUniqueWithoutCreatedByInput | ItemUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: ItemUpdateManyWithWhereWithoutCreatedByInput | ItemUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
+  }
+
+  export type ItemClaimUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ItemClaimCreateWithoutUserInput, ItemClaimUncheckedCreateWithoutUserInput> | ItemClaimCreateWithoutUserInput[] | ItemClaimUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ItemClaimCreateOrConnectWithoutUserInput | ItemClaimCreateOrConnectWithoutUserInput[]
+    upsert?: ItemClaimUpsertWithWhereUniqueWithoutUserInput | ItemClaimUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ItemClaimCreateManyUserInputEnvelope
+    set?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    disconnect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    delete?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    connect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    update?: ItemClaimUpdateWithWhereUniqueWithoutUserInput | ItemClaimUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ItemClaimUpdateManyWithWhereWithoutUserInput | ItemClaimUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ItemClaimScalarWhereInput | ItemClaimScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type NotificationPreferenceUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationPreferenceCreateWithoutUserInput, NotificationPreferenceUncheckedCreateWithoutUserInput> | NotificationPreferenceCreateWithoutUserInput[] | NotificationPreferenceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationPreferenceCreateOrConnectWithoutUserInput | NotificationPreferenceCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationPreferenceUpsertWithWhereUniqueWithoutUserInput | NotificationPreferenceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationPreferenceCreateManyUserInputEnvelope
+    set?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    disconnect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    delete?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    connect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    update?: NotificationPreferenceUpdateWithWhereUniqueWithoutUserInput | NotificationPreferenceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationPreferenceUpdateManyWithWhereWithoutUserInput | NotificationPreferenceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationPreferenceScalarWhereInput | NotificationPreferenceScalarWhereInput[]
+  }
+
+  export type AnnouncementUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<AnnouncementCreateWithoutAuthorInput, AnnouncementUncheckedCreateWithoutAuthorInput> | AnnouncementCreateWithoutAuthorInput[] | AnnouncementUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: AnnouncementCreateOrConnectWithoutAuthorInput | AnnouncementCreateOrConnectWithoutAuthorInput[]
+    upsert?: AnnouncementUpsertWithWhereUniqueWithoutAuthorInput | AnnouncementUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: AnnouncementCreateManyAuthorInputEnvelope
+    set?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    disconnect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    delete?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    connect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    update?: AnnouncementUpdateWithWhereUniqueWithoutAuthorInput | AnnouncementUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: AnnouncementUpdateManyWithWhereWithoutAuthorInput | AnnouncementUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: AnnouncementScalarWhereInput | AnnouncementScalarWhereInput[]
+  }
+
   export type RefreshTokenUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
@@ -8600,10 +20359,112 @@ export namespace Prisma {
     deleteMany?: TripMemberScalarWhereInput | TripMemberScalarWhereInput[]
   }
 
+  export type EventUncheckedUpdateManyWithoutSuggestedByNestedInput = {
+    create?: XOR<EventCreateWithoutSuggestedByInput, EventUncheckedCreateWithoutSuggestedByInput> | EventCreateWithoutSuggestedByInput[] | EventUncheckedCreateWithoutSuggestedByInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutSuggestedByInput | EventCreateOrConnectWithoutSuggestedByInput[]
+    upsert?: EventUpsertWithWhereUniqueWithoutSuggestedByInput | EventUpsertWithWhereUniqueWithoutSuggestedByInput[]
+    createMany?: EventCreateManySuggestedByInputEnvelope
+    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    update?: EventUpdateWithWhereUniqueWithoutSuggestedByInput | EventUpdateWithWhereUniqueWithoutSuggestedByInput[]
+    updateMany?: EventUpdateManyWithWhereWithoutSuggestedByInput | EventUpdateManyWithWhereWithoutSuggestedByInput[]
+    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
+  }
+
+  export type EventUncheckedUpdateManyWithoutApprovedByNestedInput = {
+    create?: XOR<EventCreateWithoutApprovedByInput, EventUncheckedCreateWithoutApprovedByInput> | EventCreateWithoutApprovedByInput[] | EventUncheckedCreateWithoutApprovedByInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutApprovedByInput | EventCreateOrConnectWithoutApprovedByInput[]
+    upsert?: EventUpsertWithWhereUniqueWithoutApprovedByInput | EventUpsertWithWhereUniqueWithoutApprovedByInput[]
+    createMany?: EventCreateManyApprovedByInputEnvelope
+    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    update?: EventUpdateWithWhereUniqueWithoutApprovedByInput | EventUpdateWithWhereUniqueWithoutApprovedByInput[]
+    updateMany?: EventUpdateManyWithWhereWithoutApprovedByInput | EventUpdateManyWithWhereWithoutApprovedByInput[]
+    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
+  }
+
+  export type ItemUncheckedUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<ItemCreateWithoutCreatedByInput, ItemUncheckedCreateWithoutCreatedByInput> | ItemCreateWithoutCreatedByInput[] | ItemUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: ItemCreateOrConnectWithoutCreatedByInput | ItemCreateOrConnectWithoutCreatedByInput[]
+    upsert?: ItemUpsertWithWhereUniqueWithoutCreatedByInput | ItemUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: ItemCreateManyCreatedByInputEnvelope
+    set?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    disconnect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    delete?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    update?: ItemUpdateWithWhereUniqueWithoutCreatedByInput | ItemUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: ItemUpdateManyWithWhereWithoutCreatedByInput | ItemUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
+  }
+
+  export type ItemClaimUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ItemClaimCreateWithoutUserInput, ItemClaimUncheckedCreateWithoutUserInput> | ItemClaimCreateWithoutUserInput[] | ItemClaimUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ItemClaimCreateOrConnectWithoutUserInput | ItemClaimCreateOrConnectWithoutUserInput[]
+    upsert?: ItemClaimUpsertWithWhereUniqueWithoutUserInput | ItemClaimUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ItemClaimCreateManyUserInputEnvelope
+    set?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    disconnect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    delete?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    connect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    update?: ItemClaimUpdateWithWhereUniqueWithoutUserInput | ItemClaimUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ItemClaimUpdateManyWithWhereWithoutUserInput | ItemClaimUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ItemClaimScalarWhereInput | ItemClaimScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationPreferenceCreateWithoutUserInput, NotificationPreferenceUncheckedCreateWithoutUserInput> | NotificationPreferenceCreateWithoutUserInput[] | NotificationPreferenceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationPreferenceCreateOrConnectWithoutUserInput | NotificationPreferenceCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationPreferenceUpsertWithWhereUniqueWithoutUserInput | NotificationPreferenceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationPreferenceCreateManyUserInputEnvelope
+    set?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    disconnect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    delete?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    connect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    update?: NotificationPreferenceUpdateWithWhereUniqueWithoutUserInput | NotificationPreferenceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationPreferenceUpdateManyWithWhereWithoutUserInput | NotificationPreferenceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationPreferenceScalarWhereInput | NotificationPreferenceScalarWhereInput[]
+  }
+
+  export type AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<AnnouncementCreateWithoutAuthorInput, AnnouncementUncheckedCreateWithoutAuthorInput> | AnnouncementCreateWithoutAuthorInput[] | AnnouncementUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: AnnouncementCreateOrConnectWithoutAuthorInput | AnnouncementCreateOrConnectWithoutAuthorInput[]
+    upsert?: AnnouncementUpsertWithWhereUniqueWithoutAuthorInput | AnnouncementUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: AnnouncementCreateManyAuthorInputEnvelope
+    set?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    disconnect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    delete?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    connect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    update?: AnnouncementUpdateWithWhereUniqueWithoutAuthorInput | AnnouncementUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: AnnouncementUpdateManyWithWhereWithoutAuthorInput | AnnouncementUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: AnnouncementScalarWhereInput | AnnouncementScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutRefreshTokensInput = {
     create?: XOR<UserCreateWithoutRefreshTokensInput, UserUncheckedCreateWithoutRefreshTokensInput>
     connectOrCreate?: UserCreateOrConnectWithoutRefreshTokensInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutRefreshTokensNestedInput = {
@@ -8618,10 +20479,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutPasswordResetsInput, UserUncheckedCreateWithoutPasswordResetsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPasswordResetsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutPasswordResetsNestedInput = {
@@ -8639,11 +20496,95 @@ export namespace Prisma {
     connect?: TripMemberWhereUniqueInput | TripMemberWhereUniqueInput[]
   }
 
+  export type EventCreateNestedManyWithoutTripInput = {
+    create?: XOR<EventCreateWithoutTripInput, EventUncheckedCreateWithoutTripInput> | EventCreateWithoutTripInput[] | EventUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutTripInput | EventCreateOrConnectWithoutTripInput[]
+    createMany?: EventCreateManyTripInputEnvelope
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+  }
+
+  export type ItemCreateNestedManyWithoutTripInput = {
+    create?: XOR<ItemCreateWithoutTripInput, ItemUncheckedCreateWithoutTripInput> | ItemCreateWithoutTripInput[] | ItemUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: ItemCreateOrConnectWithoutTripInput | ItemCreateOrConnectWithoutTripInput[]
+    createMany?: ItemCreateManyTripInputEnvelope
+    connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutTripInput = {
+    create?: XOR<NotificationCreateWithoutTripInput, NotificationUncheckedCreateWithoutTripInput> | NotificationCreateWithoutTripInput[] | NotificationUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutTripInput | NotificationCreateOrConnectWithoutTripInput[]
+    createMany?: NotificationCreateManyTripInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type NotificationPreferenceCreateNestedManyWithoutTripInput = {
+    create?: XOR<NotificationPreferenceCreateWithoutTripInput, NotificationPreferenceUncheckedCreateWithoutTripInput> | NotificationPreferenceCreateWithoutTripInput[] | NotificationPreferenceUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: NotificationPreferenceCreateOrConnectWithoutTripInput | NotificationPreferenceCreateOrConnectWithoutTripInput[]
+    createMany?: NotificationPreferenceCreateManyTripInputEnvelope
+    connect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+  }
+
+  export type AnnouncementCreateNestedManyWithoutTripInput = {
+    create?: XOR<AnnouncementCreateWithoutTripInput, AnnouncementUncheckedCreateWithoutTripInput> | AnnouncementCreateWithoutTripInput[] | AnnouncementUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: AnnouncementCreateOrConnectWithoutTripInput | AnnouncementCreateOrConnectWithoutTripInput[]
+    createMany?: AnnouncementCreateManyTripInputEnvelope
+    connect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+  }
+
+  export type TripExtensionCreateNestedManyWithoutTripInput = {
+    create?: XOR<TripExtensionCreateWithoutTripInput, TripExtensionUncheckedCreateWithoutTripInput> | TripExtensionCreateWithoutTripInput[] | TripExtensionUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: TripExtensionCreateOrConnectWithoutTripInput | TripExtensionCreateOrConnectWithoutTripInput[]
+    createMany?: TripExtensionCreateManyTripInputEnvelope
+    connect?: TripExtensionWhereUniqueInput | TripExtensionWhereUniqueInput[]
+  }
+
   export type TripMemberUncheckedCreateNestedManyWithoutTripInput = {
     create?: XOR<TripMemberCreateWithoutTripInput, TripMemberUncheckedCreateWithoutTripInput> | TripMemberCreateWithoutTripInput[] | TripMemberUncheckedCreateWithoutTripInput[]
     connectOrCreate?: TripMemberCreateOrConnectWithoutTripInput | TripMemberCreateOrConnectWithoutTripInput[]
     createMany?: TripMemberCreateManyTripInputEnvelope
     connect?: TripMemberWhereUniqueInput | TripMemberWhereUniqueInput[]
+  }
+
+  export type EventUncheckedCreateNestedManyWithoutTripInput = {
+    create?: XOR<EventCreateWithoutTripInput, EventUncheckedCreateWithoutTripInput> | EventCreateWithoutTripInput[] | EventUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutTripInput | EventCreateOrConnectWithoutTripInput[]
+    createMany?: EventCreateManyTripInputEnvelope
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+  }
+
+  export type ItemUncheckedCreateNestedManyWithoutTripInput = {
+    create?: XOR<ItemCreateWithoutTripInput, ItemUncheckedCreateWithoutTripInput> | ItemCreateWithoutTripInput[] | ItemUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: ItemCreateOrConnectWithoutTripInput | ItemCreateOrConnectWithoutTripInput[]
+    createMany?: ItemCreateManyTripInputEnvelope
+    connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutTripInput = {
+    create?: XOR<NotificationCreateWithoutTripInput, NotificationUncheckedCreateWithoutTripInput> | NotificationCreateWithoutTripInput[] | NotificationUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutTripInput | NotificationCreateOrConnectWithoutTripInput[]
+    createMany?: NotificationCreateManyTripInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type NotificationPreferenceUncheckedCreateNestedManyWithoutTripInput = {
+    create?: XOR<NotificationPreferenceCreateWithoutTripInput, NotificationPreferenceUncheckedCreateWithoutTripInput> | NotificationPreferenceCreateWithoutTripInput[] | NotificationPreferenceUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: NotificationPreferenceCreateOrConnectWithoutTripInput | NotificationPreferenceCreateOrConnectWithoutTripInput[]
+    createMany?: NotificationPreferenceCreateManyTripInputEnvelope
+    connect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+  }
+
+  export type AnnouncementUncheckedCreateNestedManyWithoutTripInput = {
+    create?: XOR<AnnouncementCreateWithoutTripInput, AnnouncementUncheckedCreateWithoutTripInput> | AnnouncementCreateWithoutTripInput[] | AnnouncementUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: AnnouncementCreateOrConnectWithoutTripInput | AnnouncementCreateOrConnectWithoutTripInput[]
+    createMany?: AnnouncementCreateManyTripInputEnvelope
+    connect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+  }
+
+  export type TripExtensionUncheckedCreateNestedManyWithoutTripInput = {
+    create?: XOR<TripExtensionCreateWithoutTripInput, TripExtensionUncheckedCreateWithoutTripInput> | TripExtensionCreateWithoutTripInput[] | TripExtensionUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: TripExtensionCreateOrConnectWithoutTripInput | TripExtensionCreateOrConnectWithoutTripInput[]
+    createMany?: TripExtensionCreateManyTripInputEnvelope
+    connect?: TripExtensionWhereUniqueInput | TripExtensionWhereUniqueInput[]
   }
 
   export type EnumTripStatusFieldUpdateOperationsInput = {
@@ -8664,6 +20605,90 @@ export namespace Prisma {
     deleteMany?: TripMemberScalarWhereInput | TripMemberScalarWhereInput[]
   }
 
+  export type EventUpdateManyWithoutTripNestedInput = {
+    create?: XOR<EventCreateWithoutTripInput, EventUncheckedCreateWithoutTripInput> | EventCreateWithoutTripInput[] | EventUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutTripInput | EventCreateOrConnectWithoutTripInput[]
+    upsert?: EventUpsertWithWhereUniqueWithoutTripInput | EventUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: EventCreateManyTripInputEnvelope
+    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    update?: EventUpdateWithWhereUniqueWithoutTripInput | EventUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: EventUpdateManyWithWhereWithoutTripInput | EventUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
+  }
+
+  export type ItemUpdateManyWithoutTripNestedInput = {
+    create?: XOR<ItemCreateWithoutTripInput, ItemUncheckedCreateWithoutTripInput> | ItemCreateWithoutTripInput[] | ItemUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: ItemCreateOrConnectWithoutTripInput | ItemCreateOrConnectWithoutTripInput[]
+    upsert?: ItemUpsertWithWhereUniqueWithoutTripInput | ItemUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: ItemCreateManyTripInputEnvelope
+    set?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    disconnect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    delete?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    update?: ItemUpdateWithWhereUniqueWithoutTripInput | ItemUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: ItemUpdateManyWithWhereWithoutTripInput | ItemUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutTripNestedInput = {
+    create?: XOR<NotificationCreateWithoutTripInput, NotificationUncheckedCreateWithoutTripInput> | NotificationCreateWithoutTripInput[] | NotificationUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutTripInput | NotificationCreateOrConnectWithoutTripInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutTripInput | NotificationUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: NotificationCreateManyTripInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutTripInput | NotificationUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutTripInput | NotificationUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type NotificationPreferenceUpdateManyWithoutTripNestedInput = {
+    create?: XOR<NotificationPreferenceCreateWithoutTripInput, NotificationPreferenceUncheckedCreateWithoutTripInput> | NotificationPreferenceCreateWithoutTripInput[] | NotificationPreferenceUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: NotificationPreferenceCreateOrConnectWithoutTripInput | NotificationPreferenceCreateOrConnectWithoutTripInput[]
+    upsert?: NotificationPreferenceUpsertWithWhereUniqueWithoutTripInput | NotificationPreferenceUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: NotificationPreferenceCreateManyTripInputEnvelope
+    set?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    disconnect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    delete?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    connect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    update?: NotificationPreferenceUpdateWithWhereUniqueWithoutTripInput | NotificationPreferenceUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: NotificationPreferenceUpdateManyWithWhereWithoutTripInput | NotificationPreferenceUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: NotificationPreferenceScalarWhereInput | NotificationPreferenceScalarWhereInput[]
+  }
+
+  export type AnnouncementUpdateManyWithoutTripNestedInput = {
+    create?: XOR<AnnouncementCreateWithoutTripInput, AnnouncementUncheckedCreateWithoutTripInput> | AnnouncementCreateWithoutTripInput[] | AnnouncementUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: AnnouncementCreateOrConnectWithoutTripInput | AnnouncementCreateOrConnectWithoutTripInput[]
+    upsert?: AnnouncementUpsertWithWhereUniqueWithoutTripInput | AnnouncementUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: AnnouncementCreateManyTripInputEnvelope
+    set?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    disconnect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    delete?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    connect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    update?: AnnouncementUpdateWithWhereUniqueWithoutTripInput | AnnouncementUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: AnnouncementUpdateManyWithWhereWithoutTripInput | AnnouncementUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: AnnouncementScalarWhereInput | AnnouncementScalarWhereInput[]
+  }
+
+  export type TripExtensionUpdateManyWithoutTripNestedInput = {
+    create?: XOR<TripExtensionCreateWithoutTripInput, TripExtensionUncheckedCreateWithoutTripInput> | TripExtensionCreateWithoutTripInput[] | TripExtensionUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: TripExtensionCreateOrConnectWithoutTripInput | TripExtensionCreateOrConnectWithoutTripInput[]
+    upsert?: TripExtensionUpsertWithWhereUniqueWithoutTripInput | TripExtensionUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: TripExtensionCreateManyTripInputEnvelope
+    set?: TripExtensionWhereUniqueInput | TripExtensionWhereUniqueInput[]
+    disconnect?: TripExtensionWhereUniqueInput | TripExtensionWhereUniqueInput[]
+    delete?: TripExtensionWhereUniqueInput | TripExtensionWhereUniqueInput[]
+    connect?: TripExtensionWhereUniqueInput | TripExtensionWhereUniqueInput[]
+    update?: TripExtensionUpdateWithWhereUniqueWithoutTripInput | TripExtensionUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: TripExtensionUpdateManyWithWhereWithoutTripInput | TripExtensionUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: TripExtensionScalarWhereInput | TripExtensionScalarWhereInput[]
+  }
+
   export type TripMemberUncheckedUpdateManyWithoutTripNestedInput = {
     create?: XOR<TripMemberCreateWithoutTripInput, TripMemberUncheckedCreateWithoutTripInput> | TripMemberCreateWithoutTripInput[] | TripMemberUncheckedCreateWithoutTripInput[]
     connectOrCreate?: TripMemberCreateOrConnectWithoutTripInput | TripMemberCreateOrConnectWithoutTripInput[]
@@ -8676,6 +20701,90 @@ export namespace Prisma {
     update?: TripMemberUpdateWithWhereUniqueWithoutTripInput | TripMemberUpdateWithWhereUniqueWithoutTripInput[]
     updateMany?: TripMemberUpdateManyWithWhereWithoutTripInput | TripMemberUpdateManyWithWhereWithoutTripInput[]
     deleteMany?: TripMemberScalarWhereInput | TripMemberScalarWhereInput[]
+  }
+
+  export type EventUncheckedUpdateManyWithoutTripNestedInput = {
+    create?: XOR<EventCreateWithoutTripInput, EventUncheckedCreateWithoutTripInput> | EventCreateWithoutTripInput[] | EventUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutTripInput | EventCreateOrConnectWithoutTripInput[]
+    upsert?: EventUpsertWithWhereUniqueWithoutTripInput | EventUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: EventCreateManyTripInputEnvelope
+    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    update?: EventUpdateWithWhereUniqueWithoutTripInput | EventUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: EventUpdateManyWithWhereWithoutTripInput | EventUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
+  }
+
+  export type ItemUncheckedUpdateManyWithoutTripNestedInput = {
+    create?: XOR<ItemCreateWithoutTripInput, ItemUncheckedCreateWithoutTripInput> | ItemCreateWithoutTripInput[] | ItemUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: ItemCreateOrConnectWithoutTripInput | ItemCreateOrConnectWithoutTripInput[]
+    upsert?: ItemUpsertWithWhereUniqueWithoutTripInput | ItemUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: ItemCreateManyTripInputEnvelope
+    set?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    disconnect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    delete?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+    update?: ItemUpdateWithWhereUniqueWithoutTripInput | ItemUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: ItemUpdateManyWithWhereWithoutTripInput | ItemUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutTripNestedInput = {
+    create?: XOR<NotificationCreateWithoutTripInput, NotificationUncheckedCreateWithoutTripInput> | NotificationCreateWithoutTripInput[] | NotificationUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutTripInput | NotificationCreateOrConnectWithoutTripInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutTripInput | NotificationUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: NotificationCreateManyTripInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutTripInput | NotificationUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutTripInput | NotificationUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type NotificationPreferenceUncheckedUpdateManyWithoutTripNestedInput = {
+    create?: XOR<NotificationPreferenceCreateWithoutTripInput, NotificationPreferenceUncheckedCreateWithoutTripInput> | NotificationPreferenceCreateWithoutTripInput[] | NotificationPreferenceUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: NotificationPreferenceCreateOrConnectWithoutTripInput | NotificationPreferenceCreateOrConnectWithoutTripInput[]
+    upsert?: NotificationPreferenceUpsertWithWhereUniqueWithoutTripInput | NotificationPreferenceUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: NotificationPreferenceCreateManyTripInputEnvelope
+    set?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    disconnect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    delete?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    connect?: NotificationPreferenceWhereUniqueInput | NotificationPreferenceWhereUniqueInput[]
+    update?: NotificationPreferenceUpdateWithWhereUniqueWithoutTripInput | NotificationPreferenceUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: NotificationPreferenceUpdateManyWithWhereWithoutTripInput | NotificationPreferenceUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: NotificationPreferenceScalarWhereInput | NotificationPreferenceScalarWhereInput[]
+  }
+
+  export type AnnouncementUncheckedUpdateManyWithoutTripNestedInput = {
+    create?: XOR<AnnouncementCreateWithoutTripInput, AnnouncementUncheckedCreateWithoutTripInput> | AnnouncementCreateWithoutTripInput[] | AnnouncementUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: AnnouncementCreateOrConnectWithoutTripInput | AnnouncementCreateOrConnectWithoutTripInput[]
+    upsert?: AnnouncementUpsertWithWhereUniqueWithoutTripInput | AnnouncementUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: AnnouncementCreateManyTripInputEnvelope
+    set?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    disconnect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    delete?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    connect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+    update?: AnnouncementUpdateWithWhereUniqueWithoutTripInput | AnnouncementUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: AnnouncementUpdateManyWithWhereWithoutTripInput | AnnouncementUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: AnnouncementScalarWhereInput | AnnouncementScalarWhereInput[]
+  }
+
+  export type TripExtensionUncheckedUpdateManyWithoutTripNestedInput = {
+    create?: XOR<TripExtensionCreateWithoutTripInput, TripExtensionUncheckedCreateWithoutTripInput> | TripExtensionCreateWithoutTripInput[] | TripExtensionUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: TripExtensionCreateOrConnectWithoutTripInput | TripExtensionCreateOrConnectWithoutTripInput[]
+    upsert?: TripExtensionUpsertWithWhereUniqueWithoutTripInput | TripExtensionUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: TripExtensionCreateManyTripInputEnvelope
+    set?: TripExtensionWhereUniqueInput | TripExtensionWhereUniqueInput[]
+    disconnect?: TripExtensionWhereUniqueInput | TripExtensionWhereUniqueInput[]
+    delete?: TripExtensionWhereUniqueInput | TripExtensionWhereUniqueInput[]
+    connect?: TripExtensionWhereUniqueInput | TripExtensionWhereUniqueInput[]
+    update?: TripExtensionUpdateWithWhereUniqueWithoutTripInput | TripExtensionUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: TripExtensionUpdateManyWithWhereWithoutTripInput | TripExtensionUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: TripExtensionScalarWhereInput | TripExtensionScalarWhereInput[]
   }
 
   export type TripCreateNestedOneWithoutMembersInput = {
@@ -8712,6 +20821,282 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutTripMembersInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTripMembersInput, UserUpdateWithoutTripMembersInput>, UserUncheckedUpdateWithoutTripMembersInput>
+  }
+
+  export type UserCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TripCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<TripCreateWithoutNotificationsInput, TripUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutNotificationsInput
+    connect?: TripWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
+    upsert?: UserUpsertWithoutNotificationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type TripUpdateOneWithoutNotificationsNestedInput = {
+    create?: XOR<TripCreateWithoutNotificationsInput, TripUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutNotificationsInput
+    upsert?: TripUpsertWithoutNotificationsInput
+    disconnect?: TripWhereInput | boolean
+    delete?: TripWhereInput | boolean
+    connect?: TripWhereUniqueInput
+    update?: XOR<XOR<TripUpdateToOneWithWhereWithoutNotificationsInput, TripUpdateWithoutNotificationsInput>, TripUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type UserCreateNestedOneWithoutNotificationPrefsInput = {
+    create?: XOR<UserCreateWithoutNotificationPrefsInput, UserUncheckedCreateWithoutNotificationPrefsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationPrefsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TripCreateNestedOneWithoutNotificationPrefsInput = {
+    create?: XOR<TripCreateWithoutNotificationPrefsInput, TripUncheckedCreateWithoutNotificationPrefsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutNotificationPrefsInput
+    connect?: TripWhereUniqueInput
+  }
+
+  export type EnumDigestFrequencyFieldUpdateOperationsInput = {
+    set?: $Enums.DigestFrequency
+  }
+
+  export type UserUpdateOneRequiredWithoutNotificationPrefsNestedInput = {
+    create?: XOR<UserCreateWithoutNotificationPrefsInput, UserUncheckedCreateWithoutNotificationPrefsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationPrefsInput
+    upsert?: UserUpsertWithoutNotificationPrefsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationPrefsInput, UserUpdateWithoutNotificationPrefsInput>, UserUncheckedUpdateWithoutNotificationPrefsInput>
+  }
+
+  export type TripUpdateOneWithoutNotificationPrefsNestedInput = {
+    create?: XOR<TripCreateWithoutNotificationPrefsInput, TripUncheckedCreateWithoutNotificationPrefsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutNotificationPrefsInput
+    upsert?: TripUpsertWithoutNotificationPrefsInput
+    disconnect?: TripWhereInput | boolean
+    delete?: TripWhereInput | boolean
+    connect?: TripWhereUniqueInput
+    update?: XOR<XOR<TripUpdateToOneWithWhereWithoutNotificationPrefsInput, TripUpdateWithoutNotificationPrefsInput>, TripUncheckedUpdateWithoutNotificationPrefsInput>
+  }
+
+  export type TripCreateNestedOneWithoutEventsInput = {
+    create?: XOR<TripCreateWithoutEventsInput, TripUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutEventsInput
+    connect?: TripWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSuggestedEventsInput = {
+    create?: XOR<UserCreateWithoutSuggestedEventsInput, UserUncheckedCreateWithoutSuggestedEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSuggestedEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutApprovedEventsInput = {
+    create?: XOR<UserCreateWithoutApprovedEventsInput, UserUncheckedCreateWithoutApprovedEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutApprovedEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumEventStatusFieldUpdateOperationsInput = {
+    set?: $Enums.EventStatus
+  }
+
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type TripUpdateOneRequiredWithoutEventsNestedInput = {
+    create?: XOR<TripCreateWithoutEventsInput, TripUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutEventsInput
+    upsert?: TripUpsertWithoutEventsInput
+    connect?: TripWhereUniqueInput
+    update?: XOR<XOR<TripUpdateToOneWithWhereWithoutEventsInput, TripUpdateWithoutEventsInput>, TripUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSuggestedEventsNestedInput = {
+    create?: XOR<UserCreateWithoutSuggestedEventsInput, UserUncheckedCreateWithoutSuggestedEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSuggestedEventsInput
+    upsert?: UserUpsertWithoutSuggestedEventsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSuggestedEventsInput, UserUpdateWithoutSuggestedEventsInput>, UserUncheckedUpdateWithoutSuggestedEventsInput>
+  }
+
+  export type UserUpdateOneWithoutApprovedEventsNestedInput = {
+    create?: XOR<UserCreateWithoutApprovedEventsInput, UserUncheckedCreateWithoutApprovedEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutApprovedEventsInput
+    upsert?: UserUpsertWithoutApprovedEventsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutApprovedEventsInput, UserUpdateWithoutApprovedEventsInput>, UserUncheckedUpdateWithoutApprovedEventsInput>
+  }
+
+  export type ItemClaimCreateNestedManyWithoutItemInput = {
+    create?: XOR<ItemClaimCreateWithoutItemInput, ItemClaimUncheckedCreateWithoutItemInput> | ItemClaimCreateWithoutItemInput[] | ItemClaimUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemClaimCreateOrConnectWithoutItemInput | ItemClaimCreateOrConnectWithoutItemInput[]
+    createMany?: ItemClaimCreateManyItemInputEnvelope
+    connect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+  }
+
+  export type TripCreateNestedOneWithoutItemsInput = {
+    create?: XOR<TripCreateWithoutItemsInput, TripUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutItemsInput
+    connect?: TripWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutCreatedItemsInput = {
+    create?: XOR<UserCreateWithoutCreatedItemsInput, UserUncheckedCreateWithoutCreatedItemsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedItemsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ItemClaimUncheckedCreateNestedManyWithoutItemInput = {
+    create?: XOR<ItemClaimCreateWithoutItemInput, ItemClaimUncheckedCreateWithoutItemInput> | ItemClaimCreateWithoutItemInput[] | ItemClaimUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemClaimCreateOrConnectWithoutItemInput | ItemClaimCreateOrConnectWithoutItemInput[]
+    createMany?: ItemClaimCreateManyItemInputEnvelope
+    connect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+  }
+
+  export type EnumItemTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ItemType
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type ItemClaimUpdateManyWithoutItemNestedInput = {
+    create?: XOR<ItemClaimCreateWithoutItemInput, ItemClaimUncheckedCreateWithoutItemInput> | ItemClaimCreateWithoutItemInput[] | ItemClaimUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemClaimCreateOrConnectWithoutItemInput | ItemClaimCreateOrConnectWithoutItemInput[]
+    upsert?: ItemClaimUpsertWithWhereUniqueWithoutItemInput | ItemClaimUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: ItemClaimCreateManyItemInputEnvelope
+    set?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    disconnect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    delete?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    connect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    update?: ItemClaimUpdateWithWhereUniqueWithoutItemInput | ItemClaimUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: ItemClaimUpdateManyWithWhereWithoutItemInput | ItemClaimUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: ItemClaimScalarWhereInput | ItemClaimScalarWhereInput[]
+  }
+
+  export type TripUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<TripCreateWithoutItemsInput, TripUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutItemsInput
+    upsert?: TripUpsertWithoutItemsInput
+    connect?: TripWhereUniqueInput
+    update?: XOR<XOR<TripUpdateToOneWithWhereWithoutItemsInput, TripUpdateWithoutItemsInput>, TripUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutCreatedItemsNestedInput = {
+    create?: XOR<UserCreateWithoutCreatedItemsInput, UserUncheckedCreateWithoutCreatedItemsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedItemsInput
+    upsert?: UserUpsertWithoutCreatedItemsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedItemsInput, UserUpdateWithoutCreatedItemsInput>, UserUncheckedUpdateWithoutCreatedItemsInput>
+  }
+
+  export type ItemClaimUncheckedUpdateManyWithoutItemNestedInput = {
+    create?: XOR<ItemClaimCreateWithoutItemInput, ItemClaimUncheckedCreateWithoutItemInput> | ItemClaimCreateWithoutItemInput[] | ItemClaimUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: ItemClaimCreateOrConnectWithoutItemInput | ItemClaimCreateOrConnectWithoutItemInput[]
+    upsert?: ItemClaimUpsertWithWhereUniqueWithoutItemInput | ItemClaimUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: ItemClaimCreateManyItemInputEnvelope
+    set?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    disconnect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    delete?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    connect?: ItemClaimWhereUniqueInput | ItemClaimWhereUniqueInput[]
+    update?: ItemClaimUpdateWithWhereUniqueWithoutItemInput | ItemClaimUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: ItemClaimUpdateManyWithWhereWithoutItemInput | ItemClaimUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: ItemClaimScalarWhereInput | ItemClaimScalarWhereInput[]
+  }
+
+  export type ItemCreateNestedOneWithoutClaimsInput = {
+    create?: XOR<ItemCreateWithoutClaimsInput, ItemUncheckedCreateWithoutClaimsInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutClaimsInput
+    connect?: ItemWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutItemClaimsInput = {
+    create?: XOR<UserCreateWithoutItemClaimsInput, UserUncheckedCreateWithoutItemClaimsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutItemClaimsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumClaimStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ClaimStatus
+  }
+
+  export type ItemUpdateOneRequiredWithoutClaimsNestedInput = {
+    create?: XOR<ItemCreateWithoutClaimsInput, ItemUncheckedCreateWithoutClaimsInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutClaimsInput
+    upsert?: ItemUpsertWithoutClaimsInput
+    connect?: ItemWhereUniqueInput
+    update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutClaimsInput, ItemUpdateWithoutClaimsInput>, ItemUncheckedUpdateWithoutClaimsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutItemClaimsNestedInput = {
+    create?: XOR<UserCreateWithoutItemClaimsInput, UserUncheckedCreateWithoutItemClaimsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutItemClaimsInput
+    upsert?: UserUpsertWithoutItemClaimsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutItemClaimsInput, UserUpdateWithoutItemClaimsInput>, UserUncheckedUpdateWithoutItemClaimsInput>
+  }
+
+  export type TripCreateNestedOneWithoutAnnouncementsInput = {
+    create?: XOR<TripCreateWithoutAnnouncementsInput, TripUncheckedCreateWithoutAnnouncementsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutAnnouncementsInput
+    connect?: TripWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAnnouncementsInput = {
+    create?: XOR<UserCreateWithoutAnnouncementsInput, UserUncheckedCreateWithoutAnnouncementsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAnnouncementsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TripUpdateOneRequiredWithoutAnnouncementsNestedInput = {
+    create?: XOR<TripCreateWithoutAnnouncementsInput, TripUncheckedCreateWithoutAnnouncementsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutAnnouncementsInput
+    upsert?: TripUpsertWithoutAnnouncementsInput
+    connect?: TripWhereUniqueInput
+    update?: XOR<XOR<TripUpdateToOneWithWhereWithoutAnnouncementsInput, TripUpdateWithoutAnnouncementsInput>, TripUncheckedUpdateWithoutAnnouncementsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAnnouncementsNestedInput = {
+    create?: XOR<UserCreateWithoutAnnouncementsInput, UserUncheckedCreateWithoutAnnouncementsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAnnouncementsInput
+    upsert?: UserUpsertWithoutAnnouncementsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAnnouncementsInput, UserUpdateWithoutAnnouncementsInput>, UserUncheckedUpdateWithoutAnnouncementsInput>
+  }
+
+  export type TripCreateNestedOneWithoutExtensionsInput = {
+    create?: XOR<TripCreateWithoutExtensionsInput, TripUncheckedCreateWithoutExtensionsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutExtensionsInput
+    connect?: TripWhereUniqueInput
+  }
+
+  export type TripUpdateOneRequiredWithoutExtensionsNestedInput = {
+    create?: XOR<TripCreateWithoutExtensionsInput, TripUncheckedCreateWithoutExtensionsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutExtensionsInput
+    upsert?: TripUpsertWithoutExtensionsInput
+    connect?: TripWhereUniqueInput
+    update?: XOR<XOR<TripUpdateToOneWithWhereWithoutExtensionsInput, TripUpdateWithoutExtensionsInput>, TripUncheckedUpdateWithoutExtensionsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8958,20 +21343,156 @@ export namespace Prisma {
     _max?: NestedEnumMemberStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumDigestFrequencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.DigestFrequency | EnumDigestFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.DigestFrequency[] | ListEnumDigestFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DigestFrequency[] | ListEnumDigestFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumDigestFrequencyFilter<$PrismaModel> | $Enums.DigestFrequency
+  }
+
+  export type NestedEnumDigestFrequencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DigestFrequency | EnumDigestFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.DigestFrequency[] | ListEnumDigestFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DigestFrequency[] | ListEnumDigestFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumDigestFrequencyWithAggregatesFilter<$PrismaModel> | $Enums.DigestFrequency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDigestFrequencyFilter<$PrismaModel>
+    _max?: NestedEnumDigestFrequencyFilter<$PrismaModel>
+  }
+
+  export type NestedEnumEventStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventStatus | EnumEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventStatusFilter<$PrismaModel> | $Enums.EventStatus
+  }
+
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NestedEnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EventStatus | EnumEventStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EventStatus[] | ListEnumEventStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEventStatusWithAggregatesFilter<$PrismaModel> | $Enums.EventStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEventStatusFilter<$PrismaModel>
+    _max?: NestedEnumEventStatusFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumItemTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumItemTypeFilter<$PrismaModel> | $Enums.ItemType
+  }
+
+  export type NestedEnumItemTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumItemTypeWithAggregatesFilter<$PrismaModel> | $Enums.ItemType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumItemTypeFilter<$PrismaModel>
+    _max?: NestedEnumItemTypeFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumClaimStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClaimStatus | EnumClaimStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ClaimStatus[] | ListEnumClaimStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClaimStatus[] | ListEnumClaimStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumClaimStatusFilter<$PrismaModel> | $Enums.ClaimStatus
+  }
+
+  export type NestedEnumClaimStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClaimStatus | EnumClaimStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ClaimStatus[] | ListEnumClaimStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ClaimStatus[] | ListEnumClaimStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumClaimStatusWithAggregatesFilter<$PrismaModel> | $Enums.ClaimStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumClaimStatusFilter<$PrismaModel>
+    _max?: NestedEnumClaimStatusFilter<$PrismaModel>
+  }
+
   export type RefreshTokenCreateWithoutUserInput = {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    tokenId: string
     tokenHash: string
     expiresAt: Date | string
+    family?: string | null
+    revoked?: boolean
+    revokedAt?: Date | string | null
+    revokeReason?: string | null
+    userAgent?: string | null
+    ipAddress?: string | null
   }
 
   export type RefreshTokenUncheckedCreateWithoutUserInput = {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    tokenId: string
     tokenHash: string
     expiresAt: Date | string
+    family?: string | null
+    revoked?: boolean
+    revokedAt?: Date | string | null
+    revokeReason?: string | null
+    userAgent?: string | null
+    ipAddress?: string | null
   }
 
   export type RefreshTokenCreateOrConnectWithoutUserInput = {
@@ -9042,6 +21563,272 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EventCreateWithoutSuggestedByInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    trip: TripCreateNestedOneWithoutEventsInput
+    approvedBy?: UserCreateNestedOneWithoutApprovedEventsInput
+  }
+
+  export type EventUncheckedCreateWithoutSuggestedByInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    approvedById?: string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventCreateOrConnectWithoutSuggestedByInput = {
+    where: EventWhereUniqueInput
+    create: XOR<EventCreateWithoutSuggestedByInput, EventUncheckedCreateWithoutSuggestedByInput>
+  }
+
+  export type EventCreateManySuggestedByInputEnvelope = {
+    data: EventCreateManySuggestedByInput | EventCreateManySuggestedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EventCreateWithoutApprovedByInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    trip: TripCreateNestedOneWithoutEventsInput
+    suggestedBy: UserCreateNestedOneWithoutSuggestedEventsInput
+  }
+
+  export type EventUncheckedCreateWithoutApprovedByInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    suggestedById: string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventCreateOrConnectWithoutApprovedByInput = {
+    where: EventWhereUniqueInput
+    create: XOR<EventCreateWithoutApprovedByInput, EventUncheckedCreateWithoutApprovedByInput>
+  }
+
+  export type EventCreateManyApprovedByInputEnvelope = {
+    data: EventCreateManyApprovedByInput | EventCreateManyApprovedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ItemCreateWithoutCreatedByInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimCreateNestedManyWithoutItemInput
+    trip: TripCreateNestedOneWithoutItemsInput
+  }
+
+  export type ItemUncheckedCreateWithoutCreatedByInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimUncheckedCreateNestedManyWithoutItemInput
+  }
+
+  export type ItemCreateOrConnectWithoutCreatedByInput = {
+    where: ItemWhereUniqueInput
+    create: XOR<ItemCreateWithoutCreatedByInput, ItemUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type ItemCreateManyCreatedByInputEnvelope = {
+    data: ItemCreateManyCreatedByInput | ItemCreateManyCreatedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ItemClaimCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quantity?: number
+    status?: $Enums.ClaimStatus
+    notes?: string | null
+    item: ItemCreateNestedOneWithoutClaimsInput
+  }
+
+  export type ItemClaimUncheckedCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    itemId: string
+    quantity?: number
+    status?: $Enums.ClaimStatus
+    notes?: string | null
+  }
+
+  export type ItemClaimCreateOrConnectWithoutUserInput = {
+    where: ItemClaimWhereUniqueInput
+    create: XOR<ItemClaimCreateWithoutUserInput, ItemClaimUncheckedCreateWithoutUserInput>
+  }
+
+  export type ItemClaimCreateManyUserInputEnvelope = {
+    data: ItemClaimCreateManyUserInput | ItemClaimCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    type: string
+    title: string
+    body?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: boolean
+    readAt?: Date | string | null
+    trip?: TripCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    tripId?: string | null
+    type: string
+    title: string
+    body?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: boolean
+    readAt?: Date | string | null
+  }
+
+  export type NotificationCreateOrConnectWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationCreateManyUserInputEnvelope = {
+    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationPreferenceCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: $Enums.DigestFrequency
+    trip?: TripCreateNestedOneWithoutNotificationPrefsInput
+  }
+
+  export type NotificationPreferenceUncheckedCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId?: string | null
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: $Enums.DigestFrequency
+  }
+
+  export type NotificationPreferenceCreateOrConnectWithoutUserInput = {
+    where: NotificationPreferenceWhereUniqueInput
+    create: XOR<NotificationPreferenceCreateWithoutUserInput, NotificationPreferenceUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationPreferenceCreateManyUserInputEnvelope = {
+    data: NotificationPreferenceCreateManyUserInput | NotificationPreferenceCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AnnouncementCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    body: string
+    pinned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    trip: TripCreateNestedOneWithoutAnnouncementsInput
+  }
+
+  export type AnnouncementUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    tripId: string
+    title: string
+    body: string
+    pinned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnnouncementCreateOrConnectWithoutAuthorInput = {
+    where: AnnouncementWhereUniqueInput
+    create: XOR<AnnouncementCreateWithoutAuthorInput, AnnouncementUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type AnnouncementCreateManyAuthorInputEnvelope = {
+    data: AnnouncementCreateManyAuthorInput | AnnouncementCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RefreshTokenUpsertWithWhereUniqueWithoutUserInput = {
     where: RefreshTokenWhereUniqueInput
     update: XOR<RefreshTokenUpdateWithoutUserInput, RefreshTokenUncheckedUpdateWithoutUserInput>
@@ -9065,8 +21852,15 @@ export namespace Prisma {
     id?: StringFilter<"RefreshToken"> | string
     createdAt?: DateTimeFilter<"RefreshToken"> | Date | string
     updatedAt?: DateTimeFilter<"RefreshToken"> | Date | string
+    tokenId?: StringFilter<"RefreshToken"> | string
     tokenHash?: StringFilter<"RefreshToken"> | string
     expiresAt?: DateTimeFilter<"RefreshToken"> | Date | string
+    family?: StringNullableFilter<"RefreshToken"> | string | null
+    revoked?: BoolFilter<"RefreshToken"> | boolean
+    revokedAt?: DateTimeNullableFilter<"RefreshToken"> | Date | string | null
+    revokeReason?: StringNullableFilter<"RefreshToken"> | string | null
+    userAgent?: StringNullableFilter<"RefreshToken"> | string | null
+    ipAddress?: StringNullableFilter<"RefreshToken"> | string | null
     userId?: StringFilter<"RefreshToken"> | string
   }
 
@@ -9129,6 +21923,220 @@ export namespace Prisma {
     canInvite?: BoolFilter<"TripMember"> | boolean
   }
 
+  export type EventUpsertWithWhereUniqueWithoutSuggestedByInput = {
+    where: EventWhereUniqueInput
+    update: XOR<EventUpdateWithoutSuggestedByInput, EventUncheckedUpdateWithoutSuggestedByInput>
+    create: XOR<EventCreateWithoutSuggestedByInput, EventUncheckedCreateWithoutSuggestedByInput>
+  }
+
+  export type EventUpdateWithWhereUniqueWithoutSuggestedByInput = {
+    where: EventWhereUniqueInput
+    data: XOR<EventUpdateWithoutSuggestedByInput, EventUncheckedUpdateWithoutSuggestedByInput>
+  }
+
+  export type EventUpdateManyWithWhereWithoutSuggestedByInput = {
+    where: EventScalarWhereInput
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyWithoutSuggestedByInput>
+  }
+
+  export type EventScalarWhereInput = {
+    AND?: EventScalarWhereInput | EventScalarWhereInput[]
+    OR?: EventScalarWhereInput[]
+    NOT?: EventScalarWhereInput | EventScalarWhereInput[]
+    id?: StringFilter<"Event"> | string
+    createdAt?: DateTimeFilter<"Event"> | Date | string
+    updatedAt?: DateTimeFilter<"Event"> | Date | string
+    tripId?: StringFilter<"Event"> | string
+    title?: StringFilter<"Event"> | string
+    description?: StringNullableFilter<"Event"> | string | null
+    location?: JsonNullableFilter<"Event">
+    startTime?: DateTimeNullableFilter<"Event"> | Date | string | null
+    endTime?: DateTimeNullableFilter<"Event"> | Date | string | null
+    isAllDay?: BoolFilter<"Event"> | boolean
+    status?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+    category?: StringNullableFilter<"Event"> | string | null
+    estimatedCost?: DecimalNullableFilter<"Event"> | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFilter<"Event"> | string
+    suggestedById?: StringFilter<"Event"> | string
+    approvedById?: StringNullableFilter<"Event"> | string | null
+    metadata?: JsonFilter<"Event">
+  }
+
+  export type EventUpsertWithWhereUniqueWithoutApprovedByInput = {
+    where: EventWhereUniqueInput
+    update: XOR<EventUpdateWithoutApprovedByInput, EventUncheckedUpdateWithoutApprovedByInput>
+    create: XOR<EventCreateWithoutApprovedByInput, EventUncheckedCreateWithoutApprovedByInput>
+  }
+
+  export type EventUpdateWithWhereUniqueWithoutApprovedByInput = {
+    where: EventWhereUniqueInput
+    data: XOR<EventUpdateWithoutApprovedByInput, EventUncheckedUpdateWithoutApprovedByInput>
+  }
+
+  export type EventUpdateManyWithWhereWithoutApprovedByInput = {
+    where: EventScalarWhereInput
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyWithoutApprovedByInput>
+  }
+
+  export type ItemUpsertWithWhereUniqueWithoutCreatedByInput = {
+    where: ItemWhereUniqueInput
+    update: XOR<ItemUpdateWithoutCreatedByInput, ItemUncheckedUpdateWithoutCreatedByInput>
+    create: XOR<ItemCreateWithoutCreatedByInput, ItemUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type ItemUpdateWithWhereUniqueWithoutCreatedByInput = {
+    where: ItemWhereUniqueInput
+    data: XOR<ItemUpdateWithoutCreatedByInput, ItemUncheckedUpdateWithoutCreatedByInput>
+  }
+
+  export type ItemUpdateManyWithWhereWithoutCreatedByInput = {
+    where: ItemScalarWhereInput
+    data: XOR<ItemUpdateManyMutationInput, ItemUncheckedUpdateManyWithoutCreatedByInput>
+  }
+
+  export type ItemScalarWhereInput = {
+    AND?: ItemScalarWhereInput | ItemScalarWhereInput[]
+    OR?: ItemScalarWhereInput[]
+    NOT?: ItemScalarWhereInput | ItemScalarWhereInput[]
+    id?: StringFilter<"Item"> | string
+    createdAt?: DateTimeFilter<"Item"> | Date | string
+    updatedAt?: DateTimeFilter<"Item"> | Date | string
+    tripId?: StringFilter<"Item"> | string
+    name?: StringFilter<"Item"> | string
+    description?: StringNullableFilter<"Item"> | string | null
+    category?: StringNullableFilter<"Item"> | string | null
+    type?: EnumItemTypeFilter<"Item"> | $Enums.ItemType
+    quantityNeeded?: IntFilter<"Item"> | number
+    isEssential?: BoolFilter<"Item"> | boolean
+    createdById?: StringFilter<"Item"> | string
+    metadata?: JsonFilter<"Item">
+  }
+
+  export type ItemClaimUpsertWithWhereUniqueWithoutUserInput = {
+    where: ItemClaimWhereUniqueInput
+    update: XOR<ItemClaimUpdateWithoutUserInput, ItemClaimUncheckedUpdateWithoutUserInput>
+    create: XOR<ItemClaimCreateWithoutUserInput, ItemClaimUncheckedCreateWithoutUserInput>
+  }
+
+  export type ItemClaimUpdateWithWhereUniqueWithoutUserInput = {
+    where: ItemClaimWhereUniqueInput
+    data: XOR<ItemClaimUpdateWithoutUserInput, ItemClaimUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ItemClaimUpdateManyWithWhereWithoutUserInput = {
+    where: ItemClaimScalarWhereInput
+    data: XOR<ItemClaimUpdateManyMutationInput, ItemClaimUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ItemClaimScalarWhereInput = {
+    AND?: ItemClaimScalarWhereInput | ItemClaimScalarWhereInput[]
+    OR?: ItemClaimScalarWhereInput[]
+    NOT?: ItemClaimScalarWhereInput | ItemClaimScalarWhereInput[]
+    id?: StringFilter<"ItemClaim"> | string
+    createdAt?: DateTimeFilter<"ItemClaim"> | Date | string
+    updatedAt?: DateTimeFilter<"ItemClaim"> | Date | string
+    itemId?: StringFilter<"ItemClaim"> | string
+    userId?: StringFilter<"ItemClaim"> | string
+    quantity?: IntFilter<"ItemClaim"> | number
+    status?: EnumClaimStatusFilter<"ItemClaim"> | $Enums.ClaimStatus
+    notes?: StringNullableFilter<"ItemClaim"> | string | null
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutUserInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type NotificationScalarWhereInput = {
+    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    OR?: NotificationScalarWhereInput[]
+    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    userId?: StringFilter<"Notification"> | string
+    tripId?: StringNullableFilter<"Notification"> | string | null
+    type?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    body?: StringNullableFilter<"Notification"> | string | null
+    payload?: JsonFilter<"Notification">
+    read?: BoolFilter<"Notification"> | boolean
+    readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
+  }
+
+  export type NotificationPreferenceUpsertWithWhereUniqueWithoutUserInput = {
+    where: NotificationPreferenceWhereUniqueInput
+    update: XOR<NotificationPreferenceUpdateWithoutUserInput, NotificationPreferenceUncheckedUpdateWithoutUserInput>
+    create: XOR<NotificationPreferenceCreateWithoutUserInput, NotificationPreferenceUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationPreferenceUpdateWithWhereUniqueWithoutUserInput = {
+    where: NotificationPreferenceWhereUniqueInput
+    data: XOR<NotificationPreferenceUpdateWithoutUserInput, NotificationPreferenceUncheckedUpdateWithoutUserInput>
+  }
+
+  export type NotificationPreferenceUpdateManyWithWhereWithoutUserInput = {
+    where: NotificationPreferenceScalarWhereInput
+    data: XOR<NotificationPreferenceUpdateManyMutationInput, NotificationPreferenceUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type NotificationPreferenceScalarWhereInput = {
+    AND?: NotificationPreferenceScalarWhereInput | NotificationPreferenceScalarWhereInput[]
+    OR?: NotificationPreferenceScalarWhereInput[]
+    NOT?: NotificationPreferenceScalarWhereInput | NotificationPreferenceScalarWhereInput[]
+    id?: StringFilter<"NotificationPreference"> | string
+    createdAt?: DateTimeFilter<"NotificationPreference"> | Date | string
+    updatedAt?: DateTimeFilter<"NotificationPreference"> | Date | string
+    userId?: StringFilter<"NotificationPreference"> | string
+    tripId?: StringNullableFilter<"NotificationPreference"> | string | null
+    emailEnabled?: BoolFilter<"NotificationPreference"> | boolean
+    pushEnabled?: BoolFilter<"NotificationPreference"> | boolean
+    scheduleChanges?: BoolFilter<"NotificationPreference"> | boolean
+    itemUpdates?: BoolFilter<"NotificationPreference"> | boolean
+    announcements?: BoolFilter<"NotificationPreference"> | boolean
+    digestFrequency?: EnumDigestFrequencyFilter<"NotificationPreference"> | $Enums.DigestFrequency
+  }
+
+  export type AnnouncementUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: AnnouncementWhereUniqueInput
+    update: XOR<AnnouncementUpdateWithoutAuthorInput, AnnouncementUncheckedUpdateWithoutAuthorInput>
+    create: XOR<AnnouncementCreateWithoutAuthorInput, AnnouncementUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type AnnouncementUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: AnnouncementWhereUniqueInput
+    data: XOR<AnnouncementUpdateWithoutAuthorInput, AnnouncementUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type AnnouncementUpdateManyWithWhereWithoutAuthorInput = {
+    where: AnnouncementScalarWhereInput
+    data: XOR<AnnouncementUpdateManyMutationInput, AnnouncementUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type AnnouncementScalarWhereInput = {
+    AND?: AnnouncementScalarWhereInput | AnnouncementScalarWhereInput[]
+    OR?: AnnouncementScalarWhereInput[]
+    NOT?: AnnouncementScalarWhereInput | AnnouncementScalarWhereInput[]
+    id?: StringFilter<"Announcement"> | string
+    tripId?: StringFilter<"Announcement"> | string
+    authorId?: StringFilter<"Announcement"> | string
+    title?: StringFilter<"Announcement"> | string
+    body?: StringFilter<"Announcement"> | string
+    pinned?: BoolFilter<"Announcement"> | boolean
+    createdAt?: DateTimeFilter<"Announcement"> | Date | string
+    updatedAt?: DateTimeFilter<"Announcement"> | Date | string
+  }
+
   export type UserCreateWithoutRefreshTokensInput = {
     id?: string
     createdAt?: Date | string
@@ -9142,6 +22150,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
     tripMembers?: TripMemberCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -9157,6 +22172,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
     tripMembers?: TripMemberUncheckedCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventUncheckedCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventUncheckedCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemUncheckedCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -9188,6 +22210,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
     tripMembers?: TripMemberUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -9203,6 +22232,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
     tripMembers?: TripMemberUncheckedUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUncheckedUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutPasswordResetsInput = {
@@ -9218,6 +22254,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     tripMembers?: TripMemberCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutPasswordResetsInput = {
@@ -9233,6 +22276,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     tripMembers?: TripMemberUncheckedCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventUncheckedCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventUncheckedCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemUncheckedCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutPasswordResetsInput = {
@@ -9264,6 +22314,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     tripMembers?: TripMemberUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasswordResetsInput = {
@@ -9279,6 +22336,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     tripMembers?: TripMemberUncheckedUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUncheckedUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type TripMemberCreateWithoutTripInput = {
@@ -9311,6 +22375,220 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EventCreateWithoutTripInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    suggestedBy: UserCreateNestedOneWithoutSuggestedEventsInput
+    approvedBy?: UserCreateNestedOneWithoutApprovedEventsInput
+  }
+
+  export type EventUncheckedCreateWithoutTripInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    suggestedById: string
+    approvedById?: string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventCreateOrConnectWithoutTripInput = {
+    where: EventWhereUniqueInput
+    create: XOR<EventCreateWithoutTripInput, EventUncheckedCreateWithoutTripInput>
+  }
+
+  export type EventCreateManyTripInputEnvelope = {
+    data: EventCreateManyTripInput | EventCreateManyTripInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ItemCreateWithoutTripInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimCreateNestedManyWithoutItemInput
+    createdBy: UserCreateNestedOneWithoutCreatedItemsInput
+  }
+
+  export type ItemUncheckedCreateWithoutTripInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    createdById: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimUncheckedCreateNestedManyWithoutItemInput
+  }
+
+  export type ItemCreateOrConnectWithoutTripInput = {
+    where: ItemWhereUniqueInput
+    create: XOR<ItemCreateWithoutTripInput, ItemUncheckedCreateWithoutTripInput>
+  }
+
+  export type ItemCreateManyTripInputEnvelope = {
+    data: ItemCreateManyTripInput | ItemCreateManyTripInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationCreateWithoutTripInput = {
+    id?: string
+    createdAt?: Date | string
+    type: string
+    title: string
+    body?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: boolean
+    readAt?: Date | string | null
+    user: UserCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateWithoutTripInput = {
+    id?: string
+    createdAt?: Date | string
+    userId: string
+    type: string
+    title: string
+    body?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: boolean
+    readAt?: Date | string | null
+  }
+
+  export type NotificationCreateOrConnectWithoutTripInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutTripInput, NotificationUncheckedCreateWithoutTripInput>
+  }
+
+  export type NotificationCreateManyTripInputEnvelope = {
+    data: NotificationCreateManyTripInput | NotificationCreateManyTripInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationPreferenceCreateWithoutTripInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: $Enums.DigestFrequency
+    user: UserCreateNestedOneWithoutNotificationPrefsInput
+  }
+
+  export type NotificationPreferenceUncheckedCreateWithoutTripInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: $Enums.DigestFrequency
+  }
+
+  export type NotificationPreferenceCreateOrConnectWithoutTripInput = {
+    where: NotificationPreferenceWhereUniqueInput
+    create: XOR<NotificationPreferenceCreateWithoutTripInput, NotificationPreferenceUncheckedCreateWithoutTripInput>
+  }
+
+  export type NotificationPreferenceCreateManyTripInputEnvelope = {
+    data: NotificationPreferenceCreateManyTripInput | NotificationPreferenceCreateManyTripInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AnnouncementCreateWithoutTripInput = {
+    id?: string
+    title: string
+    body: string
+    pinned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutAnnouncementsInput
+  }
+
+  export type AnnouncementUncheckedCreateWithoutTripInput = {
+    id?: string
+    authorId: string
+    title: string
+    body: string
+    pinned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AnnouncementCreateOrConnectWithoutTripInput = {
+    where: AnnouncementWhereUniqueInput
+    create: XOR<AnnouncementCreateWithoutTripInput, AnnouncementUncheckedCreateWithoutTripInput>
+  }
+
+  export type AnnouncementCreateManyTripInputEnvelope = {
+    data: AnnouncementCreateManyTripInput | AnnouncementCreateManyTripInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TripExtensionCreateWithoutTripInput = {
+    id?: string
+    extensionType: string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TripExtensionUncheckedCreateWithoutTripInput = {
+    id?: string
+    extensionType: string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TripExtensionCreateOrConnectWithoutTripInput = {
+    where: TripExtensionWhereUniqueInput
+    create: XOR<TripExtensionCreateWithoutTripInput, TripExtensionUncheckedCreateWithoutTripInput>
+  }
+
+  export type TripExtensionCreateManyTripInputEnvelope = {
+    data: TripExtensionCreateManyTripInput | TripExtensionCreateManyTripInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TripMemberUpsertWithWhereUniqueWithoutTripInput = {
     where: TripMemberWhereUniqueInput
     update: XOR<TripMemberUpdateWithoutTripInput, TripMemberUncheckedUpdateWithoutTripInput>
@@ -9327,6 +22605,114 @@ export namespace Prisma {
     data: XOR<TripMemberUpdateManyMutationInput, TripMemberUncheckedUpdateManyWithoutTripInput>
   }
 
+  export type EventUpsertWithWhereUniqueWithoutTripInput = {
+    where: EventWhereUniqueInput
+    update: XOR<EventUpdateWithoutTripInput, EventUncheckedUpdateWithoutTripInput>
+    create: XOR<EventCreateWithoutTripInput, EventUncheckedCreateWithoutTripInput>
+  }
+
+  export type EventUpdateWithWhereUniqueWithoutTripInput = {
+    where: EventWhereUniqueInput
+    data: XOR<EventUpdateWithoutTripInput, EventUncheckedUpdateWithoutTripInput>
+  }
+
+  export type EventUpdateManyWithWhereWithoutTripInput = {
+    where: EventScalarWhereInput
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyWithoutTripInput>
+  }
+
+  export type ItemUpsertWithWhereUniqueWithoutTripInput = {
+    where: ItemWhereUniqueInput
+    update: XOR<ItemUpdateWithoutTripInput, ItemUncheckedUpdateWithoutTripInput>
+    create: XOR<ItemCreateWithoutTripInput, ItemUncheckedCreateWithoutTripInput>
+  }
+
+  export type ItemUpdateWithWhereUniqueWithoutTripInput = {
+    where: ItemWhereUniqueInput
+    data: XOR<ItemUpdateWithoutTripInput, ItemUncheckedUpdateWithoutTripInput>
+  }
+
+  export type ItemUpdateManyWithWhereWithoutTripInput = {
+    where: ItemScalarWhereInput
+    data: XOR<ItemUpdateManyMutationInput, ItemUncheckedUpdateManyWithoutTripInput>
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutTripInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutTripInput, NotificationUncheckedUpdateWithoutTripInput>
+    create: XOR<NotificationCreateWithoutTripInput, NotificationUncheckedCreateWithoutTripInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutTripInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutTripInput, NotificationUncheckedUpdateWithoutTripInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutTripInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutTripInput>
+  }
+
+  export type NotificationPreferenceUpsertWithWhereUniqueWithoutTripInput = {
+    where: NotificationPreferenceWhereUniqueInput
+    update: XOR<NotificationPreferenceUpdateWithoutTripInput, NotificationPreferenceUncheckedUpdateWithoutTripInput>
+    create: XOR<NotificationPreferenceCreateWithoutTripInput, NotificationPreferenceUncheckedCreateWithoutTripInput>
+  }
+
+  export type NotificationPreferenceUpdateWithWhereUniqueWithoutTripInput = {
+    where: NotificationPreferenceWhereUniqueInput
+    data: XOR<NotificationPreferenceUpdateWithoutTripInput, NotificationPreferenceUncheckedUpdateWithoutTripInput>
+  }
+
+  export type NotificationPreferenceUpdateManyWithWhereWithoutTripInput = {
+    where: NotificationPreferenceScalarWhereInput
+    data: XOR<NotificationPreferenceUpdateManyMutationInput, NotificationPreferenceUncheckedUpdateManyWithoutTripInput>
+  }
+
+  export type AnnouncementUpsertWithWhereUniqueWithoutTripInput = {
+    where: AnnouncementWhereUniqueInput
+    update: XOR<AnnouncementUpdateWithoutTripInput, AnnouncementUncheckedUpdateWithoutTripInput>
+    create: XOR<AnnouncementCreateWithoutTripInput, AnnouncementUncheckedCreateWithoutTripInput>
+  }
+
+  export type AnnouncementUpdateWithWhereUniqueWithoutTripInput = {
+    where: AnnouncementWhereUniqueInput
+    data: XOR<AnnouncementUpdateWithoutTripInput, AnnouncementUncheckedUpdateWithoutTripInput>
+  }
+
+  export type AnnouncementUpdateManyWithWhereWithoutTripInput = {
+    where: AnnouncementScalarWhereInput
+    data: XOR<AnnouncementUpdateManyMutationInput, AnnouncementUncheckedUpdateManyWithoutTripInput>
+  }
+
+  export type TripExtensionUpsertWithWhereUniqueWithoutTripInput = {
+    where: TripExtensionWhereUniqueInput
+    update: XOR<TripExtensionUpdateWithoutTripInput, TripExtensionUncheckedUpdateWithoutTripInput>
+    create: XOR<TripExtensionCreateWithoutTripInput, TripExtensionUncheckedCreateWithoutTripInput>
+  }
+
+  export type TripExtensionUpdateWithWhereUniqueWithoutTripInput = {
+    where: TripExtensionWhereUniqueInput
+    data: XOR<TripExtensionUpdateWithoutTripInput, TripExtensionUncheckedUpdateWithoutTripInput>
+  }
+
+  export type TripExtensionUpdateManyWithWhereWithoutTripInput = {
+    where: TripExtensionScalarWhereInput
+    data: XOR<TripExtensionUpdateManyMutationInput, TripExtensionUncheckedUpdateManyWithoutTripInput>
+  }
+
+  export type TripExtensionScalarWhereInput = {
+    AND?: TripExtensionScalarWhereInput | TripExtensionScalarWhereInput[]
+    OR?: TripExtensionScalarWhereInput[]
+    NOT?: TripExtensionScalarWhereInput | TripExtensionScalarWhereInput[]
+    id?: StringFilter<"TripExtension"> | string
+    tripId?: StringFilter<"TripExtension"> | string
+    extensionType?: StringFilter<"TripExtension"> | string
+    data?: JsonFilter<"TripExtension">
+    createdAt?: DateTimeFilter<"TripExtension"> | Date | string
+    updatedAt?: DateTimeFilter<"TripExtension"> | Date | string
+  }
+
   export type TripCreateWithoutMembersInput = {
     id?: string
     createdAt?: Date | string
@@ -9339,6 +22725,12 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     startDate?: Date | string | null
     endDate?: Date | string | null
+    events?: EventCreateNestedManyWithoutTripInput
+    items?: ItemCreateNestedManyWithoutTripInput
+    notifications?: NotificationCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionCreateNestedManyWithoutTripInput
   }
 
   export type TripUncheckedCreateWithoutMembersInput = {
@@ -9353,6 +22745,12 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     startDate?: Date | string | null
     endDate?: Date | string | null
+    events?: EventUncheckedCreateNestedManyWithoutTripInput
+    items?: ItemUncheckedCreateNestedManyWithoutTripInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionUncheckedCreateNestedManyWithoutTripInput
   }
 
   export type TripCreateOrConnectWithoutMembersInput = {
@@ -9373,6 +22771,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutTripMembersInput = {
@@ -9388,6 +22793,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventUncheckedCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventUncheckedCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemUncheckedCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutTripMembersInput = {
@@ -9418,6 +22830,12 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    events?: EventUpdateManyWithoutTripNestedInput
+    items?: ItemUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUpdateManyWithoutTripNestedInput
   }
 
   export type TripUncheckedUpdateWithoutMembersInput = {
@@ -9432,6 +22850,12 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    events?: EventUncheckedUpdateManyWithoutTripNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUncheckedUpdateManyWithoutTripNestedInput
   }
 
   export type UserUpsertWithoutTripMembersInput = {
@@ -9458,6 +22882,13 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTripMembersInput = {
@@ -9473,14 +22904,1454 @@ export namespace Prisma {
     preferences?: JsonNullValueInput | InputJsonValue
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUncheckedUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserCreateWithoutNotificationsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberUncheckedCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventUncheckedCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventUncheckedCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemUncheckedCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimUncheckedCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutNotificationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type TripCreateWithoutNotificationsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberCreateNestedManyWithoutTripInput
+    events?: EventCreateNestedManyWithoutTripInput
+    items?: ItemCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionCreateNestedManyWithoutTripInput
+  }
+
+  export type TripUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberUncheckedCreateNestedManyWithoutTripInput
+    events?: EventUncheckedCreateNestedManyWithoutTripInput
+    items?: ItemUncheckedCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionUncheckedCreateNestedManyWithoutTripInput
+  }
+
+  export type TripCreateOrConnectWithoutNotificationsInput = {
+    where: TripWhereUniqueInput
+    create: XOR<TripCreateWithoutNotificationsInput, TripUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type UserUpsertWithoutNotificationsInput = {
+    update: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type UserUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUncheckedUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUncheckedUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUncheckedUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type TripUpsertWithoutNotificationsInput = {
+    update: XOR<TripUpdateWithoutNotificationsInput, TripUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<TripCreateWithoutNotificationsInput, TripUncheckedCreateWithoutNotificationsInput>
+    where?: TripWhereInput
+  }
+
+  export type TripUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: TripWhereInput
+    data: XOR<TripUpdateWithoutNotificationsInput, TripUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type TripUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUpdateManyWithoutTripNestedInput
+    events?: EventUpdateManyWithoutTripNestedInput
+    items?: ItemUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUncheckedUpdateManyWithoutTripNestedInput
+    events?: EventUncheckedUpdateManyWithoutTripNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUncheckedUpdateManyWithoutTripNestedInput
+  }
+
+  export type UserCreateWithoutNotificationPrefsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutNotificationPrefsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberUncheckedCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventUncheckedCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventUncheckedCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemUncheckedCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutNotificationPrefsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNotificationPrefsInput, UserUncheckedCreateWithoutNotificationPrefsInput>
+  }
+
+  export type TripCreateWithoutNotificationPrefsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberCreateNestedManyWithoutTripInput
+    events?: EventCreateNestedManyWithoutTripInput
+    items?: ItemCreateNestedManyWithoutTripInput
+    notifications?: NotificationCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionCreateNestedManyWithoutTripInput
+  }
+
+  export type TripUncheckedCreateWithoutNotificationPrefsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberUncheckedCreateNestedManyWithoutTripInput
+    events?: EventUncheckedCreateNestedManyWithoutTripInput
+    items?: ItemUncheckedCreateNestedManyWithoutTripInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionUncheckedCreateNestedManyWithoutTripInput
+  }
+
+  export type TripCreateOrConnectWithoutNotificationPrefsInput = {
+    where: TripWhereUniqueInput
+    create: XOR<TripCreateWithoutNotificationPrefsInput, TripUncheckedCreateWithoutNotificationPrefsInput>
+  }
+
+  export type UserUpsertWithoutNotificationPrefsInput = {
+    update: XOR<UserUpdateWithoutNotificationPrefsInput, UserUncheckedUpdateWithoutNotificationPrefsInput>
+    create: XOR<UserCreateWithoutNotificationPrefsInput, UserUncheckedCreateWithoutNotificationPrefsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNotificationPrefsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNotificationPrefsInput, UserUncheckedUpdateWithoutNotificationPrefsInput>
+  }
+
+  export type UserUpdateWithoutNotificationPrefsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNotificationPrefsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUncheckedUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUncheckedUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type TripUpsertWithoutNotificationPrefsInput = {
+    update: XOR<TripUpdateWithoutNotificationPrefsInput, TripUncheckedUpdateWithoutNotificationPrefsInput>
+    create: XOR<TripCreateWithoutNotificationPrefsInput, TripUncheckedCreateWithoutNotificationPrefsInput>
+    where?: TripWhereInput
+  }
+
+  export type TripUpdateToOneWithWhereWithoutNotificationPrefsInput = {
+    where?: TripWhereInput
+    data: XOR<TripUpdateWithoutNotificationPrefsInput, TripUncheckedUpdateWithoutNotificationPrefsInput>
+  }
+
+  export type TripUpdateWithoutNotificationPrefsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUpdateManyWithoutTripNestedInput
+    events?: EventUpdateManyWithoutTripNestedInput
+    items?: ItemUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateWithoutNotificationPrefsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUncheckedUpdateManyWithoutTripNestedInput
+    events?: EventUncheckedUpdateManyWithoutTripNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUncheckedUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripCreateWithoutEventsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberCreateNestedManyWithoutTripInput
+    items?: ItemCreateNestedManyWithoutTripInput
+    notifications?: NotificationCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionCreateNestedManyWithoutTripInput
+  }
+
+  export type TripUncheckedCreateWithoutEventsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberUncheckedCreateNestedManyWithoutTripInput
+    items?: ItemUncheckedCreateNestedManyWithoutTripInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionUncheckedCreateNestedManyWithoutTripInput
+  }
+
+  export type TripCreateOrConnectWithoutEventsInput = {
+    where: TripWhereUniqueInput
+    create: XOR<TripCreateWithoutEventsInput, TripUncheckedCreateWithoutEventsInput>
+  }
+
+  export type UserCreateWithoutSuggestedEventsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberCreateNestedManyWithoutUserInput
+    approvedEvents?: EventCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutSuggestedEventsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberUncheckedCreateNestedManyWithoutUserInput
+    approvedEvents?: EventUncheckedCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemUncheckedCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutSuggestedEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSuggestedEventsInput, UserUncheckedCreateWithoutSuggestedEventsInput>
+  }
+
+  export type UserCreateWithoutApprovedEventsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventCreateNestedManyWithoutSuggestedByInput
+    createdItems?: ItemCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutApprovedEventsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberUncheckedCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventUncheckedCreateNestedManyWithoutSuggestedByInput
+    createdItems?: ItemUncheckedCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutApprovedEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutApprovedEventsInput, UserUncheckedCreateWithoutApprovedEventsInput>
+  }
+
+  export type TripUpsertWithoutEventsInput = {
+    update: XOR<TripUpdateWithoutEventsInput, TripUncheckedUpdateWithoutEventsInput>
+    create: XOR<TripCreateWithoutEventsInput, TripUncheckedCreateWithoutEventsInput>
+    where?: TripWhereInput
+  }
+
+  export type TripUpdateToOneWithWhereWithoutEventsInput = {
+    where?: TripWhereInput
+    data: XOR<TripUpdateWithoutEventsInput, TripUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type TripUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUpdateManyWithoutTripNestedInput
+    items?: ItemUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUncheckedUpdateManyWithoutTripNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUncheckedUpdateManyWithoutTripNestedInput
+  }
+
+  export type UserUpsertWithoutSuggestedEventsInput = {
+    update: XOR<UserUpdateWithoutSuggestedEventsInput, UserUncheckedUpdateWithoutSuggestedEventsInput>
+    create: XOR<UserCreateWithoutSuggestedEventsInput, UserUncheckedCreateWithoutSuggestedEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSuggestedEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSuggestedEventsInput, UserUncheckedUpdateWithoutSuggestedEventsInput>
+  }
+
+  export type UserUpdateWithoutSuggestedEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUpdateManyWithoutUserNestedInput
+    approvedEvents?: EventUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSuggestedEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUncheckedUpdateManyWithoutUserNestedInput
+    approvedEvents?: EventUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUpsertWithoutApprovedEventsInput = {
+    update: XOR<UserUpdateWithoutApprovedEventsInput, UserUncheckedUpdateWithoutApprovedEventsInput>
+    create: XOR<UserCreateWithoutApprovedEventsInput, UserUncheckedCreateWithoutApprovedEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutApprovedEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutApprovedEventsInput, UserUncheckedUpdateWithoutApprovedEventsInput>
+  }
+
+  export type UserUpdateWithoutApprovedEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUpdateManyWithoutSuggestedByNestedInput
+    createdItems?: ItemUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutApprovedEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUncheckedUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUncheckedUpdateManyWithoutSuggestedByNestedInput
+    createdItems?: ItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type ItemClaimCreateWithoutItemInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quantity?: number
+    status?: $Enums.ClaimStatus
+    notes?: string | null
+    user: UserCreateNestedOneWithoutItemClaimsInput
+  }
+
+  export type ItemClaimUncheckedCreateWithoutItemInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    quantity?: number
+    status?: $Enums.ClaimStatus
+    notes?: string | null
+  }
+
+  export type ItemClaimCreateOrConnectWithoutItemInput = {
+    where: ItemClaimWhereUniqueInput
+    create: XOR<ItemClaimCreateWithoutItemInput, ItemClaimUncheckedCreateWithoutItemInput>
+  }
+
+  export type ItemClaimCreateManyItemInputEnvelope = {
+    data: ItemClaimCreateManyItemInput | ItemClaimCreateManyItemInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TripCreateWithoutItemsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberCreateNestedManyWithoutTripInput
+    events?: EventCreateNestedManyWithoutTripInput
+    notifications?: NotificationCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionCreateNestedManyWithoutTripInput
+  }
+
+  export type TripUncheckedCreateWithoutItemsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberUncheckedCreateNestedManyWithoutTripInput
+    events?: EventUncheckedCreateNestedManyWithoutTripInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionUncheckedCreateNestedManyWithoutTripInput
+  }
+
+  export type TripCreateOrConnectWithoutItemsInput = {
+    where: TripWhereUniqueInput
+    create: XOR<TripCreateWithoutItemsInput, TripUncheckedCreateWithoutItemsInput>
+  }
+
+  export type UserCreateWithoutCreatedItemsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventCreateNestedManyWithoutApprovedByInput
+    itemClaims?: ItemClaimCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatedItemsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberUncheckedCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventUncheckedCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventUncheckedCreateNestedManyWithoutApprovedByInput
+    itemClaims?: ItemClaimUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatedItemsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatedItemsInput, UserUncheckedCreateWithoutCreatedItemsInput>
+  }
+
+  export type ItemClaimUpsertWithWhereUniqueWithoutItemInput = {
+    where: ItemClaimWhereUniqueInput
+    update: XOR<ItemClaimUpdateWithoutItemInput, ItemClaimUncheckedUpdateWithoutItemInput>
+    create: XOR<ItemClaimCreateWithoutItemInput, ItemClaimUncheckedCreateWithoutItemInput>
+  }
+
+  export type ItemClaimUpdateWithWhereUniqueWithoutItemInput = {
+    where: ItemClaimWhereUniqueInput
+    data: XOR<ItemClaimUpdateWithoutItemInput, ItemClaimUncheckedUpdateWithoutItemInput>
+  }
+
+  export type ItemClaimUpdateManyWithWhereWithoutItemInput = {
+    where: ItemClaimScalarWhereInput
+    data: XOR<ItemClaimUpdateManyMutationInput, ItemClaimUncheckedUpdateManyWithoutItemInput>
+  }
+
+  export type TripUpsertWithoutItemsInput = {
+    update: XOR<TripUpdateWithoutItemsInput, TripUncheckedUpdateWithoutItemsInput>
+    create: XOR<TripCreateWithoutItemsInput, TripUncheckedCreateWithoutItemsInput>
+    where?: TripWhereInput
+  }
+
+  export type TripUpdateToOneWithWhereWithoutItemsInput = {
+    where?: TripWhereInput
+    data: XOR<TripUpdateWithoutItemsInput, TripUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type TripUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUpdateManyWithoutTripNestedInput
+    events?: EventUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUncheckedUpdateManyWithoutTripNestedInput
+    events?: EventUncheckedUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUncheckedUpdateManyWithoutTripNestedInput
+  }
+
+  export type UserUpsertWithoutCreatedItemsInput = {
+    update: XOR<UserUpdateWithoutCreatedItemsInput, UserUncheckedUpdateWithoutCreatedItemsInput>
+    create: XOR<UserCreateWithoutCreatedItemsInput, UserUncheckedCreateWithoutCreatedItemsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCreatedItemsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCreatedItemsInput, UserUncheckedUpdateWithoutCreatedItemsInput>
+  }
+
+  export type UserUpdateWithoutCreatedItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUpdateManyWithoutApprovedByNestedInput
+    itemClaims?: ItemClaimUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreatedItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUncheckedUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUncheckedUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUncheckedUpdateManyWithoutApprovedByNestedInput
+    itemClaims?: ItemClaimUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type ItemCreateWithoutClaimsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+    trip: TripCreateNestedOneWithoutItemsInput
+    createdBy: UserCreateNestedOneWithoutCreatedItemsInput
+  }
+
+  export type ItemUncheckedCreateWithoutClaimsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    createdById: string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemCreateOrConnectWithoutClaimsInput = {
+    where: ItemWhereUniqueInput
+    create: XOR<ItemCreateWithoutClaimsInput, ItemUncheckedCreateWithoutClaimsInput>
+  }
+
+  export type UserCreateWithoutItemClaimsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemCreateNestedManyWithoutCreatedByInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutItemClaimsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberUncheckedCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventUncheckedCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventUncheckedCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemUncheckedCreateNestedManyWithoutCreatedByInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutItemClaimsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutItemClaimsInput, UserUncheckedCreateWithoutItemClaimsInput>
+  }
+
+  export type ItemUpsertWithoutClaimsInput = {
+    update: XOR<ItemUpdateWithoutClaimsInput, ItemUncheckedUpdateWithoutClaimsInput>
+    create: XOR<ItemCreateWithoutClaimsInput, ItemUncheckedCreateWithoutClaimsInput>
+    where?: ItemWhereInput
+  }
+
+  export type ItemUpdateToOneWithWhereWithoutClaimsInput = {
+    where?: ItemWhereInput
+    data: XOR<ItemUpdateWithoutClaimsInput, ItemUncheckedUpdateWithoutClaimsInput>
+  }
+
+  export type ItemUpdateWithoutClaimsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+    trip?: TripUpdateOneRequiredWithoutItemsNestedInput
+    createdBy?: UserUpdateOneRequiredWithoutCreatedItemsNestedInput
+  }
+
+  export type ItemUncheckedUpdateWithoutClaimsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type UserUpsertWithoutItemClaimsInput = {
+    update: XOR<UserUpdateWithoutItemClaimsInput, UserUncheckedUpdateWithoutItemClaimsInput>
+    create: XOR<UserCreateWithoutItemClaimsInput, UserUncheckedCreateWithoutItemClaimsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutItemClaimsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutItemClaimsInput, UserUncheckedUpdateWithoutItemClaimsInput>
+  }
+
+  export type UserUpdateWithoutItemClaimsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUpdateManyWithoutCreatedByNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutItemClaimsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUncheckedUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUncheckedUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type TripCreateWithoutAnnouncementsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberCreateNestedManyWithoutTripInput
+    events?: EventCreateNestedManyWithoutTripInput
+    items?: ItemCreateNestedManyWithoutTripInput
+    notifications?: NotificationCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionCreateNestedManyWithoutTripInput
+  }
+
+  export type TripUncheckedCreateWithoutAnnouncementsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberUncheckedCreateNestedManyWithoutTripInput
+    events?: EventUncheckedCreateNestedManyWithoutTripInput
+    items?: ItemUncheckedCreateNestedManyWithoutTripInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutTripInput
+    extensions?: TripExtensionUncheckedCreateNestedManyWithoutTripInput
+  }
+
+  export type TripCreateOrConnectWithoutAnnouncementsInput = {
+    where: TripWhereUniqueInput
+    create: XOR<TripCreateWithoutAnnouncementsInput, TripUncheckedCreateWithoutAnnouncementsInput>
+  }
+
+  export type UserCreateWithoutAnnouncementsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAnnouncementsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+    username?: string | null
+    passwordHash: string
+    displayName?: string | null
+    timezone?: string | null
+    emailVerified?: boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    tripMembers?: TripMemberUncheckedCreateNestedManyWithoutUserInput
+    suggestedEvents?: EventUncheckedCreateNestedManyWithoutSuggestedByInput
+    approvedEvents?: EventUncheckedCreateNestedManyWithoutApprovedByInput
+    createdItems?: ItemUncheckedCreateNestedManyWithoutCreatedByInput
+    itemClaims?: ItemClaimUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAnnouncementsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAnnouncementsInput, UserUncheckedCreateWithoutAnnouncementsInput>
+  }
+
+  export type TripUpsertWithoutAnnouncementsInput = {
+    update: XOR<TripUpdateWithoutAnnouncementsInput, TripUncheckedUpdateWithoutAnnouncementsInput>
+    create: XOR<TripCreateWithoutAnnouncementsInput, TripUncheckedCreateWithoutAnnouncementsInput>
+    where?: TripWhereInput
+  }
+
+  export type TripUpdateToOneWithWhereWithoutAnnouncementsInput = {
+    where?: TripWhereInput
+    data: XOR<TripUpdateWithoutAnnouncementsInput, TripUncheckedUpdateWithoutAnnouncementsInput>
+  }
+
+  export type TripUpdateWithoutAnnouncementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUpdateManyWithoutTripNestedInput
+    events?: EventUpdateManyWithoutTripNestedInput
+    items?: ItemUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateWithoutAnnouncementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUncheckedUpdateManyWithoutTripNestedInput
+    events?: EventUncheckedUpdateManyWithoutTripNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutTripNestedInput
+    extensions?: TripExtensionUncheckedUpdateManyWithoutTripNestedInput
+  }
+
+  export type UserUpsertWithoutAnnouncementsInput = {
+    update: XOR<UserUpdateWithoutAnnouncementsInput, UserUncheckedUpdateWithoutAnnouncementsInput>
+    create: XOR<UserCreateWithoutAnnouncementsInput, UserUncheckedCreateWithoutAnnouncementsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAnnouncementsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAnnouncementsInput, UserUncheckedUpdateWithoutAnnouncementsInput>
+  }
+
+  export type UserUpdateWithoutAnnouncementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAnnouncementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    preferences?: JsonNullValueInput | InputJsonValue
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    tripMembers?: TripMemberUncheckedUpdateManyWithoutUserNestedInput
+    suggestedEvents?: EventUncheckedUpdateManyWithoutSuggestedByNestedInput
+    approvedEvents?: EventUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdItems?: ItemUncheckedUpdateManyWithoutCreatedByNestedInput
+    itemClaims?: ItemClaimUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type TripCreateWithoutExtensionsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberCreateNestedManyWithoutTripInput
+    events?: EventCreateNestedManyWithoutTripInput
+    items?: ItemCreateNestedManyWithoutTripInput
+    notifications?: NotificationCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementCreateNestedManyWithoutTripInput
+  }
+
+  export type TripUncheckedCreateWithoutExtensionsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    status?: $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    members?: TripMemberUncheckedCreateNestedManyWithoutTripInput
+    events?: EventUncheckedCreateNestedManyWithoutTripInput
+    items?: ItemUncheckedCreateNestedManyWithoutTripInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutTripInput
+    notificationPrefs?: NotificationPreferenceUncheckedCreateNestedManyWithoutTripInput
+    announcements?: AnnouncementUncheckedCreateNestedManyWithoutTripInput
+  }
+
+  export type TripCreateOrConnectWithoutExtensionsInput = {
+    where: TripWhereUniqueInput
+    create: XOR<TripCreateWithoutExtensionsInput, TripUncheckedCreateWithoutExtensionsInput>
+  }
+
+  export type TripUpsertWithoutExtensionsInput = {
+    update: XOR<TripUpdateWithoutExtensionsInput, TripUncheckedUpdateWithoutExtensionsInput>
+    create: XOR<TripCreateWithoutExtensionsInput, TripUncheckedCreateWithoutExtensionsInput>
+    where?: TripWhereInput
+  }
+
+  export type TripUpdateToOneWithWhereWithoutExtensionsInput = {
+    where?: TripWhereInput
+    data: XOR<TripUpdateWithoutExtensionsInput, TripUncheckedUpdateWithoutExtensionsInput>
+  }
+
+  export type TripUpdateWithoutExtensionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUpdateManyWithoutTripNestedInput
+    events?: EventUpdateManyWithoutTripNestedInput
+    items?: ItemUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateWithoutExtensionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    location?: NullableJsonNullValueInput | InputJsonValue
+    inviteCode?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: TripMemberUncheckedUpdateManyWithoutTripNestedInput
+    events?: EventUncheckedUpdateManyWithoutTripNestedInput
+    items?: ItemUncheckedUpdateManyWithoutTripNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutTripNestedInput
+    notificationPrefs?: NotificationPreferenceUncheckedUpdateManyWithoutTripNestedInput
+    announcements?: AnnouncementUncheckedUpdateManyWithoutTripNestedInput
   }
 
   export type RefreshTokenCreateManyUserInput = {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    tokenId: string
     tokenHash: string
     expiresAt: Date | string
+    family?: string | null
+    revoked?: boolean
+    revokedAt?: Date | string | null
+    revokeReason?: string | null
+    userAgent?: string | null
+    ipAddress?: string | null
   }
 
   export type PasswordResetCreateManyUserInput = {
@@ -9502,28 +24373,146 @@ export namespace Prisma {
     canInvite?: boolean
   }
 
+  export type EventCreateManySuggestedByInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    approvedById?: string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventCreateManyApprovedByInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    suggestedById: string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemCreateManyCreatedByInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId: string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemClaimCreateManyUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    itemId: string
+    quantity?: number
+    status?: $Enums.ClaimStatus
+    notes?: string | null
+  }
+
+  export type NotificationCreateManyUserInput = {
+    id?: string
+    createdAt?: Date | string
+    tripId?: string | null
+    type: string
+    title: string
+    body?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: boolean
+    readAt?: Date | string | null
+  }
+
+  export type NotificationPreferenceCreateManyUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tripId?: string | null
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: $Enums.DigestFrequency
+  }
+
+  export type AnnouncementCreateManyAuthorInput = {
+    id?: string
+    tripId: string
+    title: string
+    body: string
+    pinned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type RefreshTokenUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenId?: StringFieldUpdateOperationsInput | string
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    family?: NullableStringFieldUpdateOperationsInput | string | null
+    revoked?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RefreshTokenUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenId?: StringFieldUpdateOperationsInput | string
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    family?: NullableStringFieldUpdateOperationsInput | string | null
+    revoked?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RefreshTokenUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tokenId?: StringFieldUpdateOperationsInput | string
     tokenHash?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    family?: NullableStringFieldUpdateOperationsInput | string | null
+    revoked?: BoolFieldUpdateOperationsInput | boolean
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PasswordResetUpdateWithoutUserInput = {
@@ -9583,6 +24572,299 @@ export namespace Prisma {
     canInvite?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type EventUpdateWithoutSuggestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    trip?: TripUpdateOneRequiredWithoutEventsNestedInput
+    approvedBy?: UserUpdateOneWithoutApprovedEventsNestedInput
+  }
+
+  export type EventUncheckedUpdateWithoutSuggestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    approvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventUncheckedUpdateManyWithoutSuggestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    approvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventUpdateWithoutApprovedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    trip?: TripUpdateOneRequiredWithoutEventsNestedInput
+    suggestedBy?: UserUpdateOneRequiredWithoutSuggestedEventsNestedInput
+  }
+
+  export type EventUncheckedUpdateWithoutApprovedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    suggestedById?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventUncheckedUpdateManyWithoutApprovedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    suggestedById?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemUpdateWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimUpdateManyWithoutItemNestedInput
+    trip?: TripUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type ItemUncheckedUpdateWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimUncheckedUpdateManyWithoutItemNestedInput
+  }
+
+  export type ItemUncheckedUpdateManyWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemClaimUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    status?: EnumClaimStatusFieldUpdateOperationsInput | $Enums.ClaimStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    item?: ItemUpdateOneRequiredWithoutClaimsNestedInput
+  }
+
+  export type ItemClaimUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    status?: EnumClaimStatusFieldUpdateOperationsInput | $Enums.ClaimStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ItemClaimUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    status?: EnumClaimStatusFieldUpdateOperationsInput | $Enums.ClaimStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type NotificationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trip?: TripUpdateOneWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificationPreferenceUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailEnabled?: BoolFieldUpdateOperationsInput | boolean
+    pushEnabled?: BoolFieldUpdateOperationsInput | boolean
+    scheduleChanges?: BoolFieldUpdateOperationsInput | boolean
+    itemUpdates?: BoolFieldUpdateOperationsInput | boolean
+    announcements?: BoolFieldUpdateOperationsInput | boolean
+    digestFrequency?: EnumDigestFrequencyFieldUpdateOperationsInput | $Enums.DigestFrequency
+    trip?: TripUpdateOneWithoutNotificationPrefsNestedInput
+  }
+
+  export type NotificationPreferenceUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailEnabled?: BoolFieldUpdateOperationsInput | boolean
+    pushEnabled?: BoolFieldUpdateOperationsInput | boolean
+    scheduleChanges?: BoolFieldUpdateOperationsInput | boolean
+    itemUpdates?: BoolFieldUpdateOperationsInput | boolean
+    announcements?: BoolFieldUpdateOperationsInput | boolean
+    digestFrequency?: EnumDigestFrequencyFieldUpdateOperationsInput | $Enums.DigestFrequency
+  }
+
+  export type NotificationPreferenceUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: NullableStringFieldUpdateOperationsInput | string | null
+    emailEnabled?: BoolFieldUpdateOperationsInput | boolean
+    pushEnabled?: BoolFieldUpdateOperationsInput | boolean
+    scheduleChanges?: BoolFieldUpdateOperationsInput | boolean
+    itemUpdates?: BoolFieldUpdateOperationsInput | boolean
+    announcements?: BoolFieldUpdateOperationsInput | boolean
+    digestFrequency?: EnumDigestFrequencyFieldUpdateOperationsInput | $Enums.DigestFrequency
+  }
+
+  export type AnnouncementUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    pinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trip?: TripUpdateOneRequiredWithoutAnnouncementsNestedInput
+  }
+
+  export type AnnouncementUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    pinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnnouncementUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    pinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TripMemberCreateManyTripInput = {
     userId: string
     createdAt?: Date | string
@@ -9591,6 +24873,82 @@ export namespace Prisma {
     status?: $Enums.MemberStatus
     notifications?: boolean
     canInvite?: boolean
+  }
+
+  export type EventCreateManyTripInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title: string
+    description?: string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    isAllDay?: boolean
+    status?: $Enums.EventStatus
+    category?: string | null
+    estimatedCost?: Decimal | DecimalJsLike | number | string | null
+    currency?: string
+    suggestedById: string
+    approvedById?: string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemCreateManyTripInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    name: string
+    description?: string | null
+    category?: string | null
+    type: $Enums.ItemType
+    quantityNeeded?: number
+    isEssential?: boolean
+    createdById: string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type NotificationCreateManyTripInput = {
+    id?: string
+    createdAt?: Date | string
+    userId: string
+    type: string
+    title: string
+    body?: string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: boolean
+    readAt?: Date | string | null
+  }
+
+  export type NotificationPreferenceCreateManyTripInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    emailEnabled?: boolean
+    pushEnabled?: boolean
+    scheduleChanges?: boolean
+    itemUpdates?: boolean
+    announcements?: boolean
+    digestFrequency?: $Enums.DigestFrequency
+  }
+
+  export type AnnouncementCreateManyTripInput = {
+    id?: string
+    authorId: string
+    title: string
+    body: string
+    pinned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TripExtensionCreateManyTripInput = {
+    id?: string
+    extensionType: string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TripMemberUpdateWithoutTripInput = {
@@ -9621,6 +24979,276 @@ export namespace Prisma {
     status?: EnumMemberStatusFieldUpdateOperationsInput | $Enums.MemberStatus
     notifications?: BoolFieldUpdateOperationsInput | boolean
     canInvite?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type EventUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    suggestedBy?: UserUpdateOneRequiredWithoutSuggestedEventsNestedInput
+    approvedBy?: UserUpdateOneWithoutApprovedEventsNestedInput
+  }
+
+  export type EventUncheckedUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    suggestedById?: StringFieldUpdateOperationsInput | string
+    approvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EventUncheckedUpdateManyWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableJsonNullValueInput | InputJsonValue
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAllDay?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    suggestedById?: StringFieldUpdateOperationsInput | string
+    approvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ItemUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimUpdateManyWithoutItemNestedInput
+    createdBy?: UserUpdateOneRequiredWithoutCreatedItemsNestedInput
+  }
+
+  export type ItemUncheckedUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    claims?: ItemClaimUncheckedUpdateManyWithoutItemNestedInput
+  }
+
+  export type ItemUncheckedUpdateManyWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    quantityNeeded?: IntFieldUpdateOperationsInput | number
+    isEssential?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type NotificationUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: JsonNullValueInput | InputJsonValue
+    read?: BoolFieldUpdateOperationsInput | boolean
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NotificationPreferenceUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailEnabled?: BoolFieldUpdateOperationsInput | boolean
+    pushEnabled?: BoolFieldUpdateOperationsInput | boolean
+    scheduleChanges?: BoolFieldUpdateOperationsInput | boolean
+    itemUpdates?: BoolFieldUpdateOperationsInput | boolean
+    announcements?: BoolFieldUpdateOperationsInput | boolean
+    digestFrequency?: EnumDigestFrequencyFieldUpdateOperationsInput | $Enums.DigestFrequency
+    user?: UserUpdateOneRequiredWithoutNotificationPrefsNestedInput
+  }
+
+  export type NotificationPreferenceUncheckedUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    emailEnabled?: BoolFieldUpdateOperationsInput | boolean
+    pushEnabled?: BoolFieldUpdateOperationsInput | boolean
+    scheduleChanges?: BoolFieldUpdateOperationsInput | boolean
+    itemUpdates?: BoolFieldUpdateOperationsInput | boolean
+    announcements?: BoolFieldUpdateOperationsInput | boolean
+    digestFrequency?: EnumDigestFrequencyFieldUpdateOperationsInput | $Enums.DigestFrequency
+  }
+
+  export type NotificationPreferenceUncheckedUpdateManyWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    emailEnabled?: BoolFieldUpdateOperationsInput | boolean
+    pushEnabled?: BoolFieldUpdateOperationsInput | boolean
+    scheduleChanges?: BoolFieldUpdateOperationsInput | boolean
+    itemUpdates?: BoolFieldUpdateOperationsInput | boolean
+    announcements?: BoolFieldUpdateOperationsInput | boolean
+    digestFrequency?: EnumDigestFrequencyFieldUpdateOperationsInput | $Enums.DigestFrequency
+  }
+
+  export type AnnouncementUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    pinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutAnnouncementsNestedInput
+  }
+
+  export type AnnouncementUncheckedUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    pinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AnnouncementUncheckedUpdateManyWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    pinned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TripExtensionUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    extensionType?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TripExtensionUncheckedUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    extensionType?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TripExtensionUncheckedUpdateManyWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    extensionType?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemClaimCreateManyItemInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    quantity?: number
+    status?: $Enums.ClaimStatus
+    notes?: string | null
+  }
+
+  export type ItemClaimUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    status?: EnumClaimStatusFieldUpdateOperationsInput | $Enums.ClaimStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutItemClaimsNestedInput
+  }
+
+  export type ItemClaimUncheckedUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    status?: EnumClaimStatusFieldUpdateOperationsInput | $Enums.ClaimStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ItemClaimUncheckedUpdateManyWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    status?: EnumClaimStatusFieldUpdateOperationsInput | $Enums.ClaimStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

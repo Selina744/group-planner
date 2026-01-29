@@ -55,8 +55,15 @@ model RefreshToken {
   updatedAt DateTime @updatedAt
 
   // Token data
+  tokenId     String   @unique
   tokenHash String   @unique
   expiresAt DateTime
+  family    String?
+  revoked   Boolean  @default(false)
+  revokedAt DateTime?
+  revokeReason String?
+  userAgent String?
+  ipAddress String?
 
   // User relationship
   userId String

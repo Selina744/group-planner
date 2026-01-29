@@ -137,8 +137,15 @@ exports.Prisma.RefreshTokenScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  tokenId: 'tokenId',
   tokenHash: 'tokenHash',
   expiresAt: 'expiresAt',
+  family: 'family',
+  revoked: 'revoked',
+  revokedAt: 'revokedAt',
+  revokeReason: 'revokeReason',
+  userAgent: 'userAgent',
+  ipAddress: 'ipAddress',
   userId: 'userId'
 };
 
@@ -175,6 +182,99 @@ exports.Prisma.TripMemberScalarFieldEnum = {
   status: 'status',
   notifications: 'notifications',
   canInvite: 'canInvite'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  tripId: 'tripId',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  payload: 'payload',
+  read: 'read',
+  readAt: 'readAt'
+};
+
+exports.Prisma.NotificationPreferenceScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  tripId: 'tripId',
+  emailEnabled: 'emailEnabled',
+  pushEnabled: 'pushEnabled',
+  scheduleChanges: 'scheduleChanges',
+  itemUpdates: 'itemUpdates',
+  announcements: 'announcements',
+  digestFrequency: 'digestFrequency'
+};
+
+exports.Prisma.EventScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  tripId: 'tripId',
+  title: 'title',
+  description: 'description',
+  location: 'location',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  isAllDay: 'isAllDay',
+  status: 'status',
+  category: 'category',
+  estimatedCost: 'estimatedCost',
+  currency: 'currency',
+  suggestedById: 'suggestedById',
+  approvedById: 'approvedById',
+  metadata: 'metadata'
+};
+
+exports.Prisma.ItemScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  tripId: 'tripId',
+  name: 'name',
+  description: 'description',
+  category: 'category',
+  type: 'type',
+  quantityNeeded: 'quantityNeeded',
+  isEssential: 'isEssential',
+  createdById: 'createdById',
+  metadata: 'metadata'
+};
+
+exports.Prisma.ItemClaimScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  itemId: 'itemId',
+  userId: 'userId',
+  quantity: 'quantity',
+  status: 'status',
+  notes: 'notes'
+};
+
+exports.Prisma.AnnouncementScalarFieldEnum = {
+  id: 'id',
+  tripId: 'tripId',
+  authorId: 'authorId',
+  title: 'title',
+  body: 'body',
+  pinned: 'pinned',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TripExtensionScalarFieldEnum = {
+  id: 'id',
+  tripId: 'tripId',
+  extensionType: 'extensionType',
+  data: 'data',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -225,12 +325,42 @@ exports.MemberStatus = exports.$Enums.MemberStatus = {
   DECLINED: 'DECLINED'
 };
 
+exports.DigestFrequency = exports.$Enums.DigestFrequency = {
+  NONE: 'NONE',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY'
+};
+
+exports.EventStatus = exports.$Enums.EventStatus = {
+  PROPOSED: 'PROPOSED',
+  APPROVED: 'APPROVED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.ItemType = exports.$Enums.ItemType = {
+  RECOMMENDED: 'RECOMMENDED',
+  SHARED: 'SHARED'
+};
+
+exports.ClaimStatus = exports.$Enums.ClaimStatus = {
+  CLAIMED: 'CLAIMED',
+  BROUGHT: 'BROUGHT',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   RefreshToken: 'RefreshToken',
   PasswordReset: 'PasswordReset',
   Trip: 'Trip',
-  TripMember: 'TripMember'
+  TripMember: 'TripMember',
+  Notification: 'Notification',
+  NotificationPreference: 'NotificationPreference',
+  Event: 'Event',
+  Item: 'Item',
+  ItemClaim: 'ItemClaim',
+  Announcement: 'Announcement',
+  TripExtension: 'TripExtension'
 };
 
 /**

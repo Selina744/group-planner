@@ -33,9 +33,16 @@ model User {
   preferences Json @default("{}")
 
   // Relationships
-  refreshTokens  RefreshToken[]
-  passwordResets PasswordReset[]
-  tripMembers    TripMember[]
+  refreshTokens     RefreshToken[]
+  passwordResets    PasswordReset[]
+  tripMembers       TripMember[]
+  suggestedEvents   Event[]                  @relation("EventSuggestor")
+  approvedEvents    Event[]                  @relation("EventApprover")
+  createdItems      Item[]
+  itemClaims        ItemClaim[]
+  notifications     Notification[]
+  notificationPrefs NotificationPreference[]
+  announcements     Announcement[]
 
   @@map("users")
 }
@@ -48,8 +55,15 @@ model RefreshToken {
   updatedAt DateTime @updatedAt
 
   // Token data
-  tokenHash String   @unique
-  expiresAt DateTime
+  tokenId      String    @unique
+  tokenHash    String    @unique
+  expiresAt    DateTime
+  family       String?
+  revoked      Boolean   @default(false)
+  revokedAt    DateTime?
+  revokeReason String?
+  userAgent    String?
+  ipAddress    String?
 
   // User relationship
   userId String
@@ -97,6 +111,23 @@ enum MemberStatus {
   DECLINED
 }
 
+enum EventStatus {
+  PROPOSED
+  APPROVED
+  CANCELLED
+}
+
+enum ItemType {
+  RECOMMENDED
+  SHARED
+}
+
+enum ClaimStatus {
+  CLAIMED
+  BROUGHT
+  CANCELLED
+}
+
 // Trip model for group planning
 model Trip {
   // Primary key
@@ -123,7 +154,13 @@ model Trip {
   endDate   DateTime?
 
   // Relationships
-  members TripMember[]
+  members           TripMember[]
+  events            Event[]
+  items             Item[]
+  notifications     Notification[]
+  notificationPrefs NotificationPreference[]
+  announcements     Announcement[]
+  extensions        TripExtension[]
 
   @@map("trips")
 }
@@ -152,4 +189,145 @@ model TripMember {
 
   @@id([tripId, userId])
   @@map("trip_members")
+}
+
+enum DigestFrequency {
+  NONE
+  DAILY
+  WEEKLY
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  userId    String
+  tripId    String?
+  type      String
+  title     String
+  body      String?
+  payload   Json      @default("{}")
+  read      Boolean   @default(false)
+  readAt    DateTime?
+
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trip Trip? @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@map("notifications")
+}
+
+model NotificationPreference {
+  id              String          @id @default(cuid())
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  userId          String
+  tripId          String?
+  emailEnabled    Boolean         @default(true)
+  pushEnabled     Boolean         @default(true)
+  scheduleChanges Boolean         @default(true)
+  itemUpdates     Boolean         @default(true)
+  announcements   Boolean         @default(true)
+  digestFrequency DigestFrequency @default(DAILY)
+
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trip Trip? @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tripId])
+  @@map("notification_preferences")
+}
+
+model Event {
+  id            String      @id @default(cuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  tripId        String
+  title         String
+  description   String?
+  location      Json?
+  startTime     DateTime?
+  endTime       DateTime?
+  isAllDay      Boolean     @default(false)
+  status        EventStatus @default(PROPOSED)
+  category      String?
+  estimatedCost Decimal?
+  currency      String      @default("USD")
+  suggestedById String
+  approvedById  String?
+  metadata      Json        @default("{}")
+
+  trip        Trip  @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  suggestedBy User  @relation("EventSuggestor", fields: [suggestedById], references: [id])
+  approvedBy  User? @relation("EventApprover", fields: [approvedById], references: [id])
+
+  @@index([tripId, startTime])
+  @@map("events")
+}
+
+model Item {
+  id             String      @id @default(cuid())
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  tripId         String
+  name           String
+  description    String?
+  category       String?
+  type           ItemType
+  quantityNeeded Int         @default(1)
+  isEssential    Boolean     @default(false)
+  createdById    String
+  metadata       Json        @default("{}")
+  claims         ItemClaim[]
+
+  trip      Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  createdBy User @relation(fields: [createdById], references: [id])
+
+  @@index([tripId, type])
+  @@map("items")
+}
+
+model ItemClaim {
+  id        String      @id @default(cuid())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  itemId    String
+  userId    String
+  quantity  Int         @default(1)
+  status    ClaimStatus @default(CLAIMED)
+  notes     String?
+
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([itemId, userId])
+  @@map("item_claims")
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  tripId    String
+  authorId  String
+  title     String
+  body      String
+  pinned    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  trip   Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@map("announcements")
+}
+
+model TripExtension {
+  id            String   @id @default(cuid())
+  tripId        String
+  extensionType String
+  data          Json     @default("{}")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@unique([tripId, extensionType])
+  @@map("trip_extensions")
 }

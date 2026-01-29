@@ -110,8 +110,15 @@ exports.Prisma.RefreshTokenScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  tokenId: 'tokenId',
   tokenHash: 'tokenHash',
   expiresAt: 'expiresAt',
+  family: 'family',
+  revoked: 'revoked',
+  revokedAt: 'revokedAt',
+  revokeReason: 'revokeReason',
+  userAgent: 'userAgent',
+  ipAddress: 'ipAddress',
   userId: 'userId'
 };
 
@@ -148,6 +155,99 @@ exports.Prisma.TripMemberScalarFieldEnum = {
   status: 'status',
   notifications: 'notifications',
   canInvite: 'canInvite'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  tripId: 'tripId',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  payload: 'payload',
+  read: 'read',
+  readAt: 'readAt'
+};
+
+exports.Prisma.NotificationPreferenceScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  tripId: 'tripId',
+  emailEnabled: 'emailEnabled',
+  pushEnabled: 'pushEnabled',
+  scheduleChanges: 'scheduleChanges',
+  itemUpdates: 'itemUpdates',
+  announcements: 'announcements',
+  digestFrequency: 'digestFrequency'
+};
+
+exports.Prisma.EventScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  tripId: 'tripId',
+  title: 'title',
+  description: 'description',
+  location: 'location',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  isAllDay: 'isAllDay',
+  status: 'status',
+  category: 'category',
+  estimatedCost: 'estimatedCost',
+  currency: 'currency',
+  suggestedById: 'suggestedById',
+  approvedById: 'approvedById',
+  metadata: 'metadata'
+};
+
+exports.Prisma.ItemScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  tripId: 'tripId',
+  name: 'name',
+  description: 'description',
+  category: 'category',
+  type: 'type',
+  quantityNeeded: 'quantityNeeded',
+  isEssential: 'isEssential',
+  createdById: 'createdById',
+  metadata: 'metadata'
+};
+
+exports.Prisma.ItemClaimScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  itemId: 'itemId',
+  userId: 'userId',
+  quantity: 'quantity',
+  status: 'status',
+  notes: 'notes'
+};
+
+exports.Prisma.AnnouncementScalarFieldEnum = {
+  id: 'id',
+  tripId: 'tripId',
+  authorId: 'authorId',
+  title: 'title',
+  body: 'body',
+  pinned: 'pinned',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TripExtensionScalarFieldEnum = {
+  id: 'id',
+  tripId: 'tripId',
+  extensionType: 'extensionType',
+  data: 'data',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -198,12 +298,42 @@ exports.MemberStatus = exports.$Enums.MemberStatus = {
   DECLINED: 'DECLINED'
 };
 
+exports.EventStatus = exports.$Enums.EventStatus = {
+  PROPOSED: 'PROPOSED',
+  APPROVED: 'APPROVED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.ItemType = exports.$Enums.ItemType = {
+  RECOMMENDED: 'RECOMMENDED',
+  SHARED: 'SHARED'
+};
+
+exports.ClaimStatus = exports.$Enums.ClaimStatus = {
+  CLAIMED: 'CLAIMED',
+  BROUGHT: 'BROUGHT',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.DigestFrequency = exports.$Enums.DigestFrequency = {
+  NONE: 'NONE',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   RefreshToken: 'RefreshToken',
   PasswordReset: 'PasswordReset',
   Trip: 'Trip',
-  TripMember: 'TripMember'
+  TripMember: 'TripMember',
+  Notification: 'Notification',
+  NotificationPreference: 'NotificationPreference',
+  Event: 'Event',
+  Item: 'Item',
+  ItemClaim: 'ItemClaim',
+  Announcement: 'Announcement',
+  TripExtension: 'TripExtension'
 };
 /**
  * Create the Client
@@ -213,10 +343,10 @@ const config = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "// Group Planner - Prisma Schema\n// This file defines the database schema using Prisma ORM\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\n// User model with authentication and profile information\nmodel User {\n  // Primary key\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Authentication fields\n  email        String  @unique\n  username     String? @unique\n  passwordHash String\n\n  // Profile information\n  displayName String?\n  timezone    String? @default(\"UTC\")\n\n  // Account verification\n  emailVerified Boolean @default(false)\n\n  // User preferences stored as JSON\n  preferences Json @default(\"{}\")\n\n  // Relationships\n  refreshTokens  RefreshToken[]\n  passwordResets PasswordReset[]\n  tripMembers    TripMember[]\n\n  @@map(\"users\")\n}\n\n// Refresh token model for JWT authentication\nmodel RefreshToken {\n  // Primary key\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Token data\n  tokenHash String   @unique\n  expiresAt DateTime\n\n  // User relationship\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"refresh_tokens\")\n}\n\n// Password reset token model\nmodel PasswordReset {\n  // Primary key\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Token data\n  tokenHash String    @unique\n  expiresAt DateTime\n  usedAt    DateTime?\n\n  // User relationship\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"password_resets\")\n}\n\n// Enums for trip management\nenum TripStatus {\n  PLANNING\n  ACTIVE\n  COMPLETED\n  CANCELLED\n}\n\nenum MemberRole {\n  HOST\n  CO_HOST\n  MEMBER\n}\n\nenum MemberStatus {\n  PENDING\n  CONFIRMED\n  DECLINED\n}\n\n// Trip model for group planning\nmodel Trip {\n  // Primary key\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Trip details\n  title       String\n  description String?\n  status      TripStatus @default(PLANNING)\n\n  // Location stored as JSON (flexible for different location formats)\n  location Json?\n\n  // Unique invite code for sharing the trip\n  inviteCode String @unique @default(cuid())\n\n  // Additional metadata stored as JSON\n  metadata Json @default(\"{}\")\n\n  // Trip dates\n  startDate DateTime?\n  endDate   DateTime?\n\n  // Relationships\n  members TripMember[]\n\n  @@map(\"trips\")\n}\n\n// TripMember model for managing user participation in trips\nmodel TripMember {\n  // Composite primary key\n  tripId String\n  userId String\n\n  // Timestamps\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Member details\n  role   MemberRole   @default(MEMBER)\n  status MemberStatus @default(PENDING)\n\n  // Additional member-specific settings\n  notifications Boolean @default(true)\n  canInvite     Boolean @default(false)\n\n  // Relationships\n  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@id([tripId, userId])\n  @@map(\"trip_members\")\n}\n"
+  "inlineSchema": "// Group Planner - Prisma Schema\n// This file defines the database schema using Prisma ORM\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\n// User model with authentication and profile information\nmodel User {\n  // Primary key\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Authentication fields\n  email        String  @unique\n  username     String? @unique\n  passwordHash String\n\n  // Profile information\n  displayName String?\n  timezone    String? @default(\"UTC\")\n\n  // Account verification\n  emailVerified Boolean @default(false)\n\n  // User preferences stored as JSON\n  preferences Json @default(\"{}\")\n\n  // Relationships\n  refreshTokens     RefreshToken[]\n  passwordResets    PasswordReset[]\n  tripMembers       TripMember[]\n  suggestedEvents   Event[]                  @relation(\"EventSuggestor\")\n  approvedEvents    Event[]                  @relation(\"EventApprover\")\n  createdItems      Item[]\n  itemClaims        ItemClaim[]\n  notifications     Notification[]\n  notificationPrefs NotificationPreference[]\n  announcements     Announcement[]\n\n  @@map(\"users\")\n}\n\n// Refresh token model for JWT authentication\nmodel RefreshToken {\n  // Primary key\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Token data\n  tokenId      String    @unique\n  tokenHash    String    @unique\n  expiresAt    DateTime\n  family       String?\n  revoked      Boolean   @default(false)\n  revokedAt    DateTime?\n  revokeReason String?\n  userAgent    String?\n  ipAddress    String?\n\n  // User relationship\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"refresh_tokens\")\n}\n\n// Password reset token model\nmodel PasswordReset {\n  // Primary key\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Token data\n  tokenHash String    @unique\n  expiresAt DateTime\n  usedAt    DateTime?\n\n  // User relationship\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"password_resets\")\n}\n\n// Enums for trip management\nenum TripStatus {\n  PLANNING\n  ACTIVE\n  COMPLETED\n  CANCELLED\n}\n\nenum MemberRole {\n  HOST\n  CO_HOST\n  MEMBER\n}\n\nenum MemberStatus {\n  PENDING\n  CONFIRMED\n  DECLINED\n}\n\nenum EventStatus {\n  PROPOSED\n  APPROVED\n  CANCELLED\n}\n\nenum ItemType {\n  RECOMMENDED\n  SHARED\n}\n\nenum ClaimStatus {\n  CLAIMED\n  BROUGHT\n  CANCELLED\n}\n\n// Trip model for group planning\nmodel Trip {\n  // Primary key\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Trip details\n  title       String\n  description String?\n  status      TripStatus @default(PLANNING)\n\n  // Location stored as JSON (flexible for different location formats)\n  location Json?\n\n  // Unique invite code for sharing the trip\n  inviteCode String @unique @default(cuid())\n\n  // Additional metadata stored as JSON\n  metadata Json @default(\"{}\")\n\n  // Trip dates\n  startDate DateTime?\n  endDate   DateTime?\n\n  // Relationships\n  members           TripMember[]\n  events            Event[]\n  items             Item[]\n  notifications     Notification[]\n  notificationPrefs NotificationPreference[]\n  announcements     Announcement[]\n  extensions        TripExtension[]\n\n  @@map(\"trips\")\n}\n\n// TripMember model for managing user participation in trips\nmodel TripMember {\n  // Composite primary key\n  tripId String\n  userId String\n\n  // Timestamps\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Member details\n  role   MemberRole   @default(MEMBER)\n  status MemberStatus @default(PENDING)\n\n  // Additional member-specific settings\n  notifications Boolean @default(true)\n  canInvite     Boolean @default(false)\n\n  // Relationships\n  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@id([tripId, userId])\n  @@map(\"trip_members\")\n}\n\nenum DigestFrequency {\n  NONE\n  DAILY\n  WEEKLY\n}\n\nmodel Notification {\n  id        String    @id @default(cuid())\n  createdAt DateTime  @default(now())\n  userId    String\n  tripId    String?\n  type      String\n  title     String\n  body      String?\n  payload   Json      @default(\"{}\")\n  read      Boolean   @default(false)\n  readAt    DateTime?\n\n  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)\n  trip Trip? @relation(fields: [tripId], references: [id], onDelete: Cascade)\n\n  @@index([userId, read])\n  @@map(\"notifications\")\n}\n\nmodel NotificationPreference {\n  id              String          @id @default(cuid())\n  createdAt       DateTime        @default(now())\n  updatedAt       DateTime        @updatedAt\n  userId          String\n  tripId          String?\n  emailEnabled    Boolean         @default(true)\n  pushEnabled     Boolean         @default(true)\n  scheduleChanges Boolean         @default(true)\n  itemUpdates     Boolean         @default(true)\n  announcements   Boolean         @default(true)\n  digestFrequency DigestFrequency @default(DAILY)\n\n  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)\n  trip Trip? @relation(fields: [tripId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, tripId])\n  @@map(\"notification_preferences\")\n}\n\nmodel Event {\n  id            String      @id @default(cuid())\n  createdAt     DateTime    @default(now())\n  updatedAt     DateTime    @updatedAt\n  tripId        String\n  title         String\n  description   String?\n  location      Json?\n  startTime     DateTime?\n  endTime       DateTime?\n  isAllDay      Boolean     @default(false)\n  status        EventStatus @default(PROPOSED)\n  category      String?\n  estimatedCost Decimal?\n  currency      String      @default(\"USD\")\n  suggestedById String\n  approvedById  String?\n  metadata      Json        @default(\"{}\")\n\n  trip        Trip  @relation(fields: [tripId], references: [id], onDelete: Cascade)\n  suggestedBy User  @relation(\"EventSuggestor\", fields: [suggestedById], references: [id])\n  approvedBy  User? @relation(\"EventApprover\", fields: [approvedById], references: [id])\n\n  @@index([tripId, startTime])\n  @@map(\"events\")\n}\n\nmodel Item {\n  id             String      @id @default(cuid())\n  createdAt      DateTime    @default(now())\n  updatedAt      DateTime    @updatedAt\n  tripId         String\n  name           String\n  description    String?\n  category       String?\n  type           ItemType\n  quantityNeeded Int         @default(1)\n  isEssential    Boolean     @default(false)\n  createdById    String\n  metadata       Json        @default(\"{}\")\n  claims         ItemClaim[]\n\n  trip      Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)\n  createdBy User @relation(fields: [createdById], references: [id])\n\n  @@index([tripId, type])\n  @@map(\"items\")\n}\n\nmodel ItemClaim {\n  id        String      @id @default(cuid())\n  createdAt DateTime    @default(now())\n  updatedAt DateTime    @updatedAt\n  itemId    String\n  userId    String\n  quantity  Int         @default(1)\n  status    ClaimStatus @default(CLAIMED)\n  notes     String?\n\n  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([itemId, userId])\n  @@map(\"item_claims\")\n}\n\nmodel Announcement {\n  id        String   @id @default(cuid())\n  tripId    String\n  authorId  String\n  title     String\n  body      String\n  pinned    Boolean  @default(false)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  trip   Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)\n  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)\n\n  @@map(\"announcements\")\n}\n\nmodel TripExtension {\n  id            String   @id @default(cuid())\n  tripId        String\n  extensionType String\n  data          Json     @default(\"{}\")\n  createdAt     DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n\n  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)\n\n  @@unique([tripId, extensionType])\n  @@map(\"trip_extensions\")\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"displayName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"timezone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"preferences\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"refreshTokens\",\"kind\":\"object\",\"type\":\"RefreshToken\",\"relationName\":\"RefreshTokenToUser\"},{\"name\":\"passwordResets\",\"kind\":\"object\",\"type\":\"PasswordReset\",\"relationName\":\"PasswordResetToUser\"},{\"name\":\"tripMembers\",\"kind\":\"object\",\"type\":\"TripMember\",\"relationName\":\"TripMemberToUser\"}],\"dbName\":\"users\"},\"RefreshToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tokenHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RefreshTokenToUser\"}],\"dbName\":\"refresh_tokens\"},\"PasswordReset\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tokenHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"usedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PasswordResetToUser\"}],\"dbName\":\"password_resets\"},\"Trip\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"TripStatus\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"inviteCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"members\",\"kind\":\"object\",\"type\":\"TripMember\",\"relationName\":\"TripToTripMember\"}],\"dbName\":\"trips\"},\"TripMember\":{\"fields\":[{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"MemberRole\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"MemberStatus\"},{\"name\":\"notifications\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"canInvite\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripMember\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TripMemberToUser\"}],\"dbName\":\"trip_members\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"displayName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"timezone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"preferences\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"refreshTokens\",\"kind\":\"object\",\"type\":\"RefreshToken\",\"relationName\":\"RefreshTokenToUser\"},{\"name\":\"passwordResets\",\"kind\":\"object\",\"type\":\"PasswordReset\",\"relationName\":\"PasswordResetToUser\"},{\"name\":\"tripMembers\",\"kind\":\"object\",\"type\":\"TripMember\",\"relationName\":\"TripMemberToUser\"},{\"name\":\"suggestedEvents\",\"kind\":\"object\",\"type\":\"Event\",\"relationName\":\"EventSuggestor\"},{\"name\":\"approvedEvents\",\"kind\":\"object\",\"type\":\"Event\",\"relationName\":\"EventApprover\"},{\"name\":\"createdItems\",\"kind\":\"object\",\"type\":\"Item\",\"relationName\":\"ItemToUser\"},{\"name\":\"itemClaims\",\"kind\":\"object\",\"type\":\"ItemClaim\",\"relationName\":\"ItemClaimToUser\"},{\"name\":\"notifications\",\"kind\":\"object\",\"type\":\"Notification\",\"relationName\":\"NotificationToUser\"},{\"name\":\"notificationPrefs\",\"kind\":\"object\",\"type\":\"NotificationPreference\",\"relationName\":\"NotificationPreferenceToUser\"},{\"name\":\"announcements\",\"kind\":\"object\",\"type\":\"Announcement\",\"relationName\":\"AnnouncementToUser\"}],\"dbName\":\"users\"},\"RefreshToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tokenId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tokenHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"family\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"revoked\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"revokedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"revokeReason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RefreshTokenToUser\"}],\"dbName\":\"refresh_tokens\"},\"PasswordReset\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tokenHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"usedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PasswordResetToUser\"}],\"dbName\":\"password_resets\"},\"Trip\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"TripStatus\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"inviteCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"members\",\"kind\":\"object\",\"type\":\"TripMember\",\"relationName\":\"TripToTripMember\"},{\"name\":\"events\",\"kind\":\"object\",\"type\":\"Event\",\"relationName\":\"EventToTrip\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"Item\",\"relationName\":\"ItemToTrip\"},{\"name\":\"notifications\",\"kind\":\"object\",\"type\":\"Notification\",\"relationName\":\"NotificationToTrip\"},{\"name\":\"notificationPrefs\",\"kind\":\"object\",\"type\":\"NotificationPreference\",\"relationName\":\"NotificationPreferenceToTrip\"},{\"name\":\"announcements\",\"kind\":\"object\",\"type\":\"Announcement\",\"relationName\":\"AnnouncementToTrip\"},{\"name\":\"extensions\",\"kind\":\"object\",\"type\":\"TripExtension\",\"relationName\":\"TripToTripExtension\"}],\"dbName\":\"trips\"},\"TripMember\":{\"fields\":[{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"MemberRole\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"MemberStatus\"},{\"name\":\"notifications\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"canInvite\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripMember\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TripMemberToUser\"}],\"dbName\":\"trip_members\"},\"Notification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"body\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"payload\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"read\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"readAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"NotificationToUser\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"NotificationToTrip\"}],\"dbName\":\"notifications\"},\"NotificationPreference\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"pushEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"scheduleChanges\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"itemUpdates\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"announcements\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"digestFrequency\",\"kind\":\"enum\",\"type\":\"DigestFrequency\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"NotificationPreferenceToUser\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"NotificationPreferenceToTrip\"}],\"dbName\":\"notification_preferences\"},\"Event\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isAllDay\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"EventStatus\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"estimatedCost\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"currency\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"suggestedById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"approvedById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"EventToTrip\"},{\"name\":\"suggestedBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"EventSuggestor\"},{\"name\":\"approvedBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"EventApprover\"}],\"dbName\":\"events\"},\"Item\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"ItemType\"},{\"name\":\"quantityNeeded\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isEssential\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"claims\",\"kind\":\"object\",\"type\":\"ItemClaim\",\"relationName\":\"ItemToItemClaim\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"ItemToTrip\"},{\"name\":\"createdBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ItemToUser\"}],\"dbName\":\"items\"},\"ItemClaim\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"itemId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ClaimStatus\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"item\",\"kind\":\"object\",\"type\":\"Item\",\"relationName\":\"ItemToItemClaim\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ItemClaimToUser\"}],\"dbName\":\"item_claims\"},\"Announcement\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"body\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pinned\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"AnnouncementToTrip\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AnnouncementToUser\"}],\"dbName\":\"announcements\"},\"TripExtension\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"extensionType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"data\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripExtension\"}],\"dbName\":\"trip_extensions\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
       getRuntime: async () => require('./query_compiler_fast_bg.js'),
