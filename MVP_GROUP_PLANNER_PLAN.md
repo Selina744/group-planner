@@ -117,6 +117,12 @@ Platform Features:
 - GPS location services
 - Biometric authentication support
 - Deep linking for trip invitations
+
+Performance Considerations:
+- GPS-intensive features may require native optimization
+- Consider native modules for location tracking in future updates
+- Battery optimization for background location services
+- Platform-specific permissions handling (iOS vs Android)
 ```
 
 ## Extensible Architecture Design
@@ -762,6 +768,137 @@ This comprehensive plugin system provides a secure, extensible foundation for ad
 
 **Team:** Existing team + part-time DevOps
 
+## React Native Development Setup
+
+For developers working on the mobile application, additional toolchain setup is required:
+
+### iOS Development Environment
+```bash
+# macOS required for iOS development
+# Install Xcode from Mac App Store (12.0 minimum)
+
+# Install iOS Simulator and development tools
+xcode-select --install
+
+# Install CocoaPods for native dependency management
+sudo gem install cocoapods
+
+# Clone project and setup mobile app
+git clone https://github.com/Selina744/group-planner.git
+cd group-planner/mobile
+
+# Install dependencies
+npm install
+
+# Install iOS native dependencies
+cd ios && pod install && cd ..
+
+# Start Metro bundler
+npm start
+
+# In another terminal, run iOS simulator
+npm run ios
+```
+
+### Android Development Environment
+```bash
+# Install Android Studio
+# Download from https://developer.android.com/studio
+
+# Install Java Development Kit 17
+# macOS:
+brew install openjdk@17
+
+# Ubuntu:
+sudo apt install openjdk-17-jdk
+
+# Windows:
+# Download from https://adoptium.net/
+
+# Set environment variables (add to ~/.bashrc or ~/.zshrc)
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# Clone and setup (if not already done)
+git clone https://github.com/Selina744/group-planner.git
+cd group-planner/mobile
+
+# Install dependencies
+npm install
+
+# Start Metro bundler
+npm start
+
+# In another terminal, run Android emulator
+npm run android
+```
+
+### Development Workflow
+```bash
+# Start backend API (required for mobile app)
+cd backend
+npm run dev
+
+# In another terminal, start React Native
+cd mobile
+npm start
+
+# Development commands
+npm run ios          # Run on iOS simulator
+npm run android      # Run on Android emulator
+npm run ios:device   # Run on physical iOS device
+npm run android:device  # Run on physical Android device
+
+# Testing
+npm run test         # Run unit tests
+npm run e2e:ios     # End-to-end tests on iOS
+npm run e2e:android # End-to-end tests on Android
+
+# Build for production
+npm run build:ios    # Build iOS .ipa
+npm run build:android # Build Android .apk/.aab
+```
+
+### Common Development Issues & Solutions
+
+#### iOS Issues
+```bash
+# If iOS build fails with CocoaPods errors
+cd ios && rm -rf Pods Podfile.lock && pod install
+
+# If Metro cache issues occur
+npm start -- --reset-cache
+
+# Clear Xcode derived data
+rm -rf ~/Library/Developer/Xcode/DerivedData
+```
+
+#### Android Issues
+```bash
+# If Android build fails
+cd android && ./gradlew clean && cd ..
+npm run android
+
+# Clear Metro and Android caches
+npm start -- --reset-cache
+cd android && ./gradlew clean && cd ..
+
+# Reset ADB if device connection issues
+adb kill-server && adb start-server
+```
+
+#### Metro Bundler Issues
+```bash
+# Clear all caches
+npm start -- --reset-cache
+rm -rf node_modules && npm install
+cd ios && rm -rf Pods && pod install && cd ..
+cd android && ./gradlew clean && cd ..
+```
+
 ## Self-Hosting & Deployment Options
 
 The Group Trip Planner offers multiple deployment options to suit different technical environments and preferences. Choose the method that best fits your infrastructure and technical expertise.
@@ -788,6 +925,38 @@ The Group Trip Planner offers multiple deployment options to suit different tech
 - **Node.js**: 18.x or 20.x
 - **PostgreSQL**: 13+
 - **Redis**: 6+
+
+#### React Native Development Prerequisites
+
+**For iOS Development:**
+- macOS 10.15.7+ required
+- Xcode 12.0+ (latest recommended)
+- iOS Simulator
+- Apple Developer Account (for device testing)
+- CocoaPods dependency manager
+
+**For Android Development:**
+- Android Studio with Android SDK
+- Java Development Kit (JDK) 17+
+- Android device or emulator
+- Google Play Developer Account (for distribution)
+
+#### Deployment Method Decision Table
+
+| Factor | Docker (Recommended) | Native Installation |
+|--------|---------------------|---------------------|
+| **Setup Time** | 15-30 minutes | 1-3 hours |
+| **Technical Expertise** | Basic Docker knowledge | System administration |
+| **Maintenance** | Simple updates via images | Manual dependency management |
+| **Customization** | Limited to environment variables | Full source code access |
+| **Resource Usage** | Slightly higher (containers) | Direct OS resource access |
+| **Isolation** | Complete service isolation | Shared OS dependencies |
+| **Backup/Restore** | Container volumes | Manual file management |
+| **Production Ready** | Yes (with proper configuration) | Requires additional setup |
+| **Multi-environment** | Excellent (dev/staging/prod) | Environment-specific setup |
+| **Troubleshooting** | Container logs and health checks | Direct system access |
+
+**Recommendation:** Use Docker for most installations unless you need extensive customization or have specific infrastructure requirements.
 
 ## Deployment Methods
 
@@ -1234,37 +1403,202 @@ docker stats
 
 ## Maintenance & Updates
 
-### Docker Registry Updates
+### Docker Registry Updates (Zero-Downtime)
+
+#### Pre-Update Backup
 ```bash
-# Pull latest images
+# Create backup directory with timestamp
+BACKUP_DATE=$(date +%Y%m%d_%H%M%S)
+mkdir -p backups/$BACKUP_DATE
+
+# Backup database
+docker-compose exec postgres pg_dump -U $DB_USER $DB_NAME > backups/$BACKUP_DATE/database.sql
+
+# Backup environment configuration
+cp .env backups/$BACKUP_DATE/
+cp docker-compose.prod.yml backups/$BACKUP_DATE/
+
+# Backup file uploads (if any)
+docker run --rm -v group-planner_uploads:/source -v $(pwd)/backups/$BACKUP_DATE:/backup alpine tar czf /backup/uploads.tar.gz -C /source .
+
+echo "Backup created in backups/$BACKUP_DATE"
+```
+
+#### Zero-Downtime Update Process
+```bash
+# 1. Pull latest images (no downtime)
 docker-compose -f docker-compose.prod.yml pull
 
-# Update services with zero downtime
+# 2. Update web service first (frontend can handle API downtime briefly)
 docker-compose -f docker-compose.prod.yml up -d --no-deps web
+
+# 3. Check web service health
+docker-compose -f docker-compose.prod.yml ps web
+
+# 4. Update API service (most critical step)
 docker-compose -f docker-compose.prod.yml up -d --no-deps api
 
-# Clean up old images
-docker image prune
+# 5. Wait for API health check to pass
+./scripts/wait-for-health.sh http://localhost:3001/api/v1/health
+
+# 6. Run database migrations if needed
+docker-compose exec api npm run migrate
+
+# 7. Verify full system health
+curl -f http://localhost:3001/api/v1/health
+curl -f http://localhost/
+
+# 8. Clean up old images
+docker image prune -f
+```
+
+#### Rollback Procedure
+```bash
+# If update fails, rollback to previous version
+BACKUP_DATE=20241128_143022  # Replace with your backup date
+
+# 1. Stop current services
+docker-compose -f docker-compose.prod.yml down
+
+# 2. Restore database
+docker-compose up -d postgres redis
+sleep 10  # Wait for database to start
+docker-compose exec postgres psql -U $DB_USER -d postgres -c "DROP DATABASE IF EXISTS $DB_NAME"
+docker-compose exec postgres psql -U $DB_USER -d postgres -c "CREATE DATABASE $DB_NAME"
+cat backups/$BACKUP_DATE/database.sql | docker-compose exec -T postgres psql -U $DB_USER $DB_NAME
+
+# 3. Restore configuration
+cp backups/$BACKUP_DATE/.env ./
+cp backups/$BACKUP_DATE/docker-compose.prod.yml ./
+
+# 4. Restore file uploads
+docker run --rm -v group-planner_uploads:/target -v $(pwd)/backups/$BACKUP_DATE:/backup alpine tar xzf /backup/uploads.tar.gz -C /target
+
+# 5. Start services with previous configuration
+docker-compose -f docker-compose.prod.yml up -d
+
+# 6. Verify rollback success
+./scripts/verify-rollback.sh
 ```
 
 ### Native Installation Updates
+
+#### Pre-Update Backup
 ```bash
-# Pull latest code
+# Create backup directory
+BACKUP_DATE=$(date +%Y%m%d_%H%M%S)
+mkdir -p backups/$BACKUP_DATE
+
+# Backup database
+pg_dump -U planner group_planner > backups/$BACKUP_DATE/database.sql
+
+# Backup current code and configuration
+tar czf backups/$BACKUP_DATE/application.tar.gz --exclude=node_modules --exclude=.git .
+
+# Backup environment configuration
+cp .env backups/$BACKUP_DATE/
+cp -r uploads/ backups/$BACKUP_DATE/ 2>/dev/null || true
+
+echo "Backup created in backups/$BACKUP_DATE"
+```
+
+#### Update Process with Rollback Safety
+```bash
+# 1. Create backup (see above)
+./scripts/backup.sh
+
+# 2. Create temporary branch for current state
+git add .
+git commit -m "Pre-update backup commit" || true
+git tag "backup-$BACKUP_DATE"
+
+# 3. Pull latest code
+git stash  # Stash any local changes
 git pull origin main
 
-# Update backend
+# 4. Update backend with health check
 cd backend
 npm install
 npm run build
-npm run migrate  # Run new migrations if any
 
-# Update frontend
+# Test build before migrations
+npm run test:health || {
+    echo "Build failed, rolling back..."
+    git reset --hard "backup-$BACKUP_DATE"
+    npm install
+    npm run build
+    exit 1
+}
+
+# 5. Run migrations with backup
+npm run migrate
+
+# 6. Update frontend
 cd ../frontend
 npm install
 npm run build
 
-# Restart services
-sudo systemctl restart group-planner  # If using systemd
+# 7. Restart services gracefully
+if command -v systemctl > /dev/null; then
+    sudo systemctl reload group-planner  # Graceful reload
+    sleep 5
+    sudo systemctl status group-planner
+else
+    # Manual restart
+    pkill -f "node.*group-planner"
+    nohup npm start > logs/app.log 2>&1 &
+fi
+
+# 8. Verify update success
+./scripts/verify-health.sh || {
+    echo "Health check failed, initiating rollback..."
+    ./scripts/rollback.sh $BACKUP_DATE
+}
+```
+
+#### Native Installation Rollback
+```bash
+# Usage: ./scripts/rollback.sh BACKUP_DATE
+BACKUP_DATE=${1:-$(ls -t backups/ | head -1)}
+
+echo "Rolling back to backup: $BACKUP_DATE"
+
+# 1. Stop services
+if command -v systemctl > /dev/null; then
+    sudo systemctl stop group-planner
+else
+    pkill -f "node.*group-planner"
+fi
+
+# 2. Restore database
+dropdb group_planner
+createdb group_planner
+psql -U planner group_planner < backups/$BACKUP_DATE/database.sql
+
+# 3. Restore application code
+rm -rf backend/dist frontend/dist
+tar xzf backups/$BACKUP_DATE/application.tar.gz
+
+# 4. Restore configuration and uploads
+cp backups/$BACKUP_DATE/.env ./
+cp -r backups/$BACKUP_DATE/uploads/ ./ 2>/dev/null || true
+
+# 5. Rebuild with previous version
+cd backend && npm install && npm run build
+cd ../frontend && npm install && npm run build
+
+# 6. Restart services
+if command -v systemctl > /dev/null; then
+    sudo systemctl start group-planner
+    sudo systemctl status group-planner
+else
+    nohup npm start > logs/app.log 2>&1 &
+fi
+
+# 7. Reset git to backup state
+git reset --hard "backup-$BACKUP_DATE"
+
+echo "Rollback completed. Verify functionality at http://localhost"
 ```
 
 ## Security Considerations
