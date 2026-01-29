@@ -8,7 +8,7 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import type { Request, Response } from 'express';
-import { apiResponse } from '../utils/apiResponse.js';
+import { ApiResponse } from '../utils/apiResponse.js';
 import { log } from '../utils/logger.js';
 
 /**
@@ -604,16 +604,16 @@ export function docsHealthHandler(req: Request, res: Response): void {
   try {
     log.debug('API docs health check accessed');
 
-    apiResponse.ok(res, {
+    ApiResponse.success(res, 'API documentation is healthy', {
       status: 'healthy',
       version: swaggerDefinition.info.version,
       docsUrl: '/docs',
       specUrl: '/docs/openapi.json',
       timestamp: new Date().toISOString(),
-    }, 'API documentation is healthy');
+    });
   } catch (error) {
     log.error('API docs health check failed', error);
-    apiResponse.error(res, 'Documentation service unavailable', 503);
+    ApiResponse.error(res, 'Documentation service unavailable', 503);
   }
 }
 
@@ -626,6 +626,6 @@ export function openApiSpecHandler(req: Request, res: Response): void {
     res.json(swaggerSpec);
   } catch (error) {
     log.error('Failed to serve OpenAPI spec', error);
-    apiResponse.error(res, 'OpenAPI specification unavailable', 503);
+    ApiResponse.error(res, 'OpenAPI specification unavailable', 503);
   }
 }

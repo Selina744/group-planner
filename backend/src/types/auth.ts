@@ -219,6 +219,7 @@ export interface UpdateProfileRequest {
   displayName?: string | undefined;
   timezone?: string | undefined;
   username?: string | undefined;
+  preferences?: Record<string, unknown> | undefined;
 }
 
 /**

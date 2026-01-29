@@ -339,9 +339,9 @@ export class AuthService {
         await this.recordLoginAttempt({
           identifier: sanitizedIdentifier,
           ipAddress,
-          userAgent,
+          ...(userAgent && { userAgent }),
           success: false,
-          userId: user?.id,
+          ...(user?.id && { userId: user.id }),
           failureReason,
         });
 
@@ -367,7 +367,7 @@ export class AuthService {
       await this.recordLoginAttempt({
         identifier: sanitizedIdentifier,
         ipAddress,
-        userAgent,
+        ...(userAgent && { userAgent }),
         success: true,
         userId: user.id,
       });
@@ -432,7 +432,7 @@ export class AuthService {
    * Update user profile
    */
   static async updateProfile(userId: string, data: UpdateProfileRequest): Promise<UserProfile> {
-    const { displayName, timezone, username } = data;
+    const { displayName, timezone, username, preferences } = data;
 
     try {
       const user = await safePrismaOperation(async () => {
@@ -457,6 +457,7 @@ export class AuthService {
           displayName?: string | null;
           timezone?: string;
           username?: string | null;
+          preferences?: any;
         } = {};
         if (displayName !== undefined) {
           updateData.displayName = displayName || null;
@@ -466,6 +467,9 @@ export class AuthService {
         }
         if (username !== undefined) {
           updateData.username = username ? username.toLowerCase() : null;
+        }
+        if (preferences !== undefined) {
+          updateData.preferences = preferences;
         }
 
         return await prisma.user.update({
@@ -1037,10 +1041,10 @@ export class AuthService {
           data: {
             identifier: data.identifier,
             ipAddress: data.ipAddress,
-            userAgent: data.userAgent,
             success: data.success,
-            userId: data.userId,
-            failureReason: data.failureReason,
+            ...(data.userAgent && { userAgent: data.userAgent }),
+            ...(data.userId && { userId: data.userId }),
+            ...(data.failureReason && { failureReason: data.failureReason }),
           },
         });
       }, 'Record login attempt');

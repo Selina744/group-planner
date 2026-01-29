@@ -106,7 +106,7 @@ export function securityHeaders() {
 export function requestSanitization(config: Partial<SecurityConfig> = {}) {
   const finalConfig = { ...DEFAULT_SECURITY_CONFIG, ...config };
 
-  return (req: Request, res: Response, next: NextFunction): void => {
+  return (req: Request, res: Response, next: NextFunction) => {
     if (!finalConfig.enableRequestSanitization) {
       return next();
     }
@@ -199,7 +199,7 @@ export function ddosProtection() {
     },
     standardHeaders: true,
     legacyHeaders: false,
-    onLimitReached: (req) => {
+    onLimitReached: (req: any) => {
       SecurityMetrics.increment('rateLimitedRequests');
       log.warn('Rate limit exceeded', {
         ip: req.ip,
@@ -207,21 +207,21 @@ export function ddosProtection() {
         url: req.url,
       });
     },
-  });
+  } as any);
 
   const speedLimiter = slowDown({
     windowMs: 1 * 60 * 1000, // 1 minute
     delayAfter: 30, // Allow 30 requests at full speed
     delayMs: 500, // Add 500ms delay after delayAfter requests
     maxDelayMs: 5000, // Maximum delay of 5 seconds
-    onLimitReached: (req) => {
+    onLimitReached: (req: any) => {
       log.warn('Speed limit activated', {
         ip: req.ip,
         userAgent: req.get('User-Agent'),
         url: req.url,
       });
     },
-  });
+  } as any);
 
   return [rateLimiter, speedLimiter];
 }
@@ -332,7 +332,7 @@ export function apiContentSecurity() {
  * Request size validation
  */
 export function requestSizeValidation(maxSize: number = 10 * 1024 * 1024) { // 10MB default
-  return (req: Request, res: Response, next: NextFunction): void => {
+  return (req: Request, res: Response, next: NextFunction) => {
     const contentLength = parseInt(req.get('Content-Length') || '0', 10);
 
     if (contentLength > maxSize) {
@@ -346,7 +346,7 @@ export function requestSizeValidation(maxSize: number = 10 * 1024 * 1024) { // 1
       });
     }
 
-    next();
+    return next();
   };
 }
 

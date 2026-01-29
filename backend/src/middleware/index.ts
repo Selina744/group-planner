@@ -5,6 +5,15 @@
  * including authentication, authorization, rate limiting, and context injection.
  */
 
+// Import middleware objects for local use in presets
+import { middleware } from './context.js';
+import { rateLimiters } from './rateLimit.js';
+import { security as securityMiddleware } from './security.js';
+import { corsUtil } from './cors.js';
+import { validation as validationSchemas, ValidationMetrics } from './validation.js';
+import { requireAuth, optionalAuth, requireAdmin } from './auth.js';
+import { requirePermissions, requireOwnershipOrAdmin, type Permission } from './rbac.js';
+
 // Auth middleware exports
 export {
   AuthMiddleware,
@@ -25,8 +34,16 @@ export {
   checkPermission,
   checkAnyPermission,
   checkAllPermissions,
+  // Trip role-based access control (bd-11l)
+  requireRole,
+  requireHost,
+  requireHostOrCoHost,
+  requireMember,
   type Permission,
   type Role,
+  type MemberRole,
+  type MemberStatus,
+  type TripMembership,
 } from './rbac.js';
 
 // Context middleware exports
@@ -214,7 +231,7 @@ export function requireResourceOwnership(
 /**
  * Convenience middleware for parameter validation
  */
-export const validation = {
+export const validation: any = {
   uuid: middleware.validateUuid,
   ownUserId: middleware.validateOwnUserId,
   resourceAccess: middleware.validateResourceAccess,
@@ -273,7 +290,7 @@ export const security = {
     securityMiddleware.logging(),
     securityMiddleware.contentSecurity(),
     ...securityMiddleware.ddosProtection(),
-    rateLimiters.strict,
+    rateLimiters.sensitive,
     middleware.logging,
     requireAuth,
     requireAdmin,

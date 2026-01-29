@@ -167,7 +167,7 @@ export class ProcessManager {
 
       // Log health status if degraded or unhealthy
       if (health.status !== 'healthy') {
-        log.warn('Process health degraded', health);
+        log.warn('Process health degraded', health as unknown as Record<string, unknown>);
 
         // Auto-restart if configured and conditions are met
         if (
@@ -188,7 +188,7 @@ export class ProcessManager {
    */
   collectMetrics(): ProcessMetrics {
     const memUsage = process.memoryUsage();
-    const currentCpuUsage = process.cpuUsage(this.lastCpuUsage);
+    const currentCpuUsage = process.cpuUsage(this.lastCpuUsage || undefined);
     this.lastCpuUsage = process.cpuUsage();
 
     return {

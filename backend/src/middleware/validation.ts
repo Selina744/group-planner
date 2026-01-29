@@ -14,6 +14,7 @@ import { log } from '../utils/logger.js';
 import type { AuthenticatedRequest } from '../types/middleware.js';
 import { ValidationError } from '../utils/errors.js';
 import { formatZodErrors, createValidationError } from '../utils/apiResponse.js';
+import { MemberRole } from '../generated/prisma/index.js';
 
 /**
  * Validation configuration interface
@@ -126,6 +127,23 @@ export const commonSchemas = {
   longitude: z.number().min(-180, 'Invalid longitude').max(180, 'Invalid longitude'),
 };
 
+const locationSchema = z.object({
+  name: z.string().min(3, 'Location name must be at least 3 characters').max(200, 'Location name too long'),
+  address: z.string().max(255, 'Address too long').optional(),
+  latitude: commonSchemas.latitude,
+  longitude: commonSchemas.longitude,
+});
+
+const tripDateRangeSchema = z
+  .object({
+    startDate: commonSchemas.dateString,
+    endDate: commonSchemas.dateString,
+  })
+  .refine((value) => new Date(value.endDate) > new Date(value.startDate), {
+    message: 'endDate must be after startDate',
+    path: ['endDate'],
+  });
+
 /**
  * Enhanced file upload configuration
  */
@@ -138,7 +156,7 @@ export function createFileUploadConfig(config: Partial<ValidationConfig> = {}) {
         await fs.mkdir(finalConfig.uploadDirectory, { recursive: true });
         cb(null, finalConfig.uploadDirectory);
       } catch (error) {
-        cb(error, finalConfig.uploadDirectory);
+        cb(error as Error, finalConfig.uploadDirectory);
       }
     },
     filename: (req, file, cb) => {
@@ -464,7 +482,7 @@ function sanitizeString(str: string): string {
 /**
  * Create validation middleware for specific schemas
  */
-export const validation = {
+export const validation: any = {
   // User-related validation
   userRegistration: () => validateRequest({
     body: z.object({
@@ -505,6 +523,61 @@ export const validation = {
     }),
   }),
 
+  locationPayload: () => validateRequest({
+    body: locationSchema,
+  }),
+
+  createTripSchema: () => validateRequest({
+    body: z
+      .object({
+        title: commonSchemas.title,
+        description: commonSchemas.description.optional(),
+        location: locationSchema.optional(),
+        isPublic: z.boolean().optional(),
+        inviteCode: z.string().max(32, 'Invite code too long').optional(),
+      })
+      .and(tripDateRangeSchema),
+  }),
+
+  updateTripSchema: () => validateRequest({
+    body: z
+      .object({
+        title: commonSchemas.title.optional(),
+        description: commonSchemas.description.optional(),
+        location: locationSchema.optional(),
+        startDate: commonSchemas.dateString.optional(),
+        endDate: commonSchemas.dateString.optional(),
+        isPublic: z.boolean().optional(),
+      })
+      .refine(
+        (value) => {
+          if (value.startDate && value.endDate) {
+            return new Date(value.endDate) > new Date(value.startDate);
+          }
+          return true;
+        },
+        { message: 'endDate must be after startDate', path: ['endDate'] }
+      ),
+  }),
+
+  joinTripSchema: () => validateRequest({
+    body: z
+      .object({
+        tripId: commonSchemas.uuid.optional(),
+        inviteCode: z.string().min(6, 'Invite code too short').max(64, 'Invite code too long').optional(),
+      })
+      .refine(
+        (value) => Boolean(value.tripId || value.inviteCode),
+        { message: 'tripId or inviteCode is required', path: ['tripId', 'inviteCode'] }
+      ),
+  }),
+
+  updateMemberRoleSchema: () => validateRequest({
+    body: z.object({
+      role: z.nativeEnum(MemberRole),
+    }),
+  }),
+
   // File upload validation
   profilePicture: () => [
     createFileUploadConfig({
@@ -533,15 +606,4 @@ export const validation = {
       }],
     }),
   ],
-};
-
-/**
- * Export validation utilities
- */
-export {
-  ValidationConfig,
-  ValidationMetrics,
-  commonSchemas,
-  createFileUploadConfig,
-  validateRequest,
 };

@@ -104,7 +104,7 @@ export class JwtUtils {
         if (typeof options.expiresIn === 'string') {
           // Parse string format like '15m', '30d'
           const match = options.expiresIn.match(/^(\d+)([mhd])$/);
-          if (match) {
+          if (match && match[1] && match[2]) {
             const value = parseInt(match[1], 10);
             const unit = match[2];
             switch (unit) {
@@ -231,7 +231,8 @@ export class JwtUtils {
         payload: decoded,
       };
     } catch (error) {
-      log.debug('JWT token verification failed', error, {
+      log.debug('JWT token verification failed', {
+        error,
         tokenLength: token.length,
         tokenPrefix: token.substring(0, 20),
       });
@@ -286,7 +287,7 @@ export class JwtUtils {
         data: decoded,
       };
     } catch (error) {
-      log.debug('Failed to decode JWT token', error);
+      log.debug('Failed to decode JWT token', { error });
 
       return {
         success: false,
@@ -305,7 +306,7 @@ export class JwtUtils {
     }
 
     const match = authHeader.match(/^Bearer\s+(.+)$/);
-    return match ? match[1] : null;
+    return match ? match[1] || null : null;
   }
 
   /**

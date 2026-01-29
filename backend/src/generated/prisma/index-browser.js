@@ -277,6 +277,17 @@ exports.Prisma.TripExtensionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.LoginAttemptScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  identifier: 'identifier',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  success: 'success',
+  userId: 'userId',
+  failureReason: 'failureReason'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -360,7 +371,8 @@ exports.Prisma.ModelName = {
   Item: 'Item',
   ItemClaim: 'ItemClaim',
   Announcement: 'Announcement',
-  TripExtension: 'TripExtension'
+  TripExtension: 'TripExtension',
+  LoginAttempt: 'LoginAttempt'
 };
 
 /**

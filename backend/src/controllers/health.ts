@@ -8,7 +8,7 @@
 import type { Response } from 'express';
 import { HealthService } from '../services/health.js';
 import { ProcessManager } from '../utils/processManager.js';
-import { apiResponse } from '../utils/apiResponse.js';
+import { ApiResponse } from '../utils/apiResponse.js';
 import { log } from '../utils/logger.js';
 import type { AuthenticatedRequest } from '../types/middleware.js';
 
@@ -43,7 +43,7 @@ export class HealthController {
         requestId: req.requestId,
       });
 
-      apiResponse.error(res, 'Health check failed', 503);
+      ApiResponse.error(res, 'Health check failed', 503);
     }
   }
 
@@ -135,7 +135,7 @@ export class HealthController {
         requestId: req.requestId,
       });
 
-      apiResponse.error(res, 'Database health check failed', 503);
+      ApiResponse.error(res, 'Database health check failed', 503);
     }
   }
 
@@ -146,7 +146,7 @@ export class HealthController {
     try {
       const serverInfo = HealthService.getServerInfo();
 
-      apiResponse.ok(res, {
+      ApiResponse.success(res, 'Version information retrieved', {
         ...serverInfo,
         build: {
           timestamp: process.env.BUILD_TIMESTAMP || 'unknown',
@@ -159,13 +159,13 @@ export class HealthController {
           arch: process.arch,
           pid: process.pid,
         },
-      }, 'Version information retrieved');
+      });
     } catch (error) {
       log.error('Version endpoint failed', error, {
         requestId: req.requestId,
       });
 
-      apiResponse.error(res, 'Version information unavailable', 500);
+      ApiResponse.error(res, 'Version information unavailable', 500);
     }
   }
 
@@ -196,7 +196,7 @@ export class HealthController {
         requestId: req.requestId,
       });
 
-      apiResponse.error(res, 'Process health check failed', 500);
+      ApiResponse.error(res, 'Process health check failed', 500);
     }
   }
 
@@ -206,27 +206,24 @@ export class HealthController {
   static getProcessMetrics(req: AuthenticatedRequest, res: Response): void {
     try {
       const metrics = ProcessManager.getMetrics();
-      const historicalMetrics = ProcessManager.getHistoricalMetrics();
+      // Historical metrics not implemented yet
+      // const historicalMetrics = ProcessManager.getHistoricalMetrics();
 
-      apiResponse.ok(res, {
+      ApiResponse.success(res, 'Process metrics retrieved', {
         current: metrics,
-        historical: historicalMetrics.slice(-10), // Last 10 entries
+        // historical: historicalMetrics.slice(-10), // Last 10 entries
         summary: {
-          averageMemory: historicalMetrics.length > 0
-            ? historicalMetrics.reduce((sum, m) => sum + m.memoryUsage.rss, 0) / historicalMetrics.length / 1024 / 1024
-            : 0,
-          peakMemory: historicalMetrics.length > 0
-            ? Math.max(...historicalMetrics.map(m => m.memoryUsage.rss)) / 1024 / 1024
-            : 0,
           uptimeSeconds: metrics.uptime,
+          memoryUsageMB: metrics.memoryUsage.rss / 1024 / 1024,
+          cpuUsage: metrics.cpuUsage,
         },
-      }, 'Process metrics retrieved');
+      });
     } catch (error) {
       log.error('Process metrics endpoint failed', error, {
         requestId: req.requestId,
       });
 
-      apiResponse.error(res, 'Process metrics unavailable', 500);
+      ApiResponse.error(res, 'Process metrics unavailable', 500);
     }
   }
 
@@ -284,7 +281,7 @@ export class HealthController {
         requestId: req.requestId,
       });
 
-      apiResponse.error(res, 'Comprehensive health check failed', 503);
+      ApiResponse.error(res, 'Comprehensive health check failed', 503);
     }
   }
 

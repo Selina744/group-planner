@@ -301,7 +301,7 @@ export function corsResponseHeaders() {
  * Strict CORS middleware for sensitive endpoints
  */
 export function strictCors(allowedOrigins: string[] = []) {
-  return (req: Request, res: Response, next: NextFunction): void => {
+  return (req: Request, res: Response, next: NextFunction) => {
     const origin = req.get('Origin');
 
     if (origin && !allowedOrigins.includes(origin)) {
@@ -322,7 +322,7 @@ export function strictCors(allowedOrigins: string[] = []) {
       });
     }
 
-    next();
+    return next();
   };
 }
 

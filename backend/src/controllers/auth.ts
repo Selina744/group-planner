@@ -7,7 +7,7 @@
 
 import type { Response } from 'express';
 import { AuthService, JwtService } from '../services/index.js';
-import { apiResponse } from '../utils/apiResponse.js';
+import { ApiResponse } from '../utils/apiResponse.js';
 import { log } from '../utils/logger.js';
 import { AuthContext } from '../middleware/index.js';
 import {
@@ -95,7 +95,7 @@ export class AuthController {
         ip: req.clientIp || req.ip,
       });
 
-      apiResponse.created(res, result, 'Registration successful');
+      ApiResponse.created(res, 'Registration successful', result);
     } catch (error) {
       if (error instanceof ConflictError) {
         throw error;
@@ -148,7 +148,7 @@ export class AuthController {
         userAgent: req.get('User-Agent'),
       });
 
-      apiResponse.ok(res, result, 'Login successful');
+      ApiResponse.success(res, 'Login successful', result);
     } catch (error) {
       if (error instanceof UnauthorizedError) {
         // Don't log sensitive information for security
@@ -198,7 +198,7 @@ export class AuthController {
         ip: req.clientIp || req.ip,
       });
 
-      apiResponse.ok(res, result, 'Tokens refreshed successfully');
+      ApiResponse.success(res, 'Tokens refreshed successfully', result);
     } catch (error) {
       if (error instanceof UnauthorizedError) {
         log.auth('Token refresh failed - unauthorized', {
@@ -242,7 +242,7 @@ export class AuthController {
         ip: req.clientIp || req.ip,
       });
 
-      apiResponse.ok(res, null, 'Logout successful');
+      ApiResponse.success(res, 'Logout successful', null);
     } catch (error) {
       if (error instanceof UnauthorizedError) {
         throw error;
@@ -272,7 +272,7 @@ export class AuthController {
         requestId: req.requestId,
       });
 
-      apiResponse.ok(res, currentUser, 'Profile retrieved successfully');
+      ApiResponse.success(res, 'Profile retrieved successfully', currentUser);
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw new UnauthorizedError('User not found');
@@ -312,6 +312,12 @@ export class AuthController {
       throw new BadRequestError('Invalid username format');
     }
 
+    if (updateData.preferences !== undefined) {
+      if (typeof updateData.preferences !== 'object' || updateData.preferences === null) {
+        throw new BadRequestError('Invalid preferences format - must be an object');
+      }
+    }
+
     try {
       // Update profile
       const updatedUser = await AuthService.updateProfile(user.id, updateData);
@@ -322,7 +328,7 @@ export class AuthController {
         requestId: req.requestId,
       });
 
-      apiResponse.ok(res, updatedUser, 'Profile updated successfully');
+      ApiResponse.success(res, 'Profile updated successfully', updatedUser);
     } catch (error) {
       if (error instanceof ConflictError) {
         throw error;
@@ -372,7 +378,7 @@ export class AuthController {
         ip: req.clientIp || req.ip,
       });
 
-      apiResponse.ok(res, null, 'Password changed successfully');
+      ApiResponse.success(res, 'Password changed successfully', null);
     } catch (error) {
       if (error instanceof UnauthorizedError) {
         throw error;
@@ -418,7 +424,7 @@ export class AuthController {
         requestId: req.requestId,
       });
 
-      apiResponse.ok(res, { sessions, count: sessions.length }, 'Active sessions retrieved');
+      ApiResponse.success(res, 'Active sessions retrieved', { sessions, count: sessions.length });
     } catch (error) {
       log.error('Failed to get active sessions', error, {
         userId: user.id,
@@ -447,7 +453,7 @@ export class AuthController {
         ip: req.clientIp || req.ip,
       });
 
-      apiResponse.ok(res, null, 'All sessions revoked successfully');
+      ApiResponse.success(res, 'All sessions revoked successfully', null);
     } catch (error) {
       log.error('Failed to revoke all sessions', error, {
         userId: user.id,
@@ -490,7 +496,7 @@ export class AuthController {
         ip: req.clientIp || req.ip,
       });
 
-      apiResponse.ok(res, null, 'Session revoked successfully');
+      ApiResponse.success(res, 'Session revoked successfully', null);
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error;
@@ -518,7 +524,7 @@ export class AuthController {
       timestamp: new Date().toISOString(),
     };
 
-    apiResponse.ok(res, authStatus, 'Authentication status retrieved');
+    ApiResponse.success(res, 'Authentication status retrieved', authStatus);
   }
 
   /**
@@ -538,10 +544,10 @@ export class AuthController {
     try {
       const exists = await AuthService.emailExists(email);
 
-      apiResponse.ok(res, {
+      ApiResponse.success(res, 'Email validation completed', {
         email,
         available: !exists
-      }, 'Email validation completed');
+      });
     } catch (error) {
       log.error('Email validation failed', error, {
         email,
@@ -569,10 +575,10 @@ export class AuthController {
     try {
       const exists = await AuthService.usernameExists(username);
 
-      apiResponse.ok(res, {
+      ApiResponse.success(res, 'Username validation completed', {
         username,
         available: !exists
-      }, 'Username validation completed');
+      });
     } catch (error) {
       log.error('Username validation failed', error, {
         username,
@@ -607,7 +613,7 @@ export class AuthController {
       });
 
       // Always return success to prevent email enumeration
-      apiResponse.ok(res, null, 'If this email is registered, a reset link has been sent');
+      ApiResponse.success(res, 'If this email is registered, a reset link has been sent', null);
     } catch (error) {
       log.error('Password reset request failed', error, {
         email,
@@ -615,7 +621,7 @@ export class AuthController {
       });
 
       // Still return success to prevent enumeration
-      apiResponse.ok(res, null, 'If this email is registered, a reset link has been sent');
+      ApiResponse.success(res, 'If this email is registered, a reset link has been sent', null);
     }
   }
 
@@ -641,7 +647,7 @@ export class AuthController {
         ip: req.clientIp || req.ip,
       });
 
-      apiResponse.ok(res, null, 'Password has been reset successfully');
+      ApiResponse.success(res, 'Password has been reset successfully', null);
     } catch (error) {
       if (error instanceof UnauthorizedError || error instanceof BadRequestError) {
         throw error;
@@ -669,7 +675,7 @@ export class AuthController {
         requestId: req.requestId,
       });
 
-      apiResponse.ok(res, null, 'Verification email has been sent');
+      ApiResponse.success(res, 'Verification email has been sent', null);
     } catch (error) {
       if (error instanceof BadRequestError || error instanceof NotFoundError) {
         throw error;
@@ -706,7 +712,7 @@ export class AuthController {
         ip: req.clientIp || req.ip,
       });
 
-      apiResponse.ok(res, null, 'Email has been verified successfully');
+      ApiResponse.success(res, 'Email has been verified successfully', null);
     } catch (error) {
       if (error instanceof UnauthorizedError || error instanceof BadRequestError || error instanceof NotFoundError) {
         throw error;

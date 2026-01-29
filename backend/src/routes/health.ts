@@ -8,17 +8,17 @@
 import express from 'express';
 import { HealthController } from '../controllers/health.js';
 import { wrapAsync } from '../utils/wrapAsync.js';
-import { middleware } from '../middleware/index.js';
+import { middleware, type AuthenticatedRequest } from '../middleware/index.js';
 
-const router = express.Router();
+const router: express.Router = express.Router();
 
 /**
  * GET /health - Comprehensive health check
  */
 router.get(
   '/',
-  middleware.context,
-  wrapAsync(HealthController.getHealth)
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(HealthController.getHealth) as any
 );
 
 /**
@@ -26,8 +26,8 @@ router.get(
  */
 router.get(
   '/ready',
-  middleware.context,
-  wrapAsync(HealthController.getReadiness)
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(HealthController.getReadiness) as any
 );
 
 /**
@@ -35,8 +35,8 @@ router.get(
  */
 router.get(
   '/live',
-  middleware.context,
-  wrapAsync(HealthController.getLiveness)
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(HealthController.getLiveness) as any
 );
 
 /**
@@ -44,8 +44,8 @@ router.get(
  */
 router.get(
   '/database',
-  middleware.context,
-  wrapAsync(HealthController.getDatabaseHealth)
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(HealthController.getDatabaseHealth) as any
 );
 
 /**
@@ -53,8 +53,8 @@ router.get(
  */
 router.get(
   '/version',
-  middleware.context,
-  HealthController.getVersion
+  middleware.context as any,
+  HealthController.getVersion as any
 );
 
 /**
@@ -62,8 +62,8 @@ router.get(
  */
 router.get(
   '/process',
-  middleware.context,
-  wrapAsync(HealthController.getProcessHealth)
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(HealthController.getProcessHealth) as any
 );
 
 /**
@@ -71,8 +71,8 @@ router.get(
  */
 router.get(
   '/metrics',
-  middleware.context,
-  HealthController.getProcessMetrics
+  middleware.context as any,
+  HealthController.getProcessMetrics as any
 );
 
 /**
@@ -80,13 +80,13 @@ router.get(
  */
 router.get(
   '/comprehensive',
-  middleware.context,
-  wrapAsync(HealthController.getComprehensiveHealth)
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(HealthController.getComprehensiveHealth) as any
 );
 
 /**
  * GET /ping - Simple ping endpoint
  */
-router.get('/ping', middleware.context, HealthController.ping);
+router.get('/ping', middleware.context as any, HealthController.ping as any);
 
 export default router;

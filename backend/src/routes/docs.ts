@@ -16,24 +16,24 @@ import {
 import { wrapAsync } from '../utils/wrapAsync.js';
 import { middleware } from '../middleware/index.js';
 
-const router = express.Router();
+const router: express.Router = express.Router();
 
 /**
  * GET /docs/health - Documentation health check
  */
-router.get('/health', middleware.context, wrapAsync(docsHealthHandler));
+router.get('/health', middleware.context as any, docsHealthHandler as any);
 
 /**
  * GET /docs/openapi.json - OpenAPI specification
  */
-router.get('/openapi.json', middleware.context, openApiSpecHandler);
+router.get('/openapi.json', middleware.context as any, openApiSpecHandler as any);
 
 /**
  * GET /docs - Swagger UI documentation
  */
 router.use(
   '/',
-  middleware.context,
+  middleware.context as any,
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, swaggerUiOptions)
 );

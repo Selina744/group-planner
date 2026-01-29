@@ -23,6 +23,11 @@ export {
   NotificationService,
 } from './notification.js';
 
+// Trip service exports
+export {
+  TripService,
+} from './trip.js';
+
 // Health service exports
 export {
   HealthService,
@@ -66,3 +71,23 @@ export type {
   JwtError,
   JwtOperationResult,
 } from '../types/jwt.js';
+
+// Re-export Trip types for convenience
+export type {
+  Trip,
+  TripMember,
+  CreateTripRequest,
+  UpdateTripRequest,
+  TripListQuery,
+  TripListResponse,
+  CreateTripResponse,
+  TripLocation,
+  TripStatus,
+  MemberRole,
+  MemberStatus,
+  TripListFilters,
+  DatabaseTrip,
+  DatabaseTripMember,
+  TripError,
+  TripServiceResult,
+} from '../types/trip.js';

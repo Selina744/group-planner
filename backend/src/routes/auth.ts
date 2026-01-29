@@ -16,15 +16,15 @@ import {
 import type { Response } from 'express';
 import type { UserProfile } from '../types/auth.js';
 
-const router = express.Router();
+const router: express.Router = express.Router();
 
 /**
  * POST /auth/register - User registration
  */
 router.post(
   '/register',
-  ...middlewarePresets.register,
-  wrapAsync(AuthController.register)
+  ...(middlewarePresets.register as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.register) as any
 );
 
 /**
@@ -32,8 +32,8 @@ router.post(
  */
 router.post(
   '/login',
-  ...middlewarePresets.login,
-  wrapAsync(AuthController.login)
+  ...(middlewarePresets.login as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.login) as any
 );
 
 /**
@@ -41,8 +41,8 @@ router.post(
  */
 router.post(
   '/refresh',
-  ...middlewarePresets.tokenRefresh,
-  wrapAsync(AuthController.refreshTokens)
+  ...(middlewarePresets.tokenRefresh as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.refreshTokens) as any
 );
 
 /**
@@ -50,8 +50,8 @@ router.post(
  */
 router.post(
   '/logout',
-  ...middlewarePresets.protected,
-  wrapAsync(AuthController.logout)
+  ...(middlewarePresets.protected as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.logout) as any
 );
 
 /**
@@ -59,8 +59,8 @@ router.post(
  */
 router.get(
   '/me',
-  ...middlewarePresets.protected,
-  wrapAsync(AuthController.getCurrentUser)
+  ...(middlewarePresets.protected as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.getCurrentUser) as any
 );
 
 /**
@@ -68,8 +68,8 @@ router.get(
  */
 router.put(
   '/me',
-  ...middlewarePresets.protected,
-  wrapAsync(AuthController.updateProfile)
+  ...(middlewarePresets.protected as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.updateProfile) as any
 );
 
 /**
@@ -77,8 +77,8 @@ router.put(
  */
 router.put(
   '/password',
-  ...middlewarePresets.protected,
-  wrapAsync(AuthController.changePassword)
+  ...(middlewarePresets.protected as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.changePassword) as any
 );
 
 /**
@@ -86,8 +86,8 @@ router.put(
  */
 router.get(
   '/sessions',
-  ...middlewarePresets.protected,
-  wrapAsync(AuthController.getActiveSessions)
+  ...(middlewarePresets.protected as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.getActiveSessions) as any
 );
 
 /**
@@ -95,8 +95,8 @@ router.get(
  */
 router.delete(
   '/sessions',
-  ...middlewarePresets.protected,
-  wrapAsync(AuthController.revokeAllSessions)
+  ...(middlewarePresets.protected as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.revokeAllSessions) as any
 );
 
 /**
@@ -104,8 +104,8 @@ router.delete(
  */
 router.delete(
   '/sessions/:tokenId',
-  ...middlewarePresets.protected,
-  wrapAsync(AuthController.revokeSession)
+  ...(middlewarePresets.protected as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.revokeSession) as any
 );
 
 /**
@@ -113,8 +113,8 @@ router.delete(
  */
 router.get(
   '/check',
-  ...middlewarePresets.public,
-  wrapAsync(AuthController.checkAuth)
+  ...(middlewarePresets.public as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.checkAuth) as any
 );
 
 /**
@@ -122,8 +122,8 @@ router.get(
  */
 router.post(
   '/validate-email',
-  ...middlewarePresets.public,
-  wrapAsync(AuthController.validateEmail)
+  ...(middlewarePresets.public as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.validateEmail) as any
 );
 
 /**
@@ -131,8 +131,8 @@ router.post(
  */
 router.post(
   '/validate-username',
-  ...middlewarePresets.public,
-  wrapAsync(AuthController.validateUsername)
+  ...(middlewarePresets.public as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.validateUsername) as any
 );
 
 /**
@@ -140,8 +140,8 @@ router.post(
  */
 router.post(
   '/request-password-reset',
-  ...middlewarePresets.public,
-  wrapAsync(AuthController.requestPasswordReset)
+  ...(middlewarePresets.passwordReset as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.requestPasswordReset) as any
 );
 
 /**
@@ -149,8 +149,8 @@ router.post(
  */
 router.post(
   '/reset-password',
-  ...middlewarePresets.public,
-  wrapAsync(AuthController.confirmPasswordReset)
+  ...(middlewarePresets.passwordReset as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.confirmPasswordReset) as any
 );
 
 /**
@@ -158,8 +158,8 @@ router.post(
  */
 router.post(
   '/send-verification',
-  ...middlewarePresets.protected,
-  wrapAsync(AuthController.sendEmailVerification)
+  ...(middlewarePresets.protected as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.sendEmailVerification) as any
 );
 
 /**
@@ -167,8 +167,8 @@ router.post(
  */
 router.post(
   '/verify-email',
-  ...middlewarePresets.public,
-  wrapAsync(AuthController.verifyEmail)
+  ...(middlewarePresets.public as any),
+  wrapAsync<AuthenticatedRequest>(AuthController.verifyEmail) as any
 );
 
 /**

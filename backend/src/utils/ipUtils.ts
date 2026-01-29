@@ -54,7 +54,7 @@ export function getSecureClientIp(req: Request): string {
   if (process.env.NODE_ENV === 'development' && TRUSTED_PROXY_CONFIG.allowForwardedInDev) {
     const forwardedFor = req.get('X-Forwarded-For');
     if (forwardedFor) {
-      return forwardedFor.split(',')[0].trim();
+      return forwardedFor.split(',')[0]?.trim() || forwardedFor;
     }
 
     const realIp = req.get('X-Real-IP');
@@ -68,7 +68,7 @@ export function getSecureClientIp(req: Request): string {
     // Trust X-Forwarded-For header
     const forwardedFor = req.get('X-Forwarded-For');
     if (forwardedFor) {
-      const clientIp = forwardedFor.split(',')[0].trim();
+      const clientIp = forwardedFor.split(',')[0]?.trim() || forwardedFor;
       log.debug('Using client IP from X-Forwarded-For', {
         directIp,
         clientIp,

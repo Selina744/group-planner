@@ -201,7 +201,7 @@ export class AuthMiddleware {
         };
       }
     } catch (error) {
-      log.debug('Token verification failed', error);
+      log.debug('Token verification failed', { error });
 
       return {
         valid: false,
@@ -333,7 +333,7 @@ export class AuthMiddleware {
   /**
    * Middleware for admin-only routes
    */
-  static requireAdmin(config: AuthMiddlewareConfig = {}): MiddlewareFunction {
+  static requireAdmin(config: Partial<AuthMiddlewareConfig> = {}): MiddlewareFunction {
     return this.create({
       ...config,
       required: true,

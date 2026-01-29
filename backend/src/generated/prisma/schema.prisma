@@ -35,6 +35,7 @@ model User {
   // Relationships
   refreshTokens     RefreshToken[]
   passwordResets    PasswordReset[]
+  loginAttempts     LoginAttempt[]
   tripMembers       TripMember[]
   suggestedEvents   Event[]                  @relation("EventSuggestor")
   approvedEvents    Event[]                  @relation("EventApprover")
@@ -330,4 +331,28 @@ model TripExtension {
 
   @@unique([tripId, extensionType])
   @@map("trip_extensions")
+}
+
+// Login attempt tracking for account security
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Attempt details
+  identifier String // email or username attempted
+  ipAddress  String
+  userAgent  String?
+  success    Boolean @default(false)
+
+  // User relationship (optional - null if user doesn't exist)
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Failure details
+  failureReason String? // "user_not_found", "invalid_password", "account_locked", etc.
+
+  @@index([userId, createdAt])
+  @@index([identifier, createdAt])
+  @@index([ipAddress, createdAt])
+  @@map("login_attempts")
 }

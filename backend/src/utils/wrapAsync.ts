@@ -11,8 +11,8 @@ import log from './logger.js';
 /**
  * Type for async route handler function
  */
-export type AsyncRouteHandler = (
-  req: Request,
+export type AsyncRouteHandler<TRequest = Request> = (
+  req: TRequest,
   res: Response,
   next: NextFunction
 ) => Promise<void | Response>;
@@ -44,18 +44,18 @@ export type AsyncMiddleware = (
  * }));
  * ```
  */
-export function wrapAsync(fn: AsyncRouteHandler) {
-  return (req: Request, res: Response, next: NextFunction): void => {
+export function wrapAsync<TRequest = Request>(fn: AsyncRouteHandler<TRequest>) {
+  return (req: TRequest, res: Response, next: NextFunction): void => {
     // Execute the async function and catch any errors
     Promise.resolve(fn(req, res, next)).catch((error: unknown) => {
       // Log the error for debugging
       log.error('Async route handler error', error, {
-        method: req.method,
-        url: req.url,
-        params: req.params,
-        query: req.query,
-        userAgent: req.get('User-Agent'),
-        ip: req.ip,
+        method: (req as any).method,
+        url: (req as any).url,
+        params: (req as any).params,
+        query: (req as any).query,
+        userAgent: (req as any).get?.('User-Agent'),
+        ip: (req as any).ip,
       });
 
       // Forward error to Express error handling middleware
@@ -115,7 +115,7 @@ export function wrapAsyncMiddleware(fn: AsyncMiddleware) {
  * ]);
  * ```
  */
-export function wrapAsyncHandlers(handlers: AsyncRouteHandler[]): ((req: Request, res: Response, next: NextFunction) => void)[] {
+export function wrapAsyncHandlers<TRequest = Request>(handlers: AsyncRouteHandler<TRequest>[]): ((req: TRequest, res: Response, next: NextFunction) => void)[] {
   return handlers.map(handler => wrapAsync(handler));
 }
 

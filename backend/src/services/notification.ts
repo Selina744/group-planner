@@ -40,11 +40,11 @@ export class NotificationService {
   static async createNotification(input: NotificationCreateInput) {
     const record = {
       userId: input.userId,
-      tripId: input.tripId,
+      tripId: input.tripId ?? null,
       type: input.type,
       title: input.title,
       body: input.body ?? '',
-      payload: input.payload ?? {},
+      payload: (input.payload ?? {}) as any,
       read: false,
       readAt: null,
     }

@@ -166,7 +166,7 @@ export class JwtService {
       try {
         const dbRecord = await safePrismaOperation(async () => {
           return await prisma.refreshToken.findUnique({
-            where: { tokenId: jwtResult.payload.tokenId },
+            where: { tokenId: jwtResult.payload!.tokenId },
           });
         }, 'Verify refresh token database');
 
@@ -291,7 +291,7 @@ export class JwtService {
           email: user.email,
           username: user.username || undefined,
           displayName: user.displayName || undefined,
-          timezone: user.timezone,
+          timezone: user.timezone || 'UTC',
           emailVerified: user.emailVerified,
           preferences: user.preferences as Record<string, unknown>,
           createdAt: user.createdAt.toISOString(),

@@ -10,6 +10,7 @@ import type { Response, NextFunction } from 'express';
 import { log } from '../utils/logger.js';
 import { ForbiddenError, UnauthorizedError } from '../utils/errors.js';
 import { AuthMiddleware } from './auth.js';
+import { prisma, safePrismaOperation } from '../lib/prisma.js';
 import type {
   AuthenticatedRequest,
   MiddlewareFunction,
@@ -44,6 +45,30 @@ export type Permission =
  * User roles (for future implementation)
  */
 export type Role = 'user' | 'trip_admin' | 'admin' | 'super_admin';
+
+/**
+ * Trip member roles from database
+ */
+export type MemberRole = 'HOST' | 'CO_HOST' | 'MEMBER';
+
+/**
+ * Trip member status from database
+ */
+export type MemberStatus = 'PENDING' | 'CONFIRMED' | 'DECLINED';
+
+/**
+ * Trip membership information attached to request
+ */
+export interface TripMembership {
+  tripId: string;
+  userId: string;
+  role: MemberRole;
+  status: MemberStatus;
+  notifications: boolean;
+  canInvite: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 /**
  * Role-permission mapping (future expansion)
@@ -142,7 +167,7 @@ export class RbacMiddleware {
    * Get user permissions based on current implementation
    * (This will be enhanced when roles are added to the database)
    */
-  private static getUserPermissions(user: UserProfile): Permission[] {
+  static getUserPermissions(user: UserProfile): Permission[] {
     // Temporary implementation based on email domain
     // This should be replaced with actual role-based logic
     if (user.email.endsWith('@admin.example.com')) {
@@ -376,11 +401,148 @@ export class RbacMiddleware {
   }
 
   /**
-   * Get user permissions (utility function)
+   * Require specific trip member roles - implements task bd-11l
    */
-  static getUserPermissions(user: UserProfile): Permission[] {
-    return this.getUserPermissions(user);
+  static requireRole(...roles: MemberRole[]): MiddlewareFunction {
+    return async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        // Check if user is authenticated
+        if (!AuthMiddleware.isAuthenticated(req)) {
+          throw new UnauthorizedError('Authentication required');
+        }
+
+        const { user } = req;
+
+        // Get tripId from request parameters
+        const tripId = req.params.tripId;
+        if (!tripId) {
+          throw new ForbiddenError('Trip ID required');
+        }
+
+        // Check trip membership in database
+        const membership = await safePrismaOperation(async () => {
+          return await prisma.tripMember.findUnique({
+            where: {
+              tripId_userId: {
+                tripId,
+                userId: user.id,
+              },
+            },
+            include: {
+              trip: {
+                select: {
+                  title: true,
+                  status: true,
+                },
+              },
+            },
+          });
+        }, 'Check trip membership');
+
+        if (!membership) {
+          log.auth('Trip access denied - not a member', {
+            userId: user.id,
+            email: user.email,
+            tripId,
+            path: req.path,
+            method: req.method,
+          });
+
+          throw new ForbiddenError('You are not a member of this trip');
+        }
+
+        // Check if membership is confirmed
+        if (membership.status !== 'CONFIRMED') {
+          log.auth('Trip access denied - membership not confirmed', {
+            userId: user.id,
+            email: user.email,
+            tripId,
+            membershipStatus: membership.status,
+            path: req.path,
+            method: req.method,
+          });
+
+          throw new ForbiddenError(
+            membership.status === 'PENDING'
+              ? 'Your trip membership is pending approval'
+              : 'Your trip membership has been declined'
+          );
+        }
+
+        // Check role requirements
+        if (!roles.includes(membership.role as MemberRole)) {
+          log.auth('Trip access denied - insufficient role', {
+            userId: user.id,
+            email: user.email,
+            tripId,
+            userRole: membership.role,
+            requiredRoles: roles,
+            path: req.path,
+            method: req.method,
+          });
+
+          throw new ForbiddenError(`This action requires one of these roles: ${roles.join(', ')}`);
+        }
+
+        // Attach trip membership to request
+        (req as any).tripMembership = {
+          tripId: membership.tripId,
+          userId: membership.userId,
+          role: membership.role,
+          status: membership.status,
+          notifications: membership.notifications,
+          canInvite: membership.canInvite,
+          createdAt: membership.createdAt.toISOString(),
+          updatedAt: membership.updatedAt.toISOString(),
+        } as TripMembership;
+
+        log.auth('Trip access granted', {
+          userId: user.id,
+          tripId,
+          role: membership.role,
+          tripTitle: membership.trip.title,
+          path: req.path,
+          method: req.method,
+        });
+
+        next();
+      } catch (error) {
+        if (error instanceof UnauthorizedError || error instanceof ForbiddenError) {
+          return next(error);
+        }
+
+        log.error('Trip role check middleware error', error, {
+          path: req.path,
+          method: req.method,
+          tripId: req.params.tripId,
+        });
+
+        next(new ForbiddenError('Access control error'));
+      }
+    };
   }
+
+  /**
+   * Helper method to require HOST role
+   */
+  static requireHost(): MiddlewareFunction {
+    return this.requireRole('HOST');
+  }
+
+  /**
+   * Helper method to require HOST or CO_HOST role
+   */
+  static requireHostOrCoHost(): MiddlewareFunction {
+    return this.requireRole('HOST', 'CO_HOST');
+  }
+
+  /**
+   * Helper method to require any confirmed member role
+   */
+  static requireMember(): MiddlewareFunction {
+    return this.requireRole('HOST', 'CO_HOST', 'MEMBER');
+  }
+
 }
 
 /**
@@ -409,6 +571,12 @@ export const requireAdmin = RbacMiddleware.requireAdmin;
 export const requireOwnershipOrAdmin = RbacMiddleware.requireOwnershipOrAdmin;
 export const canAccessTrip = RbacMiddleware.canAccessTrip;
 export const canManageTrip = RbacMiddleware.canManageTrip;
+
+// Trip role-based access control exports (new in bd-11l)
+export const requireRole = RbacMiddleware.requireRole;
+export const requireHost = RbacMiddleware.requireHost;
+export const requireHostOrCoHost = RbacMiddleware.requireHostOrCoHost;
+export const requireMember = RbacMiddleware.requireMember;
 
 // Default export
 export default RbacMiddleware;

@@ -45,10 +45,10 @@ export function validateRequest(schemas: ValidationSchemaMap) {
           req.body = data
           break
         case 'query':
-          req.query = data
+          req.query = data as any
           break
         case 'params':
-          req.params = data
+          req.params = data as any
           break
       }
     }
