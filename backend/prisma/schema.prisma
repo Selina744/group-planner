@@ -35,6 +35,7 @@ model User {
   // Relationships
   refreshTokens  RefreshToken[]
   passwordResets PasswordReset[]
+  tripMembers    TripMember[]
 
   @@map("users")
 }
@@ -74,4 +75,81 @@ model PasswordReset {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("password_resets")
+}
+
+// Enums for trip management
+enum TripStatus {
+  PLANNING
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum MemberRole {
+  HOST
+  CO_HOST
+  MEMBER
+}
+
+enum MemberStatus {
+  PENDING
+  CONFIRMED
+  DECLINED
+}
+
+// Trip model for group planning
+model Trip {
+  // Primary key
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Trip details
+  title       String
+  description String?
+  status      TripStatus @default(PLANNING)
+
+  // Location stored as JSON (flexible for different location formats)
+  location Json?
+
+  // Unique invite code for sharing the trip
+  inviteCode String @unique @default(cuid())
+
+  // Additional metadata stored as JSON
+  metadata Json @default("{}")
+
+  // Trip dates
+  startDate DateTime?
+  endDate   DateTime?
+
+  // Relationships
+  members TripMember[]
+
+  @@map("trips")
+}
+
+// TripMember model for managing user participation in trips
+model TripMember {
+  // Composite primary key
+  tripId String
+  userId String
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Member details
+  role   MemberRole   @default(MEMBER)
+  status MemberStatus @default(PENDING)
+
+  // Additional member-specific settings
+  notifications Boolean @default(true)
+  canInvite     Boolean @default(false)
+
+  // Relationships
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([tripId, userId])
+  @@map("trip_members")
 }
