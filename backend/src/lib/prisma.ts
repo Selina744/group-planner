@@ -13,7 +13,7 @@ import { log } from '../utils/logger.js';
  */
 class ExtendedPrismaClient extends PrismaClient {
   constructor() {
-    // Use stdout logging for simplicity with Prisma v7
+    // Use stdout logging for simplicity with Prisma v6
     const logLevel: Array<'query' | 'info' | 'warn' | 'error'> =
       process.env.NODE_ENV === 'development' ? ['query', 'info', 'warn', 'error'] : ['error'];
 

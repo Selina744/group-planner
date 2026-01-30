@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
-    command: ["bun", "dev", "--filter", "backend", "--", "--host", "0.0.0.0", "--port", "4000"]
+    command: ["bun", "dev", "--filter", "@group-planner/backend", "--", "--host", "0.0.0.0", "--port", "4000"]
     working_dir: /app
     ports:
       - "4000:4000"
@@ -27,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    command: ["bun", "dev", "--filter", "frontend", "--", "--host", "0.0.0.0", "--port", "5173"]
+    command: ["bun", "dev", "--filter", "@group-planner/frontend", "--", "--host", "0.0.0.0", "--port", "5173"]
     working_dir: /app
     ports:
       - "5173:5173"
