@@ -310,97 +310,9 @@ ubs .                                   # Whole project
 
 ---
 
-## Boss Agent — Multi-Agent Management System
+## Multi-Agent Development Environment
 
-### Role Definition
-The **Boss Agent** is responsible for coordinating and managing multiple AI coding agents working on the project. This agent does not write code directly but orchestrates the work of other agents to ensure efficient, coordinated development.
-
-### Primary Responsibilities
-
-1. **Agent Coordination**
-   - Discover and maintain roster of available coding agents
-   - Assign tasks to appropriate coding agents based on capabilities and availability
-   - Monitor agent status and work progress
-   - Resolve conflicts and coordinate file reservations
-
-2. **Task Management**
-   - Use `br ready --json` and `bv --robot-*` to identify priority tasks
-   - Update task status before delegation (`br update <id> --status in_progress`)
-   - Ensure proper dependency ordering and parallel execution where possible
-   - Track task completion and quality assurance
-
-3. **Quality Assurance Pipeline**
-   - Spin up code-reviewer subagents for completed work
-   - Spin up quality-assurance subagents after code review
-   - Ensure all quality gates are met before task closure
-
-4. **Communication Hub**
-   - Monitor agent mail every 2 minutes for status updates and questions
-   - Respond to agent messages with guidance and next task assignments
-   - Conduct 15-minute check-ins with all active agents
-   - Maintain communication threads for complex features
-
-### Operational Schedule
-
-**2-Minute Cycle (Mail Check):**
-- `fetch_inbox` for new messages from coding agents
-- Respond to agent questions and status reports
-- If code ready for review → spawn code-reviewer subagent
-- After review complete → spawn quality-assurance subagent
-- Send next best task to available agents
-
-**15-Minute Cycle (Status Check):**
-- Poll all active agents for status updates
-- Verify agents are still working if tasks remain ready
-- Update management learnings in Boss section below
-- Add process improvement suggestions to SELINA.md
-
-### Agent Communication Protocol
-
-**Discovery:** Send broadcast message asking all agents to identify themselves
-**Task Assignment:** Include task ID, description, dependencies, and acceptance criteria
-**Status Requests:** Regular check-ins with specific agents about current work
-**Code Review:** Hand off completed work with context to reviewer subagents
-
-### Management Learnings
-
-*This section updated during operation with insights for future Boss agents:*
-
-- **Agent Discovery:** Initial setup requires 2-minute wait period for agent responses
-- **MCP Status:** System status must be monitored; agents can't coordinate if MCP mail is down
-- **Task Priority:** Use bv robot tools for intelligent task assignment, don't manually parse beads
-- **Quality Gates:** Always run code review before QA to catch issues early
-
-### Tools and Systems Used
-
-- **MCP Agent Mail:** Core coordination system for agent communication
-- **Beads (br/bd):** Task tracking and status management
-- **bv robot tools:** Intelligent task prioritization and dependency analysis
-- **Task tool:** Spawning specialized subagents (code-review, quality-assurance)
-- **File reservations:** Preventing agent conflicts on shared files
-
-### Current Status
-*Last Updated: 2026-01-29 20:27 UTC*
-
-**FOR POST-RESTART BOSS AGENT - READ THIS IMMEDIATELY:**
-
-**Your Identity:** LilacBeacon (already registered by RubyPond system admin)
-**MCP Agent Mail:** ✅ OPERATIONAL at http://127.0.0.1:8765/mcp/
-**Registration Status:** Already done - you are "LilacBeacon" in the system
-**Communication Hub:** Use /data/projects/group-planner/CURRENT_SYSTEM_ISSUES.md to coordinate with RubyPond
-
-**Waiting Agents (URGENT):**
-- **LavenderBeaver:** Registered, 1 unread message ⚠️
-- **RosePrairie:** Registered, 4 unread messages ‼️
-
-**Immediate Actions for Post-Restart Boss Agent:**
-1. **Check if you have MCP tools** (ensure_project, register_agent, send_message, fetch_inbox)
-2. **If tools available:** Contact waiting agents immediately
-3. **If tools still missing:** Use CURRENT_SYSTEM_ISSUES.md to coordinate via RubyPond
-4. **Priority:** Activate dormant agents with multiple unread messages
-
-**Task Queue:** 45+ ready issues waiting for agent coordination
-**System Admin:** RubyPond (active and monitoring)
+**For Boss Agent coordination, see BOSS.md**
 
 ---
 
@@ -796,6 +708,28 @@ curl -s -X POST http://127.0.0.1:8765/mcp -H "Content-Type: application/json" -d
 - **Auto-generated names:** System assigns adjective+noun combinations (e.g., "PinkGrove")
 - **DO NOT specify names** in registration unless required
 - **Use returned name** for all subsequent API calls
+
+**⚠️ CRITICAL: Agent Identity Management**
+
+**Agent Session vs. Registration Confusion Prevention:**
+1. **Your active agent name** (e.g., "PinkGrove") may differ from old registrations
+2. **Always register with your current agent identity** - don't reuse old names
+3. **Boss Agent coordinates by current name** - not historical registrations
+4. **First action in ANY session:** Register immediately with current identity
+
+**Registration Protocol for All Agents:**
+```bash
+# MANDATORY FIRST STEP - Use YOUR current agent name
+mcp__mcp-agent-mail__register_agent project_key="/data/projects/group-planner" program="claude-code" model="your-model" name="YourCurrentName" task_description="Your current work focus"
+
+# Then immediately contact Boss Agent
+mcp__mcp-agent-mail__send_message project_key="/data/projects/group-planner" sender_name="YourCurrentName" to=["LilacBeacon"] subject="Agent Registration - Ready for Coordination" body_md="Registered as YourCurrentName. Ready for task assignment and coordination protocols." importance="high" ack_required=true
+```
+
+**Boss Agent Identity Tracking:**
+- **If your name changed from previous sessions:** Inform Boss Agent immediately
+- **If you're replacing another agent:** Mention the previous agent name for context
+- **Include session change information** in your first contact message
 
 ### System Architecture Recommendations for Future
 
