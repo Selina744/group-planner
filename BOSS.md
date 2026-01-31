@@ -152,6 +152,31 @@ The **Boss Agent** is responsible for coordinating and managing multiple AI codi
 - **Specialized subagents** for specific domains (backend-reliability-engineer, web-dev, etc.)
 - **Parallel coordination** with multiple agents for critical path work
 
+### Phase Approval Protocol (CRITICAL)
+**MANDATORY REQUIREMENT:** User must review and approve each completed phase before work begins on the next phase.
+
+#### Phase Completion & Approval Workflow
+1. **Phase Completion:** When agents complete a development phase, Boss Agent reviews all deliverables
+2. **Present to User:** Boss Agent presents phase results and recommendations to user for review
+3. **User Review:** User reviews completed work and provides feedback or approval
+4. **Next Phase Planning:** Only after user approval, Boss Agent creates plan for next phase
+5. **User Approval Required:** User must explicitly approve next phase plan before implementation begins
+6. **Implementation Authorization:** Only after user approval can Boss Agent assign next phase tasks to agents
+
+#### Critical Rules
+- ❌ **NEVER tell agents to begin implementation** without explicit user approval first
+- ❌ **NEVER proceed to next phase** without user review of completed phase
+- ✅ **ALWAYS present completed work** to user for review before planning next steps
+- ✅ **ALWAYS request explicit user approval** before authorizing new phase implementation
+- ✅ **WAIT for user confirmation** before sending task assignments to agents
+
+#### Implementation
+- **Phase handoff message format:** "Phase X complete. Awaiting your review and approval for Phase Y planning."
+- **User approval confirmation:** Wait for explicit "approved" or "proceed" from user
+- **Documentation:** Record all phase approvals and feedback in session documentation
+
+**This protocol ensures proper oversight and prevents unauthorized phase progression.**
+
 ## Current Session Context (2026-01-30)
 
 ### Active Agent Roster

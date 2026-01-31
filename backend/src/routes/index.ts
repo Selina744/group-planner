@@ -23,6 +23,9 @@ export { default as eventRoutes } from './event.js';
 // Item routes
 export { default as itemRoutes } from './item.js';
 
+// Socket routes
+export { default as socketRoutes } from './socket.js';
+
 /**
  * Route configuration for the application
  * This will be used to mount routes in the main app
@@ -51,6 +54,10 @@ export const routeConfig = {
   items: {
     path: '/items',
     router: 'itemRoutes',
+  },
+  socket: {
+    path: '/socket',
+    router: 'socketRoutes',
   },
   // Future routes will be added here
   // users: {

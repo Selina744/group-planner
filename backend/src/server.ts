@@ -9,6 +9,7 @@ import { createServer, type Server } from 'http';
 import { app, getAppConfig, initializeServices, shutdownServices } from './app.js';
 import { log } from './utils/logger.js';
 import { ProcessManager } from './utils/processManager.js';
+import { socketService } from './services/socket.js';
 
 /**
  * Server configuration interface
@@ -81,11 +82,15 @@ class GroupPlannerServer {
       // Start listening
       await this.listen();
 
+      // Initialize Socket.io server after HTTP server is listening
+      socketService.initialize(this.server);
+
       log.info('Group Planner API server started successfully', {
         port: this.config.port,
         host: this.config.host,
         environment: this.config.environment,
         processId: process.pid,
+        socketIo: true,
       });
 
       // Register with process manager
@@ -191,6 +196,9 @@ class GroupPlannerServer {
         log.error('Graceful shutdown timeout reached, forcing exit');
         process.exit(1);
       }, this.config.gracefulShutdownTimeout);
+
+      // Shutdown Socket.io server first
+      await socketService.shutdown();
 
       // Stop accepting new connections
       await this.stopServer();

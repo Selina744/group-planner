@@ -28,6 +28,17 @@ export {
   TripService,
 } from './trip.js';
 
+// Trip broadcasting service exports
+export {
+  TripBroadcastService,
+} from './tripBroadcast.js';
+
+// Socket service exports
+export {
+  socketService,
+  SocketService,
+} from './socket.js';
+
 // Event service exports
 export {
   EventService,

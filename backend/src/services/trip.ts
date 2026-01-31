@@ -14,6 +14,7 @@ import {
   BadRequestError,
   ConflictError,
 } from '../utils/errors.js';
+import { socketService } from './socket.js';
 import type {
   Trip,
   TripMember,
@@ -76,8 +77,8 @@ class TripTransforms {
       createdAt: dbMember.createdAt.toISOString(),
       updatedAt: dbMember.updatedAt.toISOString(),
       user: {
-        id: dbMember.user!.id,
-        email: dbMember.user!.email,
+        id: dbMember.user?.id || '',
+        email: dbMember.user?.email || '',
         ...(dbMember.user?.username && { username: dbMember.user.username }),
         ...(dbMember.user?.displayName && { displayName: dbMember.user.displayName }),
       },
@@ -167,6 +168,9 @@ export class TripService {
         hostUserId: user.id,
         title: result.trip.title,
       });
+
+      // Broadcast trip creation to other services (if needed in future)
+      // For now, we don't broadcast trip creation since it's a private action
 
       return {
         trip: TripTransforms.toTrip(result.trip as DatabaseTrip, 1, result.membership),
@@ -533,6 +537,17 @@ export class TripService {
         updatedFields: Object.keys(dbUpdateData),
       });
 
+      // Broadcast trip update to all trip members
+      socketService.broadcastTripDetailsUpdate(
+        tripId,
+        dbUpdateData,
+        {
+          id: user.id,
+          ...(user.username && { username: user.username }),
+          email: user.email,
+        }
+      );
+
       return TripTransforms.toTrip(
         updatedTrip as DatabaseTrip,
         memberCount,
@@ -585,6 +600,20 @@ export class TripService {
           where: { id: tripId },
         });
       }, 'Delete trip');
+
+      // Broadcast trip deletion to all trip members before deletion
+      socketService.broadcastTripUpdate(
+        tripId,
+        'trip:deleted',
+        {
+          title: trip.title,
+          deletedBy: {
+            id: user.id,
+            ...(user.username && { username: user.username }),
+            email: user.email,
+          },
+        }
+      );
 
       log.info('Trip deleted successfully', {
         tripId,
