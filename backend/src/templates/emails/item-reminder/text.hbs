@@ -1,0 +1,47 @@
+Hello {{recipientName}}!
+
+{{#if (eq reminderType "claimed")}}You've successfully claimed an item for your upcoming trip.{{/if}}{{#if (eq reminderType "overdue")}}This is a reminder about an overdue item for your upcoming trip.{{/if}}{{#if (eq reminderType "reminder")}}This is a friendly reminder about an item for your upcoming trip.{{/if}}
+
+Item Details:
+-------------
+Item: {{itemName}}
+Description: {{itemDescription}}
+Quantity: {{quantity}}
+Trip: {{tripName}}
+Trip Date: {{tripDate}}
+
+{{#if (eq reminderType "claimed")}}
+Great job claiming this item! Please make sure to bring it with you on the trip.
+
+Action Required:
+- Purchase/prepare the item before the trip
+- Mark the item as "ready" when you have it
+{{/if}}
+
+{{#if (eq reminderType "overdue")}}
+This item was supposed to be prepared by now, but hasn't been marked as ready yet.
+
+Urgent Action Required:
+- Get this item as soon as possible
+- Mark the item as "ready" once you have it
+- Contact other trip members if you can't fulfill this item
+{{/if}}
+
+{{#if (eq reminderType "reminder")}}
+Your trip is coming up soon! Please make sure you're prepared with your assigned item.
+
+Action Required:
+- Purchase/prepare the item if you haven't already
+- Mark the item as "ready" when you have it
+{{/if}}
+
+Manage Item: {{itemLink}}
+
+Thanks for helping make this trip a success!
+
+Best regards,
+The {{appName}} Team
+
+---
+Need help? Contact us at {{supportEmail}}
+© {{year}} {{companyName}}. All rights reserved.

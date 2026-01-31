@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your {{digestPeriod}} {{appName}} digest</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .digest-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+            background: rgba(255,255,255,0.2);
+            text-transform: capitalize;
+        }
+        .content {
+            padding: 40px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+        .section {
+            margin: 30px 0;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .section-icon {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        .notifications-list {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .notification-item {
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        .notification-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .notification-body {
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .notification-time {
+            font-size: 12px;
+            color: #999;
+        }
+        .trip-summary {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 0;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .trip-item {
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .trip-item:last-child {
+            border-bottom: none;
+        }
+        .trip-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        .trip-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            background: #e7f1ff;
+            color: #004085;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .stat-item.events { background: #d1ecf1; color: #0c5460; }
+        .stat-item.items { background: #d4edda; color: #155724; }
+        .stat-item.members { background: #f8d7da; color: #721c24; }
+        .trip-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+        .trip-link:hover {
+            text-decoration: underline;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin: 30px -40px -40px -40px;
+        }
+        .cta-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 15px 5px;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.2s;
+        }
+        .cta-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+        }
+        .footer p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .container { margin: 10px; }
+            .header, .content { padding: 20px; }
+            .header h1 { font-size: 24px; }
+            .greeting { font-size: 16px; }
+            .trip-stats { flex-direction: column; gap: 8px; }
+            .cta-section { margin: 30px -20px -20px -20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{appName}}</h1>
+            <div class="digest-badge">
+                📬 {{digestPeriod}} Digest
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="greeting">
+                Hello {{recipientName}}! 👋
+            </div>
+
+            <div style="margin-bottom: 30px; color: #666; font-size: 16px;">
+                Here's your {{digestPeriod}} summary of activity across your trips.
+            </div>
+
+            {{#if (gt totalNotifications 0)}}
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-icon">🔔</span>
+                    Recent Activity
+                    <span style="background: #dc3545; color: white; font-size: 12px; padding: 2px 8px; border-radius: 10px; margin-left: 10px;">{{totalNotifications}}</span>
+                </div>
+                <ul class="notifications-list">
+                    {{#each notifications}}
+                    <li class="notification-item">
+                        <div class="notification-title">{{title}}</div>
+                        <div class="notification-body">{{body}}</div>
+                        <div class="notification-time">{{timestamp}}</div>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            {{else}}
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-icon">🔔</span>
+                    Recent Activity
+                </div>
+                <div class="empty-state">
+                    <div class="empty-state-icon">🌿</div>
+                    <div>No new notifications since your last digest.</div>
+                    <div style="margin-top: 10px; color: #999; font-size: 14px;">Enjoy the quiet time!</div>
+                </div>
+            </div>
+            {{/if}}
+
+            {{#if tripSummaries}}
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-icon">🏕️</span>
+                    Trip Summary
+                </div>
+                <div class="trip-summary">
+                    {{#each tripSummaries}}
+                    <div class="trip-item">
+                        <div class="trip-name">📍 {{tripName}}</div>
+
+                        {{#if (or newEvents newItems newMembers)}}
+                        <div class="trip-stats">
+                            {{#if newEvents}}
+                            <span class="stat-item events">{{newEvents}} new event{{#if (gt newEvents 1)}}s{{/if}}</span>
+                            {{/if}}
+                            {{#if newItems}}
+                            <span class="stat-item items">{{newItems}} new item{{#if (gt newItems 1)}}s{{/if}}</span>
+                            {{/if}}
+                            {{#if newMembers}}
+                            <span class="stat-item members">{{newMembers}} new member{{#if (gt newMembers 1)}}s{{/if}}</span>
+                            {{/if}}
+                        </div>
+                        <a href="{{tripLink}}" class="trip-link">View Trip Details →</a>
+                        {{else}}
+                        <div style="color: #6c757d; font-style: italic;">No new activity</div>
+                        {{/if}}
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            {{else}}
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-icon">🏕️</span>
+                    Trip Summary
+                </div>
+                <div class="empty-state">
+                    <div class="empty-state-icon">🗺️</div>
+                    <div>No trip activity this {{digestPeriod}}.</div>
+                    <div style="margin-top: 10px; color: #999; font-size: 14px;">Time to plan your next adventure?</div>
+                </div>
+            </div>
+            {{/if}}
+        </div>
+
+        {{#if (gt totalNotifications 0)}}
+        <div class="cta-section">
+            <div class="cta-title">Stay organized and don't miss out!</div>
+            <div style="margin-bottom: 15px; opacity: 0.9;">
+                Log in to {{appName}} to see full details and take action on any items that need your attention.
+            </div>
+            <a href="{{supportEmail}}" class="cta-button">Open {{appName}}</a>
+        </div>
+        {{else}}
+        <div class="cta-section">
+            <div class="cta-title">Everything is quiet right now</div>
+            <div style="margin-bottom: 15px; opacity: 0.9;">
+                Enjoy the peace! {{appName}} is here when you're ready to plan your next adventure.
+            </div>
+            <a href="{{supportEmail}}" class="cta-button">Plan New Trip</a>
+        </div>
+        {{/if}}
+
+        <div class="footer">
+            <p>
+                This digest includes activity from all your trips and is sent {{digestPeriod}}.
+            </p>
+            <p style="margin-top: 10px;">
+                Need help? Contact us at <a href="mailto:{{supportEmail}}" style="color: #667eea;">{{supportEmail}}</a>
+            </p>
+            <p style="margin-top: 15px; color: #999;">
+                © {{year}} {{companyName}}. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

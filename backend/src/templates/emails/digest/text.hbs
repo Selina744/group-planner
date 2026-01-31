@@ -1,0 +1,46 @@
+Hello {{recipientName}}!
+
+Here's your {{digestPeriod}} summary of activity across your trips.
+
+{{#if (gt totalNotifications 0)}}
+RECENT ACTIVITY ({{totalNotifications}} notification{{#if (gt totalNotifications 1)}}s{{/if}})
+==================================================================
+
+{{#each notifications}}
+{{@index}}. {{title}}
+   {{body}}
+   {{timestamp}}
+
+{{/each}}
+{{else}}
+No new notifications since your last digest.
+{{/if}}
+
+{{#if tripSummaries}}
+TRIP SUMMARY
+============
+
+{{#each tripSummaries}}
+📍 {{tripName}}
+   {{#if newEvents}}• {{newEvents}} new event{{#if (gt newEvents 1)}}s{{/if}}{{/if}}
+   {{#if newItems}}• {{newItems}} new item{{#if (gt newItems 1)}}s{{/if}}{{/if}}
+   {{#if newMembers}}• {{newMembers}} new member{{#if (gt newMembers 1)}}s{{/if}}{{/if}}
+   {{#unless (and (not newEvents) (not newItems) (not newMembers))}}• View trip: {{tripLink}}{{/unless}}
+
+{{/each}}
+{{else}}
+No trip activity this {{digestPeriod}}.
+{{/if}}
+
+{{#if (gt totalNotifications 0)}}
+Stay organized and don't miss out on any updates! Log in to {{appName}} to see the full details and take action on any items that need your attention.
+{{else}}
+Everything is quiet right now. Enjoy the peace, and remember that {{appName}} is here when you need to plan your next adventure!
+{{/if}}
+
+Best regards,
+The {{appName}} Team
+
+---
+Need help? Contact us at {{supportEmail}}
+© {{year}} {{companyName}}. All rights reserved.

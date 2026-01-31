@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{#if (eq reminderType "claimed")}}Item Claimed{{/if}}{{#if (eq reminderType "overdue")}}Item Overdue{{/if}}{{#if (eq reminderType "reminder")}}Item Reminder{{/if}} - {{itemName}}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            {{#if (eq reminderType "claimed")}}background: linear-gradient(135deg, #28a745 0%, #20c997 100%);{{/if}}
+            {{#if (eq reminderType "overdue")}}background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);{{/if}}
+            {{#if (eq reminderType "reminder")}}background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);{{/if}}
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+            background: rgba(255,255,255,0.2);
+        }
+        .content {
+            padding: 40px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+        .message {
+            margin-bottom: 30px;
+            line-height: 1.7;
+            color: #666;
+        }
+        .item-details {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 4px solid
+            {{#if (eq reminderType "claimed")}}#28a745{{/if}}
+            {{#if (eq reminderType "overdue")}}#dc3545{{/if}}
+            {{#if (eq reminderType "reminder")}}#ffc107{{/if}};
+        }
+        .detail-row {
+            display: flex;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+        .detail-label {
+            font-weight: 600;
+            min-width: 120px;
+            color: #495057;
+        }
+        .detail-value {
+            color: #333;
+            flex: 1;
+        }
+        .quantity-highlight {
+            background: #e9ecef;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #495057;
+        }
+        .action-section {
+            background:
+            {{#if (eq reminderType "claimed")}}#d1eddb{{/if}}
+            {{#if (eq reminderType "overdue")}}#f8d7da{{/if}}
+            {{#if (eq reminderType "reminder")}}#fff3cd{{/if}};
+            border-left: 4px solid
+            {{#if (eq reminderType "claimed")}}#28a745{{/if}}
+            {{#if (eq reminderType "overdue")}}#dc3545{{/if}}
+            {{#if (eq reminderType "reminder")}}#ffc107{{/if}};
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+        .action-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color:
+            {{#if (eq reminderType "claimed")}}#155724{{/if}}
+            {{#if (eq reminderType "overdue")}}#721c24{{/if}}
+            {{#if (eq reminderType "reminder")}}#856404{{/if}};
+        }
+        .action-list {
+            margin: 0;
+            padding-left: 20px;
+            color:
+            {{#if (eq reminderType "claimed")}}#155724{{/if}}
+            {{#if (eq reminderType "overdue")}}#721c24{{/if}}
+            {{#if (eq reminderType "reminder")}}#856404{{/if}};
+        }
+        .button {
+            display: inline-block;
+            background:
+            {{#if (eq reminderType "claimed")}}linear-gradient(135deg, #28a745 0%, #20c997 100%){{/if}}
+            {{#if (eq reminderType "overdue")}}linear-gradient(135deg, #dc3545 0%, #e83e8c 100%){{/if}}
+            {{#if (eq reminderType "reminder")}}linear-gradient(135deg, #ffc107 0%, #fd7e14 100%){{/if}};
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+        }
+        .footer p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .trip-info {
+            background: #e7f1ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #004085;
+        }
+        @media (max-width: 600px) {
+            .container { margin: 10px; }
+            .header, .content, .footer { padding: 20px; }
+            .header h1 { font-size: 24px; }
+            .detail-row { flex-direction: column; }
+            .detail-label { margin-bottom: 5px; }
+            .item-details { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{appName}}</h1>
+            <div class="status-badge">
+                {{#if (eq reminderType "claimed")}}✅ ITEM CLAIMED{{/if}}
+                {{#if (eq reminderType "overdue")}}⏰ ITEM OVERDUE{{/if}}
+                {{#if (eq reminderType "reminder")}}📝 ITEM REMINDER{{/if}}
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="greeting">
+                Hello {{recipientName}}! 👋
+            </div>
+
+            <div class="message">
+                {{#if (eq reminderType "claimed")}}Congratulations! You've successfully claimed an item for your upcoming trip "<strong>{{tripName}}</strong>".{{/if}}
+                {{#if (eq reminderType "overdue")}}This is an important reminder about an overdue item for your upcoming trip "<strong>{{tripName}}</strong>".{{/if}}
+                {{#if (eq reminderType "reminder")}}This is a friendly reminder about an item for your upcoming trip "<strong>{{tripName}}</strong>".{{/if}}
+            </div>
+
+            <div class="item-details">
+                <h3 style="margin: 0 0 20px 0; color: #333;">📦 Item Details</h3>
+
+                <div class="detail-row">
+                    <div class="detail-label">Item:</div>
+                    <div class="detail-value"><strong>{{itemName}}</strong></div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-label">Description:</div>
+                    <div class="detail-value">{{itemDescription}}</div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-label">Quantity:</div>
+                    <div class="detail-value">
+                        <span class="quantity-highlight">{{quantity}}{{#if (gt quantity 1)}} items{{else}} item{{/if}}</span>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-label">Trip:</div>
+                    <div class="detail-value">{{tripName}}</div>
+                </div>
+            </div>
+
+            <div class="trip-info">
+                <strong>🗓️ Trip Date:</strong> {{tripDate}}
+            </div>
+
+            <div class="action-section">
+                <div class="action-title">
+                    {{#if (eq reminderType "claimed")}}✅ Next Steps:{{/if}}
+                    {{#if (eq reminderType "overdue")}}🚨 Urgent Action Required:{{/if}}
+                    {{#if (eq reminderType "reminder")}}📋 Action Required:{{/if}}
+                </div>
+                <ul class="action-list">
+                    {{#if (eq reminderType "claimed")}}
+                    <li>Purchase or prepare the item before the trip</li>
+                    <li>Mark the item as "ready" once you have it</li>
+                    <li>Contact other trip members if you need help</li>
+                    {{/if}}
+                    {{#if (eq reminderType "overdue")}}
+                    <li><strong>Get this item as soon as possible</strong></li>
+                    <li>Mark the item as "ready" once you have it</li>
+                    <li>Contact other trip members if you can't fulfill this item</li>
+                    {{/if}}
+                    {{#if (eq reminderType "reminder")}}
+                    <li>Purchase or prepare the item if you haven't already</li>
+                    <li>Mark the item as "ready" when you have it</li>
+                    <li>Ask for help if needed</li>
+                    {{/if}}
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{itemLink}}" class="button">
+                    Manage This Item
+                </a>
+            </div>
+
+            <div class="message">
+                Thanks for helping make this trip a success! Your contribution ensures everyone has a great time.
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                This notification was sent because you're responsible for this item in "{{tripName}}".
+            </p>
+            <p style="margin-top: 10px;">
+                Need help? Contact us at <a href="mailto:{{supportEmail}}" style="color: #667eea;">{{supportEmail}}</a>
+            </p>
+            <p style="margin-top: 15px; color: #999;">
+                © {{year}} {{companyName}}. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

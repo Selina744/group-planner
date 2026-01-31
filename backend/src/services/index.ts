@@ -43,6 +43,11 @@ export {
   HealthService,
 } from './health.js';
 
+// Email service exports
+export {
+  EmailService,
+} from './email.js';
+
 // Re-export auth types for convenience
 export type {
   RegisterRequest,

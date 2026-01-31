@@ -1,0 +1,23 @@
+Hello {{recipientName}}!
+
+{{#if (eq updateType "created")}}A new event has been added to your trip "{{tripName}}".{{/if}}{{#if (eq updateType "updated")}}An event in your trip "{{tripName}}" has been updated.{{/if}}{{#if (eq updateType "cancelled")}}An event in your trip "{{tripName}}" has been cancelled.{{/if}}{{#if (eq updateType "approved")}}An event in your trip "{{tripName}}" has been approved.{{/if}}
+
+Event Details:
+--------------
+Event: {{eventName}}
+Description: {{eventDescription}}
+Date: {{eventDate}}
+Time: {{eventTime}}
+Trip: {{tripName}}
+{{#if (eq updateType "created")}}Created by: {{updaterName}}{{/if}}{{#if (eq updateType "updated")}}Updated by: {{updaterName}}{{/if}}{{#if (eq updateType "cancelled")}}Cancelled by: {{updaterName}}{{/if}}{{#if (eq updateType "approved")}}Approved by: {{updaterName}}{{/if}}
+
+View Event: {{eventLink}}
+
+{{#if (eq updateType "cancelled")}}This event has been cancelled and will no longer appear in your trip schedule.{{else}}Make sure to mark this event in your calendar and prepare accordingly.{{/if}}
+
+Best regards,
+The {{appName}} Team
+
+---
+Need help? Contact us at {{supportEmail}}
+© {{year}} {{companyName}}. All rights reserved.
