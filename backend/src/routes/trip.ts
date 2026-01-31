@@ -7,7 +7,7 @@
 
 import express from 'express';
 import { TripController } from '../controllers/trip.js';
-import { wrapAsync } from '../utils/wrapAsync.js';
+import { wrapAsync, wrapAsyncMiddleware } from '../utils/wrapAsync.js';
 import {
   middlewarePresets,
   requireHost,
@@ -27,7 +27,7 @@ const router: express.Router = express.Router();
 router.post(
   '/',
   ...(middlewarePresets.protected as any),
-  validation.schemas.createTripSchema(),
+  wrapAsyncMiddleware(validation.schemas.createTripSchema()),
   wrapAsync<AuthenticatedRequest>(TripController.createTrip) as any
 );
 
@@ -39,7 +39,7 @@ router.post(
 router.get(
   '/',
   ...(middlewarePresets.protected as any),
-  validation.common.pagination(),
+  wrapAsyncMiddleware(validation.common.pagination()),
   wrapAsync<AuthenticatedRequest>(TripController.listTrips) as any
 );
 
@@ -62,7 +62,7 @@ router.get(
 router.get(
   '/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   requireMember() as any,
   wrapAsync<AuthenticatedRequest>(TripController.getTripById) as any
 );
@@ -75,9 +75,9 @@ router.get(
 router.put(
   '/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   requireHostOrCoHost() as any,
-  validation.schemas.updateTripSchema(),
+  wrapAsyncMiddleware(validation.schemas.updateTripSchema()),
   wrapAsync<AuthenticatedRequest>(TripController.updateTrip) as any
 );
 
@@ -89,7 +89,7 @@ router.put(
 router.delete(
   '/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   requireHost() as any,
   wrapAsync<AuthenticatedRequest>(TripController.deleteTrip) as any
 );

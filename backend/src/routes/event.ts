@@ -7,7 +7,7 @@
 
 import express from 'express';
 import { EventController } from '../controllers/event.js';
-import { wrapAsync } from '../utils/wrapAsync.js';
+import { wrapAsync, wrapAsyncMiddleware } from '../utils/wrapAsync.js';
 import {
   middlewarePresets,
   requireMember,
@@ -181,7 +181,7 @@ router.get(
 router.get(
   '/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   wrapAsync<AuthenticatedRequest>(EventController.getEventById) as any
 );
 
@@ -193,7 +193,7 @@ router.get(
 router.put(
   '/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   validateRequest({ body: updateEventSchema }) as any,
   wrapAsync<AuthenticatedRequest>(EventController.updateEvent) as any
 );
@@ -206,7 +206,7 @@ router.put(
 router.put(
   '/:id/approve',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   validateRequest({ body: approvalSchema }) as any,
   wrapAsync<AuthenticatedRequest>(EventController.updateEventStatus) as any
 );
@@ -219,7 +219,7 @@ router.put(
 router.delete(
   '/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   wrapAsync<AuthenticatedRequest>(EventController.deleteEvent) as any
 );
 

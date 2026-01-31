@@ -7,7 +7,7 @@
 
 import express from 'express';
 import { ItemController } from '../controllers/item.js';
-import { wrapAsync } from '../utils/wrapAsync.js';
+import { wrapAsync, wrapAsyncMiddleware } from '../utils/wrapAsync.js';
 import {
   middlewarePresets,
   requireMember,
@@ -156,7 +156,7 @@ router.get(
 router.get(
   '/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   wrapAsync<AuthenticatedRequest>(ItemController.getItemById) as any
 );
 
@@ -168,7 +168,7 @@ router.get(
 router.put(
   '/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   validateRequest({ body: updateItemSchema }) as any,
   wrapAsync<AuthenticatedRequest>(ItemController.updateItem) as any
 );
@@ -181,7 +181,7 @@ router.put(
 router.delete(
   '/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   wrapAsync<AuthenticatedRequest>(ItemController.deleteItem) as any
 );
 
@@ -194,7 +194,7 @@ router.delete(
 router.post(
   '/:id/claim',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   validateRequest({ body: claimItemSchema }) as any,
   wrapAsync<AuthenticatedRequest>(ItemController.claimItem) as any
 );
@@ -207,7 +207,7 @@ router.post(
 router.put(
   '/claims/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   validateRequest({ body: updateClaimSchema }) as any,
   wrapAsync<AuthenticatedRequest>(ItemController.updateClaim) as any
 );
@@ -220,7 +220,7 @@ router.put(
 router.delete(
   '/claims/:id',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('id'),
+  wrapAsyncMiddleware(validation.common.uuidParam('id')),
   wrapAsync<AuthenticatedRequest>(ItemController.cancelClaim) as any
 );
 
@@ -232,7 +232,7 @@ router.delete(
 router.get(
   '/trips/:tripId/items/stats',
   ...(middlewarePresets.protected as any),
-  validation.common.uuidParam('tripId'),
+  wrapAsyncMiddleware(validation.common.uuidParam('tripId')),
   wrapAsync<AuthenticatedRequest>(ItemController.getTripItemStats) as any
 );
 
