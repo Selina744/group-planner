@@ -18,6 +18,7 @@ import { featureHighlights } from './utils/features'
 import { AuthProvider } from './contexts/AuthContext'
 import { StoreProvider, StoreDevTools } from './providers'
 import { StoreUsageExamples } from './examples/StoreUsageExamples'
+import { TripCreationDemo } from './examples/TripCreationDemo'
 import type { ReactNode } from 'react'
 
 const stats: { label: string; value: string; icon: ReactNode }[] = [
@@ -69,6 +70,7 @@ function App() {
                 <Tabs value={tabValue} onChange={handleTabChange} sx={{ color: 'text.primary' }}>
                   <Tab label="Landing Page" />
                   <Tab label="Zustand Store Demo" />
+                  <Tab label="Trip Creation Form" />
                 </Tabs>
               </Toolbar>
             </Container>
@@ -89,7 +91,12 @@ function App() {
                     without the endless email chains.
                   </Typography>
                   <Box mt={4}>
-                    <Button variant="contained" size="large" sx={{ px: 5, py: 1.5 }}>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      sx={{ px: 5, py: 1.5 }}
+                      onClick={() => setTabValue(2)}
+                    >
                       Start Planning Your Trip
                     </Button>
                     <Button variant="text" sx={{ ml: 3 }}>
@@ -150,14 +157,22 @@ function App() {
 
                 <Box textAlign="center">
                   <Typography variant="h5" component="h3" gutterBottom>
-                    🎉 New: Zustand State Management
+                    🎉 New: Trip Creation Form
                   </Typography>
                   <Typography variant="body1" color="text.secondary" mb={3}>
-                    We've implemented Zustand stores for auth, trips, notifications, and UI state.
-                    Check out the demo tab to see them in action!
+                    We've implemented a comprehensive trip creation form with Material-UI components,
+                    full validation, and Zustand store integration. Try it out!
                   </Typography>
                   <Button
                     variant="outlined"
+                    size="large"
+                    onClick={() => setTabValue(2)}
+                    sx={{ mr: 2 }}
+                  >
+                    Create a Trip
+                  </Button>
+                  <Button
+                    variant="text"
                     size="large"
                     onClick={() => setTabValue(1)}
                   >
@@ -170,6 +185,10 @@ function App() {
 
           <TabPanel value={tabValue} index={1}>
             <StoreUsageExamples />
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={2}>
+            <TripCreationDemo />
           </TabPanel>
 
           {/* Development tools - only shows in development */}
