@@ -11,7 +11,10 @@ import { EmailService } from '../services/email.js';
 import { log } from '../utils/logger.js';
 
 // Mock nodemailer
-mock.module('nodemailer');
+mock.module('nodemailer', () => ({
+  createTransporter: mock(),
+  sendMail: mock()
+}));
 const mockedNodemailer = nodemailer as any;
 
 // Mock logger

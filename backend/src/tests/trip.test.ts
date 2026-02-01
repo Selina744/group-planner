@@ -91,7 +91,7 @@ mock.module('../lib/prisma.js', () => ({
     },
     $transaction: mock(),
   },
-  safePrismaOperation: vi.fn((fn) => fn()),
+  safePrismaOperation: mock((fn) => fn()),
 }));
 
 describe('TripService', () => {

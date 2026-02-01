@@ -310,7 +310,7 @@ export function validateRequest(schemas: {
 
       if (validationTime > 1000) { // Log slow validations
         log.warn('Slow validation detected', {
-          requestId: req.requestId,
+          requestId: (req as any).requestId || 'unknown',
           validationTime,
           path: req.path,
         });
@@ -321,7 +321,7 @@ export function validateRequest(schemas: {
       ValidationMetrics.increment('validationFailures');
 
       log.error('Validation middleware error', error, {
-        requestId: req.requestId,
+        requestId: (req as any).requestId || 'unknown',
         path: req.path,
       });
 

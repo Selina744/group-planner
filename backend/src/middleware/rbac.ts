@@ -540,7 +540,7 @@ export class RbacMiddleware {
    * Helper method to require any confirmed member role
    */
   static requireMember(): MiddlewareFunction {
-    return this.requireRole('HOST', 'CO_HOST', 'MEMBER');
+    return RbacMiddleware.requireRole('HOST', 'CO_HOST', 'MEMBER');
   }
 
 }
