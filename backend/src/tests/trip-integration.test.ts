@@ -10,7 +10,7 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'bun:test';
 import request from 'supertest';
 import { app } from '../app.js';
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../test/test-prisma.js'; // ✅ Use test database instance
 
 describe('Trip Integration Tests', () => {
   let authToken: string;

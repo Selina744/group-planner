@@ -8,7 +8,7 @@
 import { describe, beforeAll, afterAll, beforeEach, afterEach, it, expect, mock } from 'bun:test';
 import { ItemService } from '../services/item.js';
 import { TripService } from '../services/trip.js';
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../test/test-prisma.js'; // ✅ Use test database instance
 import {
   BadRequestError,
   NotFoundError,

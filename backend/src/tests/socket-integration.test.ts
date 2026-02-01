@@ -11,7 +11,7 @@ import { createServer, Server as HTTPServer } from 'http';
 import { app } from '../app.js';
 import { socketService } from '../services/socket.js';
 import { TripBroadcastService } from '../services/tripBroadcast.js';
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../test/test-prisma.js'; // ✅ Use test database instance
 import { JwtService } from '../services/jwt.js';
 
 describe('Socket.io Trip Broadcasting Integration', () => {
