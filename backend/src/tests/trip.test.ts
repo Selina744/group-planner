@@ -5,7 +5,7 @@
  * including role-based access control and membership validation.
  */
 
-import { describe, it, expect, beforeEach, vi, beforeAll } from 'vitest';
+import { describe, it, expect, beforeEach, mock, beforeAll } from 'bun:test';
 import { TripService } from '../services/trip.js';
 import { prisma } from '../lib/prisma.js';
 import {
@@ -73,30 +73,30 @@ const validTripData: CreateTripRequest = {
 };
 
 // Mock Prisma methods
-vi.mock('../lib/prisma.js', () => ({
+mock.module('../lib/prisma.js', () => ({
   prisma: {
     trip: {
-      create: vi.fn(),
-      findMany: vi.fn(),
-      findUnique: vi.fn(),
-      update: vi.fn(),
-      delete: vi.fn(),
-      count: vi.fn(),
+      create: mock(),
+      findMany: mock(),
+      findUnique: mock(),
+      update: mock(),
+      delete: mock(),
+      count: mock(),
     },
     tripMember: {
-      create: vi.fn(),
-      findMany: vi.fn(),
-      findUnique: vi.fn(),
-      count: vi.fn(),
+      create: mock(),
+      findMany: mock(),
+      findUnique: mock(),
+      count: mock(),
     },
-    $transaction: vi.fn(),
+    $transaction: mock(),
   },
   safePrismaOperation: vi.fn((fn) => fn()),
 }));
 
 describe('TripService', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    // Note: Bun doesn't have clearAllMocks - individual mocks clear themselves between tests
   });
 
   describe('createTrip', () => {

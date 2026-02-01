@@ -4,7 +4,7 @@
  * Utility functions for test setup, mocking, and common test operations
  */
 
-import { beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
+import { beforeAll, afterAll, beforeEach, afterEach, mock, expect } from 'bun:test';
 import { Request, Response } from 'express';
 import request from 'supertest';
 import { setupTestDatabase, cleanDatabase, teardownTestDatabase } from './test-database.js';
@@ -198,11 +198,11 @@ export function expectAsyncError(asyncFn: () => Promise<any>, ErrorClass?: any, 
 export function mockConsole() {
   const originalConsole = { ...console };
   const mocks = {
-    log: vi.fn(),
-    error: vi.fn(),
-    warn: vi.fn(),
-    info: vi.fn(),
-    debug: vi.fn()
+    log: mock(),
+    error: mock(),
+    warn: mock(),
+    info: mock(),
+    debug: mock()
   };
 
   beforeEach(() => {

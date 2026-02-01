@@ -5,7 +5,7 @@
  * This is a simple example showing basic API testing patterns
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'bun:test';
 import request from 'supertest';
 import { app } from '../../app.js';
 import { useDatabaseHooks, ApiTestHelpers } from '../utils/index.js';

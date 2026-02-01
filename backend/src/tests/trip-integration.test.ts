@@ -7,7 +7,7 @@
  * - API endpoints
  */
 
-import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'bun:test';
 import request from 'supertest';
 import { app } from '../app.js';
 import { prisma } from '../lib/prisma.js';

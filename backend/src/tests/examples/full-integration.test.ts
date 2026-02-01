@@ -9,7 +9,7 @@
  * - Error handling
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'bun:test';
 import request from 'supertest';
 import {
   useDatabaseHooks,

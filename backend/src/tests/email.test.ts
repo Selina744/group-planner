@@ -5,43 +5,43 @@
  * rate limiting, SMTP configuration, and all email methods.
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi, Mock } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, mock } from 'bun:test';
 import nodemailer from 'nodemailer';
 import { EmailService } from '../services/email.js';
 import { log } from '../utils/logger.js';
 
 // Mock nodemailer
-vi.mock('nodemailer');
+mock.module('nodemailer');
 const mockedNodemailer = nodemailer as any;
 
 // Mock logger
-vi.mock('../utils/logger.js', () => ({
+mock.module('../utils/logger.js', () => ({
   log: {
-    info: vi.fn(),
-    warn: vi.fn(),
-    error: vi.fn(),
-    debug: vi.fn(),
+    info: mock(),
+    warn: mock(),
+    error: mock(),
+    debug: mock(),
   },
 }));
 
 // Mock fs/promises
-vi.mock('fs/promises', () => ({
-  readFile: vi.fn(),
+mock.module('fs/promises', () => ({
+  readFile: mock(),
 }));
 
 // Create mock transporter
 const mockTransporter = {
-  sendMail: vi.fn(),
-  verify: vi.fn(),
-  close: vi.fn(),
+  sendMail: mock(),
+  verify: mock(),
+  close: mock(),
 };
 
 describe('EmailService', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    // Note: Bun mocks clear automatically between tests
 
     // Setup nodemailer mock
-    mockedNodemailer.createTransporter = vi.fn().mockReturnValue(mockTransporter);
+    mockedNodemailer.createTransporter = mock().mockReturnValue(mockTransporter);
 
     // Setup default successful SMTP verification
     mockTransporter.verify.mockResolvedValue(true);
@@ -54,7 +54,7 @@ describe('EmailService', () => {
   afterEach(async () => {
     // Cleanup after each test
     await EmailService.cleanup();
-    vi.restoreAllMocks();
+    // Note: Bun mocks restore automatically after tests
   });
 
   describe('Service Initialization', () => {
@@ -125,7 +125,7 @@ describe('EmailService', () => {
   describe('Template Compilation', () => {
     beforeEach(() => {
       const fs = require('fs/promises');
-      fs.readFile = vi.fn();
+      fs.readFile = mock();
     });
 
     it('should compile templates with all files present', async () => {
@@ -253,7 +253,7 @@ describe('EmailService', () => {
 
     it('should accept valid email addresses', async () => {
       const fs = require('fs/promises');
-      fs.readFile = vi.fn()
+      fs.readFile = mock()
         .mockResolvedValueOnce('<html>{{recipientName}}</html>')
         .mockResolvedValueOnce('{{recipientName}}')
         .mockResolvedValueOnce('Test Subject');
@@ -276,7 +276,7 @@ describe('EmailService', () => {
   describe('Verification Email', () => {
     beforeEach(async () => {
       const fs = require('fs/promises');
-      fs.readFile = vi.fn()
+      fs.readFile = mock()
         .mockResolvedValueOnce('<html>{{verificationLink}}</html>')
         .mockResolvedValueOnce('{{verificationLink}}')
         .mockResolvedValueOnce('Verify {{appName}}');
@@ -330,7 +330,7 @@ describe('EmailService', () => {
   describe('Password Reset Email', () => {
     beforeEach(async () => {
       const fs = require('fs/promises');
-      fs.readFile = vi.fn()
+      fs.readFile = mock()
         .mockResolvedValueOnce('<html>{{resetLink}} {{ipAddress}}</html>')
         .mockResolvedValueOnce('{{resetLink}} {{ipAddress}}')
         .mockResolvedValueOnce('Reset Password');
@@ -368,7 +368,7 @@ describe('EmailService', () => {
   describe('Trip Invite Email', () => {
     beforeEach(async () => {
       const fs = require('fs/promises');
-      fs.readFile = vi.fn()
+      fs.readFile = mock()
         .mockResolvedValueOnce('<html>{{inviterName}} {{tripName}} {{inviteLink}}</html>')
         .mockResolvedValueOnce('{{inviterName}} {{tripName}} {{inviteLink}}')
         .mockResolvedValueOnce('Trip Invite');
@@ -404,7 +404,7 @@ describe('EmailService', () => {
   describe('Event Update Email', () => {
     beforeEach(async () => {
       const fs = require('fs/promises');
-      fs.readFile = vi.fn()
+      fs.readFile = mock()
         .mockResolvedValueOnce('<html>{{eventName}} {{updateType}} {{eventLink}}</html>')
         .mockResolvedValueOnce('{{eventName}} {{updateType}} {{eventLink}}')
         .mockResolvedValueOnce('Event {{updateType}}');
@@ -443,7 +443,7 @@ describe('EmailService', () => {
   describe('Item Reminder Email', () => {
     beforeEach(async () => {
       const fs = require('fs/promises');
-      fs.readFile = vi.fn()
+      fs.readFile = mock()
         .mockResolvedValueOnce('<html>{{itemName}} {{reminderType}} {{itemLink}}</html>')
         .mockResolvedValueOnce('{{itemName}} {{reminderType}} {{itemLink}}')
         .mockResolvedValueOnce('Item {{reminderType}}');
@@ -481,7 +481,7 @@ describe('EmailService', () => {
   describe('Digest Email', () => {
     beforeEach(async () => {
       const fs = require('fs/promises');
-      fs.readFile = vi.fn()
+      fs.readFile = mock()
         .mockResolvedValueOnce('<html>{{digestPeriod}} {{totalNotifications}}</html>')
         .mockResolvedValueOnce('{{digestPeriod}} {{totalNotifications}}')
         .mockResolvedValueOnce('{{digestPeriod}} digest');
@@ -565,7 +565,7 @@ describe('EmailService', () => {
 
     it('should handle SMTP send failures gracefully', async () => {
       const fs = require('fs/promises');
-      fs.readFile = vi.fn()
+      fs.readFile = mock()
         .mockResolvedValueOnce('<html>{{recipientName}}</html>')
         .mockResolvedValueOnce('{{recipientName}}')
         .mockResolvedValueOnce('Test Subject');
@@ -588,7 +588,7 @@ describe('EmailService', () => {
 
     it('should handle missing template data gracefully', async () => {
       const fs = require('fs/promises');
-      fs.readFile = vi.fn()
+      fs.readFile = mock()
         .mockRejectedValue(new Error('Template not found'));
 
       await expect(
@@ -624,8 +624,8 @@ describe('EmailService', () => {
 
 describe('EmailService Integration', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockedNodemailer.createTransporter = vi.fn().mockReturnValue(mockTransporter);
+    // Note: Bun mocks clear automatically between tests
+    mockedNodemailer.createTransporter = mock().mockReturnValue(mockTransporter);
     mockTransporter.verify.mockResolvedValue(true);
     mockTransporter.sendMail.mockResolvedValue({
       messageId: 'integration-test-id',
@@ -640,7 +640,7 @@ describe('EmailService Integration', () => {
   it('should handle complete email flow', async () => {
     // Mock template files
     const fs = require('fs/promises');
-    fs.readFile = vi.fn()
+    fs.readFile = mock()
       .mockResolvedValueOnce('<html>Hello {{recipientName}}, verify: {{verificationLink}}</html>')
       .mockResolvedValueOnce('Hello {{recipientName}}, verify: {{verificationLink}}')
       .mockResolvedValueOnce('Verify your account');

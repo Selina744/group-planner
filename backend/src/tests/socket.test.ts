@@ -5,7 +5,7 @@
  * connection management, room handling, and real-time messaging.
  */
 
-import { describe, it, expect, beforeEach, afterEach, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, beforeAll, afterAll } from 'bun:test';
 import { createServer } from 'http';
 import { io as ioClient, type Socket as ClientSocket } from 'socket.io-client';
 import { SocketService } from '../services/socket.js';

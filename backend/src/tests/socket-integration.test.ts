@@ -5,7 +5,7 @@
  * functionality implemented in bd-2i4.
  */
 
-import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'bun:test';
 import { io as Client, Socket } from 'socket.io-client';
 import { createServer, Server as HTTPServer } from 'http';
 import { app } from '../app.js';

@@ -5,7 +5,7 @@
  * and edge cases for the Item coordination system.
  */
 
-import { describe, beforeAll, afterAll, beforeEach, afterEach, it, expect, vi } from 'vitest';
+import { describe, beforeAll, afterAll, beforeEach, afterEach, it, expect, mock } from 'bun:test';
 import { ItemService } from '../services/item.js';
 import { TripService } from '../services/trip.js';
 import { prisma } from '../lib/prisma.js';

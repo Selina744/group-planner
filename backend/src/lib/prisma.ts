@@ -151,7 +151,7 @@ export async function initializeDatabase(): Promise<void> {
  */
 export async function shutdownDatabase(): Promise<void> {
   try {
-    await prisma.disconnect();
+    await prisma.$disconnect();
     log.info('Database shutdown completed');
   } catch (error) {
     log.error('Error during database shutdown', error);

@@ -4,6 +4,8 @@
  * This file runs before all tests to configure the test environment
  */
 
+// Pure Bun test environment - no polyfills needed
+
 import { config } from 'dotenv';
 import { setupTestEnvironment } from './utils/index.js';
 

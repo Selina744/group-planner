@@ -20,10 +20,9 @@ export class UserFixtures {
     const defaults = {
       email: `test-${Date.now()}-${Math.random().toString(36)}@example.com`,
       username: `testuser${Date.now()}${Math.random().toString(36).substr(2, 5)}`,
-      password: '$2b$10$hashedpassword', // Placeholder for hashed password
+      passwordHash: '$2b$10$hashedpassword', // Placeholder for hashed password
       displayName: 'Test User',
-      isVerified: true,
-      isActive: true,
+      emailVerified: true,
       ...overrides
     };
 
@@ -93,11 +92,7 @@ export class TripFixtures {
     };
 
     const trip = await this.prisma.trip.create({
-      data: {
-        ...defaults,
-        createdBy: hostUserId,
-        updatedBy: hostUserId
-      }
+      data: defaults
     });
 
     // Create HOST membership for creator
@@ -106,8 +101,7 @@ export class TripFixtures {
         tripId: trip.id,
         userId: hostUserId,
         role: 'HOST',
-        status: 'CONFIRMED',
-        joinedAt: new Date()
+        status: 'CONFIRMED'
       }
     });
 
@@ -128,8 +122,7 @@ export class TripFixtures {
         tripId,
         userId,
         role,
-        status,
-        joinedAt: status === 'CONFIRMED' ? new Date() : null
+        status
       }
     });
   }
