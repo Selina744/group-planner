@@ -1,7 +1,7 @@
 /**
- * Test Database Utilities
+ * Test Database Utilities - PostgreSQL (Simplified)
  *
- * Provides database setup, cleanup, and management utilities for tests
+ * Uses existing PostgreSQL test database setup but with simplified configuration
  */
 
 import { PrismaClient } from '../../generated/prisma/index.js';
@@ -10,12 +10,13 @@ import { log } from '../../utils/logger.js';
 let testPrisma: PrismaClient | null = null;
 
 /**
- * Get test database instance
+ * Get test database instance (PostgreSQL)
+ * Uses existing test database - simple and reliable
  */
 export function getTestDb(): PrismaClient {
   if (!testPrisma) {
     testPrisma = new PrismaClient({
-      log: process.env.DEBUG_TESTS === 'true' ? ['query', 'info', 'warn', 'error'] : ['error'],
+      log: process.env.DEBUG_TESTS === 'true' ? ['query'] : ['error'], // Simplified logging
       datasources: {
         db: {
           url: process.env.DATABASE_URL || 'postgresql://test_user:test_password@localhost:5432/group_planner_test'
@@ -27,19 +28,19 @@ export function getTestDb(): PrismaClient {
 }
 
 /**
- * Setup test database - run before all tests
+ * Setup test database - run before all tests (PostgreSQL)
  */
 export async function setupTestDatabase(): Promise<PrismaClient> {
   const prisma = getTestDb();
 
   try {
-    // Connect to database
+    // Connect to PostgreSQL test database
     await prisma.$connect();
 
     // Run a simple health check
     await prisma.$queryRaw`SELECT 1`;
 
-    log.info('Test database connected successfully');
+    log.info('PostgreSQL test database ready');
     return prisma;
   } catch (error) {
     log.error('Failed to setup test database', error);
@@ -48,13 +49,14 @@ export async function setupTestDatabase(): Promise<PrismaClient> {
 }
 
 /**
- * Clean all tables - run after each test
+ * Clean all tables - run after each test (PostgreSQL cleanup)
  */
 export async function cleanDatabase(): Promise<void> {
   const prisma = getTestDb();
 
   try {
     // Delete in reverse dependency order
+    await prisma.itemClaim.deleteMany();
     await prisma.item.deleteMany();
     await prisma.event.deleteMany();
     await prisma.tripMember.deleteMany();
