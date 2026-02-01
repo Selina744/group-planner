@@ -605,19 +605,18 @@ describe('Item Service', () => {
     });
 
     it('should allow item creator to delete', async () => {
-      await expect(
-        ItemService.deleteItem(testItemId, mockMemberUser)
-      ).resolves.not.toThrow();
+      // deleteItem returns Promise<void>, so we just verify no exception is thrown
+      await ItemService.deleteItem(testItemId, mockMemberUser);
 
+      // Verify item is deleted
       await expect(
         ItemService.getItemById(testItemId, mockMemberUser)
       ).rejects.toThrow(NotFoundError);
     });
 
     it('should allow HOST to delete any item', async () => {
-      await expect(
-        ItemService.deleteItem(testItemId, mockHostUser)
-      ).resolves.not.toThrow();
+      // deleteItem returns Promise<void>, so we just verify no exception is thrown
+      await ItemService.deleteItem(testItemId, mockHostUser);
     });
 
     it('should reject deletion by CO_HOST (not allowed)', async () => {
@@ -647,9 +646,8 @@ describe('Item Service', () => {
       await ItemService.claimItem(testItemId, mockHostUser, { quantity: 1 });
 
       // Should still allow deletion (with warning logged)
-      await expect(
-        ItemService.deleteItem(testItemId, mockMemberUser)
-      ).resolves.not.toThrow();
+      // deleteItem returns Promise<void>, so we just verify no exception is thrown
+      await ItemService.deleteItem(testItemId, mockMemberUser);
     });
   });
 
@@ -840,10 +838,10 @@ describe('Item Service', () => {
       // Create another claim to reduce available quantity
       await ItemService.claimItem(testItemId, mockCoHostUser, { quantity: 2 });
 
-      // Now available quantity is 5 - 2 (existing) - 2 (new) = 1
-      // Trying to increase existing claim to 3 should fail
+      // Now: quantityNeeded=5, claimed=2+2=4, available=1
+      // Trying to increase existing claim to 4 should fail (would exceed total needed)
       await expect(
-        ItemService.updateClaim(testClaimId, mockMemberUser, { quantity: 3 })
+        ItemService.updateClaim(testClaimId, mockMemberUser, { quantity: 4 })
       ).rejects.toThrow(BadRequestError);
     });
   });
@@ -868,9 +866,8 @@ describe('Item Service', () => {
     });
 
     it('should allow claim owner to cancel', async () => {
-      await expect(
-        ItemService.cancelClaim(testClaimId, mockMemberUser)
-      ).resolves.not.toThrow();
+      // cancelClaim returns Promise<void>, so we just verify no exception is thrown
+      await ItemService.cancelClaim(testClaimId, mockMemberUser);
 
       // Claim should be deleted
       const item = await ItemService.getItemById(testItemId, mockMemberUser);
@@ -879,9 +876,8 @@ describe('Item Service', () => {
     });
 
     it('should allow HOST to cancel any claim', async () => {
-      await expect(
-        ItemService.cancelClaim(testClaimId, mockHostUser)
-      ).resolves.not.toThrow();
+      // cancelClaim returns Promise<void>, so we just verify no exception is thrown
+      await ItemService.cancelClaim(testClaimId, mockHostUser);
     });
 
     it('should reject cancellation by CO_HOST (not allowed)', async () => {
@@ -1045,9 +1041,9 @@ describe('Item Service', () => {
       });
 
       // First claim should succeed
-      await expect(
-        ItemService.claimItem(itemResult.item.id, user1, { quantity: 1 })
-      ).resolves.not.toThrow();
+      const claimResult = await ItemService.claimItem(itemResult.item.id, user1, { quantity: 1 });
+      expect(claimResult.claim).toBeDefined();
+      expect(claimResult.claim.quantity).toBe(1);
 
       // Second claim should fail (quantity exceeded)
       await expect(
