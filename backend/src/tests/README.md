@@ -1,12 +1,12 @@
 # Backend Test Setup - Complete Documentation
 
-This directory contains the comprehensive test setup for the Group Planner backend API, implementing **Vitest + Supertest + Test Database** as specified in task bd-1ma.
+This directory contains the comprehensive test setup for the Group Planner backend API, implementing **Bun Test + Supertest + Test Database** with native Bun testing framework.
 
 ## 🏗️ Test Infrastructure Overview
 
 ### Core Components
 
-1. **Vitest Testing Framework** - Modern, fast test runner with TypeScript support
+1. **Bun Native Testing** - Ultra-fast test runner with built-in TypeScript support
 2. **Supertest** - HTTP assertion library for API endpoint testing
 3. **Test Database Configuration** - Isolated database for tests
 4. **Test Utilities & Fixtures** - Reusable test data creation and helpers
@@ -40,13 +40,13 @@ JWT_SECRET="test-jwt-secret-with-sufficient-length..."
 # ... other test-specific configuration
 ```
 
-### Vitest Configuration (`vitest.config.ts`)
-- ✅ Configured for Node.js environment
-- ✅ Global test utilities available
-- ✅ TypeScript support with proper target
-- ✅ Test timeout configured for integration tests
-- ✅ Proper test file inclusion/exclusion
-- ✅ Test environment variables loaded
+### Bun Test Configuration (native)
+- ✅ No configuration file needed - works out of the box
+- ✅ Native TypeScript support
+- ✅ Built-in test discovery and execution
+- ✅ Fast startup and execution
+- ✅ Test environment variables loaded via setup.ts
+- ✅ Integrated with Bun runtime for optimal performance
 
 ## 🛠️ Test Utilities
 
@@ -95,7 +95,7 @@ ApiTestHelpers.expectPaginationResponse(response, 5);
 describe('AuthService', () => {
   it('should hash passwords securely', async () => {
     // Mock external dependencies
-    vi.mock('bcrypt');
+    mock.module('bcrypt', () => ({ default: { hash: mock() } }));
 
     // Test your service logic
     const result = await AuthService.hashPassword('password');
@@ -257,7 +257,7 @@ DATABASE_URL="postgresql://test_user:test_password@localhost:5432/group_planner_
 - Verify test utilities are properly exported
 
 **Timeout errors**
-- Increase `testTimeout` in vitest.config.ts
+- Use `bun test --timeout 30000` for longer tests
 - Check for unresolved promises in tests
 - Ensure database operations complete properly
 
@@ -288,11 +288,11 @@ The test setup provides:
 
 ## 📚 Additional Resources
 
-- [Vitest Documentation](https://vitest.dev/)
+- [Bun Test Documentation](https://bun.sh/docs/cli/test)
 - [Supertest GitHub](https://github.com/visionmedia/supertest)
 - [Prisma Testing Guide](https://www.prisma.io/docs/guides/testing)
-- [Node.js Testing Best Practices](https://github.com/goldbergyoni/nodebestpractices#-6-testing-and-overall-quality)
+- [Bun Testing Best Practices](https://bun.sh/guides/test/writing-tests)
 
 ---
 
-**Task bd-1ma Complete**: Backend test setup with Vitest + Supertest + test DB is fully implemented and documented. 🎯
+**Testing Infrastructure Updated**: Backend test setup migrated to Bun Native Testing + Supertest + test DB with improved performance and simplified configuration. 🎯

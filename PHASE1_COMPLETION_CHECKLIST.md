@@ -179,7 +179,7 @@ Based on thorough analysis of the current implementation and stakeholder feedbac
 - **Current State**: No testing infrastructure
 - **Related Beads**: None found
 - **Required Implementation**:
-  - Backend API tests (Vitest + Supertest)
+  - Backend API tests (Bun Test + Supertest)
   - Frontend component tests
   - Integration tests
   - Test fixtures and factories

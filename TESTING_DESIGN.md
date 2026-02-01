@@ -32,22 +32,22 @@ The Group Planner application follows a comprehensive testing strategy that ensu
 ```
 
 ### Tech Stack Summary
-- **Backend**: Vitest + Supertest + Prisma Test Utils
-- **Frontend**: Vitest + Testing Library + jsdom
+- **Backend**: Bun Test + Supertest + Prisma Test Utils
+- **Frontend**: Vitest + Testing Library + jsdom (to be migrated)
 - **E2E**: Playwright (future implementation)
-- **Coverage**: Built-in Vitest coverage with c8
+- **Coverage**: External coverage tools (c8/nyc)
 
 ---
 
 ## Backend Testing Strategy
 
 ### Current Infrastructure Status
-✅ **Vitest** configured as test runner
+✅ **Bun Test** native test runner configured
 ✅ **Supertest** available for API testing
-✅ **TypeScript** support ready
-✅ **Bun** integration available
-❌ **Test files** need to be created
-❌ **Test configuration** needs setup
+✅ **TypeScript** support native with Bun
+✅ **Bun** runtime integration complete
+✅ **Test files** implemented with comprehensive coverage
+✅ **Test configuration** completed with database setup
 
 ### Test Categories
 
@@ -88,7 +88,7 @@ The Group Planner application follows a comprehensive testing strategy that ensu
 **Example Unit Test Structure**:
 ```typescript
 // src/services/__tests__/auth.test.ts
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, mock } from 'bun:test'
 import { AuthService } from '../auth.js'
 import { JwtService } from '../jwt.js'
 import { prisma } from '../lib/prisma.js'
@@ -184,7 +184,7 @@ describe('AuthService', () => {
 **Example Middleware Integration Test**:
 ```typescript
 // src/middleware/__tests__/integration/middleware-presets.test.ts
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import request from 'supertest'
 import express from 'express'
 import { middlewarePresets } from '../index.js'
@@ -360,7 +360,7 @@ export class DatabaseTestUtils {
 **Example Server Test**:
 ```typescript
 // src/__tests__/server/server-lifecycle.test.ts
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, mock } from 'bun:test'
 import { GroupPlannerServer } from '../server.js'
 import { prisma } from '../lib/prisma.js'
 
@@ -416,7 +416,7 @@ describe('GroupPlannerServer', () => {
 **Health Monitoring System Tests**:
 ```typescript
 // src/__tests__/integration/health-monitoring.test.ts
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'bun:test'
 import { HealthService } from '../services/health.js'
 import { ProcessManager } from '../utils/processManager.js'
 import { DatabaseTestUtils } from './utils/database.js'
@@ -481,7 +481,7 @@ describe('Health Monitoring System', () => {
 **Example API Test**:
 ```typescript
 // src/__tests__/api/auth-endpoints.test.ts
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'bun:test'
 import request from 'supertest'
 import { app } from '../../app.js'
 import { DatabaseTestUtils } from '../utils/database.js'
@@ -563,7 +563,7 @@ describe('Auth Endpoints', () => {
 **Example Documentation Endpoint Test**:
 ```typescript
 // src/__tests__/api/documentation-endpoints.test.ts
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import request from 'supertest'
 import { app } from '../../app.js'
 
@@ -649,7 +649,7 @@ describe('Documentation Endpoints', () => {
 **Example Security Test**:
 ```typescript
 // src/__tests__/security/jwt-security.test.ts
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, mock } from 'bun:test'
 import { JwtService } from '../services/jwt.js'
 import { AuthService } from '../services/auth.js'
 import { DatabaseTestUtils } from './utils/database.js'
@@ -717,7 +717,7 @@ describe('JWT Security Tests', () => {
 **Input Validation Security Tests**:
 ```typescript
 // src/__tests__/security/input-validation.test.ts
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import request from 'supertest'
 import { app } from '../../app.js'
 
@@ -830,7 +830,7 @@ export default defineConfig({
 **Test Setup File**:
 ```typescript
 // src/__tests__/setup.ts
-import { beforeAll, beforeEach, afterEach, afterAll } from 'vitest'
+import { beforeAll, beforeEach, afterEach, afterAll } from 'bun:test'
 import { DatabaseTestUtils } from './utils/database.js'
 
 beforeAll(async () => {
@@ -898,7 +898,7 @@ afterAll(async () => {
 ```typescript
 // src/components/__tests__/FeatureCard.test.tsx
 import { render, screen } from '@testing-library/react'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import FeatureCard from '../FeatureCard'
 
 describe('FeatureCard', () => {
@@ -1013,7 +1013,7 @@ export default defineConfig({
 ```typescript
 // src/__tests__/setup.ts
 import '@testing-library/jest-dom'
-import { beforeAll, afterEach, afterAll } from 'vitest'
+import { beforeAll, afterEach, afterAll } from 'bun:test'
 import { cleanup } from '@testing-library/react'
 import { server } from './mocks/server'
 
@@ -1224,7 +1224,7 @@ export class TestSeeder {
 ```typescript
 // src/__tests__/utils/email.ts
 import nodemailer from 'nodemailer'
-import { vi } from 'vitest'
+import { vi } from 'bun:test'
 
 export class EmailTestUtils {
   static createMockTransporter() {
@@ -1270,7 +1270,7 @@ export class EmailTestUtils {
 **Example Email Service Test**:
 ```typescript
 // src/services/__tests__/email.test.ts
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, mock } from 'bun:test'
 import { EmailService } from '../email.js'
 import { EmailTestUtils } from '../__tests__/utils/email.js'
 
@@ -1341,7 +1341,7 @@ describe('EmailService', () => {
 ```typescript
 // src/__tests__/utils/redis.ts
 import { createClient } from 'redis'
-import { vi } from 'vitest'
+import { vi } from 'bun:test'
 
 export class RedisTestUtils {
   private static testClient: any
@@ -1391,7 +1391,7 @@ export class RedisTestUtils {
 **Example Redis Integration Test**:
 ```typescript
 // src/__tests__/integration/redis-session.test.ts
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'bun:test'
 import { RedisTestUtils } from '../utils/redis.js'
 import { SessionManager } from '../../lib/session.js'
 

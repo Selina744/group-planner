@@ -9,7 +9,7 @@ Express + TypeScript API server for the group trip planner application.
 - 📝 Request logging with Morgan
 - 🗜️ Response compression
 - ⚡ Fast development with Bun
-- 🧪 Testing with Vitest + Supertest
+- 🧪 Testing with Bun Test + Supertest
 - 🔧 Type-safe API with Zod validation
 - 📊 Structured error handling
 
@@ -64,6 +64,31 @@ See `.env.example` for all available configuration options.
 - Hot reload is enabled for development
 - TypeScript checking happens during build
 - Structured error handling with custom ApiError class
+
+## Testing
+
+The backend uses Bun's native test runner for fast, reliable testing:
+
+```bash
+# Run all tests
+bun test
+
+# Run tests in watch mode
+bun test --watch
+
+# Run specific test file
+bun test src/tests/database.test.ts
+
+# Run with timeout for integration tests
+bun test --timeout 30000
+```
+
+### Test Structure
+- **Unit Tests**: Service layer testing with mocking
+- **Integration Tests**: API endpoint testing with test database
+- **Database Tests**: Prisma operations and schema validation
+
+See `src/tests/README.md` for comprehensive testing documentation.
 
 ## Seeding demo data
 
