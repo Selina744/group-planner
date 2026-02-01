@@ -640,7 +640,7 @@ export class TripService {
    */
   private static generateInviteCode(): string {
     // Generate a readable 8-character code (uppercase letters and numbers, no ambiguous chars)
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const chars = 'ABCDEFGHKMNPQRSTUVWXYZ23456789';
     let result = '';
 
     for (let i = 0; i < 8; i++) {
