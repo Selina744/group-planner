@@ -9,10 +9,10 @@
 
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'bun:test';
 import request from 'supertest';
-import { app } from '../app.js';
 import { prisma } from '../test/test-prisma.js'; // ✅ Use test database instance
 
 describe('Trip Integration Tests', () => {
+  let app: any;
   let authToken: string;
   let userId: string;
   let tripId: string;
@@ -26,6 +26,10 @@ describe('Trip Integration Tests', () => {
   };
 
   beforeAll(async () => {
+    // Initialize app
+    const appModule = await import('../app.js');
+    app = appModule.app;
+
     // Create a test user and get auth token
     const registerResponse = await request(app)
       .post('/api/v1/auth/register')

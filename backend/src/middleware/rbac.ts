@@ -526,14 +526,14 @@ export class RbacMiddleware {
    * Helper method to require HOST role
    */
   static requireHost(): MiddlewareFunction {
-    return this.requireRole('HOST');
+    return RbacMiddleware.requireRole('HOST');
   }
 
   /**
    * Helper method to require HOST or CO_HOST role
    */
   static requireHostOrCoHost(): MiddlewareFunction {
-    return this.requireRole('HOST', 'CO_HOST');
+    return RbacMiddleware.requireRole('HOST', 'CO_HOST');
   }
 
   /**

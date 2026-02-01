@@ -294,7 +294,7 @@ export function validateRequest(schemas: {
         const validationTime = Date.now() - validationStart;
 
         log.warn('Request validation failed', {
-          requestId: req.requestId,
+          requestId: (req as any).requestId || 'unknown',
           userId: req.user?.id,
           method: req.method,
           path: req.path,

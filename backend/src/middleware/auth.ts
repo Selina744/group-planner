@@ -320,21 +320,21 @@ export class AuthMiddleware {
    * Middleware that requires authentication
    */
   static requireAuth(config: Omit<AuthMiddlewareConfig, 'required'> = {}): MiddlewareFunction {
-    return this.create({ ...config, required: true });
+    return AuthMiddleware.create({ ...config, required: true });
   }
 
   /**
    * Middleware that allows optional authentication
    */
   static optionalAuth(config: Omit<AuthMiddlewareConfig, 'required'> = {}): MiddlewareFunction {
-    return this.create({ ...config, required: false });
+    return AuthMiddleware.create({ ...config, required: false });
   }
 
   /**
    * Middleware for admin-only routes
    */
   static requireAdmin(config: Partial<AuthMiddlewareConfig> = {}): MiddlewareFunction {
-    return this.create({
+    return AuthMiddleware.create({
       ...config,
       required: true,
       customPermissionCheck: (user: UserProfile) => {
