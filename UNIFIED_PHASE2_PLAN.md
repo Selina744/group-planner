@@ -1,34 +1,41 @@
 # Group Planner - Unified Phase 2 Development Plan
 
 **Prepared by:** LilacBeacon (Boss Agent)
-**Based on:** AzurePuma-PHASE2.md (foundation) + LavenderBeaver-PHASE2.md (coordination)
-**Date:** 2026-01-30
-**Status:** Draft for Expert Review
+**Based on:** AzurePuma-PHASE2.md (foundation) + LavenderBeaver-PHASE2.md (coordination) + PHASE2_EXPERT_REVIEW.md analysis
+**Date:** 2026-02-01
+**Status:** Updated for Homelab Deployment - Expert Review Integrated
+**Prerequisites:** **PHASE1_2_COMPLETION_PLAN.md must be completed first**
 
 ---
 
 ## Executive Summary
 
-Phase 2 transforms Group Planner from backend-heavy prototype to production-ready, real-time collaborative platform. Building on the excellent Phase 1 foundation (authentication, CRUD APIs, security), Phase 2 prioritizes **frontend implementation, real-time coordination, and multi-agent development excellence**.
+Phase 2 transforms Group Planner from backend-heavy prototype to **homelab-ready, real-time collaborative platform**. Building on the excellent Phase 1 foundation (authentication, CRUD APIs, security), Phase 2 prioritizes **frontend implementation, simplified real-time coordination, and homelab-appropriate production deployment**.
 
-**Strategic Priorities:**
+**Strategic Priorities (Homelab-Focused):**
 1. **Frontend Development** - Complete React application with Material-UI
-2. **Real-time Collaboration** - Socket.io with secure trip-based rooms
-3. **Production Readiness** - CI/CD, testing, monitoring, and scalability
+2. **Real-time Collaboration** - Socket.io with simplified single-server architecture
+3. **Homelab Production Readiness** - Essential CI/CD, testing, and simple deployment
 4. **Agent Coordination Excellence** - Seamless multi-agent development workflows
 
-This plan leverages AzurePuma's comprehensive technical roadmap while integrating LavenderBeaver's superior agent coordination protocols.
+**Key Changes from Expert Review Integration:**
+- **Simplified Architecture**: Single-server deployment, no Redis scaling initially
+- **Homelab-Appropriate Scope**: Removed enterprise features inappropriate for self-hosting
+- **Early Testing Strategy**: TDD from Week 1, not Week 4
+- **Security Fundamentals**: CSRF protection, token refresh, input validation
 
 ## Technical Architecture Strategy
 
-### Frontend Architecture (Based on AzurePuma's Plan)
+### Frontend Architecture (Expert Review Updated)
 **Technology Stack:**
 - **React 18** + **TypeScript** + **Material-UI v5**
 - **React Router v6** - Client-side routing and navigation
-- **TanStack Query v4** - Server state management and caching
-- **Zustand** - Lightweight client state management (LavenderBeaver integration)
+- **TanStack Query v5** - Server state management and caching (upgraded from v4 per expert review)
+- **Zustand** - Lightweight client state management (~1KB bundle)
 - **React Hook Form** + **Zod** - Form validation matching backend schemas
 - **Axios** - HTTP client with interceptors for auth and error handling
+
+**Note:** All dependencies installed in PHASE1_2_COMPLETION_PLAN.md - agents can begin work immediately.
 
 ### Backend Enhancements (Integrated Approach)
 **Current Status**: Backend 85% complete with robust foundations
@@ -39,13 +46,15 @@ This plan leverages AzurePuma's comprehensive technical roadmap while integratin
 - **File Upload**: Profile pictures and trip photos via multer + storage
 - **Enhanced Audit Logging**: Activity tracking for coordination and debugging
 
-### Real-time Architecture (LavenderBeaver WebSocket Insights + AzurePuma Scale)
+### Real-time Architecture (Homelab-Simplified)
 **WebSocket Strategy:**
 - **Socket.io Server**: Authenticated rooms per trip using JWT validation
 - **Trip-Specific Rooms**: Users only join trips they're members of (security-first)
 - **Event Broadcasting**: Trip updates, member joins/leaves, event changes, item claims
-- **Redis Adapter**: Horizontal scaling preparation for production load
+- **Single-Server Architecture**: In-memory store for homelab deployment (25-50 concurrent users)
 - **Connection Management**: Auto-reconnection, heartbeat monitoring with acknowledgments
+
+**Scaling Strategy:** Redis adapter can be added in Phase 3 if horizontal scaling needed.
 
 ### Multi-Agent Development Coordination (LavenderBeaver Excellence)
 **File Reservation Protocol:**
@@ -62,35 +71,19 @@ This plan leverages AzurePuma's comprehensive technical roadmap while integratin
 
 ## Feature Implementation Roadmap
 
-### Day 0: Infrastructure Prerequisites (MANDATORY)
+### Day 0: Prerequisites Verification (MANDATORY)
 **Timeline: Before Day 1**
-**All Agents: Critical Setup**
+**Prerequisite:** PHASE1_2_COMPLETION_PLAN.md must be completed
 
-**Frontend Dependencies Installation:**
-```bash
-cd frontend
-bun add react-router-dom @tanstack/react-query@5 zustand react-hook-form zod @hookform/resolvers axios date-fns
-bun add -d @tanstack/react-query-devtools vitest @vitest/ui jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event msw @playwright/test
-```
+**Verification Checklist:**
+- ✅ All frontend dependencies installed (TanStack Query v5, Zustand, React Router, etc.)
+- ✅ All backend dependencies installed (Socket.io, Sentry, Winston)
+- ✅ Vitest configurations created for both frontend and backend
+- ✅ Test database operational and schema deployed
+- ✅ Basic GitHub Actions workflow functional
+- ✅ Architectural decisions documented (single-server, homelab-focused)
 
-**Backend Dependencies Installation:**
-```bash
-cd backend
-bun add socket.io @socket.io/redis-adapter redis @sentry/node node-cron
-```
-
-**Production Infrastructure Setup (MVP-Critical):**
-- Health check endpoints (`/health/live`, `/health/ready`, `/health/metrics`)
-- Production Docker configurations with resource limits
-- Basic reverse proxy setup (Traefik) with SSL automation
-- Automated backup scripts for PostgreSQL and Redis
-- Basic monitoring infrastructure (Prometheus metrics exposure)
-
-**Testing Infrastructure Setup:**
-- Vitest configurations for frontend and backend
-- Test database isolation strategy
-- MSW setup for API mocking
-- GitHub Actions workflow definitions
+**If Phase 1.2 incomplete:** Agents must complete PHASE1_2_COMPLETION_PLAN.md before beginning Phase 2 work.
 
 ### Phase 2A: Frontend Foundation (Priority 1)
 **Timeline: Days 1-7**
@@ -128,12 +121,18 @@ bun add socket.io @socket.io/redis-adapter redis @sentry/node node-cron
    - TanStack Query v5 setup for all endpoints with caching
    - MSW (Mock Service Worker) setup for development and testing
 
-5. **Testing Infrastructure Setup** (Days 5-7)
-   - Vitest configuration for unit and integration tests
-   - React Testing Library setup for component testing
-   - Test database isolation with Prisma
-   - GitHub Actions CI/CD pipeline with coverage enforcement
-   - Performance testing baseline (Core Web Vitals targets)
+5. **Early TDD Implementation** (Days 5-7)
+   - Write tests for authentication UI components (already configured via Phase 1.2)
+   - MSW setup for API mocking during frontend development
+   - Component testing with React Testing Library
+   - Basic security implementation: CSRF protection middleware
+   - JWT token refresh interceptor for auth resilience
+
+6. **Security Fundamentals Integration** (Days 6-7)
+   - CSRF protection middleware implementation
+   - Input validation with Zod schemas
+   - Environment variable validation
+   - XSS prevention for user-generated content
 
 **Dependencies Resolved**: Unblocks 6+ downstream UI tasks and establishes TDD foundation
 
@@ -175,7 +174,7 @@ bun add socket.io @socket.io/redis-adapter redis @sentry/node node-cron
 **Core Task:** `bd-2iy` (Socket.io server setup with JWT)
 
 1. **Socket.io Integration** (`/backend/src/websocket/`)
-   - Socket.io server with JWT authentication and secure room management
+   - Single-server Socket.io with JWT authentication and secure room management
    - TypeScript event schema and validation:
      ```typescript
      interface SocketEvents {
@@ -186,9 +185,11 @@ bun add socket.io @socket.io/redis-adapter redis @sentry/node node-cron
      }
      ```
    - Trip-specific rooms with role-based broadcasting
-   - Connection state management with auto-reconnection
-   - Redis adapter for horizontal scaling
-   - Message acknowledgment, retry logic, and conflict resolution
+   - In-memory connection state management (homelab-appropriate for 25-50 users)
+   - Auto-reconnection and heartbeat monitoring
+   - Message acknowledgment and basic conflict resolution
+
+   **Note:** Redis adapter deferred to Phase 3 scaling as per homelab architecture decision.
 
 2. **Real-time Frontend** (`/frontend/src/hooks/useSocket.ts`)
    - Socket.io client with auto-reconnection and presence indicators
@@ -205,52 +206,52 @@ bun add socket.io @socket.io/redis-adapter redis @sentry/node node-cron
    - Push notification preparation
    - Notification history and preferences
 
-### Phase 2D: Advanced Testing & Quality Assurance (Priority 2)
+### Phase 2D: Testing & Quality Assurance (Homelab-Focused)
 **Timeline: Days 22-28**
-**All Agents: Comprehensive Quality Excellence**
+**All Agents: Quality Excellence for Homelab Deployment**
 
-1. **Test Coverage Completion** (Target: 80%/75% backend/frontend)
-   - Complete test suite development using TDD foundation
-   - API endpoint comprehensive testing with Supertest
-   - Component integration testing with React Testing Library
-   - WebSocket connection, room management, and real-time feature tests
+1. **Test Coverage Gap Fill** (Target: 70%/65% backend/frontend - homelab appropriate)
+   - Fill coverage gaps identified during TDD development (Week 1-3)
+   - API endpoint testing for critical user flows
+   - Component testing for complex UI interactions
+   - WebSocket connection and basic real-time feature tests
 
-2. **E2E and Performance Testing**
-   - Critical user flow E2E tests with Playwright
-   - Load testing for real-time collaboration (100+ concurrent users)
-   - Core Web Vitals optimization (FCP <1.8s, LCP <2.5s, FID <100ms)
-   - Accessibility audit with automated testing tools
+2. **Essential E2E and Performance Testing**
+   - Critical user journey E2E tests with Playwright (register → login → create trip → invite)
+   - Basic load testing for homelab capacity (25-50 concurrent users)
+   - Core Web Vitals baseline (reasonable homelab targets, not aggressive optimization)
+   - Basic accessibility validation with automated tools
 
-3. **Security & Production Readiness**
-   - Security audit of authentication flows and JWT handling
-   - Penetration testing for WebSocket security
-   - Database query performance optimization
-   - Error handling and recovery flow validation
+3. **Security & Homelab Production Readiness**
+   - Security validation of authentication flows and JWT handling
+   - Basic WebSocket security verification
+   - Database query performance for homelab hardware
+   - Error handling and recovery for single-server deployment
 
-### Phase 2E: Production Deployment & Infrastructure (Priority 3)
+### Phase 2E: Homelab Deployment & Essential Infrastructure
 **Timeline: Days 29-35**
-**Homelab-Ready Production Deployment**
+**Simple, Reliable Homelab Production Deployment**
 
-1. **Production Infrastructure Deployment** (Days 29-31)
-   - **Traefik Reverse Proxy**: SSL termination, automatic certificate renewal
-   - **Production Docker Compose**: Resource limits, health checks, restart policies
-   - **Database Optimization**: PostgreSQL tuning for homelab hardware (8GB RAM config)
-   - **Redis Configuration**: Memory limits (256MB), persistence, LRU eviction
-   - **Security Hardening**: Firewall rules, container security, non-root users
+1. **Basic Production Infrastructure** (Days 29-31)
+   - **Simple Docker Compose**: Single-server deployment with health checks and restart policies
+   - **SSL Setup**: Basic Traefik or nginx with Let's Encrypt automatic certificate renewal
+   - **Database Configuration**: PostgreSQL tuning for homelab hardware (8GB RAM minimum)
+   - **Security Basics**: Container non-root users, basic firewall rules, environment validation
+   - **Skip Redis**: Single-server Socket.io deployment (can add Redis later if scaling needed)
 
-2. **Monitoring & Backup Systems** (Days 32-33)
-   - **Basic Monitoring Stack**: Prometheus metrics collection, Grafana dashboards
-   - **Health Monitoring**: Service health checks, database connectivity checks
-   - **Automated Backups**: Daily PostgreSQL/Redis backups with 30-day retention
-   - **Alerting Rules**: Critical service failures, high error rates, resource exhaustion
-   - **Log Management**: Structured JSON logging, basic log aggregation
+2. **Essential Monitoring & Backup** (Days 32-33)
+   - **Health Checks**: Basic endpoint monitoring (`/health/live`, `/health/ready`)
+   - **Simple Logging**: Structured logs with basic retention (no complex aggregation)
+   - **Daily Backups**: PostgreSQL backups with 7-day retention (sufficient for homelab)
+   - **Basic Alerting**: Email notifications for critical failures
+   - **Skip Complex Monitoring**: No Prometheus/Grafana (overkill for homelab MVP)
 
-3. **CI/CD & Deployment Automation** (Days 34-35)
-   - **GitHub Actions Pipeline**: Automated testing, security scanning, deployment
-   - **Production Deployment**: Automated deployment to homelab environment
-   - **Database Migrations**: Automated schema updates with rollback capability
-   - **Environment Validation**: Configuration validation, dependency checking
-   - **Deployment Verification**: Health checks, smoke tests, rollback procedures
+3. **Simple CI/CD & Documentation** (Days 34-35)
+   - **GitHub Actions**: Basic test, build, and deployment pipeline
+   - **Self-Hosting Guide**: Complete documentation for homelab deployment
+   - **Database Migrations**: Automated schema updates with manual rollback procedures
+   - **Environment Templates**: Example `.env` files and configuration guides
+   - **Smoke Testing**: Basic deployment verification and health checks
 
 **Homelab Requirements Met:**
 - **Hardware**: 4 cores, 8GB RAM minimum (16GB recommended)
@@ -338,13 +339,13 @@ bun add socket.io @socket.io/redis-adapter redis @sentry/node node-cron
 
 ## Success Metrics
 
-### Technical Excellence
-- **Test Coverage**: Backend 80%+, Frontend 75%+
-- **Performance**: Core Web Vitals - FCP <1.8s, LCP <2.5s, FID <100ms, CLS <0.1
-- **API Performance**: Response times <200ms P95, WebSocket latency <100ms
-- **Security**: Zero critical vulnerabilities, comprehensive authentication audit
+### Technical Excellence (Homelab-Appropriate)
+- **Test Coverage**: Backend 70%+, Frontend 65%+ (focused on critical paths)
+- **Performance**: Core Web Vitals - Basic targets for homelab hardware
+- **API Performance**: Response times <500ms P95, WebSocket latency <200ms (homelab network)
+- **Security**: Zero critical vulnerabilities, essential authentication security
 - **TypeScript**: Zero compilation errors, minimal ESLint warnings
-- **Accessibility**: WCAG 2.1 AA compliance for all user-facing features
+- **Accessibility**: Basic keyboard navigation and screen reader support
 
 ### Multi-Agent Coordination
 - **Response Time**: <5min response to Boss Agent priority messages
@@ -352,29 +353,29 @@ bun add socket.io @socket.io/redis-adapter redis @sentry/node node-cron
 - **File Conflicts**: <2 conflicts per week through reservation discipline
 - **Documentation**: 100% of activities logged in CODERLOG files
 
-### Business Readiness (MVP Targets)
-- **Feature Completeness**: 100% of core MVP features implemented
-- **Deployment**: Successful homelab production deployment with basic monitoring
-- **Scalability**: System handles 50+ concurrent users (MVP baseline)
-- **Backup/Recovery**: Daily automated backups with tested restore procedures
-- **Infrastructure Foundation**: Ready for post-MVP enterprise scaling
+### Business Readiness (Homelab MVP Targets)
+- **Feature Completeness**: 100% of core homelab MVP features implemented
+- **Deployment**: Successful single-server homelab deployment with health monitoring
+- **Scalability**: System handles 25-50 concurrent users (homelab baseline)
+- **Backup/Recovery**: Daily automated backups with documented restore procedures
+- **Self-Hosting Ready**: Complete documentation and setup guides for individual homelab owners
 
-**Post-MVP Infrastructure Goals** (See POST_MVP_INFRASTRUCTURE_PLAN.md):
-- **Enterprise Scalability**: 1000+ concurrent users with load balancing
-- **High Availability**: 99.9% uptime with automated failover
-- **Advanced Monitoring**: Comprehensive alerting and performance analytics
-- **Disaster Recovery**: < 4 hour RTO, < 1 hour RPO capabilities
+**Future Scaling Goals** (Phase 3+):
+- **Multi-Server Scalability**: Redis adapter and load balancing for 100+ users
+- **Advanced Monitoring**: Prometheus/Grafana stack for detailed analytics
+- **High Availability**: Database replication and automated failover
+- **Enterprise Features**: Advanced audit logging, compliance features, SSO integration
 
 ## Timeline & Milestones
 
-### Week 1: Foundation Excellence
+### Week 1: Foundation Excellence (Enhanced with TDD)
 **Days 1-7** | **Lead: AzurePuma** | **Support: LavenderBeaver**
-- ✅ Unified plan expert review complete (Day 1)
-- 🎯 Authentication UI complete (Day 3)
-- 🎯 Dashboard and trip list functional (Day 5)
-- 🎯 API integration layer implemented (Day 7)
+- ✅ Phase 1.2 prerequisites verified (Day 1)
+- 🎯 Authentication UI with security basics complete (Day 3)
+- 🎯 Dashboard and trip list functional with tests (Day 5)
+- 🎯 API integration layer with TDD implemented (Day 7)
 
-**Key Deliverable**: Users can register, login, view trips with real-time updates
+**Key Deliverable**: Users can register, login, view trips with test coverage and basic security
 
 ### Week 2: Core Features
 **Days 8-14** | **Parallel Development**
@@ -392,11 +393,11 @@ bun add socket.io @socket.io/redis-adapter redis @sentry/node node-cron
 
 **Key Deliverable**: Real-time collaborative experience fully functional
 
-### Week 4: Quality Assurance
+### Week 4: Quality Assurance (Coverage Gap Fill)
 **Days 22-28** | **All Agents: Testing Focus**
-- 🎯 Backend test suite 80% coverage (Day 24)
-- 🎯 Frontend test suite 75% coverage (Day 26)
-- 🎯 E2E critical flow coverage (Day 28)
+- 🎯 Backend test coverage gap fill to 70% (Day 24)
+- 🎯 Frontend test coverage gap fill to 65% (Day 26)
+- 🎯 E2E critical flow coverage and homelab load testing (Day 28)
 
 **Key Deliverable**: Production-ready quality with comprehensive testing
 
@@ -417,6 +418,8 @@ If timeline pressure increases:
 
 ---
 
-**Phase 2 Success Definition**: A production-deployed, real-time collaborative group planning application with comprehensive testing, monitoring, and multi-agent development excellence that demonstrates the full value proposition of the platform.
+**Phase 2 Success Definition**: A homelab-deployed, real-time collaborative group planning application with essential testing, basic monitoring, and multi-agent development excellence that provides complete MVP functionality for self-hosting enthusiasts.
 
-This unified plan combines AzurePuma's technical excellence with LavenderBeaver's coordination mastery for optimal Phase 2 execution.
+**Prerequisites:** PHASE1_2_COMPLETION_PLAN.md must be completed before Phase 2 execution begins.
+
+This unified plan combines technical excellence with practical homelab deployment requirements, ensuring a maintainable, secure, and efficient application suitable for individual self-hosting without enterprise complexity.
