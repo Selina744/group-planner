@@ -199,12 +199,20 @@ export function ddosProtection() {
     },
     standardHeaders: true,
     legacyHeaders: false,
-    onLimitReached: (req: any) => {
+    handler: (req: any, res: any) => {
       SecurityMetrics.increment('rateLimitedRequests');
       log.warn('Rate limit exceeded', {
         ip: req.ip,
         userAgent: req.get('User-Agent'),
         url: req.url,
+      });
+      res.status(429).json({
+        success: false,
+        error: {
+          message: 'Too many requests',
+          code: 'RATE_LIMIT_EXCEEDED',
+          details: 'You have exceeded the rate limit. Please try again later.',
+        },
       });
     },
   } as any);
@@ -212,15 +220,9 @@ export function ddosProtection() {
   const speedLimiter = slowDown({
     windowMs: 1 * 60 * 1000, // 1 minute
     delayAfter: 30, // Allow 30 requests at full speed
-    delayMs: 500, // Add 500ms delay after delayAfter requests
+    delayMs: () => 500, // Add 500ms delay after delayAfter requests
     maxDelayMs: 5000, // Maximum delay of 5 seconds
-    onLimitReached: (req: any) => {
-      log.warn('Speed limit activated', {
-        ip: req.ip,
-        userAgent: req.get('User-Agent'),
-        url: req.url,
-      });
-    },
+    validate: { delayMs: false }, // Disable delayMs validation warning
   } as any);
 
   return [rateLimiter, speedLimiter];

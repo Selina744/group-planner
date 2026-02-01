@@ -17,9 +17,13 @@ export class UserFixtures {
    * Create a test user with sensible defaults
    */
   static async createUser(overrides: Partial<User> = {}): Promise<User> {
+    // Use process.hrtime for higher precision timing to avoid race conditions
+    const [seconds, nanoseconds] = process.hrtime();
+    const uniqueId = `${seconds}${nanoseconds}${Math.random().toString(36).substr(2, 8)}`;
+
     const defaults = {
-      email: `test-${Date.now()}-${Math.random().toString(36)}@example.com`,
-      username: `testuser${Date.now()}${Math.random().toString(36).substr(2, 5)}`,
+      email: `test-${uniqueId}@example.com`,
+      username: `testuser${uniqueId}`,
       passwordHash: '$2b$10$hashedpassword', // Placeholder for hashed password
       displayName: 'Test User',
       emailVerified: true,

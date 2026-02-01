@@ -39,11 +39,17 @@ export async function disconnectTestPrisma() {
 export async function cleanTestDatabase() {
   const prisma = getTestPrisma()
 
-  // Clean in reverse dependency order to avoid foreign key constraint errors
-  await prisma.itemClaim.deleteMany()
-  await prisma.item.deleteMany()
-  await prisma.event.deleteMany()
-  await prisma.tripMember.deleteMany()
-  await prisma.trip.deleteMany()
-  await prisma.user.deleteMany()
+  try {
+    // Clean in reverse dependency order to avoid foreign key constraint errors
+    await prisma.itemClaim.deleteMany()
+    await prisma.item.deleteMany()
+    await prisma.event.deleteMany()
+    await prisma.tripMember.deleteMany()
+    await prisma.trip.deleteMany()
+    await prisma.refreshToken.deleteMany()
+    await prisma.user.deleteMany()
+  } catch (error) {
+    console.error('Error cleaning test database:', error)
+    // Continue despite errors - tests should still run
+  }
 }
