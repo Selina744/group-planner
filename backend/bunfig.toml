@@ -1,0 +1,16 @@
+# Bun Configuration for Group Planner Backend
+
+[test]
+# Exclude example tests from default "bun test" run to prevent cross-contamination
+# Note: Bun's exclude might not work as expected, use test:main script instead
+
+# Set default timeout for tests
+timeout = 30000
+
+# Test environment setup
+preload = ["./src/tests/setup.ts"]
+
+[install]
+# Faster installs
+cache = true
+registry = "https://registry.npmjs.org/"

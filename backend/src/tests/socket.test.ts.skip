@@ -29,12 +29,15 @@ describe('Socket.io Service', () => {
     // Initialize database for testing
     await DatabaseManager.initialize();
 
-    // Create a test user
-    testUser = await AuthService.createUser({
+    // Register a test user
+    const registerResult = await AuthService.register({
       email: 'test-socket@example.com',
       password: 'TestPassword123!',
       username: 'socket-test-user',
+      displayName: 'Socket Test User',
     });
+
+    testUser = registerResult.user;
 
     // Generate a valid token
     const tokenResult = JwtService.generateTokens(testUser.id, testUser.email, testUser.username);

@@ -320,9 +320,18 @@ export function validateRequest(schemas: {
     } catch (error) {
       ValidationMetrics.increment('validationFailures');
 
+      // Generate fallback requestId if not present
+      let requestId = 'unknown';
+      try {
+        requestId = req.requestId || `validation-${Date.now()}-${Math.random().toString(36).substr(2, 8)}`;
+      } catch (e) {
+        requestId = `validation-${Date.now()}-${Math.random().toString(36).substr(2, 8)}`;
+      }
+
       log.error('Validation middleware error', error, {
-        requestId: (req as any).requestId || 'unknown',
-        path: req.path,
+        requestId,
+        path: req?.path || 'unknown',
+        method: req?.method || 'unknown',
       });
 
       if (error instanceof z.ZodError) {
@@ -496,7 +505,7 @@ export const validation: any = {
 
   userLogin: () => validateRequest({
     body: z.object({
-      email: commonSchemas.email,
+      identifier: z.string().min(1, 'Email or username is required'),
       password: z.string().min(1, 'Password is required'),
     }),
   }),

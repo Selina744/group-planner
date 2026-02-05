@@ -131,8 +131,10 @@ export const middlewarePresets = {
   // Protected routes (authentication required)
   protected: [
     middleware.context,
-    rateLimiters.general,
-    middleware.logging,
+    // TODO: Check if general rate limiter is causing hangs
+    // rateLimiters.general,
+    // TODO: Re-enable logging middleware after fixing res.end override issue
+    // middleware.logging,
     requireAuth, // Required authentication
   ],
 

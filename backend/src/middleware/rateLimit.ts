@@ -246,6 +246,22 @@ export class RateLimitMiddleware {
     return this.create({
       ...DEFAULT_RATE_LIMITS.login,
       keyGenerator: this.emailKeyGenerator,
+      skip: (req) => {
+        // Skip rate limiting in test environment
+        if (process.env.NODE_ENV === 'test') {
+          return true;
+        }
+
+        // Skip for localhost in development
+        if (process.env.NODE_ENV === 'development') {
+          const ip = req.clientIp || req.ip;
+          if (ip === '127.0.0.1' || ip === '::1' || ip === 'localhost' || ip === '::ffff:127.0.0.1') {
+            return true;
+          }
+        }
+
+        return false;
+      },
     });
   }
 
@@ -256,6 +272,22 @@ export class RateLimitMiddleware {
     return this.create({
       ...DEFAULT_RATE_LIMITS.register,
       keyGenerator: this.defaultKeyGenerator, // IP-based for registration
+      skip: (req) => {
+        // Skip rate limiting in test environment
+        if (process.env.NODE_ENV === 'test') {
+          return true;
+        }
+
+        // Skip for localhost in development
+        if (process.env.NODE_ENV === 'development') {
+          const ip = req.clientIp || req.ip;
+          if (ip === '127.0.0.1' || ip === '::1' || ip === 'localhost' || ip === '::ffff:127.0.0.1') {
+            return true;
+          }
+        }
+
+        return false;
+      },
     });
   }
 

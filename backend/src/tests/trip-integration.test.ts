@@ -9,7 +9,8 @@
 
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'bun:test';
 import request from 'supertest';
-import { prisma } from '../test/test-prisma.js'; // ✅ Use test database instance
+import { setupTestDatabase, cleanDatabase, teardownTestDatabase } from './utils/test-database.js';
+import { setupTestEnvironment } from './utils/test-helpers.js';
 
 describe('Trip Integration Tests', () => {
   let app: any;
@@ -26,11 +27,18 @@ describe('Trip Integration Tests', () => {
   };
 
   beforeAll(async () => {
+    // Setup test environment and database
+    setupTestEnvironment();
+    await setupTestDatabase();
+
+    // Clean database once at start
+    await cleanDatabase();
+
     // Initialize app
     const appModule = await import('../app.js');
     app = appModule.app;
 
-    // Create a test user and get auth token
+    // Create test user and login for the entire test suite
     const registerResponse = await request(app)
       .post('/api/v1/auth/register')
       .send(testUser)
@@ -42,7 +50,7 @@ describe('Trip Integration Tests', () => {
     const loginResponse = await request(app)
       .post('/api/v1/auth/login')
       .send({
-        email: testUser.email,
+        identifier: testUser.email,
         password: testUser.password,
       })
       .expect(200);
@@ -51,24 +59,9 @@ describe('Trip Integration Tests', () => {
   });
 
   afterAll(async () => {
-    // Clean up test data
-    if (tripId) {
-      try {
-        await prisma.trip.delete({ where: { id: tripId } });
-      } catch (error) {
-        // Trip might already be deleted in tests
-      }
-    }
-
-    if (userId) {
-      try {
-        await prisma.user.delete({ where: { id: userId } });
-      } catch (error) {
-        // User might already be deleted
-      }
-    }
-
-    await prisma.$disconnect();
+    // Clean up test data and disconnect from test database
+    await cleanDatabase();
+    await teardownTestDatabase();
   });
 
   describe('POST /api/v1/trips - Create Trip', () => {
@@ -297,7 +290,7 @@ describe('Trip Integration Tests', () => {
       const loginResponse = await request(app)
         .post('/api/v1/auth/login')
         .send({
-          email: secondUser.email,
+          identifier: secondUser.email,
           password: secondUser.password,
         })
         .expect(200);

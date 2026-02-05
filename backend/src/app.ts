@@ -30,8 +30,14 @@ import type { ApiResponse } from './types/api.js'
 function createApp(): Express {
   const app: Express = express()
 
-  // Trust proxy headers
-  app.set('trust proxy', true)
+  // Trust proxy headers - use specific configuration for security
+  // In tests and development, trust localhost
+  // In production, configure with actual proxy IPs
+  if (process.env.NODE_ENV === 'test') {
+    app.set('trust proxy', '127.0.0.1')
+  } else {
+    app.set('trust proxy', process.env.TRUST_PROXY || '127.0.0.1')
+  }
 
   // Enhanced security middleware
   app.use(securityMiddleware.headers())
