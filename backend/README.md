@@ -67,28 +67,32 @@ See `.env.example` for all available configuration options.
 
 ## Testing
 
-The backend uses Bun's native test runner for fast, reliable testing:
+The backend uses Bun's native test runner with Docker PostgreSQL for fast, reliable testing:
 
 ```bash
-# Run all tests
-bun test
+# One-command setup (Docker + Schema + Environment)
+bun run test:setup
 
-# Run tests in watch mode
+# Run all tests properly (124 tests)
+bun run test:all
+
+# Run individual test suites
+bun run test:main       # Main tests (96 tests)
+bun run test:examples   # Example tests (28 tests)
+
+# Default command (main tests only)
+bun run test
+
+# Development
 bun test --watch
-
-# Run specific test file
-bun test src/tests/database.test.ts
-
-# Run with timeout for integration tests
-bun test --timeout 30000
 ```
 
 ### Test Structure
-- **Unit Tests**: Service layer testing with mocking
-- **Integration Tests**: API endpoint testing with test database
-- **Database Tests**: Prisma operations and schema validation
+- **Main Tests**: Production API endpoints, database operations, authentication
+- **Example Tests**: Documentation patterns, service mocking, integration workflows
+- **Utilities**: Fixtures, database management, test isolation
 
-See `src/tests/README.md` for comprehensive testing documentation.
+See `TESTING.md` for comprehensive setup, database configuration, and testing documentation.
 
 ## Seeding demo data
 
