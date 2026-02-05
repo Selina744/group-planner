@@ -55,18 +55,50 @@ export async function cleanDatabase(): Promise<void> {
   const prisma = getTestDb();
 
   try {
-    // Delete in reverse dependency order
+    // Delete in reverse dependency order with explicit cleanup
     await prisma.itemClaim.deleteMany();
     await prisma.item.deleteMany();
     await prisma.event.deleteMany();
     await prisma.tripMember.deleteMany();
     await prisma.trip.deleteMany();
+
+    // Clean authentication-related tables thoroughly
+    await prisma.refreshToken.deleteMany();
     await prisma.user.deleteMany();
 
     log.debug('Test database cleaned successfully');
   } catch (error) {
     log.error('Failed to clean test database', error);
     throw error;
+  }
+}
+
+/**
+ * Deep clean database - more thorough cleanup for cross-test isolation
+ */
+export async function deepCleanDatabase(): Promise<void> {
+  const prisma = getTestDb();
+
+  try {
+    // More thorough cleanup - delete in multiple passes to handle race conditions
+    for (let i = 0; i < 2; i++) {
+      await prisma.itemClaim.deleteMany();
+      await prisma.item.deleteMany();
+      await prisma.event.deleteMany();
+      await prisma.tripMember.deleteMany();
+      await prisma.trip.deleteMany();
+      await prisma.refreshToken.deleteMany();
+      await prisma.user.deleteMany();
+
+      // Small delay between passes to ensure database consistency
+      await new Promise(resolve => setTimeout(resolve, 10));
+    }
+
+    log.debug('Deep database cleanup completed');
+  } catch (error) {
+    log.error('Failed to perform deep database cleanup', error);
+    // Fallback to regular cleanup
+    await cleanDatabase();
   }
 }
 

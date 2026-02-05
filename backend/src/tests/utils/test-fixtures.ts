@@ -51,7 +51,7 @@ export class UserFixtures {
   }
 
   /**
-   * Create authenticated test user (returns user and mock auth token)
+   * Create authenticated test user (returns user and JWT auth token)
    */
   static async createAuthenticatedUser(overrides: Partial<User> = {}): Promise<{
     user: User;
@@ -59,9 +59,19 @@ export class UserFixtures {
   }> {
     const user = await this.createUser(overrides);
 
-    // In real implementation, this would generate a proper JWT
-    // For testing, we use a mock token
-    const token = `mock-jwt-token-${user.id}`;
+    // Generate a real JWT token for testing
+    const { JwtUtils } = await import('../../lib/jwt.js');
+
+    const payload = {
+      sub: user.id,
+      type: 'access' as const,
+      email: user.email,
+      username: user.username,
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour expiry
+    };
+
+    const token = JwtUtils.sign(payload, 'access');
 
     return { user, token };
   }
@@ -153,18 +163,17 @@ export class EventFixtures {
   /**
    * Create a test event
    */
-  static async createEvent(tripId: string, createdBy: string, overrides: Partial<Event> = {}): Promise<Event> {
+  static async createEvent(tripId: string, suggestedBy: string, overrides: Partial<Event> = {}): Promise<Event> {
     const defaults = {
       title: `Test Event ${Date.now()}`,
       description: 'A test event for automated testing',
-      startDate: new Date('2026-08-02T10:00:00.000Z'),
-      endDate: new Date('2026-08-02T12:00:00.000Z'),
+      startTime: new Date('2026-08-02T10:00:00.000Z'),
+      endTime: new Date('2026-08-02T12:00:00.000Z'),
       location: {
         name: 'Golden Gate Park',
         coordinates: { lat: 37.7694, lng: -122.4862 }
       },
-      type: 'ACTIVITY' as const,
-      status: 'ACTIVE' as const,
+      status: 'PROPOSED' as const,
       metadata: {},
       ...overrides
     };
@@ -173,8 +182,7 @@ export class EventFixtures {
       data: {
         ...defaults,
         tripId,
-        createdBy,
-        updatedBy: createdBy
+        suggestedById: suggestedBy
       }
     });
   }
@@ -193,9 +201,10 @@ export class ItemFixtures {
     const defaults = {
       name: `Test Item ${Date.now()}`,
       description: 'A test item for automated testing',
-      category: 'GENERAL' as const,
-      quantity: 1,
-      isPacked: false,
+      category: 'GENERAL',
+      type: 'RECOMMENDED' as const,
+      quantityNeeded: 1,
+      isEssential: false,
       metadata: {},
       ...overrides
     };
@@ -204,8 +213,7 @@ export class ItemFixtures {
       data: {
         ...defaults,
         tripId,
-        createdBy,
-        updatedBy: createdBy
+        createdById: createdBy
       }
     });
   }
