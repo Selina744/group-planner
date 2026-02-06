@@ -27,6 +27,18 @@ The API service reads the following from `.env`:
 
 Add additional runtime configuration here if later issues require it.
 
+## Documentation
+
+Comprehensive project documentation is organized in the [`docs/`](docs/) directory:
+
+- **[Development Guide](docs/development/)** - Setup, Docker, testing, and authentication
+- **[Planning & Roadmap](docs/planning/)** - MVP, phases, and feature planning
+- **[Completion Tracking](docs/completion/)** - Progress checklists and status
+- **[Architecture](docs/architecture/)** - Technical design and testing architecture
+- **[Agent Coordination](docs/agents/)** - Agent descriptions and activity logs
+
+📖 **[Browse Full Documentation →](docs/README.md)**
+
 ## Testing
 
 The Group Planner project includes comprehensive testing setup for both backend and frontend with **100% test success rates**.
