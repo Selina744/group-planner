@@ -30,6 +30,26 @@ print_error() {
     echo -e "${RED}❌ $1${NC}"
 }
 
+# Step 0: Ensure .env file exists (Bun may look for it during operations)
+print_step "0" "Checking environment setup..."
+if [ ! -f ".env" ]; then
+    print_warning "No .env file found - creating basic .env from .env.example for safety"
+    if [ -f ".env.example" ]; then
+        cp .env.example .env
+        print_success "Created .env from .env.example"
+    else
+        print_warning "No .env.example found - creating minimal .env file"
+        cat > .env << EOF
+# Basic .env file created by test setup
+# This ensures Bun doesn't fail when looking for environment files
+NODE_ENV=development
+EOF
+        print_success "Created minimal .env file"
+    fi
+else
+    print_success "Found existing .env file"
+fi
+
 # Step 1: Install dependencies
 print_step "1" "Installing dependencies..."
 if ! command -v bun &> /dev/null; then
