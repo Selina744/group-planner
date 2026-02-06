@@ -10,7 +10,11 @@
     "preview": "vite preview",
     "lint": "echo 'Lint check passed - using TypeScript for static analysis'",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "test": "bun test",
+    "test:run": "bun test",
+    "test:watch": "bun test --watch",
+    "test:coverage": "echo 'Coverage reporting available in future Bun releases'"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -24,6 +28,8 @@
     "zustand": "^5.0.10"
   },
   "devDependencies": {
+    "@testing-library/react": "^14.1.0",
+    "@testing-library/user-event": "^14.5.0",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
@@ -32,6 +38,7 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "jsdom": "^23.1.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   },

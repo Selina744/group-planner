@@ -1,0 +1,29 @@
+# Bun Configuration for Frontend Testing
+
+[test]
+# Set default timeout for tests
+timeout = 30000
+
+# Test environment setup - automatically run setup for all tests
+preload = ["./src/test/bun-setup.ts"]
+
+# Only run files matching these patterns
+include = ["src/**/*.test.{ts,tsx}"]
+
+# Exclude certain files from test discovery
+exclude = [
+  "src/test/setup.ts",        # Old Vitest setup
+  "src/test/test-utils.tsx",  # Test utilities (not tests themselves)
+  "node_modules/**",
+  "dist/**"
+]
+
+[install]
+# Optimize for testing dependencies
+cache = true
+registry = "https://registry.npmjs.org/"
+
+# Enable TypeScript and JSX transformation
+[loader]
+".tsx" = "tsx"
+".ts" = "tsx"

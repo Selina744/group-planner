@@ -18,7 +18,7 @@ type AuthAction =
   | { type: 'SET_AUTH_STATE'; payload: Partial<AuthState> };
 
 // Auth context interface
-interface AuthContextType extends AuthState {
+export interface AuthContextType extends AuthState {
   login: (credentials: LoginRequest) => Promise<void>;
   register: (userData: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
@@ -85,7 +85,7 @@ const initialState: AuthState = {
 };
 
 // Create context
-const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 // Auth provider component
 interface AuthProviderProps {

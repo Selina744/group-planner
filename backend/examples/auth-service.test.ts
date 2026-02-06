@@ -16,8 +16,8 @@ import {
   createMockRequest,
   createMockResponse,
   createMockNext
-} from '../utils/index.js';
-import { setupTestFile } from '../utils/test-isolation.js';
+} from '../src/tests/utils/index';
+import { setupTestFile } from '../src/tests/utils/test-isolation';
 
 
 // Mock external dependencies using Bun's mocking system

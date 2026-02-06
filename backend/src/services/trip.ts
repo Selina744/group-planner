@@ -14,7 +14,6 @@ import {
   BadRequestError,
   ConflictError,
 } from '../utils/errors.js';
-import { socketService } from './socket.js';
 import type {
   Trip,
   TripMember,
@@ -537,16 +536,7 @@ export class TripService {
         updatedFields: Object.keys(dbUpdateData),
       });
 
-      // Broadcast trip update to all trip members
-      socketService.broadcastTripDetailsUpdate(
-        tripId,
-        dbUpdateData,
-        {
-          id: user.id,
-          ...(user.username && { username: user.username }),
-          email: user.email,
-        }
-      );
+      // Real-time trip updates removed (Socket.io functionality)
 
       return TripTransforms.toTrip(
         updatedTrip as DatabaseTrip,
@@ -601,19 +591,7 @@ export class TripService {
         });
       }, 'Delete trip');
 
-      // Broadcast trip deletion to all trip members before deletion
-      socketService.broadcastTripUpdate(
-        tripId,
-        'trip:deleted',
-        {
-          title: trip.title,
-          deletedBy: {
-            id: user.id,
-            ...(user.username && { username: user.username }),
-            email: user.email,
-          },
-        }
-      );
+      // Real-time trip deletion broadcast removed (Socket.io functionality)
 
       log.info('Trip deleted successfully', {
         tripId,

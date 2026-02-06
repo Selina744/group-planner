@@ -11,6 +11,7 @@
 
 import { describe, it, expect, beforeAll, beforeEach, afterEach, afterAll } from 'bun:test';
 import request from 'supertest';
+import { app } from '../src/app';
 import {
   setupTestEnvironment,
   setupTestDatabase,
@@ -22,8 +23,8 @@ import {
   ApiTestHelpers,
   getTestDb,
   withTestTransaction
-} from '../utils/index.js';
-import { setupTestFile } from '../utils/test-isolation.js';
+} from '../src/tests/utils/index';
+import { setupTestFile } from '../src/tests/utils/test-isolation';
 
 describe('Full Integration Example - Trip Management', () => {
   let testApp: any;
@@ -40,8 +41,7 @@ describe('Full Integration Example - Trip Management', () => {
     setupTestEnvironment();
     await setupTestDatabase();
 
-    // Import app after environment is set up
-    const { app } = await import('../../app.js');
+    // Use imported app after environment is set up
     testApp = app;
 
     // Create authenticated user once for the entire test suite

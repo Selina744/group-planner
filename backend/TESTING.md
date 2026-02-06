@@ -887,3 +887,81 @@ The Group Planner Backend testing setup provides:
 - **🐳 CI/CD ready** with Docker containerization
 
 **Getting Started**: Run `bun run test:setup` and you're ready to test! 🎉
+
+---
+
+## 🎨 Frontend Testing
+
+The Group Planner project includes a comprehensive frontend testing setup using modern React testing practices.
+
+### Frontend Testing Stack
+
+- **Vitest** - Fast test runner with native TypeScript support
+- **@testing-library/react** - Simple React DOM testing utilities
+- **@testing-library/jest-dom** - Custom matchers for better assertions
+- **@testing-library/user-event** - Realistic user interaction simulation
+- **JSDOM** - DOM implementation for Node.js testing
+
+### Quick Start
+
+```bash
+# Navigate to frontend directory
+cd ../frontend
+
+# Install dependencies (if not done already)
+bun install
+
+# Run frontend tests
+bun test
+
+# Run with coverage
+bun run test:coverage
+```
+
+### Frontend Test Coverage
+
+| Test Type | Description | Example Files |
+|-----------|-------------|---------------|
+| **Component Tests** | React component rendering, interactions, props | `LoginForm.test.tsx` |
+| **Context Tests** | React context providers, state management | `AuthContext.test.tsx` |
+| **Hook Tests** | Custom React hooks, state logic | `useAuth.test.tsx` |
+| **Integration Tests** | Multi-component workflows | `AuthFlow.test.tsx` |
+
+### Key Features
+
+- **Material-UI Support** - Testing with theme providers and styled components
+- **Form Validation Testing** - Input validation, error states, submission flows
+- **Authentication Testing** - Login/logout flows, protected routes, token management
+- **Accessibility Testing** - ARIA attributes, keyboard navigation, screen reader support
+- **Mock API Integration** - Service layer mocking for isolated component tests
+
+### Documentation
+
+Complete frontend testing documentation is available in:
+- **`frontend/TESTING.md`** - Comprehensive testing guide with examples
+- **`frontend/src/test/test-utils.tsx`** - Reusable testing utilities
+- **Example Tests** - Production-ready test examples for components and contexts
+
+### Test Commands
+
+```bash
+# Frontend-specific testing commands
+cd frontend
+
+# Run tests in watch mode
+bun test
+
+# Run all tests once
+bun run test:run
+
+# Run with UI dashboard
+bun run test:ui
+
+# Generate coverage report
+bun run test:coverage
+
+# Run specific test file
+bun test src/components/LoginForm.test.tsx
+```
+
+The frontend testing setup complements the backend testing infrastructure, providing end-to-end coverage of the entire Group Planner application stack.

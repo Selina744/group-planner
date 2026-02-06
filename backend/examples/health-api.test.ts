@@ -7,9 +7,9 @@
 
 import { describe, it, expect, beforeAll, afterAll } from 'bun:test';
 import request from 'supertest';
-import { app } from '../../app.js';
-import { useDatabaseHooks, ApiTestHelpers } from '../utils/index.js';
-import { setupTestFile } from '../utils/test-isolation.js';
+import { app } from '../src/app';
+import { useDatabaseHooks, ApiTestHelpers } from '../src/tests/utils/index';
+import { setupTestFile } from '../src/tests/utils/test-isolation';
 
 describe('Health API - Example Tests', () => {
   let testUtils: any;
