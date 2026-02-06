@@ -48,17 +48,17 @@ if ! command -v docker &> /dev/null; then
 fi
 
 # Stop any existing test container
-docker-compose -f docker-compose.test.yml down --volumes 2>/dev/null || true
+docker compose -f docker-compose.test.yml down --volumes 2>/dev/null || true
 
 # Start fresh test container
-docker-compose -f docker-compose.test.yml up -d
+docker compose -f docker-compose.test.yml up -d
 
 # Wait for PostgreSQL to be ready
 print_step "3" "Waiting for PostgreSQL to be ready..."
 max_attempts=30
 attempt=0
 while [ $attempt -lt $max_attempts ]; do
-    if docker-compose -f docker-compose.test.yml exec -T postgres-test pg_isready -U test_user -d group_planner_test &>/dev/null; then
+    if docker compose -f docker-compose.test.yml exec -T postgres-test pg_isready -U test_user -d group_planner_test &>/dev/null; then
         print_success "PostgreSQL is ready"
         break
     fi
@@ -69,7 +69,7 @@ done
 
 if [ $attempt -eq $max_attempts ]; then
     print_error "PostgreSQL failed to start within timeout"
-    docker-compose -f docker-compose.test.yml logs postgres-test
+    docker compose -f docker-compose.test.yml logs postgres-test
     exit 1
 fi
 
