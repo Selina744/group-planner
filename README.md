@@ -53,20 +53,17 @@ Before running tests, ensure you have the required test environment:
 #### Quick Setup & Testing
 
 ```bash
-# Navigate to backend directory
+# From project root (recommended)
+bun run test:setup     # One-command setup (creates .env.test, starts Docker, sets up database)
+bun run test:all       # Run all tests (168 total: 124 backend + 44 frontend)
+bun run test:teardown  # Clean up test environment when done
+
+# Or from backend directory (alternative)
 cd backend
-
-# One-command setup (creates .env.test, starts Docker, sets up database)
-bun run test:setup
-
-# Run all tests (124 tests)
-bun run test:all
-
-# Run main tests only (96 tests)
-bun test
-
-# Run example tests only (28 tests)
-bun run test:examples
+bun run test:setup     # Same setup command
+bun run test:all       # Run backend tests only (124 tests)
+bun test              # Run main tests only (96 tests)
+bun run test:examples  # Run example tests only (28 tests)
 ```
 
 #### Manual Setup Steps
@@ -155,17 +152,21 @@ Comprehensive testing guides are available:
 ### Running All Tests
 
 ```bash
-# Run backend tests only (requires test:setup first)
-cd backend && bun run test:all
+# Complete test cycle from root (recommended)
+bun run test:setup    # One-time setup (starts Docker, creates .env.test, etc.)
+bun run test:all      # Run all tests (168 total: 124 backend + 44 frontend)
 
-# Run frontend tests only
-cd frontend && bun test
+# Individual test suites
+bun --filter backend test:all   # Backend only (124 tests)
+bun --filter frontend test      # Frontend only (44 tests)
+bun test                        # Both workspaces (default behavior)
 
-# Run both (from project root - requires backend test database running)
-bun run test  # Runs workspace-wide tests
+# Alternative: from specific directories
+cd backend && bun run test:all  # Backend tests (requires test:setup first)
+cd frontend && bun test         # Frontend tests (no setup needed)
 
-# Full setup and test cycle
-cd backend && bun run test:setup && cd .. && bun run test
+# Cleanup when done
+bun run test:teardown    # Stop test database and clean up
 ```
 
 ### Troubleshooting

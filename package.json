@@ -16,6 +16,9 @@
     "dev": "bun --filter '*' dev",
     "build": "bun --filter '*' build",
     "test": "bun --filter '*' test",
+    "test:setup": "bun --filter backend test:setup",
+    "test:all": "bun --filter backend test:all && bun --filter frontend test",
+    "test:teardown": "bun --filter backend test:teardown",
     "lint": "bun --filter '*' lint",
     "typecheck": "bun --filter '*' typecheck",
     "clean": "bun --filter '*' clean"
