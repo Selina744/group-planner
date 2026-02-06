@@ -19,7 +19,7 @@ export function getTestDb(): PrismaClient {
       log: process.env.DEBUG_TESTS === 'true' ? ['query'] : ['error'], // Simplified logging
       datasources: {
         db: {
-          url: process.env.DATABASE_URL || 'postgresql://test_user:test_password@localhost:5432/group_planner_test'
+          url: process.env.DATABASE_URL || 'postgresql://test_user:test_password@localhost:5433/group_planner_test'
         }
       }
     });
