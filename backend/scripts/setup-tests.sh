@@ -121,14 +121,20 @@ EOF
 cp .env.test.docker .env.test
 print_success "Environment configuration updated for Docker"
 
+# NOTE: Alternative explicit approach (if you prefer not to rely on Bun's auto-loading):
+# export $(grep -v '^#' .env.test | xargs) && bun prisma generate && bun prisma db push --force-reset
+
 # Step 5: Generate Prisma client and apply schema
 print_step "5" "Setting up database schema..."
+# NOTE: Bun automatically loads .env.test when NODE_ENV=test is set
+print_warning "Using test database from .env.test (auto-loaded by Bun with NODE_ENV=test)"
 NODE_ENV=test bun prisma generate
 NODE_ENV=test bun prisma db push --force-reset
 print_success "Database schema applied"
 
 # Step 6: Verify setup
 print_step "6" "Verifying test setup..."
+print_warning "Connecting to test database (NODE_ENV=test auto-loads .env.test)"
 if NODE_ENV=test bun -e "
 import { PrismaClient } from './src/generated/prisma/index.js';
 const prisma = new PrismaClient();
