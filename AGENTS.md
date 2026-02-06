@@ -313,13 +313,13 @@ ubs .                                   # Whole project
 
 ## Multi-Agent Development Environment
 
-**For Boss Agent coordination, see BOSS.md**
+**For Boss Agent coordination, see docs/agents/BOSS.md**
 
 ---
 
 ## Code Agents
 
-**For complete Code Agent guidance, see [CODER.md](./CODER.md)**
+**For complete Code Agent guidance, see [docs/agents/CODER.md](docs/agents/CODER.md)**
 
 Code Agents are specialized AI agents responsible for implementing features, fixing bugs, and writing code. They coordinate with the Boss Agent (LilacBeacon) for task assignment, progress reporting, and quality assurance.
 
@@ -328,7 +328,7 @@ Code Agents are specialized AI agents responsible for implementing features, fix
 - Reserve files before editing to prevent conflicts
 - Maintain detailed activity logs
 - Report completion and request next assignments
-- Follow all coordination protocols detailed in CODER.md
+- Follow all coordination protocols detailed in docs/agents/CODER.md
 
 ---
 
@@ -370,7 +370,7 @@ Code Agents are specialized AI agents responsible for implementing features, fix
 
 **Communication Protocols:**
 - **Escalation procedures** when agents don't respond (15min → 30min → system admin)
-- **Alternative coordination** via CURRENT_SYSTEM_ISSUES.md for system outages
+- **Alternative coordination** via docs/completion/CURRENT_SYSTEM_ISSUES.md for system outages
 - **Emergency work continuation** protocols during MCP mail outages
 
 ### MCP Agent Mail Technical Implementation (Critical Setup Knowledge)

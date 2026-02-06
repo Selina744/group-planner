@@ -30,7 +30,7 @@ Phase 1.2 addresses **critical blockers and architectural decisions** that must 
 ## 🚨 Critical Blockers (Must Complete First)
 
 ### 1. Frontend Dependencies Installation
-**Problem:** PHASE2_EXPERT_REVIEW.md identified that TanStack Query, Zustand, React Router, React Hook Form, Zod, and Axios are **completely missing** from frontend/package.json despite being specified in the Phase 2 plan.
+**Problem:** ../planning/PHASE2_EXPERT_REVIEW.md identified that TanStack Query, Zustand, React Router, React Hook Form, Zod, and Axios are **completely missing** from frontend/package.json despite being specified in the Phase 2 plan.
 
 **Impact:** Agents literally cannot start bd-20t task without these dependencies.
 
@@ -247,7 +247,7 @@ jobs:
 ## 📝 Documentation Updates
 
 ### 11. Update Phase 2 Plan References
-**Update UNIFIED_PHASE2_PLAN.md:**
+**Update ../planning/UNIFIED_PHASE2_PLAN.md:**
 - Remove Redis adapter references in Week 3
 - Update dependency lists to reflect actual installations
 - Adjust test coverage targets to homelab-appropriate levels
@@ -255,7 +255,7 @@ jobs:
 - Add reference to Phase 1.2 completion as prerequisite
 
 ### 12. Create Architecture Decision Record
-**Create ADR-001-HOMELAB_ARCHITECTURE.md:**
+**Create ../architecture/ADR-001-HOMELAB_ARCHITECTURE.md:**
 - Document decision to use single-server deployment
 - Rationale for deferring Redis and scaling features
 - Performance expectations for homelab hardware
@@ -280,7 +280,7 @@ jobs:
 - [ ] Socket.io approach decided (single-server, no Redis)
 
 **Scope Management (Update Documentation):**
-- [ ] UNIFIED_PHASE2_PLAN.md updated with homelab scope
+- [ ] ../planning/UNIFIED_PHASE2_PLAN.md updated with homelab scope
 - [ ] Enterprise features moved to "Phase 3" or "Deferred"
 - [ ] Success criteria adjusted to homelab targets
 - [ ] ADR document created for architecture decisions

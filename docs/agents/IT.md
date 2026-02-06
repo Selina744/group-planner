@@ -32,7 +32,7 @@
 
 ## Monitoring Schedule
 **Every 2 minutes:** MCP Agent Mail check for help requests
-**Every 5 minutes:** CURRENT_SYSTEM_ISSUES.md review and resolution
+**Every 5 minutes:** ../completion/CURRENT_SYSTEM_ISSUES.md review and resolution
 **Every 15 minutes:** Agent status verification and coordination
 
 ## System Administration Notes
@@ -42,7 +42,7 @@
 - **Coordination Strategy:** Boss Agent using Task subagents for reliable progress
 
 ## Emergency Procedures
-- **System Issues:** Document in CURRENT_SYSTEM_ISSUES.md
+- **System Issues:** Document in ../completion/CURRENT_SYSTEM_ISSUES.md
 - **Critical Problems:** Escalate to SELINA.md for human attention
 - **Agent Dormancy:** Continue operations via Task subagent strategy
 
@@ -53,7 +53,7 @@
 - **Registration:** MCP Agent Mail registration successful via macro_start_session
 - **Agent Identity:** WhiteMoose (auto-generated)
 - **Status Verification:** All systems operational, no current issues identified
-- **Documentation Updated:** CURRENT_SYSTEM_ISSUES.md and IT.md updated with new identity
+- **Documentation Updated:** ../completion/CURRENT_SYSTEM_ISSUES.md and IT.md updated with new identity
 - **Mail Check:** No pending requests from agents
 - **Outcome:** System Administration continuity maintained
 
@@ -69,7 +69,7 @@
 - **Verification:** Error persists across all attempted configurations
 - **Impact:** Testing infrastructure completely blocked, quality assurance pipeline non-functional
 - **Status:** UNRESOLVED - requires strategic decision on testing approach
-- **Documentation:** Updated CURRENT_SYSTEM_ISSUES.md with critical status
+- **Documentation:** Updated ../completion/CURRENT_SYSTEM_ISSUES.md with critical status
 - **Recommendations:**
   1. Hybrid toolchain (Bun for dev, Node.js for testing) - PREFERRED
   2. Convert to Bun native testing (2-4 hour effort)
@@ -84,7 +84,7 @@
 - **Action:** Routine system administrator checks and maintenance
 - **Activities:**
   - Checked agent mail for support requests (no new messages)
-  - Reviewed CURRENT_SYSTEM_ISSUES.md status accuracy
+  - Reviewed ../completion/CURRENT_SYSTEM_ISSUES.md status accuracy
   - Corrected inconsistent status reporting (critical issue vs "all operational")
   - Updated timestamps and recent activity documentation
   - Verified no escalations requiring immediate human intervention

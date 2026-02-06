@@ -15,7 +15,7 @@ The **Boss Agent** is responsible for coordinating and managing multiple AI codi
 ### Essential First Steps for New Boss Agent
 1. **Verify MCP Tool Access:** Ensure `mcp__mcp-agent-mail__*` tools are available
 2. **Register Identity:** Use existing "LilacBeacon" or register new identity if required
-3. **Check System Status:** Read CURRENT_SYSTEM_ISSUES.md for any active problems
+3. **Check System Status:** Read ../completion/CURRENT_SYSTEM_ISSUES.md for any active problems
 4. **Discover Active Agents:** Use `whois` to identify currently registered agents
 5. **Check Inbox:** `fetch_inbox` for pending coordination messages
 
@@ -110,7 +110,7 @@ The **Boss Agent** is responsible for coordinating and managing multiple AI codi
 - **UBS:** `ubs <files>` for quality verification before task completion
 
 ### Communication Integration
-- **CURRENT_SYSTEM_ISSUES.md** - Emergency coordination with System Admin
+- **../completion/CURRENT_SYSTEM_ISSUES.md** - Emergency coordination with System Admin
 - **SELINA.md** - Process improvement tracking
 - **Agent CODERLOG.md files** - Activity monitoring and accountability
 
@@ -127,7 +127,7 @@ The **Boss Agent** is responsible for coordinating and managing multiple AI codi
 5. **Handle naming transitions gracefully** - create coordination bridge files if needed
 
 ### Registration Confusion Prevention
-- **Enhanced AGENTS.md** with identity management protocols
+- **Enhanced ../../AGENTS.md** with identity management protocols
 - **Immediate registration verification** upon agent contact
 - **Session identity tracking** vs. historical registrations
 - **Clear documentation** for agent identity management requirements
@@ -228,7 +228,7 @@ The **Boss Agent** is responsible for coordinating and managing multiple AI codi
 #### No Agent Responses
 1. **Check agent identity changes** - use `whois` to discover current names
 2. **Verify MCP system status** - test basic tool functionality
-3. **Check CURRENT_SYSTEM_ISSUES.md** - look for reported system problems
+3. **Check ../completion/CURRENT_SYSTEM_ISSUES.md** - look for reported system problems
 4. **Fall back to Task subagents** - reliable alternative for critical work
 
 #### Task Assignment Failures
@@ -238,13 +238,13 @@ The **Boss Agent** is responsible for coordinating and managing multiple AI codi
 4. **Monitor activity logs** - verify agents are following protocols
 
 #### Communication Breakdowns
-1. **System Admin escalation** - contact RubyPond via MCP mail or CURRENT_SYSTEM_ISSUES.md
+1. **System Admin escalation** - contact RubyPond via MCP mail or ../completion/CURRENT_SYSTEM_ISSUES.md
 2. **Alternative coordination channels** - use file-based communication if needed
 3. **Protocol reinforcement** - re-send coordination requirements to agents
 4. **Documentation updates** - enhance procedures based on failure analysis
 
 ### Emergency Protocols
-- **Document all issues** in CURRENT_SYSTEM_ISSUES.md
+- **Document all issues** in ../completion/CURRENT_SYSTEM_ISSUES.md
 - **Maintain continuity** via Task subagents for critical work
 - **Preserve context** for next Boss Agent session
 - **Update procedures** based on lessons learned

@@ -9,7 +9,7 @@
 ### **First Steps**
 1. **Check your available tools** - Look for `ensure_project`, `register_agent`, `send_message`, `fetch_inbox`
 2. **If MCP tools available:** Begin agent coordination immediately
-3. **If tools still missing:** Read CURRENT_SYSTEM_ISSUES.md and coordinate via RubyPond
+3. **If tools still missing:** Read ../completion/CURRENT_SYSTEM_ISSUES.md and coordinate via RubyPond
 
 ### **Urgent Agent Status**
 - **LavenderBeaver:** 1 unread message (needs activation)
@@ -23,7 +23,7 @@
 - Coordinate code reviews and quality assurance
 
 ### **Communication Hub**
-**File:** `/data/projects/group-planner/CURRENT_SYSTEM_ISSUES.md`
+**File:** `/data/projects/group-planner/docs/completion/CURRENT_SYSTEM_ISSUES.md`
 **Use for:** Coordinating with RubyPond if MCP tools unavailable
 
 ### **Project Context**

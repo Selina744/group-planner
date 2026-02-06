@@ -111,7 +111,7 @@ Every completion report MUST include:
 ## Emergency Protocols
 
 ### System Outages
-If MCP Agent Mail fails: Continue work and document in CURRENT_SYSTEM_ISSUES.md
+If MCP Agent Mail fails: Continue work and document in ../completion/CURRENT_SYSTEM_ISSUES.md
 
 ### Blocking Dependencies
 If blocked by unavailable agents: Escalate to Boss Agent within 15 minutes

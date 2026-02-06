@@ -1,10 +1,10 @@
 # Group Planner - Unified Phase 2 Development Plan
 
 **Prepared by:** LilacBeacon (Boss Agent)
-**Based on:** AzurePuma-PHASE2.md (foundation) + LavenderBeaver-PHASE2.md (coordination) + PHASE2_EXPERT_REVIEW.md analysis
+**Based on:** ../../archive/competing_plans/AzurePuma-PHASE2.md (foundation) + ../../archive/competing_plans/LavenderBeaver-PHASE2.md (coordination) + PHASE2_EXPERT_REVIEW.md analysis
 **Date:** 2026-02-01
 **Status:** Updated for Homelab Deployment - Expert Review Integrated
-**Prerequisites:** **PHASE1_2_COMPLETION_PLAN.md must be completed first**
+**Prerequisites:** **../completion/PHASE1_2_COMPLETION_PLAN.md must be completed first**
 
 ---
 
@@ -35,7 +35,7 @@ Phase 2 transforms Group Planner from backend-heavy prototype to **homelab-ready
 - **React Hook Form** + **Zod** - Form validation matching backend schemas
 - **Axios** - HTTP client with interceptors for auth and error handling
 
-**Note:** All dependencies installed in PHASE1_2_COMPLETION_PLAN.md - agents can begin work immediately.
+**Note:** All dependencies installed in ../completion/PHASE1_2_COMPLETION_PLAN.md - agents can begin work immediately.
 
 ### Backend Enhancements (Integrated Approach)
 **Current Status**: Backend 85% complete with robust foundations
@@ -73,7 +73,7 @@ Phase 2 transforms Group Planner from backend-heavy prototype to **homelab-ready
 
 ### Day 0: Prerequisites Verification (MANDATORY)
 **Timeline: Before Day 1**
-**Prerequisite:** PHASE1_2_COMPLETION_PLAN.md must be completed
+**Prerequisite:** ../completion/PHASE1_2_COMPLETION_PLAN.md must be completed
 
 **Verification Checklist:**
 - ✅ All frontend dependencies installed (TanStack Query v5, Zustand, React Router, etc.)
@@ -83,7 +83,7 @@ Phase 2 transforms Group Planner from backend-heavy prototype to **homelab-ready
 - ✅ Basic GitHub Actions workflow functional
 - ✅ Architectural decisions documented (single-server, homelab-focused)
 
-**If Phase 1.2 incomplete:** Agents must complete PHASE1_2_COMPLETION_PLAN.md before beginning Phase 2 work.
+**If Phase 1.2 incomplete:** Agents must complete ../completion/PHASE1_2_COMPLETION_PLAN.md before beginning Phase 2 work.
 
 ### Phase 2A: Frontend Foundation (Priority 1)
 **Timeline: Days 1-7**
@@ -420,6 +420,6 @@ If timeline pressure increases:
 
 **Phase 2 Success Definition**: A homelab-deployed, real-time collaborative group planning application with essential testing, basic monitoring, and multi-agent development excellence that provides complete MVP functionality for self-hosting enthusiasts.
 
-**Prerequisites:** PHASE1_2_COMPLETION_PLAN.md must be completed before Phase 2 execution begins.
+**Prerequisites:** ../completion/PHASE1_2_COMPLETION_PLAN.md must be completed before Phase 2 execution begins.
 
 This unified plan combines technical excellence with practical homelab deployment requirements, ensuring a maintainable, secure, and efficient application suitable for individual self-hosting without enterprise complexity.

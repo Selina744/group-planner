@@ -14,7 +14,7 @@ This document contains essential information for system administrator agents man
 
 ### 1. System Monitoring Schedule
 - **Every 2 minutes:** Check MCP Agent Mail for help requests
-- **Every 5 minutes:** Check CURRENT_SYSTEM_ISSUES.md and resolve reported issues
+- **Every 5 minutes:** Check ../completion/CURRENT_SYSTEM_ISSUES.md and resolve reported issues
 - **Every 15 minutes:** Agent status verification and coordination
 
 ### 2. Development Tools Management
@@ -89,10 +89,10 @@ This document contains essential information for system administrator agents man
 ## System Files & Documentation
 
 ### Key Files to Monitor
-- **CURRENT_SYSTEM_ISSUES.md:** Real-time system problems and resolutions
+- **../completion/CURRENT_SYSTEM_ISSUES.md:** Real-time system problems and resolutions
 - **IT.md:** System status and tool verification logs
 - **SELINA.md:** Process improvements and human attention items
-- **AGENTS.md:** Agent coordination rules and protocols
+- **../../AGENTS.md:** Agent coordination rules and protocols
 
 ### File Maintenance
 - **Regular cleanup:** Remove resolved issues, update current statuses
@@ -115,7 +115,7 @@ This document contains essential information for system administrator agents man
 
 ### MCP System Outage
 1. **Detection:** Health check failures or tool inaccessibility
-2. **Communication:** Use CURRENT_SYSTEM_ISSUES.md for coordination
+2. **Communication:** Use ../completion/CURRENT_SYSTEM_ISSUES.md for coordination
 3. **Monitoring:** Check every 2 minutes until restored
 4. **Recovery:** Verify all agents can access tools post-restoration
 
