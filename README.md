@@ -43,6 +43,32 @@ Comprehensive project documentation is organized in the [`docs/`](docs/) directo
 
 The Group Planner project includes comprehensive testing setup for both backend and frontend with **100% test success rates**.
 
+### Quick Test Database Setup
+
+Before running any tests, you need a test database. Use this **one-command setup**:
+
+```bash
+# From project root (automatically sets up everything)
+bun run test:setup
+```
+
+This command will:
+- ✅ Install dependencies
+- ✅ Start Docker PostgreSQL test container on port 5433
+- ✅ Create `.env.test` file with proper database configuration
+- ✅ Generate Prisma client and apply schema
+- ✅ Verify database connection (13 tables created)
+
+**Requirements:**
+- [Bun](https://bun.sh) installed
+- [Docker](https://docker.com) running
+
+**Ready to test:**
+```bash
+bun run test:all       # Run all 168 tests (backend + frontend)
+bun run test:teardown  # Clean up when done
+```
+
 ### Backend Testing (✅ Production Ready)
 
 The backend has a complete testing setup with **124 tests** covering all functionality:
