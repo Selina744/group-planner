@@ -27,6 +27,30 @@ The API service reads the following from `.env`:
 
 Add additional runtime configuration here if later issues require it.
 
+## Production deployment
+
+Production runs via `docker-compose.prod.yml`, which builds optimized Bun images and fronts them with an Nginx reverse proxy.
+
+### Setup
+
+1. Copy `.env.production.example` to `.env.production` and replace placeholder secrets (JWT, cookies, database URL, Redis URL, etc.) with values stored in your secrets manager.
+2. Provision TLS assets in `nginx/certs/` (self-signed certs can live under `fullchain.pem`, `privkey.pem`, and `chain.pem` for testing).
+3. Ensure the backend and frontend Dockerfiles create multi-stage production images (`backend/Dockerfile.prod` and `frontend/Dockerfile.prod`).
+
+### Running the stack
+
+```bash
+docker compose -f docker-compose.prod.yml up --build
+```
+
+Nginx terminates SSL, routes `/api` to the backend on port `3000`, and routes everything else to the frontend preview server on port `3001`. Use `docker compose -f docker-compose.prod.yml logs` to follow service output and `docker compose -f docker-compose.prod.yml down` to stop the stack.
+
+### Secrets and TLS
+
+- Don’t commit `.env.production`; keep it in Vault/secret storage and inject via your orchestration platform.
+- Rotate `JWT_SECRET`, `COOKIE_SECRET`, and database credentials regularly.
+- Replace `nginx/certs/*.pem` with Let’s Encrypt or corporate certs before exposing the stack to the public internet.
+
 ## Documentation
 
 Comprehensive project documentation is organized in the [`docs/`](docs/) directory:
