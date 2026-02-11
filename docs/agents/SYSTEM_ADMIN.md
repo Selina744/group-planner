@@ -12,10 +12,22 @@ This document contains essential information for system administrator agents man
 
 ## Core Responsibilities
 
-### 1. System Monitoring Schedule
-- **Every 2 minutes:** Check MCP Agent Mail for help requests
-- **Every 5 minutes:** Check ../completion/CURRENT_SYSTEM_ISSUES.md and resolve reported issues
-- **Every 15 minutes:** Agent status verification and coordination
+### 1. System Monitoring (Phase-Based)
+
+**Active Support Phase** — When agents are in coordination or reporting issues
+- Check MCP Agent Mail every 2-3 minutes for help requests
+- Respond to system issues immediately
+- Assist with tool access problems and infrastructure needs
+
+**Background Monitoring Phase** — When agents are in deep work
+- Check MCP Agent Mail every 10-15 minutes
+- Review ../completion/CURRENT_SYSTEM_ISSUES.md every 15 minutes
+- Monitor for silent failures (agents not reporting)
+
+**Mandatory Check Points:**
+- When any agent reports a blocker
+- After system configuration changes
+- Every 30 minutes: Full agent status verification
 
 ### 2. Development Tools Management
 **All tools verified operational (as of 2026-01-30):**

@@ -19,7 +19,24 @@ Every completion report MUST include:
 1. Register with Agent Mail using current agent name
 2. Contact Boss Agent (LilacBeacon) with capabilities and availability
 3. Reserve files before editing: `file_reservation_paths(..., exclusive=true)`
-4. Check inbox every 3-5 minutes during active work
+4. Enter Coordination Phase for task assignment
+
+### Work Phases
+
+**Coordination Phase** — Use when starting, between tasks, or blocked
+- Check mail every 2-3 minutes
+- Actively communicate with Boss Agent
+- Request clarification, report blockers
+- Acknowledge task assignments promptly
+
+**Deep Work Phase** — Use during active implementation
+- Minimize interruptions for focused coding
+- Check mail only at natural breakpoints:
+  - After completing a function/component
+  - After tests pass
+  - Before committing
+  - When switching to different files
+- Notify Boss Agent when entering deep work: "Starting implementation, will report at completion"
 
 ### Work Acceptance
 1. Acknowledge task assignment within 5 minutes
@@ -71,11 +88,12 @@ Every completion report MUST include:
 
 ## Boss Agent Expectations
 
-### Communication
-- **Response Time**: 5 minutes for task acknowledgment
-- **Status Updates**: Every 30 minutes during active work
+### Communication (Phase-Based)
+- **Task Acknowledgment**: Within 5 minutes of assignment
+- **Phase Transition**: Notify when entering/exiting deep work
+- **Status Updates**: At task boundaries or every 30 minutes if task is long
 - **Completion Notice**: Immediate when work finished
-- **Blockers**: Report immediately, don't wait
+- **Blockers**: Report immediately, return to Coordination Phase
 
 ### Quality Standards
 - **No Breaking Changes**: All existing tests must pass

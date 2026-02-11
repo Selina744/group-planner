@@ -47,20 +47,36 @@ The **Boss Agent** is responsible for coordinating and managing multiple AI codi
 - **Conduct regular check-ins** with all active agents (15-minute cycles)
 - **Maintain communication threads** for complex features and coordination
 
-## Operational Schedules
+## Operational Schedules (Phase-Based)
 
-### 2-Minute Mail Check Cycle
+Boss Agent operates in phases aligned with agent work cycles:
+
+### Coordination Phase (Active Management)
+**When:** Agents transitioning between tasks, requesting assignments, reporting completion
+**Frequency:** Check mail every 2-3 minutes
+
+Activities:
 - `fetch_inbox` for new messages from coding agents
 - Respond to agent questions and status reports
 - If code ready for review → spawn code-reviewer subagent
 - After review complete → spawn quality-assurance subagent
 - Send next best task to available agents
 
-### 15-Minute Status Verification Cycle
-- Poll all active agents for status updates via direct messages
-- Verify agents are still working if tasks remain ready
-- Update management learnings section below
+### Monitoring Phase (Oversight)
+**When:** All agents engaged in deep work
+**Frequency:** Check mail every 10-15 minutes
+
+Activities:
+- Verify agents are progressing (check for status updates)
+- Monitor for blocked agents needing assistance
+- Plan next task assignments
+- Update documentation as needed
+
+### Status Verification Cycle (Every 30 Minutes)
+- Poll agents who haven't reported in >20 minutes
 - Check for dormant agents (no response >30 minutes = inactive)
+- Update management learnings section below
+- Review task pipeline with `bv --robot-triage`
 
 ### Agent Dormancy Protocol
 **Official guidance from System Admin (RubyPond):**
@@ -113,6 +129,61 @@ The **Boss Agent** is responsible for coordinating and managing multiple AI codi
 - **../completion/CURRENT_SYSTEM_ISSUES.md** - Emergency coordination with System Admin
 - **SELINA.md** - Process improvement tracking
 - **Agent CODERLOG.md files** - Activity monitoring and accountability
+
+## Model Strengths & Task Assignment
+
+When assigning tasks, consider the underlying model's strengths:
+
+### Claude (claude-sonnet, claude-opus)
+**Strengths:**
+- Complex architectural reasoning and system design
+- Thorough code review and security analysis
+- Documentation and technical writing
+- Multi-step planning with dependency awareness
+- Nuanced error handling and edge case identification
+
+**Best for:** Architecture decisions, code review, complex debugging, documentation, security audits
+
+### Codex / GPT-4 Models
+**Strengths:**
+- Fast code generation and refactoring
+- Pattern recognition and repetitive transformations
+- API integration and boilerplate generation
+- Test generation from specifications
+- Quick iteration on well-defined tasks
+
+**Best for:** Feature implementation, refactoring, test writing, API integration, rapid prototyping
+
+### Gemini Models
+**Strengths:**
+- Large context window for codebase-wide analysis
+- Cross-file refactoring and dependency tracking
+- Research and information synthesis
+- Multi-modal understanding (diagrams, screenshots)
+
+**Best for:** Codebase analysis, large-scale refactoring, research tasks, visual mockup interpretation
+
+### Assignment Strategy
+
+1. **Match task to model strength** — Don't assign architecture work to speed-optimized models
+2. **Consider context requirements** — Large refactors benefit from bigger context windows
+3. **Balance load by capability** — Spread complex tasks across capable agents
+4. **Track performance** — Note which agents excel at which task types
+
+**Task-Model Mapping Quick Reference:**
+| Task Type | Preferred Model | Reason |
+|-----------|-----------------|--------|
+| Architecture/Design | Claude | Reasoning depth |
+| Code Review | Claude | Security awareness |
+| Feature Implementation | Codex/Claude | Speed + quality balance |
+| Refactoring (small) | Codex | Fast iteration |
+| Refactoring (large) | Gemini | Context window |
+| Test Generation | Codex | Pattern matching |
+| Documentation | Claude | Technical writing |
+| Bug Investigation | Claude | Root cause analysis |
+| API Integration | Codex | Boilerplate speed |
+
+---
 
 ## Agent Identity Management (Critical)
 

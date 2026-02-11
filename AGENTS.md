@@ -324,11 +324,32 @@ ubs .                                   # Whole project
 Code Agents are specialized AI agents responsible for implementing features, fixing bugs, and writing code. They coordinate with the Boss Agent (LilacBeacon) for task assignment, progress reporting, and quality assurance.
 
 **Key Requirements:**
-- Check mail every 3-5 minutes during active work
+- Use phase-based mail checking (see Work Phases below)
 - Reserve files before editing to prevent conflicts
 - Maintain detailed activity logs
 - Report completion and request next assignments
 - Follow all coordination protocols detailed in docs/agents/CODER.md
+
+### Work Phases & Mail Checking
+
+Agents operate in two phases with different communication patterns:
+
+**Coordination Phase** (frequent checks):
+- When: Starting work, between tasks, when blocked, after completing work
+- Mail check: Every 2-3 minutes
+- Purpose: Task assignment, clarification, handoffs
+
+**Deep Work Phase** (minimal interruption):
+- When: Actively implementing a task
+- Mail check: At natural breakpoints only (function complete, test passing, commit ready)
+- Purpose: Focused implementation without context-switching overhead
+
+**Mandatory Check Points (regardless of phase):**
+- Before starting any new task
+- After completing a task (before starting next)
+- When blocked on external input
+- Before any commit
+- When switching files outside your reservation
 
 ---
 
