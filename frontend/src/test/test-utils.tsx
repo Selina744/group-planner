@@ -208,7 +208,7 @@ export const cleanupMockLocalStorage = () => {
 /**
  * Helper to simulate API delay for testing loading states
  */
-export const createDelayedPromise = <T>(value: T, delay: number = 100): Promise<T> => {
+export const createDelayedPromise = <T,>(value: T, delay: number = 100): Promise<T> => {
   return new Promise(resolve => {
     setTimeout(() => resolve(value), delay)
   })
@@ -217,7 +217,7 @@ export const createDelayedPromise = <T>(value: T, delay: number = 100): Promise<
 /**
  * Helper to simulate API error for testing error states
  */
-export const createRejectedPromise = (error: any, delay: number = 10): Promise<never> => {
+export const createRejectedPromise = (error: unknown, delay: number = 10): Promise<never> => {
   return new Promise((_, reject) => {
     setTimeout(() => reject(error), delay)
   })

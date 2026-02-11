@@ -9,30 +9,32 @@
 
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'bun:test';
 import request from 'supertest';
-import { setupTestDatabase, cleanDatabase, teardownTestDatabase } from './utils/test-database.js';
+import { setupTestDatabase, cleanDatabase, deepCleanDatabase, teardownTestDatabase } from './utils/test-database.js';
 import { setupTestEnvironment } from './utils/test-helpers.js';
+import { setupTestFile } from './utils/test-isolation.js';
 
 describe('Trip Integration Tests', () => {
   let app: any;
   let authToken: string;
   let userId: string;
   let tripId: string;
+  let testUtils: any;
 
-  // Test user credentials
-  const testUser = {
-    email: 'triptest@example.com',
-    username: 'triptest',
-    password: 'StrongPassword123!',
-    displayName: 'Trip Test User',
-  };
+  // Test user credentials will be set dynamically
+  let testUser: { email: string; username: string; password: string; displayName: string };
 
   beforeAll(async () => {
-    // Setup test environment and database
+    // Setup test environment FIRST
     setupTestEnvironment();
+
+    // Setup test isolation for unique user
+    testUtils = await setupTestFile('trip-integration');
+    testUser = testUtils.createUser('trip');
+
     await setupTestDatabase();
 
-    // Clean database once at start
-    await cleanDatabase();
+    // Deep clean database to ensure no stale data
+    await deepCleanDatabase();
 
     // Initialize app
     const appModule = await import('../app.js');
@@ -60,7 +62,9 @@ describe('Trip Integration Tests', () => {
 
   afterAll(async () => {
     // Clean up test data and disconnect from test database
-    await cleanDatabase();
+    if (testUtils?.cleanup) {
+      await testUtils.cleanup();
+    }
     await teardownTestDatabase();
   });
 

@@ -11,7 +11,6 @@
 
 import { describe, it, expect, beforeAll, beforeEach, afterEach, afterAll } from 'bun:test';
 import request from 'supertest';
-import { app } from '../src/app';
 import {
   setupTestEnvironment,
   setupTestDatabase,
@@ -37,12 +36,16 @@ describe('Full Integration Example - Trip Management', () => {
     testUtils = await setupTestFile('full-integration');
     testUser = testUtils.createUser('fullintegration');
 
-    // Setup test environment and database
+    // Setup test environment and database BEFORE importing app
     setupTestEnvironment();
     await setupTestDatabase();
 
-    // Use imported app after environment is set up
-    testApp = app;
+    // Clean database to remove any stale data
+    await cleanDatabase();
+
+    // Dynamically import app AFTER environment is set up
+    const appModule = await import('../src/app.js');
+    testApp = appModule.app;
 
     // Create authenticated user once for the entire test suite
     const registerResponse = await request(testApp)
