@@ -38,8 +38,7 @@ Read AGENTS.md carefully. Ultrathink. Follow it exactly.
 
 ## Idle Behavior
 
-- If no mail is present, output ONLY:
-  `IDLE. RECHECK_IN_SECONDS={n}`
+- If no mail is present, wait n seconds, then start the loop from the top.
 - Use exponential backoff: 2, 4, 8, 16, 32, 60 (cap 60).
 - Reset backoff to 2 after processing any mail.
 

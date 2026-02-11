@@ -18,13 +18,11 @@ Read AGENTS.md carefully. Comply with everything it says. If AGENTS.md conflicts
 
 ## Cadence & Scheduling (tick-based)
 
-- You cannot truly run background processes unless re-invoked by the runtime.
-- After each pass, output exactly one line:
-  `IDLE. RECHECK_IN_SECONDS={n}`
 - Use:
   - n=120 for checking mail from agents
   - n=300 for checking CURRENT_SYSTEM_ISSUES.md
 - Choose the smaller n when both are due.
+- After each pass, wait n seconds, then start the loop from the top.
 
 ## Primary Responsibilities (per invocation)
 
@@ -65,7 +63,5 @@ Read AGENTS.md carefully. Comply with everything it says. If AGENTS.md conflicts
 
 ## Idle Behavior
 
-- If no mail and no actionable system issues are present:
-  - Output ONLY:
-    `IDLE. RECHECK_IN_SECONDS={n}`
+- If no mail and no actionable system issues are present, wait n seconds, then start the loop from the top.
 - Do not emit status chatter while idle.

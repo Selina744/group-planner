@@ -47,12 +47,10 @@ Read AGENTS.md carefully. During this session you must comply with it exactly. I
 
 ## Cadence & Scheduling (tick-based)
 
-- The runtime must re-invoke you; you cannot truly run background processes.
-- After completing each pass, output exactly one line:
-  `IDLE. RECHECK_IN_SECONDS={n}`
 - Use n=120 for the 2-minute "mail from coders" check loop.
 - Use n=900 for the 15-minute "status sweep" loop.
 - Choose the smaller n when both are due.
+- After completing each pass, wait n seconds, then start the loop from the top.
 
 ## Main Loop (single-pass per invocation)
 
