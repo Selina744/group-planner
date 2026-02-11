@@ -1,6 +1,32 @@
 # CURRENT SYSTEM ISSUES
 **Project:** group-planner
-**Last Updated:** 2026-02-01 13:01 UTC by WhiteMoose (System Administrator)
+**Last Updated:** 2026-02-11 21:34 UTC by RubyPond (System Administrator)
+
+---
+
+## ⚠️ **IN_PROGRESS - Recurring Agent Crashes**
+
+### **Multiple Agent Crashes - 2026-02-11**
+- **Status:** IN_PROGRESS
+- **Updated:** 2026-02-11 22:15 UTC by RubyPond
+- **Crash Count:** 3 crashes today
+- **Affected Agents:**
+  | Time (UTC) | Agent | Pane | Message |
+  |------------|-------|------|---------|
+  | 21:12:20 | cc | %25 | Agent crashed |
+  | 21:58:30 | cod | %17 | Agent unhealthy |
+  | 22:13:10 | cc | %25 | Agent unhealthy |
+  | 22:27:40 | cc | %2 | Authentication error |
+- **Pattern:** Agent "cc" crashing across multiple panes (%25, %2). New error type: "Authentication error"
+- **⚠️ ESCALATED:** Authentication error requires human review (see SELINA.md)
+- **Root Cause:** Unknown - generic "unhealthy" status provides no diagnostics
+- **Impact:** Potential work interruption; agents may need manual restart
+- **Investigation:**
+  - Historical data shows 28+ crash files since 2026-01-28 (recurring problem)
+  - No detailed error logs in crash notifications
+  - Pane-based crashes suggest tmux/terminal session issues possible
+- **Action Taken:** Monitoring and documenting pattern
+- **Next Step:** If crashes continue, escalate to SELINA.md for human review of ntm/pane configuration
 
 ---
 

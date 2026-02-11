@@ -19,24 +19,7 @@ Every completion report MUST include:
 1. Register with Agent Mail using current agent name
 2. Contact Boss Agent (LilacBeacon) with capabilities and availability
 3. Reserve files before editing: `file_reservation_paths(..., exclusive=true)`
-4. Enter Coordination Phase for task assignment
-
-### Work Phases
-
-**Coordination Phase** — Use when starting, between tasks, or blocked
-- Check mail every 2-3 minutes
-- Actively communicate with Boss Agent
-- Request clarification, report blockers
-- Acknowledge task assignments promptly
-
-**Deep Work Phase** — Use during active implementation
-- Minimize interruptions for focused coding
-- Check mail only at natural breakpoints:
-  - After completing a function/component
-  - After tests pass
-  - Before committing
-  - When switching to different files
-- Notify Boss Agent when entering deep work: "Starting implementation, will report at completion"
+4. Enter Coordination Phase for task assignments
 
 ### Work Acceptance
 1. Acknowledge task assignment within 5 minutes

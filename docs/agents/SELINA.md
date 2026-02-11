@@ -173,6 +173,28 @@
 
 **Current system status: All operational, ready to provide infrastructure support to agent coordination.**
 
+## Agent Authentication Errors - 2026-02-11T22:28Z (RubyPond)
+
+**🚨 NEEDS_HUMAN - Authentication Failure Affecting Agents**
+
+**Issue:** Agent "cc" crashed with "Authentication error" at 22:27:40 UTC in pane %2
+**Context:** Part of recurring crash pattern (4 crashes today across agents cc and cod)
+**Impact:** Agent sessions terminating unexpectedly; potential API key or session issues
+
+**What Was Tried:**
+- Documented crash pattern in CURRENT_SYSTEM_ISSUES.md
+- Verified MCP Agent Mail system is operational (not the source)
+- No access to ntm configuration or API credentials to investigate further
+
+**What Is Needed:**
+- Review API key validity for agent sessions (Anthropic API)
+- Check ntm session manager configuration for authentication handling
+- Verify no rate limiting or quota issues affecting agent authentication
+
+**Urgency:** Medium - agents can be restarted but root cause unknown
+
+---
+
 ## Critical Testing Infrastructure Issue - 2026-02-01T00:35Z (WhiteMoose)
 
 **🚨 CRITICAL SYSTEM BLOCKER IDENTIFIED**

@@ -286,6 +286,20 @@ When assigning tasks, consider the underlying model's strengths:
 - **File reservations prevent conflicts** - essential for multi-agent coordination
 - **Clear communication reduces blockers** - detailed task descriptions improve success rates
 
+### Test Failure Protocol (MANDATORY)
+**When tests fail, ALWAYS create beads to track fixes:**
+1. **Run tests regularly** - `bun test` after code changes
+2. **Identify failures** - note the test file, test name, and error message
+3. **Create beads immediately** - `br create "Fix <test-name> - <brief description>" -t bug -p 1`
+4. **Include context** - add error details in bead description if complex
+5. **Prioritize test fixes** - failing tests block quality gates and phase completion
+
+**Rationale:** Test failures indicate regressions or incomplete implementations. Tracking them as beads ensures:
+- They don't get lost or forgotten
+- They're properly prioritized alongside other work
+- Progress is measurable via `br ready` and `bv --robot-triage`
+- Quality standards are maintained before phase transitions
+
 ### System Reliability Factors
 - **MCP Agent Mail dependency** - coordination impossible if system down
 - **Communication delivery delays** - messages may not appear immediately in inbox
