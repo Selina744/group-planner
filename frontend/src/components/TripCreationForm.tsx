@@ -14,7 +14,6 @@ import {
   Container,
   FormControl,
   FormControlLabel,
-  FormHelperText,
   FormLabel,
   Grid,
   Radio,
@@ -117,7 +116,7 @@ export const TripCreationForm: React.FC<TripCreationFormProps> = ({
     // Start date validation
     if (!values.startDate) {
       errors.startDate = VALIDATION.startDate.required;
-    } else if (new Date(values.startDate) < new Date().setHours(0, 0, 0, 0)) {
+    } else if (new Date(values.startDate) < new Date(new Date().setHours(0, 0, 0, 0))) {
       errors.startDate = 'Start date cannot be in the past';
     }
 
@@ -142,16 +141,18 @@ export const TripCreationForm: React.FC<TripCreationFormProps> = ({
 
     // Create location object - for now using placeholder coordinates
     // In a real implementation, you'd integrate with a geocoding service
+    const addressTrimmed = formData.locationAddress?.trim();
     const location: Location = {
       name: formData.locationName.trim(),
       latitude: 0, // Placeholder - would come from geocoding
       longitude: 0, // Placeholder - would come from geocoding
-      address: formData.locationAddress?.trim(),
+      ...(addressTrimmed ? { address: addressTrimmed } : {}),
     };
 
+    const descriptionTrimmed = formData.description?.trim();
     const tripData: CreateTripForm = {
       title: formData.title.trim(),
-      description: formData.description?.trim() || undefined,
+      ...(descriptionTrimmed ? { description: descriptionTrimmed } : {}),
       location,
       startDate: formData.startDate,
       endDate: formData.endDate,
@@ -185,7 +186,8 @@ export const TripCreationForm: React.FC<TripCreationFormProps> = ({
   const handleInputChange = (name: keyof FormData) => (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    const target = event.target;
+    const value = target.type === 'checkbox' && 'checked' in target ? target.checked : target.value;
     form.setValue(name, value);
   };
 
@@ -248,7 +250,7 @@ export const TripCreationForm: React.FC<TripCreationFormProps> = ({
                   value={form.values.title}
                   onChange={handleInputChange('title')}
                   onBlur={handleFieldBlur('title')}
-                  error={form.touched.title && !!form.errors.title}
+                  error={!!(form.touched.title && form.errors.title)}
                   helperText={form.touched.title && form.errors.title}
                   required
                   InputProps={{
@@ -271,10 +273,10 @@ export const TripCreationForm: React.FC<TripCreationFormProps> = ({
                   rows={4}
                   label="Description (Optional)"
                   placeholder="Tell us about your trip plans, activities, or anything participants should know..."
-                  value={form.values.description}
+                  value={form.values.description ?? ''}
                   onChange={handleInputChange('description')}
                   onBlur={handleFieldBlur('description')}
-                  error={form.touched.description && !!form.errors.description}
+                  error={!!(form.touched.description && form.errors.description)}
                   helperText={form.touched.description && form.errors.description}
                   InputProps={{
                     startAdornment: (
@@ -286,7 +288,7 @@ export const TripCreationForm: React.FC<TripCreationFormProps> = ({
                   }}
                 />
                 <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block' }}>
-                  {form.values.description.length}/{VALIDATION.description.maxLength.value} characters
+                  {(form.values.description ?? '').length}/{VALIDATION.description.maxLength.value} characters
                 </Typography>
               </Grid>
 
@@ -305,7 +307,7 @@ export const TripCreationForm: React.FC<TripCreationFormProps> = ({
                       value={form.values.locationName}
                       onChange={handleInputChange('locationName')}
                       onBlur={handleFieldBlur('locationName')}
-                      error={form.touched.locationName && !!form.errors.locationName}
+                      error={!!(form.touched.locationName && form.errors.locationName)}
                       helperText={form.touched.locationName && form.errors.locationName}
                       required
                     />
@@ -338,7 +340,7 @@ export const TripCreationForm: React.FC<TripCreationFormProps> = ({
                       value={form.values.startDate}
                       onChange={handleInputChange('startDate')}
                       onBlur={handleFieldBlur('startDate')}
-                      error={form.touched.startDate && !!form.errors.startDate}
+                      error={!!(form.touched.startDate && form.errors.startDate)}
                       helperText={form.touched.startDate && form.errors.startDate}
                       required
                       InputLabelProps={{ shrink: true }}
@@ -353,7 +355,7 @@ export const TripCreationForm: React.FC<TripCreationFormProps> = ({
                       value={form.values.endDate}
                       onChange={handleInputChange('endDate')}
                       onBlur={handleFieldBlur('endDate')}
-                      error={form.touched.endDate && !!form.errors.endDate}
+                      error={!!(form.touched.endDate && form.errors.endDate)}
                       helperText={form.touched.endDate && form.errors.endDate}
                       required
                       InputLabelProps={{ shrink: true }}

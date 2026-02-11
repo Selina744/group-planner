@@ -140,7 +140,7 @@ export const cleanupStores = () => {
 /**
  * Development helper to inspect all store states
  */
-export const getStoreStates = () => {
+export const getStoreStates = (): Record<string, unknown> | undefined => {
   if (process.env.NODE_ENV !== 'development') {
     console.warn('getStoreStates should only be used in development');
     return;

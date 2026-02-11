@@ -3,11 +3,10 @@
  * Handles navigation and success/error states
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import { TripCreationForm } from '../components/TripCreationForm';
-import { useAuthUser, useIsAuthenticated } from '../stores/authStore';
-import { useTripError } from '../stores/tripStore';
+import { useIsAuthenticated } from '../stores/authStore';
 
 interface CreateTripPageProps {
   onTripCreated?: (tripId: string) => void;
@@ -18,9 +17,7 @@ export const CreateTripPage: React.FC<CreateTripPageProps> = ({
   onTripCreated,
   onCancel,
 }) => {
-  const user = useAuthUser();
   const isAuthenticated = useIsAuthenticated();
-  const tripError = useTripError();
 
   // Redirect to login if not authenticated
   useEffect(() => {

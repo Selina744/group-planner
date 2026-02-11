@@ -23,6 +23,10 @@
   ],
   "exclude": [
     "dist",
-    "node_modules"
+    "node_modules",
+    "src/test",
+    "src/examples",
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ]
 }

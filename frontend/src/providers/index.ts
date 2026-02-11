@@ -3,3 +3,4 @@
  */
 
 export { StoreProvider, useStoresInitialized, StoreDevTools } from './StoreProvider';
+export { QueryProvider, useQueryUtils } from './QueryProvider';
