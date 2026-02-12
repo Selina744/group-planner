@@ -1,7 +1,7 @@
 # CODER.md — Boss Agent Operational Runbook
 
-*Maintained by: PurplePrairie (Boss Agent)*
-*Last Updated: 2026-02-11*
+*Maintained by: SilverCat (Boss Agent)*
+*Last Updated: 2026-02-12*
 
 ## Coder Output Contract
 
@@ -108,13 +108,57 @@ Each assignment includes:
 4. **High-Impact Features** - Core user functionality
 5. **Infrastructure** - Foundation improvements
 
+## QA Testing Requirements (MANDATORY)
+
+**CRITICAL:** Every bead completion MUST include thorough QA verification. A bead should NOT be marked complete unless the functionality fully works as expected.
+
+### QA Verification Checklist
+For frontend features:
+- [ ] Feature works in browser (not just tests pass)
+- [ ] UI renders correctly without console errors
+- [ ] User interactions work as expected (clicks, forms, navigation)
+- [ ] Error states display properly
+- [ ] Loading states display properly
+- [ ] Feature integrates with existing functionality
+
+For backend features:
+- [ ] API endpoint returns expected responses
+- [ ] Error cases return appropriate error codes
+- [ ] Database operations complete successfully
+- [ ] Feature integrates with existing services
+
+### QA Testing Workflow
+1. **After code completion:** Run automated tests
+2. **Manual verification:** Test the actual functionality in browser/via curl
+3. **Edge cases:** Test error conditions and boundary cases
+4. **Integration:** Verify feature works with related features
+5. **Regression:** Ensure existing functionality still works
+
+### DO NOT Close a Bead If:
+- Tests pass but feature doesn't work in practice
+- Frontend component renders but interactions fail
+- Backend returns success but data is incorrect
+- Feature works in isolation but breaks integration
+
+### Reporting QA Results
+Include in completion report:
+- **Manual Testing:** What was tested and how
+- **Browser Verification:** Screenshots or description of working UI (if frontend)
+- **API Verification:** Example requests/responses (if backend)
+- **Known Issues:** Any edge cases or limitations discovered
+
+---
+
 ## Definition of Done
 
 - [ ] All acceptance criteria met
 - [ ] Tests pass: `bun run test`
 - [ ] Types pass: `bun run typecheck`
 - [ ] Security clean: `ubs <changed-files>` exits 0
-- [ ] Integration verified manually
+- [ ] **QA Verified:** Feature manually tested and working (see QA Requirements above)
+- [ ] **Frontend verified in browser** (if applicable)
+- [ ] **Backend verified via API calls** (if applicable)
+- [ ] Integration verified with related features
 - [ ] Beads issue closed with completion reason
 - [ ] Boss Agent notified with completion report
 - [ ] File reservations released
