@@ -23,6 +23,11 @@ export {
   NotificationService,
 } from './notification.js';
 
+// Notification Preference service exports
+export {
+  NotificationPreferenceService,
+} from './notificationPreference.js';
+
 // Trip service exports
 export {
   TripService,
@@ -48,6 +53,11 @@ export {
 export {
   EmailService,
 } from './email.js';
+
+// Announcement service exports
+export {
+  AnnouncementService,
+} from './announcement.js';
 
 // Re-export auth types for convenience
 export type {
@@ -156,3 +166,59 @@ export type {
   UserClaimStats,
   ItemValidation,
 } from '../types/item.js';
+
+// Re-export Announcement types for convenience
+export type {
+  Announcement,
+  CreateAnnouncementRequest,
+  UpdateAnnouncementRequest,
+  AnnouncementListQuery,
+  AnnouncementListResponse,
+  AnnouncementPagination,
+  CreateAnnouncementResponse,
+  PinAnnouncementResponse,
+  AnnouncementAuthor,
+  DatabaseAnnouncement,
+  DatabaseAnnouncementWithRelations,
+  AnnouncementError,
+  AnnouncementServiceResult,
+  AnnouncementCreatedEvent,
+  AnnouncementUpdatedEvent,
+  AnnouncementDeletedEvent,
+  AnnouncementPinnedEvent,
+} from '../types/announcement.js';
+
+export { MAX_PINNED_ANNOUNCEMENTS } from '../types/announcement.js';
+
+// Re-export Notification types for convenience
+export type {
+  NotificationType,
+  NotificationImportance,
+  NotificationCreateInput,
+  InboxFilters,
+  InboxQuery,
+  Notification,
+  NotificationSummary,
+  InboxResponse,
+  MarkReadResponse,
+  MarkAllReadResponse,
+  DatabaseNotification,
+  DatabaseNotificationWithRelations,
+  NotificationError,
+  NotificationServiceResult,
+  NotificationStats,
+  NotificationValidation,
+} from '../types/notification.js';
+
+// Re-export Notification Preference types for convenience
+export type {
+  NotificationPreference,
+  DatabaseNotificationPreference,
+  GetPreferencesRequest,
+  UpdatePreferencesRequest,
+  PreferenceResponse,
+  UserPreferencesResponse,
+  NotificationPreferenceServiceResult,
+  NotificationPreferenceError,
+} from '../types/notificationPreference.js';
+export { DigestFrequency } from '../types/notificationPreference.js';
