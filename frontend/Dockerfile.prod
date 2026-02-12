@@ -1,32 +1,76 @@
-FROM oven/bun:latest AS deps
+# =============================================================================
+# GROUP PLANNER FRONTEND - PRODUCTION DOCKERFILE
+# Multi-stage build with Nginx for static file serving
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Stage 1: Dependencies
+# Install all dependencies for building
+# -----------------------------------------------------------------------------
+FROM oven/bun:1.1-alpine AS deps
 
 WORKDIR /app
 
-# Workspace dependencies for Bun
+# Copy workspace definition for Bun workspace resolution
 COPY package.json bun.lock tsconfig.json ./
 COPY frontend/package.json frontend/tsconfig.json ./frontend/
 COPY backend/package.json ./backend/
 
-RUN bun install
+# Install dependencies with frozen lockfile
+RUN bun install --frozen-lockfile
 
-FROM oven/bun:latest AS frontend-build
+# -----------------------------------------------------------------------------
+# Stage 2: Build
+# Build the React application with Vite
+# -----------------------------------------------------------------------------
+FROM oven/bun:1.1-alpine AS build
 
 WORKDIR /app
-COPY --from=deps /app /app
+
+# Copy deps and source
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/package.json ./package.json
+COPY --from=deps /app/bun.lock ./bun.lock
+COPY --from=deps /app/tsconfig.json ./tsconfig.json
+COPY --from=deps /app/frontend ./frontend
+COPY --from=deps /app/backend/package.json ./backend/package.json
 COPY frontend/ ./frontend/
 
+# Build arguments for environment variables at build time
+ARG VITE_API_BASE_URL=/api
+ARG VITE_APP_NAME="Group Planner"
+
+# Set environment variables for Vite build
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL \
+    VITE_APP_NAME=$VITE_APP_NAME
+
+# Build the frontend
 RUN bun run --filter "@group-planner/frontend" build
 
-FROM oven/bun:latest AS runtime
+# -----------------------------------------------------------------------------
+# Stage 3: Runtime
+# Serve static files with Nginx
+# -----------------------------------------------------------------------------
+FROM nginx:1.25-alpine AS runtime
 
-WORKDIR /app/frontend
+# Install curl for health checks
+RUN apk add --no-cache curl
 
-COPY --from=deps /root/.bun /root/.bun
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=frontend-build /app/frontend/dist ./dist
-COPY frontend/package.json ./package.json
-COPY frontend/tsconfig.json ./tsconfig.json
+# Remove default nginx config
+RUN rm /etc/nginx/conf.d/default.conf
 
-ENV NODE_ENV=production
+# Copy custom nginx configuration for SPA routing
+COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
-CMD ["bun", "run", "--filter", "@group-planner/frontend", "--", "preview", "--host", "0.0.0.0", "--port", "3001"]
+# Copy built static files
+COPY --from=build /app/frontend/dist /usr/share/nginx/html
+
+# Expose port
+EXPOSE 3001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:3001/health || exit 1
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

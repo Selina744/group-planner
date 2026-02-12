@@ -1,67 +1,115 @@
-version: "3.9"
+# =============================================================================
+# GROUP PLANNER - PRODUCTION DOCKER COMPOSE
+# =============================================================================
+#
+# Production deployment configuration with:
+# - Multi-stage Bun builds for backend and frontend
+# - Nginx reverse proxy with SSL termination
+# - PostgreSQL 16 database with persistent storage
+# - Redis 7 cache with persistent storage
+# - Health checks for all services
+# - Proper startup dependency ordering
+#
+# Usage:
+#   docker compose -f docker-compose.prod.yml up --build -d
+#   docker compose -f docker-compose.prod.yml logs -f
+#   docker compose -f docker-compose.prod.yml down
+#
+# Prerequisites:
+#   1. Copy .env.production.example to .env.production
+#   2. Generate secure secrets for JWT_SECRET, COOKIE_SECRET
+#   3. Place TLS certificates in nginx/certs/
+#
+# =============================================================================
 
 services:
+  # ---------------------------------------------------------------------------
+  # API Backend Service
+  # Bun-based Express API server
+  # ---------------------------------------------------------------------------
   api:
     build:
       context: .
       dockerfile: backend/Dockerfile.prod
-    command: ["node", "dist/index.js"]
-    ports:
-      - "3000:3000"
+    container_name: group-planner-api
+    restart: unless-stopped
     env_file:
       - .env.production
     environment:
       NODE_ENV: production
-    restart: unless-stopped
-    mem_limit: 2000m
+      PORT: 3000
+      # Database connection uses Docker service name
+      DATABASE_URL: postgresql://${POSTGRES_USER:-planner}:${POSTGRES_PASSWORD:-planner}@postgres:5432/${POSTGRES_DB:-groupplanner}
+      REDIS_URL: redis://redis:6379
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:3000/api/v1/health || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/v1/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 10s
+      start_period: 30s
     networks:
       - production
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
-        max-file: "3"
+        max-file: "5"
 
+  # ---------------------------------------------------------------------------
+  # Frontend Web Service
+  # Nginx serving static React/Vite build
+  # ---------------------------------------------------------------------------
   web:
     build:
       context: .
       dockerfile: frontend/Dockerfile.prod
-    command: ["bun", "run", "--filter", "@group-planner/frontend", "--", "preview", "--host", "0.0.0.0", "--port", "3001"]
-    ports:
-      - "3001:3001"
-    env_file:
-      - .env.production
-    environment:
-      NODE_ENV: production
+      args:
+        VITE_API_BASE_URL: /api
+        VITE_APP_NAME: Group Planner
+    container_name: group-planner-web
     restart: unless-stopped
-    mem_limit: 2000m
     depends_on:
-      - api
+      api:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:3001/health || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 10s
     networks:
       - production
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "3"
 
+  # ---------------------------------------------------------------------------
+  # Nginx Reverse Proxy
+  # SSL termination, routing, and load balancing
+  # ---------------------------------------------------------------------------
   nginx:
-    image: nginx:stable-alpine
+    image: nginx:1.25-alpine
+    container_name: group-planner-nginx
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -70,58 +118,112 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./nginx/certs:/etc/nginx/certs:ro
     depends_on:
-      - api
-      - web
-    restart: unless-stopped
-    mem_limit: 600m
-    networks:
-      - production
+      api:
+        condition: service_healthy
+      web:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost/health || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 10s
+    networks:
+      - production
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 32M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
 
+  # ---------------------------------------------------------------------------
+  # PostgreSQL Database
+  # Primary data store with persistent volume
+  # ---------------------------------------------------------------------------
   postgres:
     image: postgres:16-alpine
+    container_name: group-planner-postgres
     restart: unless-stopped
-    mem_limit: 2000m
-    env_file:
-      - .env.production
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-planner}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-planner}
       POSTGRES_DB: ${POSTGRES_DB:-groupplanner}
+      # Performance tuning for production
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
     volumes:
       - pgdata_prod:/var/lib/postgresql/data
+      # Optional: Custom PostgreSQL configuration
+      # - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-planner} -d ${POSTGRES_DB:-groupplanner} -h localhost"]
-      interval: 30s
-      timeout: 10s
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-planner} -d ${POSTGRES_DB:-groupplanner}"]
+      interval: 10s
+      timeout: 5s
       retries: 5
+      start_period: 30s
     networks:
       - production
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
+  # ---------------------------------------------------------------------------
+  # Redis Cache
+  # Session storage and caching with persistence
+  # ---------------------------------------------------------------------------
   redis:
     image: redis:7-alpine
+    container_name: group-planner-redis
     restart: unless-stopped
-    mem_limit: 600m
-    env_file:
-      - .env.production
-    healthcheck:
-      test: ["CMD-SHELL", "redis-cli -h localhost ping | grep -q PONG"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
     volumes:
       - redis_prod:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       - production
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 64M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
 
+# -----------------------------------------------------------------------------
+# Persistent Volumes
+# -----------------------------------------------------------------------------
 volumes:
   pgdata_prod:
+    name: group-planner-pgdata-prod
   redis_prod:
+    name: group-planner-redis-prod
 
+# -----------------------------------------------------------------------------
+# Networks
+# -----------------------------------------------------------------------------
 networks:
   production:
+    name: group-planner-production
     driver: bridge

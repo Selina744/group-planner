@@ -1,4 +1,13 @@
-FROM oven/bun:latest AS deps
+# =============================================================================
+# GROUP PLANNER BACKEND - PRODUCTION DOCKERFILE
+# Multi-stage build optimized for Bun runtime
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Stage 1: Dependencies
+# Install all dependencies with frozen lockfile for reproducibility
+# -----------------------------------------------------------------------------
+FROM oven/bun:1.1-alpine AS deps
 
 WORKDIR /app
 
@@ -7,28 +16,92 @@ COPY package.json bun.lock tsconfig.json ./
 COPY backend/package.json backend/tsconfig.json ./backend/
 COPY frontend/package.json ./frontend/
 
-# Install dependencies once to reuse across stages
-RUN bun install
+# Install dependencies with frozen lockfile for reproducibility
+RUN bun install --frozen-lockfile --production=false
 
-FROM oven/bun:latest AS backend-build
+# -----------------------------------------------------------------------------
+# Stage 2: Build
+# Compile TypeScript to JavaScript and generate Prisma client
+# -----------------------------------------------------------------------------
+FROM oven/bun:1.1-alpine AS build
 
 WORKDIR /app
-COPY --from=deps /app /app
+
+# Copy deps and source
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/package.json ./package.json
+COPY --from=deps /app/bun.lock ./bun.lock
+COPY --from=deps /app/tsconfig.json ./tsconfig.json
+COPY --from=deps /app/backend ./backend
+COPY --from=deps /app/frontend/package.json ./frontend/package.json
 COPY backend/ ./backend/
 
+# Generate Prisma client for production
+RUN cd backend && bun prisma generate
+
+# Build TypeScript to JavaScript
 RUN bun run --filter "@group-planner/backend" build
 
-FROM oven/bun:latest AS runtime
+# -----------------------------------------------------------------------------
+# Stage 3: Production dependencies only
+# Create a minimal node_modules with only production dependencies
+# -----------------------------------------------------------------------------
+FROM oven/bun:1.1-alpine AS prod-deps
 
-WORKDIR /app/backend
+WORKDIR /app
 
-COPY --from=deps /root/.bun /root/.bun
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=backend-build /app/backend/dist ./dist
-COPY --from=backend-build /app/backend/prisma ./prisma
-COPY backend/package.json ./package.json
-COPY backend/tsconfig.json ./tsconfig.json
+COPY package.json bun.lock tsconfig.json ./
+COPY backend/package.json backend/tsconfig.json ./backend/
+COPY frontend/package.json ./frontend/
 
-ENV NODE_ENV=production
+# Install production dependencies only
+RUN bun install --frozen-lockfile --production
 
-CMD ["node", "dist/index.js"]
+# -----------------------------------------------------------------------------
+# Stage 4: Runtime
+# Minimal production image with only necessary files
+# -----------------------------------------------------------------------------
+FROM oven/bun:1.1-alpine AS runtime
+
+# Install curl for health checks and dumb-init for proper signal handling
+RUN apk add --no-cache curl dumb-init
+
+# Create non-root user for security
+RUN addgroup -g 1001 -S appgroup && \
+    adduser -S appuser -u 1001 -G appgroup
+
+WORKDIR /app
+
+# Copy production dependencies
+COPY --from=prod-deps --chown=appuser:appgroup /app/node_modules ./node_modules
+
+# Copy built application
+COPY --from=build --chown=appuser:appgroup /app/backend/dist ./dist
+COPY --from=build --chown=appuser:appgroup /app/backend/prisma ./prisma
+COPY --from=build --chown=appuser:appgroup /app/backend/node_modules/.prisma ./node_modules/.prisma
+
+# Copy package files for runtime
+COPY --chown=appuser:appgroup backend/package.json ./package.json
+
+# Create uploads directory with proper permissions
+RUN mkdir -p /app/uploads && chown appuser:appgroup /app/uploads
+
+# Switch to non-root user
+USER appuser
+
+# Environment configuration
+ENV NODE_ENV=production \
+    PORT=3000
+
+# Expose API port
+EXPOSE 3000
+
+# Health check endpoint
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+    CMD curl -f http://localhost:3000/api/v1/health || exit 1
+
+# Use dumb-init as entrypoint for proper signal handling
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+
+# Start the application with Bun for optimal performance
+CMD ["bun", "run", "dist/index.js"]
