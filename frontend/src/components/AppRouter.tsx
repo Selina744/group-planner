@@ -10,8 +10,12 @@ import {
   LoginPage,
   RegisterPage,
   VerifyEmailPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
   DashboardPage,
   CreateTripPage,
+  TripDetailsPage,
+  JoinTripPage,
   DemoPage,
 } from '../pages';
 
@@ -23,6 +27,10 @@ export function AppRouter() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/verify-email" element={<VerifyEmailPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/join" element={<JoinTripPage />} />
+      <Route path="/join/:code" element={<JoinTripPage />} />
       <Route path="/demo" element={<DemoPage />} />
 
       {/* Protected routes */}
@@ -44,12 +52,12 @@ export function AppRouter() {
         }
       />
 
-      {/* Placeholder routes for future implementation */}
+      {/* Trip Details Page */}
       <Route
         path="/trips/:id"
         element={
           <ProtectedRoute>
-            <div>Trip Detail Page (TODO: Implement bd-1x8)</div>
+            <TripDetailsPage />
           </ProtectedRoute>
         }
       />

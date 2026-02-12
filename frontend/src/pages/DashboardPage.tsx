@@ -1,9 +1,9 @@
 /**
  * Dashboard Page - main authenticated user landing page
- * Shows user's trips, quick actions, and navigation
+ * Shows user's trips with filtering, quick actions, and navigation
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -14,13 +14,12 @@ import {
   CardContent,
   Grid,
   Paper,
-  Chip,
-  Stack,
   IconButton,
   Menu,
   MenuItem,
   Avatar,
   Divider,
+  CircularProgress,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -31,22 +30,21 @@ import {
 } from '@mui/icons-material';
 
 import { useAuthUser, useAuthStore } from '../stores/authStore';
-import { useTrips, useTripActions } from '../stores/tripStore';
-import type { Trip } from '../types';
+import { useTripsQuery } from '../queries/hooks';
+import { TripList } from '../components/trips';
+import { NotificationBell } from '../components/notifications';
+import type { Notification } from '../stores/notificationStore';
 
 export function DashboardPage() {
   const navigate = useNavigate();
   const user = useAuthUser();
   const { logout } = useAuthStore();
-  const { fetchUserTrips } = useTripActions();
-  const trips = useTrips();
 
   const [userMenuAnchor, setUserMenuAnchor] = useState<HTMLElement | null>(null);
 
-  // Load user's trips on mount
-  useEffect(() => {
-    fetchUserTrips();
-  }, [fetchUserTrips]);
+  // Use React Query for trip data
+  const { data: tripsData, isLoading, error } = useTripsQuery();
+  const trips = tripsData?.trips ?? [];
 
   const handleCreateTrip = () => {
     navigate('/trips/create');
@@ -78,16 +76,49 @@ export function DashboardPage() {
     try {
       await logout();
       navigate('/');
-    } catch (error) {
-      console.error('Logout failed:', error);
+    } catch (err) {
+      console.error('Logout failed:', err);
     }
     handleUserMenuClose();
+  };
+
+  const handleNotificationClick = (notification: Notification) => {
+    // Navigate to the notification's action URL if available
+    if (notification.actionUrl) {
+      navigate(notification.actionUrl);
+    }
+  };
+
+  const handleNotificationSettings = () => {
+    navigate('/settings');
   };
 
   const getDisplayName = () => {
     if (!user) return 'User';
     return user.username || user.email || 'User';
   };
+
+  // Calculate trip stats
+  const getTripStats = () => {
+    const now = new Date();
+    let active = 0;
+    let upcoming = 0;
+
+    trips.forEach((trip) => {
+      const startDate = new Date(trip.startDate);
+      const endDate = new Date(trip.endDate);
+
+      if (now >= startDate && now <= endDate) {
+        active++;
+      } else if (now < startDate) {
+        upcoming++;
+      }
+    });
+
+    return { total: trips.length, active, upcoming };
+  };
+
+  const stats = getTripStats();
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
@@ -107,6 +138,11 @@ export function DashboardPage() {
               >
                 New Trip
               </Button>
+
+              <NotificationBell
+                onNotificationClick={handleNotificationClick}
+                onSettingsClick={handleNotificationSettings}
+              />
 
               <IconButton onClick={handleUserMenu}>
                 <Avatar sx={{ width: 32, height: 32 }}>
@@ -153,7 +189,7 @@ export function DashboardPage() {
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box mb={4}>
           <Typography variant="h6" gutterBottom>
-            Welcome back, {getDisplayName()}! 👋
+            Welcome back, {getDisplayName()}!
           </Typography>
           <Typography variant="body1" color="text.secondary">
             Ready to plan your next adventure?
@@ -168,11 +204,15 @@ export function DashboardPage() {
                 <Box display="flex" alignItems="center" gap={2}>
                   <FlightIcon color="primary" />
                   <Box>
-                    <Typography variant="h4" fontWeight={700}>
-                      {trips.length}
-                    </Typography>
+                    {isLoading ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      <Typography variant="h4" fontWeight={700}>
+                        {stats.total}
+                      </Typography>
+                    )}
                     <Typography variant="body2" color="text.secondary">
-                      Active trips
+                      Total trips
                     </Typography>
                   </Box>
                 </Box>
@@ -185,11 +225,15 @@ export function DashboardPage() {
                 <Box display="flex" alignItems="center" gap={2}>
                   <CalendarIcon color="primary" />
                   <Box>
-                    <Typography variant="h4" fontWeight={700}>
-                      -
-                    </Typography>
+                    {isLoading ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      <Typography variant="h4" fontWeight={700}>
+                        {stats.upcoming}
+                      </Typography>
+                    )}
                     <Typography variant="body2" color="text.secondary">
-                      Upcoming events
+                      Upcoming trips
                     </Typography>
                   </Box>
                 </Box>
@@ -202,11 +246,15 @@ export function DashboardPage() {
                 <Box display="flex" alignItems="center" gap={2}>
                   <PeopleIcon color="primary" />
                   <Box>
-                    <Typography variant="h4" fontWeight={700}>
-                      -
-                    </Typography>
+                    {isLoading ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      <Typography variant="h4" fontWeight={700}>
+                        {stats.active}
+                      </Typography>
+                    )}
                     <Typography variant="body2" color="text.secondary">
-                      Collaborators
+                      Active trips
                     </Typography>
                   </Box>
                 </Box>
@@ -215,78 +263,24 @@ export function DashboardPage() {
           </Grid>
         </Grid>
 
-        {/* Recent Trips */}
+        {/* Trips List with Filtering */}
         <Box>
           <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
             <Typography variant="h6" component="h2">
               Your trips
             </Typography>
-            {trips.length > 0 && (
-              <Button
-                variant="text"
-                onClick={() => navigate('/trips')}
-              >
-                View all
-              </Button>
-            )}
           </Box>
 
-          {trips.length === 0 ? (
-            <Paper sx={{ p: 6, textAlign: 'center' }}>
-              <FlightIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-              <Typography variant="h6" gutterBottom>
-                No trips yet
-              </Typography>
-              <Typography variant="body1" color="text.secondary" mb={3}>
-                Create your first trip to start planning an amazing adventure
-              </Typography>
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                onClick={handleCreateTrip}
-              >
-                Create your first trip
-              </Button>
-            </Paper>
-          ) : (
-            <Grid container spacing={3}>
-              {trips.slice(0, 6).map((trip: Trip) => (
-                <Grid item xs={12} sm={6} md={4} key={trip.id}>
-                  <Card sx={{ height: '100%', cursor: 'pointer' }} onClick={() => handleTripClick(trip.id)}>
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom noWrap>
-                        {trip.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2, height: 40, overflow: 'hidden' }}>
-                        {trip.description}
-                      </Typography>
-
-                      <Stack direction="row" spacing={1} mb={2}>
-                        {trip.startDate && (
-                          <Chip
-                            label={new Date(trip.startDate).toLocaleDateString()}
-                            size="small"
-                            variant="outlined"
-                            icon={<CalendarIcon />}
-                          />
-                        )}
-                        <Chip
-                          label="View members"
-                          size="small"
-                          variant="outlined"
-                          icon={<PeopleIcon />}
-                        />
-                      </Stack>
-
-                      <Typography variant="caption" color="text.secondary">
-                        Created {new Date(trip.createdAt).toLocaleDateString()}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          )}
+          <TripList
+            trips={trips}
+            isLoading={isLoading}
+            error={error?.message}
+            onTripClick={handleTripClick}
+            onCreateTrip={handleCreateTrip}
+            showFilters={trips.length > 0}
+            emptyMessage="No trips yet"
+            emptyActionLabel="Create your first trip"
+          />
         </Box>
       </Container>
     </Box>
