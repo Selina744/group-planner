@@ -52,6 +52,7 @@ export {
 // Email service exports
 export {
   EmailService,
+  EmailUnavailableError,
 } from './email.js';
 
 // Announcement service exports

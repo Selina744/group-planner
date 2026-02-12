@@ -16,6 +16,7 @@ import {
   BadRequestError,
   NotFoundError,
   ValidationError,
+  ServiceUnavailableError,
 } from '../utils/errors.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -171,15 +172,77 @@ const templateCache = new Map<string, CompiledTemplate>();
 const rateLimitTracker = new Map<string, { count: number; resetTime: number }>();
 
 /**
+ * Email unavailable error - thrown when email operations are attempted
+ * but the email service is not configured or available.
+ */
+export class EmailUnavailableError extends ServiceUnavailableError {
+  constructor(message = 'Email service is not available. Please contact support or try again later.') {
+    super(message, { service: 'email' });
+    Object.defineProperty(this, 'name', {
+      value: 'EmailUnavailableError',
+      configurable: true,
+      enumerable: false,
+      writable: false,
+    });
+  }
+}
+
+/**
  * Email service class
  */
 export class EmailService {
   private static transporter: nodemailer.Transporter | null = null;
+  private static _isAvailable: boolean = false;
+  private static _initializationAttempted: boolean = false;
 
   /**
-   * Initialize the email service
+   * Check if SMTP credentials are configured
+   */
+  private static isSmtpConfigured(): boolean {
+    return !!(
+      EMAIL_CONFIG.smtp.host &&
+      EMAIL_CONFIG.smtp.auth.user &&
+      EMAIL_CONFIG.smtp.auth.pass
+    );
+  }
+
+  /**
+   * Check if the email service is available and ready to send emails
+   */
+  static isAvailable(): boolean {
+    return this._isAvailable;
+  }
+
+  /**
+   * Ensure the service is available before performing email operations.
+   * Throws EmailUnavailableError if the service is not configured.
+   */
+  private static ensureAvailable(): void {
+    if (!this._isAvailable) {
+      throw new EmailUnavailableError();
+    }
+  }
+
+  /**
+   * Initialize the email service (non-blocking, graceful degradation)
+   *
+   * This method will NOT throw errors when SMTP is not configured.
+   * Instead, it logs warnings and marks the service as unavailable.
    */
   static async initialize(): Promise<void> {
+    this._initializationAttempted = true;
+
+    // Check if SMTP is configured
+    if (!this.isSmtpConfigured()) {
+      log.warn('Email service not configured - SMTP credentials missing', {
+        hasHost: !!EMAIL_CONFIG.smtp.host,
+        hasUser: !!EMAIL_CONFIG.smtp.auth.user,
+        hasPass: !!EMAIL_CONFIG.smtp.auth.pass,
+      });
+      this._isAvailable = false;
+      return;
+    }
+
     try {
       // Create transporter
       this.transporter = nodemailer.createTransport({
@@ -194,31 +257,39 @@ export class EmailService {
         rateLimit: 10,
       });
 
-      // Verify SMTP configuration
+      // Verify SMTP configuration (skip in test environment)
       if (process.env.NODE_ENV !== 'test' && this.transporter) {
         await this.transporter.verify();
-        log.info('Email service initialized successfully', {
-          host: EMAIL_CONFIG.smtp.host,
-          port: EMAIL_CONFIG.smtp.port,
-          secure: EMAIL_CONFIG.smtp.secure,
-        });
       }
 
-      // Pre-compile commonly used templates
-      await this.precompileTemplates(['verification', 'password-reset', 'trip-invite']);
+      this._isAvailable = true;
+      log.info('Email service initialized successfully', {
+        host: EMAIL_CONFIG.smtp.host,
+        port: EMAIL_CONFIG.smtp.port,
+        secure: EMAIL_CONFIG.smtp.secure,
+      });
+
+      // Pre-compile commonly used templates (non-blocking)
+      this.precompileTemplates(['verification', 'password-reset', 'trip-invite']).catch(err => {
+        log.warn('Failed to precompile email templates', { error: err });
+      });
     } catch (error) {
-      log.error('Failed to initialize email service', error);
-      throw new Error('Email service initialization failed');
+      // Log warning instead of error - this is expected in MVP without SMTP
+      log.warn('Email service unavailable - SMTP connection failed', {
+        host: EMAIL_CONFIG.smtp.host,
+        port: EMAIL_CONFIG.smtp.port,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+      this._isAvailable = false;
+      this.transporter = null;
     }
   }
 
   /**
-   * Get or create transporter
+   * Get the transporter, ensuring the service is available
    */
-  private static async getTransporter(): Promise<nodemailer.Transporter> {
-    if (!this.transporter) {
-      await this.initialize();
-    }
+  private static getTransporter(): nodemailer.Transporter {
+    this.ensureAvailable();
     return this.transporter!;
   }
 
@@ -319,6 +390,9 @@ export class EmailService {
     data: any,
     options: { priority?: 'high' | 'normal' | 'low' } = {}
   ): Promise<void> {
+    // Check availability first - throws EmailUnavailableError if not configured
+    this.ensureAvailable();
+
     // Input validation
     if (!recipient || !templateName) {
       throw new BadRequestError('Recipient and template name are required');
@@ -351,8 +425,8 @@ export class EmailService {
       const textContent = template.text(templateData);
       const subject = template.subject(templateData);
 
-      // Get transporter
-      const transporter = await this.getTransporter();
+      // Get transporter (already verified available)
+      const transporter = this.getTransporter();
 
       // Send email
       const result = await transporter.sendMail({
@@ -377,6 +451,10 @@ export class EmailService {
         response: result.response,
       });
     } catch (error) {
+      // Re-throw EmailUnavailableError as-is
+      if (error instanceof EmailUnavailableError) {
+        throw error;
+      }
       log.error('Failed to send email', error, {
         recipient,
         template: templateName,
@@ -591,9 +669,13 @@ export class EmailService {
    * Test email configuration
    */
   static async testConfiguration(): Promise<boolean> {
+    if (!this._isAvailable || !this.transporter) {
+      log.warn('Email configuration test skipped - service not available');
+      return false;
+    }
+
     try {
-      const transporter = await this.getTransporter();
-      await transporter.verify();
+      await this.transporter.verify();
       log.info('Email configuration test passed');
       return true;
     } catch (error) {
@@ -606,13 +688,17 @@ export class EmailService {
    * Get email service status
    */
   static getStatus(): {
+    available: boolean;
     configured: boolean;
+    smtpConfigured: boolean;
     templatesCached: number;
     rateLimitEntries: number;
     config: Partial<EmailConfig>;
   } {
     return {
+      available: this._isAvailable,
       configured: !!this.transporter,
+      smtpConfigured: this.isSmtpConfigured(),
       templatesCached: templateCache.size,
       rateLimitEntries: rateLimitTracker.size,
       config: {
@@ -620,7 +706,7 @@ export class EmailService {
           host: EMAIL_CONFIG.smtp.host,
           port: EMAIL_CONFIG.smtp.port,
           secure: EMAIL_CONFIG.smtp.secure,
-          auth: { user: EMAIL_CONFIG.smtp.auth.user, pass: '[REDACTED]' },
+          auth: { user: EMAIL_CONFIG.smtp.auth.user ? '[SET]' : '[NOT SET]', pass: EMAIL_CONFIG.smtp.auth.pass ? '[SET]' : '[NOT SET]' },
         },
         defaults: EMAIL_CONFIG.defaults,
         features: EMAIL_CONFIG.features,
@@ -636,14 +722,18 @@ export class EmailService {
       this.transporter.close();
       this.transporter = null;
     }
+    this._isAvailable = false;
+    this._initializationAttempted = false;
     templateCache.clear();
     rateLimitTracker.clear();
   }
 }
 
-// Initialize email service on module load
+// Initialize email service on module load (non-blocking, graceful degradation)
 if (process.env.NODE_ENV !== 'test') {
-  EmailService.initialize().catch(error => {
-    log.error('Failed to initialize email service during module load', error);
+  EmailService.initialize().then(() => {
+    if (!EmailService.isAvailable()) {
+      log.warn('Email service is not available - email features will be disabled');
+    }
   });
 }

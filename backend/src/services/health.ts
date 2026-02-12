@@ -36,6 +36,7 @@ export interface HealthCheckResult {
   services: {
     database: ServiceHealth;
     memory: ServiceHealth;
+    email?: ServiceHealth | undefined;
     disk?: ServiceHealth | undefined;
   };
   metadata: {
@@ -93,6 +94,56 @@ export class HealthService {
         details: {
           error: error instanceof Error ? error.message : 'Unknown error',
           connection: 'failed',
+        },
+      };
+    }
+  }
+
+  /**
+   * Check email service status
+   */
+  static async checkEmail(): Promise<ServiceHealth> {
+    try {
+      const { EmailService } = await import('./email.js');
+      const emailStatus = EmailService.getStatus();
+
+      if (emailStatus.available) {
+        return {
+          status: 'healthy',
+          message: 'Email service is available and configured',
+          details: {
+            smtpHost: emailStatus.config.smtp?.host,
+            templatesCached: emailStatus.templatesCached,
+          },
+        };
+      } else if (emailStatus.smtpConfigured) {
+        // SMTP is configured but connection failed
+        return {
+          status: 'degraded',
+          message: 'Email service configured but connection failed',
+          details: {
+            smtpHost: emailStatus.config.smtp?.host,
+            reason: 'smtp_connection_failed',
+          },
+        };
+      } else {
+        // SMTP not configured - this is expected in MVP
+        return {
+          status: 'degraded',
+          message: 'Email service not configured (MVP mode)',
+          details: {
+            reason: 'smtp_not_configured',
+            affectedFeatures: ['password_reset', 'email_verification', 'trip_invites'],
+          },
+        };
+      }
+    } catch (error) {
+      log.error('Email health check failed', error);
+      return {
+        status: 'degraded',
+        message: 'Email service health check failed',
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
         },
       };
     }
@@ -158,14 +209,16 @@ export class HealthService {
     const startTime = Date.now();
 
     // Run all health checks concurrently
-    const [databaseHealth, memoryHealth] = await Promise.all([
+    const [databaseHealth, memoryHealth, emailHealth] = await Promise.all([
       this.checkDatabase(),
       Promise.resolve(this.checkMemory()),
+      this.checkEmail(),
     ]);
 
-    // Determine overall status
-    const services = { database: databaseHealth, memory: memoryHealth };
-    const overallStatus = this.determineOverallStatus(services);
+    // Determine overall status (email is optional, so we handle it separately)
+    const coreServices = { database: databaseHealth, memory: memoryHealth };
+    const overallStatus = this.determineOverallStatus(coreServices);
+    const services = { ...coreServices, email: emailHealth };
 
     const result: HealthCheckResult = {
       status: overallStatus,
