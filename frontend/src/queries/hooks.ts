@@ -10,7 +10,7 @@ import { AuthService } from '../services/authService';
 import { EventService } from '../services/eventService';
 import { ItemService } from '../services/itemService';
 import { NotificationService, type NotificationFilters } from '../services/notificationService';
-import type { Trip, UpdateEventForm, UpdateItemForm, CreateClaimForm, UpdateClaimForm } from '../types';
+import type { CreateTripForm, UpdateEventForm, UpdateItemForm, CreateClaimForm, UpdateClaimForm } from '../types';
 import type { TripsFilter, ItemsFilter, NotificationsFilter } from './queryKeys';
 
 /**
@@ -237,12 +237,12 @@ export function useCreateTripMutation() {
   });
 }
 
-// Update trip mutation
+// Update trip mutation - uses Partial<CreateTripForm> to match service
 export function useUpdateTripMutation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ tripId, updateData }: { tripId: string; updateData: Partial<Trip> }) =>
+    mutationFn: ({ tripId, updateData }: { tripId: string; updateData: Partial<CreateTripForm> }) =>
       TripService.updateTrip(tripId, updateData),
     onSuccess: (updatedTrip) => {
       // Update the specific trip in cache

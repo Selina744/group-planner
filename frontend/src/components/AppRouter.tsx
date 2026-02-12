@@ -15,6 +15,7 @@ import {
   DashboardPage,
   CreateTripPage,
   TripDetailsPage,
+  EditTripPage,
   JoinTripPage,
   DemoPage,
 } from '../pages';
@@ -52,6 +53,16 @@ export function AppRouter() {
         }
       />
 
+      {/* Trip Edit Page */}
+      <Route
+        path="/trips/:id/edit"
+        element={
+          <ProtectedRoute>
+            <EditTripPage />
+          </ProtectedRoute>
+        }
+      />
+
       {/* Trip Details Page */}
       <Route
         path="/trips/:id"
@@ -66,7 +77,7 @@ export function AppRouter() {
         path="/trips"
         element={
           <ProtectedRoute>
-            <div>Trip List Page (TODO: Implement)</div>
+            <Navigate to="/dashboard" replace />
           </ProtectedRoute>
         }
       />

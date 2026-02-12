@@ -11,5 +11,6 @@ export { ResetPasswordPage } from './ResetPasswordPage';
 export { DashboardPage } from './DashboardPage';
 export { CreateTripPage } from './CreateTripPage';
 export { TripDetailsPage } from './TripDetailsPage';
+export { EditTripPage } from './EditTripPage';
 export { JoinTripPage } from './JoinTripPage';
 export { DemoPage } from './DemoPage';

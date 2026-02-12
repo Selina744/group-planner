@@ -5,19 +5,16 @@
  * trip controller and proper middleware for authentication and authorization.
  */
 
-import express, { Response } from 'express';
+import express, { type Response } from 'express';
 import { TripController } from '../controllers/trip.js';
-import { wrapAsync, wrapAsyncMiddleware } from '../utils/wrapAsync.js';
+import { wrapAsync } from '../utils/wrapAsync.js';
 import {
   middlewarePresets,
   middleware,
-  requireAuth,
-  requireHost,
-  requireHostOrCoHost,
-  requireMember,
-  validation,
   type AuthenticatedRequest,
 } from '../middleware/index.js';
+import { TripService } from '../services/index.js';
+import { ApiResponse } from '../utils/apiResponse.js';
 
 const router: express.Router = express.Router();
 
@@ -96,21 +93,44 @@ async function checkTripPermissions(tripId: string, userId: string, requiredRole
  */
 router.post(
   '/',
-  middleware.context,
-  async (req: AuthenticatedRequest, res: Response) => {
-    try {
-      const isAuthenticated = await authenticateRequest(req, res);
-      if (!isAuthenticated) return;
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(async (req, res): Promise<void> => {
+    const isAuthenticated = await authenticateRequest(req, res);
+    if (!isAuthenticated) return;
 
-      await TripController.createTrip(req, res);
-    } catch (error: any) {
-      // Handle validation errors properly
-      if (error.name === 'BadRequestError' || error.message?.includes('required') || error.message?.includes('validation')) {
-        return res.status(400).json({ success: false, message: error.message });
-      }
-      res.status(500).json({ success: false, message: 'Internal server error' });
+    await TripController.createTrip(req, res);
+  }) as any
+);
+
+/**
+ * POST /trips/join - Join a trip using an invite code
+ * Authentication: Required
+ * Authorization: Any authenticated user
+ */
+router.post(
+  '/join',
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(async (req, res): Promise<void> => {
+    const isAuthenticated = await authenticateRequest(req, res);
+    if (!isAuthenticated) return;
+
+    const { inviteCode } = req.body;
+
+    if (!inviteCode) {
+      res.status(400).json({ success: false, message: 'Invite code is required' });
+      return;
     }
-  }
+
+    const result = await TripService.joinTripByCode(req.user!, inviteCode);
+
+    ApiResponse.success(res, 'Successfully joined the trip', {
+      trip: {
+        id: result.trip.id,
+        title: result.trip.title,
+      },
+      membership: result.membership,
+    });
+  }) as any
 );
 
 /**
@@ -120,20 +140,13 @@ router.post(
  */
 router.get(
   '/',
-  middleware.context,
-  async (req: AuthenticatedRequest, res: Response) => {
-    try {
-      const isAuthenticated = await authenticateRequest(req, res);
-      if (!isAuthenticated) return;
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(async (req, res): Promise<void> => {
+    const isAuthenticated = await authenticateRequest(req, res);
+    if (!isAuthenticated) return;
 
-      await TripController.listTrips(req, res);
-    } catch (error: any) {
-      if (error.name === 'BadRequestError' || error.message?.includes('required') || error.message?.includes('validation')) {
-        return res.status(400).json({ success: false, message: error.message });
-      }
-      res.status(500).json({ success: false, message: 'Internal server error' });
-    }
-  }
+    await TripController.listTrips(req, res);
+  }) as any
 );
 
 /**
@@ -143,20 +156,13 @@ router.get(
  */
 router.get(
   '/stats',
-  middleware.context,
-  async (req: AuthenticatedRequest, res: Response) => {
-    try {
-      const isAuthenticated = await authenticateRequest(req, res);
-      if (!isAuthenticated) return;
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(async (req, res): Promise<void> => {
+    const isAuthenticated = await authenticateRequest(req, res);
+    if (!isAuthenticated) return;
 
-      await TripController.getTripStats(req, res);
-    } catch (error: any) {
-      if (error.name === 'BadRequestError' || error.message?.includes('required') || error.message?.includes('validation')) {
-        return res.status(400).json({ success: false, message: error.message });
-      }
-      res.status(500).json({ success: false, message: 'Internal server error' });
-    }
-  }
+    await TripController.getTripStats(req, res);
+  }) as any
 );
 
 /**
@@ -166,27 +172,37 @@ router.get(
  */
 router.get(
   '/:id',
-  middleware.context,
-  async (req: AuthenticatedRequest, res: Response) => {
-    try {
-      const isAuthenticated = await authenticateRequest(req, res);
-      if (!isAuthenticated) return;
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(async (req, res): Promise<void> => {
+    const isAuthenticated = await authenticateRequest(req, res);
+    if (!isAuthenticated) return;
 
-      // TODO: Add RBAC check for trip membership when requireMember is fixed
-      await TripController.getTripById(req, res);
-    } catch (error: any) {
-      if (error.name === 'BadRequestError' || error.message?.includes('required') || error.message?.includes('validation')) {
-        return res.status(400).json({ success: false, message: error.message });
-      }
-      if (error.name === 'NotFoundError' || error.message?.includes('not found') || error.message?.includes('does not exist')) {
-        return res.status(404).json({ success: false, message: error.message });
-      }
-      if (error.name === 'ForbiddenError' || error.message?.includes('not authorized') || error.message?.includes('access denied')) {
-        return res.status(403).json({ success: false, message: error.message });
-      }
-      res.status(500).json({ success: false, message: 'Internal server error' });
+    await TripController.getTripById(req, res);
+  }) as any
+);
+
+/**
+ * GET /trips/:id/members - Get trip members
+ * Authentication: Required
+ * Authorization: Must be confirmed member of trip
+ */
+router.get(
+  '/:id/members',
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(async (req, res): Promise<void> => {
+    const isAuthenticated = await authenticateRequest(req, res);
+    if (!isAuthenticated) return;
+
+    const tripId = req.params.id;
+    if (!tripId) {
+      res.status(400).json({ success: false, message: 'Trip ID is required' });
+      return;
     }
-  }
+
+    const result = await TripService.getTripMembers(tripId, req.user!);
+
+    ApiResponse.success(res, 'Trip members retrieved successfully', result);
+  }) as any
 );
 
 /**
@@ -196,32 +212,32 @@ router.get(
  */
 router.put(
   '/:id',
-  middleware.context,
-  async (req: AuthenticatedRequest, res: Response) => {
-    try {
-      const isAuthenticated = await authenticateRequest(req, res);
-      if (!isAuthenticated) return;
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(async (req, res): Promise<void> => {
+    const isAuthenticated = await authenticateRequest(req, res);
+    if (!isAuthenticated) return;
 
-      const tripId = req.params.id;
-      const userId = req.user!.id;
-
-      // Check if user has HOST or CO_HOST role for update permissions
-      const { hasPermission, tripExists } = await checkTripPermissions(tripId, userId, ['HOST', 'CO_HOST']);
-      if (!tripExists) {
-        return res.status(404).json({ success: false, message: 'Trip not found' });
-      }
-      if (!hasPermission) {
-        return res.status(403).json({ success: false, message: 'Only trip hosts and co-hosts can update trips' });
-      }
-
-      await TripController.updateTrip(req, res);
-    } catch (error: any) {
-      if (error.name === 'BadRequestError' || error.message?.includes('required') || error.message?.includes('validation')) {
-        return res.status(400).json({ success: false, message: error.message });
-      }
-      res.status(500).json({ success: false, message: 'Internal server error' });
+    const tripId = req.params.id;
+    if (!tripId) {
+      res.status(400).json({ success: false, message: 'Trip ID is required' });
+      return;
     }
-  }
+
+    const userId = req.user!.id;
+
+    // Check if user has HOST or CO_HOST role for update permissions
+    const { hasPermission, tripExists } = await checkTripPermissions(tripId, userId, ['HOST', 'CO_HOST']);
+    if (!tripExists) {
+      res.status(404).json({ success: false, message: 'Trip not found' });
+      return;
+    }
+    if (!hasPermission) {
+      res.status(403).json({ success: false, message: 'Only trip hosts and co-hosts can update trips' });
+      return;
+    }
+
+    await TripController.updateTrip(req, res);
+  }) as any
 );
 
 /**
@@ -231,38 +247,32 @@ router.put(
  */
 router.delete(
   '/:id',
-  middleware.context,
-  async (req: AuthenticatedRequest, res: Response) => {
-    try {
-      const isAuthenticated = await authenticateRequest(req, res);
-      if (!isAuthenticated) return;
+  middleware.context as any,
+  wrapAsync<AuthenticatedRequest>(async (req, res): Promise<void> => {
+    const isAuthenticated = await authenticateRequest(req, res);
+    if (!isAuthenticated) return;
 
-      const tripId = req.params.id;
-      const userId = req.user!.id;
-
-      // Check if user has HOST role for delete permissions
-      const { hasPermission, tripExists } = await checkTripPermissions(tripId, userId, ['HOST']);
-      if (!tripExists) {
-        return res.status(404).json({ success: false, message: 'Trip not found' });
-      }
-      if (!hasPermission) {
-        return res.status(403).json({ success: false, message: 'Only trip hosts can delete trips' });
-      }
-
-      await TripController.deleteTrip(req, res);
-    } catch (error: any) {
-      if (error.name === 'BadRequestError' || error.message?.includes('required') || error.message?.includes('validation')) {
-        return res.status(400).json({ success: false, message: error.message });
-      }
-      if (error.name === 'NotFoundError' || error.message?.includes('not found') || error.message?.includes('does not exist')) {
-        return res.status(404).json({ success: false, message: error.message });
-      }
-      if (error.name === 'ForbiddenError' || error.message?.includes('not authorized') || error.message?.includes('access denied')) {
-        return res.status(403).json({ success: false, message: error.message });
-      }
-      res.status(500).json({ success: false, message: 'Internal server error' });
+    const tripId = req.params.id;
+    if (!tripId) {
+      res.status(400).json({ success: false, message: 'Trip ID is required' });
+      return;
     }
-  }
+
+    const userId = req.user!.id;
+
+    // Check if user has HOST role for delete permissions
+    const { hasPermission, tripExists } = await checkTripPermissions(tripId, userId, ['HOST']);
+    if (!tripExists) {
+      res.status(404).json({ success: false, message: 'Trip not found' });
+      return;
+    }
+    if (!hasPermission) {
+      res.status(403).json({ success: false, message: 'Only trip hosts can delete trips' });
+      return;
+    }
+
+    await TripController.deleteTrip(req, res);
+  }) as any
 );
 
 export default router;

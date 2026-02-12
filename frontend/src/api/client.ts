@@ -33,10 +33,12 @@ class ApiClient {
 
   /**
    * Get base URL for API calls
+   * Uses environment variable or defaults to local development with v1 API
    */
   private getBaseURL(): string {
     // Use environment variable or default to local development
-    return (import.meta as any).env?.VITE_API_BASE_URL || 'http://localhost:3000/api';
+    // Default includes /api/v1 to match backend versioned API
+    return (import.meta as any).env?.VITE_API_BASE_URL || 'http://localhost:4000/api/v1';
   }
 
   /**

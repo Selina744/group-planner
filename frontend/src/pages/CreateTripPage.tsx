@@ -3,51 +3,28 @@
  * Handles navigation and success/error states
  */
 
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
 import { TripCreationForm } from '../components/TripCreationForm';
 import { useIsAuthenticated } from '../stores/authStore';
 
-interface CreateTripPageProps {
-  onTripCreated?: (tripId: string) => void;
-  onCancel?: () => void;
-}
-
-export const CreateTripPage: React.FC<CreateTripPageProps> = ({
-  onTripCreated,
-  onCancel,
-}) => {
+export const CreateTripPage: React.FC = () => {
   const isAuthenticated = useIsAuthenticated();
-
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isAuthenticated) {
-      // In a real app, you'd use react-router or similar for navigation
-      console.warn('User not authenticated, should redirect to login');
-    }
-  }, [isAuthenticated]);
+  const navigate = useNavigate();
 
   const handleTripSuccess = (tripId: string) => {
-    if (onTripCreated) {
-      onTripCreated(tripId);
-    } else {
-      // Default behavior - navigate to trip page
-      console.log(`Trip created successfully! Trip ID: ${tripId}`);
-      // In a real app: navigate(`/trips/${tripId}`);
-    }
+    // Navigate to the newly created trip's details page
+    navigate(`/trips/${tripId}`, {
+      state: { message: 'Trip created successfully!' },
+    });
   };
 
   const handleCancel = () => {
-    if (onCancel) {
-      onCancel();
-    } else {
-      // Default behavior - go back to trips list
-      console.log('Cancelled trip creation');
-      // In a real app: navigate('/trips');
-    }
+    // Navigate back to dashboard
+    navigate('/dashboard');
   };
 
-  // Show loading or auth check
+  // Show auth required message if not authenticated
   if (!isAuthenticated) {
     return (
       <Container maxWidth="sm" sx={{ py: 8, textAlign: 'center' }}>

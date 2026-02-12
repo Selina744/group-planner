@@ -614,6 +614,213 @@ export class TripService {
   }
 
   /**
+   * Join a trip using an invite code
+   */
+  static async joinTripByCode(
+    user: UserProfile,
+    inviteCode: string
+  ): Promise<{ trip: Trip; membership: TripMember }> {
+    if (!inviteCode || inviteCode.trim().length === 0) {
+      throw new BadRequestError('Invite code is required');
+    }
+
+    const cleanCode = inviteCode.trim().toUpperCase();
+
+    try {
+      // Find trip by invite code
+      const trip = await safePrismaOperation(async () => {
+        return await prisma.trip.findUnique({
+          where: { inviteCode: cleanCode },
+          include: {
+            _count: {
+              select: {
+                members: {
+                  where: { status: 'CONFIRMED' },
+                },
+              },
+            },
+          },
+        });
+      }, 'Find trip by invite code');
+
+      if (!trip) {
+        throw new NotFoundError('Invalid invite code. Please check and try again.');
+      }
+
+      // Check if user is already a member
+      const existingMembership = await safePrismaOperation(async () => {
+        return await prisma.tripMember.findUnique({
+          where: {
+            tripId_userId: {
+              tripId: trip.id,
+              userId: user.id,
+            },
+          },
+        });
+      }, 'Check existing membership');
+
+      if (existingMembership) {
+        if (existingMembership.status === 'CONFIRMED') {
+          throw new ConflictError('You are already a member of this trip');
+        } else if (existingMembership.status === 'PENDING') {
+          throw new ConflictError('You already have a pending invitation to this trip');
+        }
+        // If declined, allow them to rejoin
+      }
+
+      // Create or update membership
+      const membership = await safePrismaOperation(async () => {
+        if (existingMembership) {
+          // Update existing declined membership
+          return await prisma.tripMember.update({
+            where: {
+              tripId_userId: {
+                tripId: trip.id,
+                userId: user.id,
+              },
+            },
+            data: {
+              status: 'CONFIRMED',
+              role: 'MEMBER',
+              notifications: true,
+              canInvite: false,
+            },
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  email: true,
+                  username: true,
+                  displayName: true,
+                },
+              },
+            },
+          });
+        } else {
+          // Create new membership
+          return await prisma.tripMember.create({
+            data: {
+              tripId: trip.id,
+              userId: user.id,
+              role: 'MEMBER',
+              status: 'CONFIRMED',
+              notifications: true,
+              canInvite: false,
+            },
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  email: true,
+                  username: true,
+                  displayName: true,
+                },
+              },
+            },
+          });
+        }
+      }, 'Create trip membership');
+
+      log.info('User joined trip via invite code', {
+        tripId: trip.id,
+        userId: user.id,
+        tripTitle: trip.title,
+      });
+
+      return {
+        trip: TripTransforms.toTrip(trip as DatabaseTrip, trip._count.members + 1, membership),
+        membership: TripTransforms.toTripMember(membership as DatabaseTripMember),
+      };
+    } catch (error) {
+      if (error instanceof NotFoundError || error instanceof ConflictError || error instanceof BadRequestError) {
+        throw error;
+      }
+
+      log.error('Failed to join trip by invite code', error, {
+        userId: user.id,
+        inviteCode: cleanCode,
+      });
+
+      throw new Error('Failed to join trip');
+    }
+  }
+
+  /**
+   * Get trip members
+   */
+  static async getTripMembers(
+    tripId: string,
+    user: UserProfile
+  ): Promise<{ members: TripMember[] }> {
+    if (!tripId) {
+      throw new BadRequestError('Trip ID is required');
+    }
+
+    try {
+      // Verify user is a member of the trip
+      const userMembership = await safePrismaOperation(async () => {
+        return await prisma.tripMember.findUnique({
+          where: {
+            tripId_userId: {
+              tripId,
+              userId: user.id,
+            },
+          },
+        });
+      }, 'Verify user membership');
+
+      if (!userMembership || userMembership.status !== 'CONFIRMED') {
+        throw new ForbiddenError('You must be a member of this trip to view members');
+      }
+
+      // Get all confirmed members
+      const members = await safePrismaOperation(async () => {
+        return await prisma.tripMember.findMany({
+          where: {
+            tripId,
+            status: 'CONFIRMED',
+          },
+          include: {
+            user: {
+              select: {
+                id: true,
+                email: true,
+                username: true,
+                displayName: true,
+              },
+            },
+          },
+          orderBy: [
+            { role: 'asc' }, // HOST first, then CO_HOST, then MEMBER
+            { createdAt: 'asc' },
+          ],
+        });
+      }, 'Get trip members');
+
+      log.debug('Trip members retrieved', {
+        tripId,
+        userId: user.id,
+        memberCount: members.length,
+      });
+
+      return {
+        members: members.map(member => TripTransforms.toTripMember(member as DatabaseTripMember)),
+      };
+    } catch (error) {
+      if (error instanceof ForbiddenError || error instanceof BadRequestError) {
+        throw error;
+      }
+
+      log.error('Failed to get trip members', error, {
+        tripId,
+        userId: user.id,
+      });
+
+      throw new Error('Failed to retrieve trip members');
+    }
+  }
+
+  /**
    * Generate a unique invite code for a trip
    */
   private static generateInviteCode(): string {

@@ -492,12 +492,13 @@ function sanitizeString(str: string): string {
  */
 export const validation: any = {
   // User-related validation
+  // Registration allows optional username and displayName to match controller behavior
   userRegistration: () => validateRequest({
     body: z.object({
       email: commonSchemas.email,
-      username: commonSchemas.username,
+      username: commonSchemas.username.optional(),
       password: commonSchemas.password,
-      displayName: z.string().min(1).max(100),
+      displayName: z.string().min(1).max(100).optional(),
       timezone: commonSchemas.timezone.optional(),
     }),
   }),
