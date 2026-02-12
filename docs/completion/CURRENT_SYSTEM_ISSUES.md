@@ -6,10 +6,10 @@
 
 ## ⚠️ **IN_PROGRESS - Recurring Agent Crashes**
 
-### **Multiple Agent Crashes - 2026-02-11**
-- **Status:** IN_PROGRESS
-- **Updated:** 2026-02-11 22:15 UTC by RubyPond
-- **Crash Count:** 3 crashes today
+### **Multiple Agent Crashes - 2026-02-11 (ONGOING)**
+- **Status:** IN_PROGRESS - ESCALATED
+- **Updated:** 2026-02-11 23:29 UTC by JadeBarn (System Administrator)
+- **Crash Count:** 11 crashes today (8 additional since last update)
 - **Affected Agents:**
   | Time (UTC) | Agent | Pane | Message |
   |------------|-------|------|---------|
@@ -17,16 +17,36 @@
   | 21:58:30 | cod | %17 | Agent unhealthy |
   | 22:13:10 | cc | %25 | Agent unhealthy |
   | 22:27:40 | cc | %2 | Authentication error |
-- **Pattern:** Agent "cc" crashing across multiple panes (%25, %2). New error type: "Authentication error"
-- **⚠️ ESCALATED:** Authentication error requires human review (see SELINA.md)
-- **Root Cause:** Unknown - generic "unhealthy" status provides no diagnostics
-- **Impact:** Potential work interruption; agents may need manual restart
-- **Investigation:**
-  - Historical data shows 28+ crash files since 2026-01-28 (recurring problem)
-  - No detailed error logs in crash notifications
-  - Pane-based crashes suggest tmux/terminal session issues possible
-- **Action Taken:** Monitoring and documenting pattern
-- **Next Step:** If crashes continue, escalate to SELINA.md for human review of ntm/pane configuration
+  | 22:28:20 | cc | %25 | Authentication error |
+  | 22:31:30 | cc | ? | ? |
+  | 22:40:00 | cc | ? | ? |
+  | 22:51:40 | cc | ? | ? |
+  | 23:15:40 | cc | ? | ? |
+  | 23:19:40 | cc | ? | ? |
+  | 23:27:50 | cc | %25 | Pane no longer exists |
+- **Critical Patterns:**
+  - **Authentication errors:** Multiple instances - REQUIRES IMMEDIATE HUMAN INTERVENTION
+  - **Pane management failures:** tmux sessions becoming corrupted/detached
+  - **Agent cc specifically affected:** Repeated crashes across different panes
+  - **Escalating frequency:** 2 crashes/hour trending up to 3+ crashes/hour
+- **⚠️ ESCALATED TO SELINA.md:** Authentication errors and pane management require system-level intervention
+- **Root Cause:**
+  - Authentication service degradation or configuration issue
+  - tmux/terminal session management failures
+  - Possible resource exhaustion or permission problems
+- **Impact:**
+  - CRITICAL: Agent sessions becoming unstable and unreliable
+  - Workflow disruption increasing
+  - Potential data loss if agents crash during operations
+- **Investigation Complete:**
+  - Confirmed 38+ crash files since 2026-01-28
+  - Pattern shows system-level issues beyond individual agent problems
+  - Authentication and pane management both failing
+- **Action Taken:**
+  - System Administrator (JadeBarn) now monitoring actively
+  - Issue escalated to SELINA.md with specific requirements
+  - Documenting all new crashes in real-time
+- **Next Step:** ESCALATED - awaiting human intervention for authentication/pane management
 
 ---
 

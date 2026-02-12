@@ -1,7 +1,7 @@
 # CODER.md — Boss Agent Operational Runbook
 
-*Maintained by: LilacBeacon (Boss Agent)*
-*Last Updated: 2026-01-31*
+*Maintained by: PurplePrairie (Boss Agent)*
+*Last Updated: 2026-02-11*
 
 ## Coder Output Contract
 
@@ -23,9 +23,16 @@ Every completion report MUST include:
 
 ### Work Acceptance
 1. Acknowledge task assignment within 5 minutes
-2. Update Beads: `br update <id> --status in_progress --json`
-3. Provide time estimate and approach confirmation
+2. Update Beads: `br update <id> --status in_progress`
+3. Provide approach confirmation
 4. Request clarification if requirements unclear
+
+### Task Assignment Format (from Boss)
+Each assignment includes:
+- **Goal**: What needs to be accomplished
+- **Constraints**: Limitations, dependencies, scope boundaries
+- **Definition of Done**: Specific acceptance criteria
+- **Reporting Format**: How to report completion (use Coder Output Contract)
 
 ### Code Development
 1. **Quality First**: Run `ubs <changed-files>` before every commit
@@ -42,12 +49,15 @@ Every completion report MUST include:
 
 ## Common Issues & Fixes
 
-### CRITICAL: Testing Infrastructure Failure
-**Symptom**: `TypeError: port.addListener is not a function` / `this.process.channel?.unref is not a function`
-**Cause**: Vitest/Bun compatibility issue with worker processes
-**Fix**: URGENT - System Administrator intervention required
-**Workaround**: Complete implementation first, defer test verification until infrastructure fixed
-**Impact**: Blocks quality gates and test verification workflows
+### Testing Infrastructure (RESOLVED)
+**Status**: ✅ WORKING - Tests pass with `bun run test:main` (96/96)
+**Note**: Project uses Bun test runner, not Vitest. Database URL must match across all test files.
+
+### Beads Database Corruption
+**Symptom**: `br list` returns 0 issues or "ISSUE_NOT_FOUND" errors
+**Cause**: SQLite database becomes stale/corrupted during concurrent operations
+**Fix**: Rebuild database with: `rm .beads/beads.db && br init --force && br sync`
+**Prevention**: Run `br sync` after bulk operations
 
 ### Database Connection Failures
 **Symptom**: `bun run seed` fails with Postgres connection error
@@ -123,6 +133,22 @@ If production issue discovered: Immediately notify Boss Agent with severity asse
 ---
 
 ## Changelog
+
+**2026-02-11 (Session 2)**: Continued session by PurplePrairie
+- Completed bd-3iw (Schedule timeline): Timeline.tsx, EventCard.tsx, EventForm.tsx with day grouping
+- Completed bd-15f (Items tab): ItemList.tsx, ClaimButton.tsx, ClaimProgress.tsx, ItemForm.tsx
+- Completed bd-s15 (JWT tests): 55 comprehensive tests in jwt.service.test.ts
+- Completed bd-3g9 (Docker Compose): Production deployment setup with nginx, SSL, documentation
+- Verified and closed: bd-1x8, bd-1zz, bd-2rk, bd-143 (already implemented)
+- Active agents working on: bd-1sh (notifications), bd-11n (announcements), bd-3kd (security tests)
+- System note: 11+ agent crashes documented in CURRENT_SYSTEM_ISSUES.md, using subagent spawning as primary work strategy
+
+**2026-02-11**: Test infrastructure fixed, workflow updates by LilacBeacon
+- Testing infrastructure now working: 96/96 tests pass with `bun run test:main`
+- Fixed database URL mismatches across test files (unified to `postgresql://planner:planner@localhost:5432/groupplanner_test`)
+- Added beads database corruption fix procedure
+- Removed CRITICAL testing infrastructure failure (resolved)
+- Session completed 7+ tasks with 3 parallel agents (BlueOwl, PinkMountain, PearlOwl)
 
 **2026-01-31 (Session 2)**: Major delegation and completion session by LilacBeacon
 - Completed 8 critical tasks via subagent delegation
