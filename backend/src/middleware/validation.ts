@@ -82,13 +82,12 @@ export const commonSchemas = {
     .regex(/^[a-zA-Z0-9_-]+$/, 'Username can only contain letters, numbers, underscores, and hyphens'),
 
   // Password validation
+  // MVP: Password requirements are disabled for self-hosted flexibility.
+  // Only require non-empty password (bcrypt requires at least 1 character).
+  // Future: Admins will be able to configure password requirements.
   password: z.string()
-    .min(8, 'Password must be at least 8 characters')
-    .max(128, 'Password must be less than 128 characters')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number')
-    .regex(/[^a-zA-Z0-9]/, 'Password must contain at least one special character'),
+    .min(1, 'Password is required')
+    .max(128, 'Password must be less than 128 characters'),
 
   // Date validation
   dateString: z.string().datetime('Invalid date format'),

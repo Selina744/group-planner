@@ -491,84 +491,56 @@ describe('Input Validation Security Tests', () => {
     });
   });
 
-  describe('Password Complexity Requirements', () => {
-    const weakPasswords = [
-      // Too short (less than 8 characters)
+  describe('Password Validation (MVP - Minimal Requirements)', () => {
+    // MVP: Password requirements are disabled for self-hosted flexibility.
+    // Only require non-empty password (bcrypt requires at least 1 character).
+    // Future: Admins will be able to configure password requirements.
+
+    const validPasswords = [
+      // Simple passwords (now allowed in MVP)
+      'a',
+      '123',
+      'password',
       'Ab1!',
-      'Ab1!abc',
-      'Short1!',
-
-      // Missing lowercase
-      'UPPERCASE123!',
-      'ALLCAPS1!X',
-
-      // Missing uppercase
-      'lowercase123!',
-      'nocapshere1!',
-
-      // Missing number
-      'NoNumbersHere!',
-      'JustLettersOnly!',
-
-      // Missing special character
-      'NoSpecial123A',
-      'AlphaNumeric1',
-    ];
-
-    const strongPasswords = [
+      // Complex passwords still work
       'Str0ng!Pass#2024',
       'C0mpl3x_P@ssw0rd',
-      'S3cure!Auth#Key',
-      'MyP@ss1234!word',
-      'Tr0ub4dor&3',
     ];
 
-    it('should reject weak passwords', () => {
-      for (const password of weakPasswords) {
-        const result = commonSchemas.password.safeParse(password);
-        expect(result.success).toBe(false);
-      }
-    });
-
-    it('should accept strong passwords', () => {
-      for (const password of strongPasswords) {
+    it('should accept any non-empty password (MVP behavior)', () => {
+      for (const password of validPasswords) {
         const result = commonSchemas.password.safeParse(password);
         expect(result.success).toBe(true);
       }
     });
 
-    it('should reject too short passwords', () => {
-      const result = commonSchemas.password.safeParse('A1!');
+    it('should reject empty passwords', () => {
+      const result = commonSchemas.password.safeParse('');
       expect(result.success).toBe(false);
     });
 
     it('should reject too long passwords', () => {
-      const veryLongPassword = 'A1!' + 'a'.repeat(130);
+      const veryLongPassword = 'a'.repeat(130);
       const result = commonSchemas.password.safeParse(veryLongPassword);
       expect(result.success).toBe(false);
     });
 
-    it('should require all complexity rules', () => {
-      // Test each missing requirement
-      expect(commonSchemas.password.safeParse('nouppercase1!').success).toBe(false); // No uppercase
-      expect(commonSchemas.password.safeParse('NOLOWERCASE1!').success).toBe(false); // No lowercase
-      expect(commonSchemas.password.safeParse('NoNumbers!!').success).toBe(false); // No number
-      expect(commonSchemas.password.safeParse('NoSpecial123').success).toBe(false); // No special char
-    });
-
-    it('should reject weak passwords in registration', async () => {
-      for (const password of weakPasswords.slice(0, 3)) {
+    it('should accept simple passwords in registration', async () => {
+      const simplePasswords = ['a', '123', 'password'];
+      for (const password of simplePasswords) {
+        // Generate a short unique suffix (max 6 chars to keep username under 20 chars)
+        const suffix = Math.random().toString(36).slice(2, 8);
         const response = await request(app)
           .post('/api/v1/auth/register')
           .send({
-            email: `test-${Date.now()}@example.com`,
+            email: `test-${suffix}-${Date.now()}@example.com`,
             password: password,
-            username: `user${Date.now()}`,
+            username: `usr${suffix}`, // Keep username short (3-20 chars required)
             displayName: 'Test User'
           });
 
-        expect([400, 422]).toContain(response.status);
-        expect(response.body.success).toBe(false);
+        // Should succeed (201) or conflict if user already exists (409)
+        expect([201, 409]).toContain(response.status);
       }
     });
   });
