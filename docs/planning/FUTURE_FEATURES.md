@@ -87,6 +87,40 @@ CREATE TABLE meal_plans (
 
 ---
 
+### 4. Admin-Configurable Password Policy
+**Description:** Allow administrators to configure password requirements for their instance.
+
+**Core Functionality:**
+- Minimum password length setting (default: 8)
+- Require uppercase letters (optional)
+- Require lowercase letters (optional)
+- Require numbers (optional)
+- Require special characters (optional)
+- Password expiration policy (optional)
+- Password history enforcement (optional)
+
+**Implementation:**
+```typescript
+// Admin settings schema
+interface PasswordPolicy {
+  minLength: number;           // default: 8
+  requireUppercase: boolean;   // default: false
+  requireLowercase: boolean;   // default: false
+  requireNumbers: boolean;     // default: false
+  requireSpecialChars: boolean; // default: false
+  maxAgeDays?: number;         // optional expiration
+  historyCount?: number;       // prevent reuse of N previous passwords
+}
+```
+
+**API Endpoints:**
+- `GET /api/v1/admin/settings/password-policy` - Get current policy
+- `PUT /api/v1/admin/settings/password-policy` - Update policy (admin only)
+
+**Post-MVP Complications:** None - purely configuration feature. MVP ships with no password requirements, admins can strengthen as needed.
+
+---
+
 ## Medium Complexity Features
 *Require some architectural changes or external integrations*
 

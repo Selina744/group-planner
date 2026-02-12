@@ -104,59 +104,34 @@ describe('AuthService', () => {
     });
 
     describe('validatePassword', () => {
-      it('should accept a strong password meeting all requirements', () => {
-        const result = PasswordUtils.validatePassword('StrongP@ss123');
+      // MVP: Password validation is disabled - any non-empty password is accepted
 
-        expect(result.isValid).toBe(true);
-        expect(result.errors).toHaveLength(0);
-        expect(['medium', 'strong']).toContain(result.strength);
+      it('should accept any non-empty password', () => {
+        // Simple single-character password
+        const result1 = PasswordUtils.validatePassword('a');
+        expect(result1.isValid).toBe(true);
+        expect(result1.errors).toHaveLength(0);
+
+        // Numeric password
+        const result2 = PasswordUtils.validatePassword('123');
+        expect(result2.isValid).toBe(true);
+        expect(result2.errors).toHaveLength(0);
+
+        // Complex password
+        const result3 = PasswordUtils.validatePassword('StrongP@ss123');
+        expect(result3.isValid).toBe(true);
+        expect(result3.errors).toHaveLength(0);
       });
 
-      it('should reject password shorter than minimum length', () => {
-        const result = PasswordUtils.validatePassword('Short1!');
+      it('should reject empty password', () => {
+        const result = PasswordUtils.validatePassword('');
 
         expect(result.isValid).toBe(false);
-        expect(result.errors).toContain(`Password must be at least ${AUTH_CONFIG.passwordRequirements.minLength} characters long`);
-      });
-
-      it('should reject password without uppercase letter', () => {
-        const result = PasswordUtils.validatePassword('lowercase123!');
-
-        expect(result.isValid).toBe(false);
-        expect(result.errors).toContain('Password must contain at least one uppercase letter');
-      });
-
-      it('should reject password without lowercase letter', () => {
-        const result = PasswordUtils.validatePassword('UPPERCASE123!');
-
-        expect(result.isValid).toBe(false);
-        expect(result.errors).toContain('Password must contain at least one lowercase letter');
-      });
-
-      it('should reject password without numbers', () => {
-        const result = PasswordUtils.validatePassword('NoNumbers!!');
-
-        expect(result.isValid).toBe(false);
-        expect(result.errors).toContain('Password must contain at least one number');
-      });
-
-      it('should reject password without special characters', () => {
-        const result = PasswordUtils.validatePassword('NoSpecial123');
-
-        expect(result.isValid).toBe(false);
-        expect(result.errors).toContain('Password must contain at least one special character');
-      });
-
-      it('should accumulate all validation errors', () => {
-        const result = PasswordUtils.validatePassword('abc');
-
-        expect(result.isValid).toBe(false);
-        expect(result.errors.length).toBeGreaterThan(1);
-        expect(result.strength).toBe('weak');
+        expect(result.errors).toContain('Password is required');
       });
 
       it('should classify a strong password correctly', () => {
-        // Strong password: 12+ chars with all requirements
+        // Strong password: 12+ chars with all character types
         const result = PasswordUtils.validatePassword('VeryStrong@P123');
 
         expect(result.isValid).toBe(true);
@@ -164,11 +139,19 @@ describe('AuthService', () => {
       });
 
       it('should classify a medium password correctly', () => {
-        // Medium: meets all requirements but < 12 chars
-        const result = PasswordUtils.validatePassword('Medium@1');
+        // Medium: 8+ chars with mixed case or letters+numbers
+        const result = PasswordUtils.validatePassword('Password1');
 
         expect(result.isValid).toBe(true);
         expect(result.strength).toBe('medium');
+      });
+
+      it('should classify a weak password correctly', () => {
+        // Weak: simple short password
+        const result = PasswordUtils.validatePassword('abc');
+
+        expect(result.isValid).toBe(true);
+        expect(result.strength).toBe('weak');
       });
     });
 
@@ -392,11 +375,22 @@ describe('AuthService', () => {
       ).rejects.toThrow(ValidationError);
     });
 
-    it('should reject weak password', async () => {
+    it('should accept simple passwords (MVP mode)', async () => {
+      // MVP: Any non-empty password is accepted
+      const result = await AuthService.register({
+        email: 'simplepass@example.com',
+        password: 'a' // single character password
+      });
+
+      expect(result.user).toBeDefined();
+      expect(result.user.email).toBe('simplepass@example.com');
+    });
+
+    it('should reject empty password', async () => {
       await expect(
         AuthService.register({
           email: 'valid@example.com',
-          password: 'weak' // does not meet requirements
+          password: '' // empty password not allowed
         })
       ).rejects.toThrow(ValidationError);
     });
@@ -774,11 +768,27 @@ describe('AuthService', () => {
       ).rejects.toThrow(UnauthorizedError);
     });
 
-    it('should reject weak new password', async () => {
+    it('should accept simple new password (MVP mode)', async () => {
+      // MVP: Any non-empty password is accepted
+      await AuthService.changePassword(testUser.id, {
+        currentPassword: 'CurrentP@ss123',
+        newPassword: 'a' // single character password
+      });
+
+      // Verify new password works
+      const result = await AuthService.login({
+        identifier: 'changepass@example.com',
+        password: 'a'
+      });
+
+      expect(result.user).toBeDefined();
+    });
+
+    it('should reject empty new password', async () => {
       await expect(
         AuthService.changePassword(testUser.id, {
           currentPassword: 'CurrentP@ss123',
-          newPassword: 'weak'
+          newPassword: '' // empty password not allowed
         })
       ).rejects.toThrow(ValidationError);
     });

@@ -38,17 +38,20 @@ import type {
 
 /**
  * Authentication service configuration
+ *
+ * MVP: Password requirements are disabled for self-hosted flexibility.
+ * Future: Admins will be able to configure these requirements.
  */
 const AUTH_CONFIG: AuthConfig = {
   bcryptRounds: 12,
   accessTokenExpiryMinutes: 15,
   refreshTokenExpiryDays: 30,
   passwordRequirements: {
-    minLength: 8,
-    requireUppercase: true,
-    requireLowercase: true,
-    requireNumbers: true,
-    requireSpecialChars: true,
+    minLength: 1, // MVP: Any non-empty password accepted
+    requireUppercase: false,
+    requireLowercase: false,
+    requireNumbers: false,
+    requireSpecialChars: false,
   },
   maxLoginAttempts: 5,
   lockoutDurationMinutes: 30,
@@ -88,45 +91,28 @@ class PasswordUtils {
 
   /**
    * Validate password against requirements
+   *
+   * MVP: Password validation is disabled - any non-empty password is accepted.
+   * This allows self-hosted users to set simple passwords.
+   * Future: Admins will be able to configure password requirements.
    */
   static validatePassword(password: string): PasswordValidation {
-    const { passwordRequirements } = AUTH_CONFIG;
     const errors: string[] = [];
 
-    // Check minimum length
-    if (password.length < passwordRequirements.minLength) {
-      errors.push(`Password must be at least ${passwordRequirements.minLength} characters long`);
+    // MVP: Only require non-empty password (bcrypt requires at least 1 character)
+    if (password.length < 1) {
+      errors.push('Password is required');
     }
 
-    // Check for uppercase letter
-    if (passwordRequirements.requireUppercase && !/[A-Z]/.test(password)) {
-      errors.push('Password must contain at least one uppercase letter');
-    }
-
-    // Check for lowercase letter
-    if (passwordRequirements.requireLowercase && !/[a-z]/.test(password)) {
-      errors.push('Password must contain at least one lowercase letter');
-    }
-
-    // Check for numbers
-    if (passwordRequirements.requireNumbers && !/\d/.test(password)) {
-      errors.push('Password must contain at least one number');
-    }
-
-    // Check for special characters
-    if (passwordRequirements.requireSpecialChars && !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
-      errors.push('Password must contain at least one special character');
-    }
-
-    // Determine password strength
+    // Determine password strength for informational purposes only
     let strength: 'weak' | 'medium' | 'strong' = 'weak';
-    if (errors.length === 0) {
-      if (password.length >= 12 && /[A-Z]/.test(password) && /[a-z]/.test(password) &&
-          /\d/.test(password) && /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
-        strength = 'strong';
-      } else {
-        strength = 'medium';
-      }
+    if (password.length >= 12 && /[A-Z]/.test(password) && /[a-z]/.test(password) &&
+        /\d/.test(password) && /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+      strength = 'strong';
+    } else if (password.length >= 8 &&
+               ((/[A-Z]/.test(password) && /[a-z]/.test(password)) ||
+                (/[a-zA-Z]/.test(password) && /\d/.test(password)))) {
+      strength = 'medium';
     }
 
     return {
@@ -681,6 +667,15 @@ export class AuthService {
       throw new ValidationError('Invalid email format');
     }
 
+    // Check if email service is available before processing
+    const { EmailService, EmailUnavailableError } = await import('./email.js');
+    if (!EmailService.isAvailable()) {
+      throw new BadRequestError(
+        'Password reset is temporarily unavailable. Please contact support for assistance.',
+        { reason: 'email_service_unavailable' }
+      );
+    }
+
     try {
       // Find user by email
       const user = await safePrismaOperation(async () => {
@@ -722,7 +717,6 @@ export class AuthService {
       }, 'Create password reset token');
 
       // Send password reset email
-      const { EmailService } = await import('./email.js');
       await EmailService.sendPasswordResetEmail(
         user.email,
         resetToken,
@@ -735,8 +729,16 @@ export class AuthService {
         expiresAt: expiresAt.toISOString(),
       });
     } catch (error) {
-      if (error instanceof ValidationError) {
+      if (error instanceof ValidationError || error instanceof BadRequestError) {
         throw error;
+      }
+
+      // Handle email unavailable error with user-friendly message
+      if (error instanceof EmailUnavailableError) {
+        throw new BadRequestError(
+          'Password reset is temporarily unavailable. Please contact support for assistance.',
+          { reason: 'email_service_unavailable' }
+        );
       }
 
       log.error('Password reset request failed', error, {
@@ -850,6 +852,15 @@ export class AuthService {
    * Send email verification
    */
   static async sendEmailVerification(userId: string): Promise<void> {
+    // Check if email service is available before processing
+    const { EmailService, EmailUnavailableError } = await import('./email.js');
+    if (!EmailService.isAvailable()) {
+      throw new BadRequestError(
+        'Email verification is temporarily unavailable. Please try again later or contact support.',
+        { reason: 'email_service_unavailable' }
+      );
+    }
+
     try {
       const user = await safePrismaOperation(async () => {
         return await prisma.user.findUnique({
@@ -870,7 +881,6 @@ export class AuthService {
       const verificationToken = this.generateEmailVerificationToken(user.id, user.email);
 
       // Send verification email
-      const { EmailService } = await import('./email.js');
       await EmailService.sendVerificationEmail(
         user.email,
         verificationToken,
@@ -884,6 +894,14 @@ export class AuthService {
     } catch (error) {
       if (error instanceof NotFoundError || error instanceof BadRequestError) {
         throw error;
+      }
+
+      // Handle email unavailable error with user-friendly message
+      if (error instanceof EmailUnavailableError) {
+        throw new BadRequestError(
+          'Email verification is temporarily unavailable. Please try again later or contact support.',
+          { reason: 'email_service_unavailable' }
+        );
       }
 
       log.error('Failed to send email verification', error, { userId });
