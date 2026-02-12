@@ -26,13 +26,13 @@ import { useIsAuthenticated } from '../stores/authStore';
 import type { PasswordResetConfirm } from '../types/auth';
 
 // Zod validation schema for password reset
+// MVP: Password requirements are disabled for self-hosted flexibility.
+// Only require non-empty password (max 128 for bcrypt safety).
 const resetPasswordSchema = z.object({
   password: z
     .string()
-    .min(6, 'Password must be at least 6 characters')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number'),
+    .min(1, 'Password is required')
+    .max(128, 'Password must be less than 128 characters'),
   confirmPassword: z
     .string()
     .min(1, 'Please confirm your password'),
@@ -262,7 +262,7 @@ export function ResetPasswordPage() {
           value={formData.password}
           onChange={handleInputChange('password')}
           error={!!formErrors.password}
-          helperText={formErrors.password || 'At least 6 characters with uppercase, lowercase, and numbers'}
+          helperText={formErrors.password || 'Enter your new password'}
           disabled={state === 'loading'}
           sx={{ mb: 2 }}
           InputProps={{

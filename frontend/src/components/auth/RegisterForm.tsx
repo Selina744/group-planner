@@ -35,12 +35,12 @@ const registerSchema = z.object({
     .refine((val) => !val || /^[a-zA-Z0-9_-]+$/.test(val), {
       message: 'Username can only contain letters, numbers, hyphens, and underscores',
     }),
+  // MVP: Password requirements are disabled for self-hosted flexibility.
+  // Only require non-empty password (max 128 for bcrypt safety).
   password: z
     .string()
-    .min(6, 'Password must be at least 6 characters')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number'),
+    .min(1, 'Password is required')
+    .max(128, 'Password must be less than 128 characters'),
   confirmPassword: z
     .string()
     .min(1, 'Please confirm your password'),
@@ -239,7 +239,7 @@ export function RegisterForm({
         value={formData.password}
         onChange={handleInputChange('password')}
         error={!!formErrors.password}
-        helperText={formErrors.password || 'At least 6 characters with uppercase, lowercase, and numbers'}
+        helperText={formErrors.password || 'Enter your password'}
         disabled={isLoading || success}
         margin="normal"
         InputProps={{
