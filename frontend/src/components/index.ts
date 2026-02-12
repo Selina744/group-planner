@@ -11,3 +11,6 @@ export * from './auth';
 
 // Routing components
 export * from './routing';
+
+// Notification components
+export * from './notifications';
