@@ -14,6 +14,8 @@
     "start:production": "NODE_ENV=production node dist/index.js",
     "typecheck": "tsc --noEmit",
     "test": "bun test src/tests/",
+    "test:db": "bun test src/tests/ --max-concurrency=1",
+    "test:safe": "bun test --max-concurrency=1",
     "test:watch": "bun test --watch",
     "test:setup": "bash scripts/setup-tests.sh",
     "test:main": "bun test src/tests/database.test.ts src/tests/item.test.ts src/tests/simple.test.ts src/tests/trip-integration.test.ts src/tests/trip.test.ts",

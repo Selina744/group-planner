@@ -1,13 +1,37 @@
 /**
  * Test Database Utilities - PostgreSQL (Simplified)
  *
- * Uses existing PostgreSQL test database setup but with simplified configuration
+ * Uses existing PostgreSQL test database setup but with simplified configuration.
+ * Includes mutex-based cleanup serialization to prevent race conditions in concurrent tests.
  */
 
 import { PrismaClient } from '../../generated/prisma/index.js';
 import { log } from '../../utils/logger.js';
 
 let testPrisma: PrismaClient | null = null;
+
+// Simple async mutex to serialize database cleanup operations
+let cleanupMutex: Promise<void> = Promise.resolve();
+
+/**
+ * Acquire the cleanup mutex to serialize database operations
+ */
+async function withCleanupLock<T>(fn: () => Promise<T>): Promise<T> {
+  // Chain onto the existing mutex
+  const previousMutex = cleanupMutex;
+  let resolve: () => void;
+  cleanupMutex = new Promise<void>((r) => { resolve = r; });
+
+  try {
+    // Wait for previous cleanup to complete
+    await previousMutex;
+    // Execute our cleanup
+    return await fn();
+  } finally {
+    // Release the mutex
+    resolve!();
+  }
+}
 
 /**
  * Get test database instance (PostgreSQL)
@@ -50,29 +74,64 @@ export async function setupTestDatabase(): Promise<PrismaClient> {
 
 /**
  * Clean all tables - run after each test (PostgreSQL cleanup)
+ * Uses TRUNCATE for atomic, fast cleanup with CASCADE to handle foreign keys.
+ * Serialized with a mutex to prevent race conditions when tests run concurrently.
  */
 export async function cleanDatabase(): Promise<void> {
-  const prisma = getTestDb();
+  return withCleanupLock(async () => {
+    const prisma = getTestDb();
 
+    try {
+      // TRUNCATE is atomic and faster than DELETE for full table cleanup
+      // Uses actual PostgreSQL table names from @@map() directives in schema
+      await prisma.$executeRaw`
+        TRUNCATE TABLE
+          notifications,
+          notification_preferences,
+          item_claims,
+          items,
+          events,
+          announcements,
+          trip_extensions,
+          trip_members,
+          trips,
+          password_resets,
+          login_attempts,
+          refresh_tokens,
+          users
+        RESTART IDENTITY CASCADE
+      `;
+
+      log.debug('Test database cleaned successfully (TRUNCATE)');
+    } catch (error) {
+      // Fallback to transactional delete if TRUNCATE fails (e.g., permissions)
+      log.warn('TRUNCATE failed, falling back to DELETE', error);
+      await fallbackDeleteCleanup(prisma);
+    }
+  });
+}
+
+/**
+ * Fallback cleanup using DELETE in a transaction
+ */
+async function fallbackDeleteCleanup(prisma: PrismaClient): Promise<void> {
   try {
-    // Delete in reverse dependency order with explicit cleanup
-    await prisma.notification.deleteMany();
-    await prisma.notificationPreference.deleteMany();
-    await prisma.itemClaim.deleteMany();
-    await prisma.item.deleteMany();
-    await prisma.event.deleteMany();
-    await prisma.announcement.deleteMany();
-    await prisma.tripExtension.deleteMany();
-    await prisma.tripMember.deleteMany();
-    await prisma.trip.deleteMany();
-
-    // Clean authentication-related tables thoroughly
-    await prisma.passwordReset.deleteMany();
-    await prisma.loginAttempt.deleteMany();
-    await prisma.refreshToken.deleteMany();
-    await prisma.user.deleteMany();
-
-    log.debug('Test database cleaned successfully');
+    await prisma.$transaction([
+      prisma.notification.deleteMany(),
+      prisma.notificationPreference.deleteMany(),
+      prisma.itemClaim.deleteMany(),
+      prisma.item.deleteMany(),
+      prisma.event.deleteMany(),
+      prisma.announcement.deleteMany(),
+      prisma.tripExtension.deleteMany(),
+      prisma.tripMember.deleteMany(),
+      prisma.trip.deleteMany(),
+      prisma.passwordReset.deleteMany(),
+      prisma.loginAttempt.deleteMany(),
+      prisma.refreshToken.deleteMany(),
+      prisma.user.deleteMany(),
+    ]);
+    log.debug('Test database cleaned successfully (DELETE fallback)');
   } catch (error) {
     log.error('Failed to clean test database', error);
     throw error;
@@ -81,37 +140,11 @@ export async function cleanDatabase(): Promise<void> {
 
 /**
  * Deep clean database - more thorough cleanup for cross-test isolation
+ * Now uses the same TRUNCATE approach as cleanDatabase for consistency
  */
 export async function deepCleanDatabase(): Promise<void> {
-  const prisma = getTestDb();
-
-  try {
-    // More thorough cleanup - delete in multiple passes to handle race conditions
-    for (let i = 0; i < 2; i++) {
-      await prisma.notification.deleteMany();
-      await prisma.notificationPreference.deleteMany();
-      await prisma.itemClaim.deleteMany();
-      await prisma.item.deleteMany();
-      await prisma.event.deleteMany();
-      await prisma.announcement.deleteMany();
-      await prisma.tripExtension.deleteMany();
-      await prisma.tripMember.deleteMany();
-      await prisma.trip.deleteMany();
-      await prisma.passwordReset.deleteMany();
-      await prisma.loginAttempt.deleteMany();
-      await prisma.refreshToken.deleteMany();
-      await prisma.user.deleteMany();
-
-      // Small delay between passes to ensure database consistency
-      await new Promise(resolve => setTimeout(resolve, 10));
-    }
-
-    log.debug('Deep database cleanup completed');
-  } catch (error) {
-    log.error('Failed to perform deep database cleanup', error);
-    // Fallback to regular cleanup
-    await cleanDatabase();
-  }
+  // TRUNCATE is already atomic and thorough, so just delegate
+  await cleanDatabase();
 }
 
 /**

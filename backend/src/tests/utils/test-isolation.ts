@@ -4,16 +4,25 @@
  * Provides utilities for better test isolation across files
  */
 
+import { randomBytes } from 'crypto';
 import { cleanDatabase, deepCleanDatabase } from './test-database.js';
 
 /**
  * Generate unique test identifiers for each test file
+ * Uses crypto.randomBytes for true uniqueness across parallel test runs
  */
 export function generateTestFileId(): string {
-  const timestamp = Date.now().toString().slice(-6); // Use last 6 digits of timestamp
-  const random = Math.random().toString(36).substring(2, 5); // 3 random chars
-  const processId = process.pid.toString().slice(-2); // 2 digits of process ID
-  return `${timestamp}${random}${processId}`;
+  const timestamp = Date.now().toString(36); // Base36 timestamp for compactness
+  const random = randomBytes(4).toString('hex'); // 8 hex chars from crypto
+  return `${timestamp}-${random}`;
+}
+
+/**
+ * Generate a unique identifier suitable for database fields
+ * Shorter format for use in email/username fields with length constraints
+ */
+export function generateShortUniqueId(): string {
+  return randomBytes(6).toString('hex'); // 12 hex chars
 }
 
 /**
