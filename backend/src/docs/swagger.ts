@@ -78,7 +78,7 @@ All error responses follow a consistent format:
   },
   servers: [
     {
-      url: process.env.API_BASE_URL || 'http://localhost:3000',
+      url: process.env.API_BASE_URL || `${process.env.API_URL || 'http://localhost:4000'}/api/v1`,
       description: 'Development server',
     },
     {

@@ -125,17 +125,15 @@ export const middlewarePresets = {
     middleware.context, // Request context injection
     rateLimiters.general, // General rate limiting
     middleware.logging, // Request logging
-    optionalAuth, // Optional authentication
+    optionalAuth(), // Optional authentication
   ],
 
   // Protected routes (authentication required)
   protected: [
     middleware.context,
-    // TODO: Check if general rate limiter is causing hangs
-    // rateLimiters.general,
-    // TODO: Re-enable logging middleware after fixing res.end override issue
-    // middleware.logging,
-    requireAuth, // Required authentication
+    rateLimiters.general,
+    middleware.logging,
+    requireAuth(), // Required authentication
   ],
 
   // Admin routes (admin access required)
@@ -143,8 +141,8 @@ export const middlewarePresets = {
     middleware.context,
     rateLimiters.sensitive,
     middleware.logging,
-    requireAuth,
-    requireAdmin,
+    requireAuth(),
+    requireAdmin(),
   ],
 
   // Auth endpoints (with strict rate limiting)

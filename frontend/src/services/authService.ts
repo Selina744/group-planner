@@ -22,16 +22,18 @@ export class AuthService {
    */
   static async login(credentials: LoginRequest): Promise<LoginResponse> {
     try {
-      const response = await apiClient.publicRequest<LoginResponse>({
+      const response = await apiClient.publicRequest<{ data: LoginResponse }>({
         method: 'POST',
         url: '/auth/login',
         data: credentials,
       });
 
-      // Store tokens
-      tokenManager.setTokens(response.accessToken, response.refreshToken);
+      const result = response.data;
 
-      return response;
+      // Store tokens
+      tokenManager.setTokens(result.accessToken, result.refreshToken);
+
+      return result;
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
@@ -43,16 +45,18 @@ export class AuthService {
    */
   static async register(userData: RegisterRequest): Promise<RegisterResponse> {
     try {
-      const response = await apiClient.publicRequest<RegisterResponse>({
+      const response = await apiClient.publicRequest<{ data: RegisterResponse }>({
         method: 'POST',
         url: '/auth/register',
         data: userData,
       });
 
-      // Store tokens
-      tokenManager.setTokens(response.accessToken, response.refreshToken);
+      const result = response.data;
 
-      return response;
+      // Store tokens
+      tokenManager.setTokens(result.accessToken, result.refreshToken);
+
+      return result;
     } catch (error) {
       console.error('Registration failed:', error);
       throw error;

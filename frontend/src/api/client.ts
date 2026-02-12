@@ -124,7 +124,8 @@ class ApiClient {
         { timeout: 10000 }
       );
 
-      const { accessToken, refreshToken: newRefreshToken, user } = response.data;
+      const { tokens, user } = response.data.data;
+      const { accessToken, refreshToken: newRefreshToken } = tokens;
 
       // Update tokens
       tokenManager.setTokens(accessToken, newRefreshToken);
