@@ -12840,6 +12840,7 @@ export namespace Prisma {
     pinned: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type AnnouncementMaxAggregateOutputType = {
@@ -12851,6 +12852,7 @@ export namespace Prisma {
     pinned: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type AnnouncementCountAggregateOutputType = {
@@ -12862,6 +12864,7 @@ export namespace Prisma {
     pinned: number
     createdAt: number
     updatedAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -12875,6 +12878,7 @@ export namespace Prisma {
     pinned?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type AnnouncementMaxAggregateInputType = {
@@ -12886,6 +12890,7 @@ export namespace Prisma {
     pinned?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type AnnouncementCountAggregateInputType = {
@@ -12897,6 +12902,7 @@ export namespace Prisma {
     pinned?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -12981,6 +12987,7 @@ export namespace Prisma {
     pinned: boolean
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
     _count: AnnouncementCountAggregateOutputType | null
     _min: AnnouncementMinAggregateOutputType | null
     _max: AnnouncementMaxAggregateOutputType | null
@@ -13009,6 +13016,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
     trip?: boolean | TripDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["announcement"]>
@@ -13022,6 +13030,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
     trip?: boolean | TripDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["announcement"]>
@@ -13035,6 +13044,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }
 
   export type AnnouncementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13061,6 +13071,7 @@ export namespace Prisma {
       pinned: boolean
       createdAt: Date
       updatedAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["announcement"]>
     composites: {}
   }
@@ -13464,6 +13475,7 @@ export namespace Prisma {
     readonly pinned: FieldRef<"Announcement", 'Boolean'>
     readonly createdAt: FieldRef<"Announcement", 'DateTime'>
     readonly updatedAt: FieldRef<"Announcement", 'DateTime'>
+    readonly deletedAt: FieldRef<"Announcement", 'DateTime'>
   }
     
 
@@ -15910,7 +15922,8 @@ export namespace Prisma {
     body: 'body',
     pinned: 'pinned',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
   };
 
   export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
@@ -17108,6 +17121,7 @@ export namespace Prisma {
     pinned?: BoolFilter<"Announcement"> | boolean
     createdAt?: DateTimeFilter<"Announcement"> | Date | string
     updatedAt?: DateTimeFilter<"Announcement"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
     trip?: XOR<TripScalarRelationFilter, TripWhereInput>
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -17121,6 +17135,7 @@ export namespace Prisma {
     pinned?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     trip?: TripOrderByWithRelationInput
     author?: UserOrderByWithRelationInput
   }
@@ -17137,6 +17152,7 @@ export namespace Prisma {
     pinned?: BoolFilter<"Announcement"> | boolean
     createdAt?: DateTimeFilter<"Announcement"> | Date | string
     updatedAt?: DateTimeFilter<"Announcement"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
     trip?: XOR<TripScalarRelationFilter, TripWhereInput>
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -17150,6 +17166,7 @@ export namespace Prisma {
     pinned?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: AnnouncementCountOrderByAggregateInput
     _max?: AnnouncementMaxOrderByAggregateInput
     _min?: AnnouncementMinOrderByAggregateInput
@@ -17167,6 +17184,7 @@ export namespace Prisma {
     pinned?: BoolWithAggregatesFilter<"Announcement"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Announcement"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Announcement"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Announcement"> | Date | string | null
   }
 
   export type TripExtensionWhereInput = {
@@ -18327,6 +18345,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     trip: TripCreateNestedOneWithoutAnnouncementsInput
     author: UserCreateNestedOneWithoutAnnouncementsInput
   }
@@ -18340,6 +18359,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type AnnouncementUpdateInput = {
@@ -18349,6 +18369,7 @@ export namespace Prisma {
     pinned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     trip?: TripUpdateOneRequiredWithoutAnnouncementsNestedInput
     author?: UserUpdateOneRequiredWithoutAnnouncementsNestedInput
   }
@@ -18362,6 +18383,7 @@ export namespace Prisma {
     pinned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AnnouncementCreateManyInput = {
@@ -18373,6 +18395,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type AnnouncementUpdateManyMutationInput = {
@@ -18382,6 +18405,7 @@ export namespace Prisma {
     pinned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AnnouncementUncheckedUpdateManyInput = {
@@ -18393,6 +18417,7 @@ export namespace Prisma {
     pinned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TripExtensionCreateInput = {
@@ -19514,6 +19539,7 @@ export namespace Prisma {
     pinned?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type AnnouncementMaxOrderByAggregateInput = {
@@ -19525,6 +19551,7 @@ export namespace Prisma {
     pinned?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type AnnouncementMinOrderByAggregateInput = {
@@ -19536,6 +19563,7 @@ export namespace Prisma {
     pinned?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type TripExtensionTripIdExtensionTypeCompoundUniqueInput = {
@@ -21472,6 +21500,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     trip: TripCreateNestedOneWithoutAnnouncementsInput
   }
 
@@ -21483,6 +21512,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type AnnouncementCreateOrConnectWithoutAuthorInput = {
@@ -21831,6 +21861,7 @@ export namespace Prisma {
     pinned?: BoolFilter<"Announcement"> | boolean
     createdAt?: DateTimeFilter<"Announcement"> | Date | string
     updatedAt?: DateTimeFilter<"Announcement"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
   }
 
   export type UserCreateWithoutRefreshTokensInput = {
@@ -22244,6 +22275,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     author: UserCreateNestedOneWithoutAnnouncementsInput
   }
 
@@ -22255,6 +22287,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type AnnouncementCreateOrConnectWithoutTripInput = {
@@ -24322,6 +24355,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type RefreshTokenUpdateWithoutUserInput = {
@@ -24726,6 +24760,7 @@ export namespace Prisma {
     pinned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     trip?: TripUpdateOneRequiredWithoutAnnouncementsNestedInput
   }
 
@@ -24737,6 +24772,7 @@ export namespace Prisma {
     pinned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AnnouncementUncheckedUpdateManyWithoutAuthorInput = {
@@ -24747,6 +24783,7 @@ export namespace Prisma {
     pinned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TripMemberCreateManyTripInput = {
@@ -24825,6 +24862,7 @@ export namespace Prisma {
     pinned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type TripExtensionCreateManyTripInput = {
@@ -25048,6 +25086,7 @@ export namespace Prisma {
     pinned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     author?: UserUpdateOneRequiredWithoutAnnouncementsNestedInput
   }
 
@@ -25059,6 +25098,7 @@ export namespace Prisma {
     pinned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AnnouncementUncheckedUpdateManyWithoutTripInput = {
@@ -25069,6 +25109,7 @@ export namespace Prisma {
     pinned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TripExtensionUpdateWithoutTripInput = {

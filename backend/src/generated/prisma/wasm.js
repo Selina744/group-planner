@@ -262,7 +262,8 @@ exports.Prisma.AnnouncementScalarFieldEnum = {
   body: 'body',
   pinned: 'pinned',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.TripExtensionScalarFieldEnum = {

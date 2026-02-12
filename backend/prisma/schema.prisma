@@ -305,18 +305,20 @@ model ItemClaim {
 }
 
 model Announcement {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   tripId    String
   authorId  String
   title     String
   body      String
-  pinned    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  pinned    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // Soft delete timestamp
 
   trip   Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
+  @@index([tripId, deletedAt]) // For efficient queries filtering deleted announcements
   @@map("announcements")
 }
 
