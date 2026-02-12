@@ -5,12 +5,29 @@
 
 import axios, { type AxiosInstance, type AxiosError, type InternalAxiosRequestConfig, type AxiosResponse } from 'axios';
 import { tokenManager } from '../utils/tokenManager';
-import type { TokenRefreshResponse, AuthError } from '../types/auth';
+import type { AuthError } from '../types/auth';
 
 // Types for interceptor handling
 interface QueuedRequest {
   resolve: (token: string) => void;
   reject: (error: any) => void;
+}
+
+// Backend token refresh response structure (wrapped in ApiResponse)
+interface BackendRefreshResponse {
+  success: boolean;
+  message: string;
+  data: {
+    tokens: {
+      accessToken: string;
+      refreshToken: string;
+    };
+    user: {
+      id: string;
+      email: string;
+      username?: string;
+    };
+  };
 }
 
 class ApiClient {
@@ -110,6 +127,7 @@ class ApiClient {
 
   /**
    * Refresh the access token using the refresh token
+   * Backend returns: { success: true, message: '...', data: { tokens: {...}, user: {...} } }
    */
   private async refreshToken(): Promise<string> {
     const refreshToken = tokenManager.getRefreshToken();
@@ -120,12 +138,13 @@ class ApiClient {
 
     try {
       // Call the refresh endpoint without interceptors to avoid infinite loop
-      const response = await axios.post<TokenRefreshResponse>(
+      const response = await axios.post<BackendRefreshResponse>(
         `${this.getBaseURL()}/auth/refresh`,
         { refreshToken },
         { timeout: 10000 }
       );
 
+      // Backend wraps response in ApiResponse format
       const { tokens, user } = response.data.data;
       const { accessToken, refreshToken: newRefreshToken } = tokens;
 
