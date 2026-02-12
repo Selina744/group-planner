@@ -44,6 +44,7 @@ export async function cleanTestDatabase() {
     await prisma.itemClaim.deleteMany()
     await prisma.item.deleteMany()
     await prisma.event.deleteMany()
+    await prisma.announcement.deleteMany()
     await prisma.tripMember.deleteMany()
     await prisma.trip.deleteMany()
     await prisma.refreshToken.deleteMany()

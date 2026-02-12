@@ -71,9 +71,13 @@ export class UserFixtures {
       exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour expiry
     };
 
-    const token = JwtUtils.sign(payload, 'access');
+    const tokenResult = JwtUtils.sign(payload, 'access');
 
-    return { user, token };
+    if (!tokenResult.success || !tokenResult.data) {
+      throw new Error('Failed to generate access token for test user');
+    }
+
+    return { user, token: tokenResult.data };
   }
 }
 

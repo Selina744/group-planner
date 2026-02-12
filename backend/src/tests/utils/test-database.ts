@@ -56,13 +56,19 @@ export async function cleanDatabase(): Promise<void> {
 
   try {
     // Delete in reverse dependency order with explicit cleanup
+    await prisma.notification.deleteMany();
+    await prisma.notificationPreference.deleteMany();
     await prisma.itemClaim.deleteMany();
     await prisma.item.deleteMany();
     await prisma.event.deleteMany();
+    await prisma.announcement.deleteMany();
+    await prisma.tripExtension.deleteMany();
     await prisma.tripMember.deleteMany();
     await prisma.trip.deleteMany();
 
     // Clean authentication-related tables thoroughly
+    await prisma.passwordReset.deleteMany();
+    await prisma.loginAttempt.deleteMany();
     await prisma.refreshToken.deleteMany();
     await prisma.user.deleteMany();
 
@@ -82,11 +88,17 @@ export async function deepCleanDatabase(): Promise<void> {
   try {
     // More thorough cleanup - delete in multiple passes to handle race conditions
     for (let i = 0; i < 2; i++) {
+      await prisma.notification.deleteMany();
+      await prisma.notificationPreference.deleteMany();
       await prisma.itemClaim.deleteMany();
       await prisma.item.deleteMany();
       await prisma.event.deleteMany();
+      await prisma.announcement.deleteMany();
+      await prisma.tripExtension.deleteMany();
       await prisma.tripMember.deleteMany();
       await prisma.trip.deleteMany();
+      await prisma.passwordReset.deleteMany();
+      await prisma.loginAttempt.deleteMany();
       await prisma.refreshToken.deleteMany();
       await prisma.user.deleteMany();
 
