@@ -867,6 +867,247 @@ describe('AuthService', () => {
   });
 
   // =========================================================================
+  // MVP PASSWORD POLICY REGRESSION TESTS
+  // =========================================================================
+
+  describe('MVP Password Policy', () => {
+    /**
+     * These tests ensure password validation accepts ANY non-empty password
+     * and prevent regression to complexity requirements.
+     *
+     * MVP Policy:
+     * - Minimum length: 1 character
+     * - No uppercase requirement
+     * - No lowercase requirement
+     * - No number requirement
+     * - No special character requirement
+     * - Maximum length: 128 characters (bcrypt limitation consideration)
+     */
+
+    describe('Registration with simple passwords', () => {
+      it('should accept single character password', async () => {
+        const result = await AuthService.register({
+          email: `single-char-${Date.now()}@example.com`,
+          password: 'a'
+        });
+
+        expect(result.user).toBeDefined();
+        expect(result.accessToken).toBeDefined();
+        expect(result.refreshToken).toBeDefined();
+      });
+
+      it('should accept numeric-only password', async () => {
+        const result = await AuthService.register({
+          email: `numeric-${Date.now()}@example.com`,
+          password: '123'
+        });
+
+        expect(result.user).toBeDefined();
+        expect(result.accessToken).toBeDefined();
+      });
+
+      it('should accept simple word password', async () => {
+        const result = await AuthService.register({
+          email: `simple-word-${Date.now()}@example.com`,
+          password: 'password'
+        });
+
+        expect(result.user).toBeDefined();
+        expect(result.accessToken).toBeDefined();
+      });
+
+      it('should accept lowercase-only password', async () => {
+        const result = await AuthService.register({
+          email: `lowercase-${Date.now()}@example.com`,
+          password: 'abcdefgh'
+        });
+
+        expect(result.user).toBeDefined();
+      });
+
+      it('should accept uppercase-only password', async () => {
+        const result = await AuthService.register({
+          email: `uppercase-${Date.now()}@example.com`,
+          password: 'ABCDEFGH'
+        });
+
+        expect(result.user).toBeDefined();
+      });
+
+      it('should accept spaces in password', async () => {
+        const result = await AuthService.register({
+          email: `spaces-${Date.now()}@example.com`,
+          password: 'my simple password'
+        });
+
+        expect(result.user).toBeDefined();
+      });
+
+      it('should reject empty password', async () => {
+        await expect(
+          AuthService.register({
+            email: `empty-${Date.now()}@example.com`,
+            password: ''
+          })
+        ).rejects.toThrow(ValidationError);
+      });
+    });
+
+    describe('Login with simple passwords', () => {
+      it('should allow login with single character password', async () => {
+        const email = `login-single-${Date.now()}@example.com`;
+        const password = 'a';
+
+        // Register first
+        await AuthService.register({ email, password });
+
+        // Then login
+        const result = await AuthService.login({
+          identifier: email,
+          password
+        });
+
+        expect(result.user).toBeDefined();
+        expect(result.user.email).toBe(email);
+        expect(result.accessToken).toBeDefined();
+      });
+
+      it('should allow login with numeric-only password', async () => {
+        const email = `login-numeric-${Date.now()}@example.com`;
+        const password = '123456';
+
+        await AuthService.register({ email, password });
+
+        const result = await AuthService.login({
+          identifier: email,
+          password
+        });
+
+        expect(result.user.email).toBe(email);
+      });
+
+      it('should allow login with simple word password', async () => {
+        const email = `login-word-${Date.now()}@example.com`;
+        const password = 'password';
+
+        await AuthService.register({ email, password });
+
+        const result = await AuthService.login({
+          identifier: email,
+          password
+        });
+
+        expect(result.user.email).toBe(email);
+      });
+    });
+
+    describe('Password change to simple password', () => {
+      it('should allow password change to single character', async () => {
+        const email = `change-to-single-${Date.now()}@example.com`;
+        const originalPassword = 'OriginalPassword123';
+        const newPassword = 'a';
+
+        // Register with complex password
+        const registration = await AuthService.register({
+          email,
+          password: originalPassword
+        });
+
+        // Change to simple password
+        await AuthService.changePassword(registration.user.id, {
+          currentPassword: originalPassword,
+          newPassword
+        });
+
+        // Verify login works with new simple password
+        const loginResult = await AuthService.login({
+          identifier: email,
+          password: newPassword
+        });
+
+        expect(loginResult.user.email).toBe(email);
+      });
+
+      it('should allow password change to numeric-only', async () => {
+        const email = `change-to-numeric-${Date.now()}@example.com`;
+        const originalPassword = 'OriginalPassword123';
+        const newPassword = '123';
+
+        const registration = await AuthService.register({
+          email,
+          password: originalPassword
+        });
+
+        await AuthService.changePassword(registration.user.id, {
+          currentPassword: originalPassword,
+          newPassword
+        });
+
+        const loginResult = await AuthService.login({
+          identifier: email,
+          password: newPassword
+        });
+
+        expect(loginResult.user.email).toBe(email);
+      });
+
+      it('should reject empty new password on change', async () => {
+        const email = `change-empty-${Date.now()}@example.com`;
+        const password = 'SomePassword123';
+
+        const registration = await AuthService.register({
+          email,
+          password
+        });
+
+        await expect(
+          AuthService.changePassword(registration.user.id, {
+            currentPassword: password,
+            newPassword: ''
+          })
+        ).rejects.toThrow(ValidationError);
+      });
+    });
+
+    describe('Password validation edge cases', () => {
+      it('should accept password with only special characters', async () => {
+        const result = PasswordUtils.validatePassword('!@#$%^');
+        expect(result.isValid).toBe(true);
+      });
+
+      it('should accept very long password (under 128 chars)', async () => {
+        const longPassword = 'a'.repeat(120);
+        const result = PasswordUtils.validatePassword(longPassword);
+        expect(result.isValid).toBe(true);
+      });
+
+      it('should accept password with unicode characters', async () => {
+        // Test with various unicode characters
+        const unicodePasswords = [
+          'pa$$w0rd',      // Common special chars
+          'pass word',     // Spaces
+        ];
+
+        for (const password of unicodePasswords) {
+          const result = PasswordUtils.validatePassword(password);
+          expect(result.isValid).toBe(true);
+        }
+      });
+
+      it('should correctly identify password strength as informational only', () => {
+        // Even weak passwords should be valid
+        const weakPasswords = ['a', '1', 'abc', 'password'];
+
+        for (const password of weakPasswords) {
+          const result = PasswordUtils.validatePassword(password);
+          expect(result.isValid).toBe(true);
+          expect(result.strength).toBe('weak');
+        }
+      });
+    });
+  });
+
+  // =========================================================================
   // EMAIL VERIFICATION TESTS
   // =========================================================================
 
